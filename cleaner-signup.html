@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#0C1420"/>
+<title>Word schoonmaker · cleaners</title>
+<meta name="robots" content="noindex,nofollow"/>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+:root{--navy:#0C1420;--navy2:#13203A;--blue:#1A56DB;--blueh:#1648c0;--bluel:#EFF6FF;--bluem:#BFDBFE;--ink:#0A0F1C;--ink2:#1E293B;--ink3:#334155;--muted:#64748B;--muted2:#94A3B8;--border:#E2E8F0;--border2:#F1F5F9;--bg:#F8FAFC;--bg2:#F1F5F9;--green:#10B981;--greenl:#ECFDF5;--red:#EF4444;--gold:#F59E0B;--shb:0 4px 16px rgba(26,86,219,.3);--shbl:0 12px 36px rgba(26,86,219,.38);--shl:0 16px 48px rgba(0,0,0,.1);--shxl:0 32px 80px rgba(0,0,0,.12);--ff:'Instrument Serif',Georgia,serif;--eo:cubic-bezier(.16,1,.3,1);--es:cubic-bezier(.34,1.4,.64,1)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden;-webkit-text-size-adjust:100%}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:15px;line-height:1.6;color:var(--ink);background:var(--navy);overflow-x:hidden;-webkit-font-smoothing:antialiased;min-height:100svh}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;line-height:1;font-family:inherit;color:inherit}
+input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+h1,h2,h3{line-height:1.1;font-weight:800}
+:focus{outline:none}:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:8px}
+
+/* PAGE LAYOUT */
+.page{min-height:100svh;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.page::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(26,86,219,.18) 0%,transparent 55%),radial-gradient(ellipse 50% 40% at 80% 70%,rgba(139,92,246,.08) 0%,transparent 50%);pointer-events:none}
+.page::after{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);background-size:30px 30px;mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 25%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 25%,transparent 75%);pointer-events:none}
+
+/* HEADER */
+.hdr{position:relative;z-index:2;padding:24px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.hdr-inner{width:min(1080px,94%);margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:12px;color:white;font-size:26px;font-weight:800;letter-spacing:-.6px;transition:opacity .2s}
+.logo:hover{opacity:.85}
+.back{color:rgba(255,255,255,.55);font-size:14px;font-weight:500;transition:color .16s;display:flex;align-items:center;gap:6px}
+.back:hover{color:white}
+
+/* PROGRESS BAR */
+.progress{position:relative;z-index:2;width:min(640px,92%);margin:48px auto 0;text-align:center}
+.progress-label{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:14px}
+.progress-label span{color:#93C5FD}
+.progress-track{height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),#60A5FA);border-radius:2px;transition:width .5s var(--eo);width:0%}
+
+/* CARD */
+.card{position:relative;z-index:2;width:min(560px,94%);margin:32px auto 80px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:32px;backdrop-filter:blur(24px) saturate(1.5);box-shadow:0 32px 80px rgba(0,0,0,.4);overflow:hidden}
+.pane{display:none;padding:48px 40px;animation:pane-in .5s var(--eo)}
+.pane.active{display:block}
+@keyframes pane-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.pane-eyebrow{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#93C5FD;margin-bottom:12px}
+.pane h1{font-family:var(--ff);font-size:clamp(28px,4vw,40px);line-height:1.05;color:white;font-weight:400;margin-bottom:12px;letter-spacing:-.3px}
+.pane h1 em{font-style:italic;color:#93C5FD}
+.pane-lead{font-size:15px;color:rgba(255,255,255,.55);line-height:1.65;margin-bottom:32px}
+
+/* FORMS */
+.fg{margin-bottom:18px}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.fl{display:block;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:7px}
+.fi{width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 18px;font-size:16px;color:white;outline:none;transition:border-color .2s,background .2s,box-shadow .2s;font-family:inherit}
+.fi::placeholder{color:rgba(255,255,255,.3)}
+.fi:focus{border-color:var(--blue);background:rgba(26,86,219,.08);box-shadow:0 0 0 3px rgba(26,86,219,.12)}
+.fi:hover:not(:focus){border-color:rgba(255,255,255,.2)}
+.fi-textarea{resize:vertical;min-height:96px;font-family:inherit}
+.fi-select{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='white' stroke-width='1.5' stroke-linecap='round' fill='none' opacity='.55'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+.fi-select option{background:var(--navy);color:white}
+.fhelp{font-size:12px;color:rgba(255,255,255,.4);margin-top:6px}
+
+/* CTAS */
+.cta-row{display:flex;gap:12px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;border-radius:14px;transition:all .28s var(--eo);font-size:15px;padding:15px 28px;letter-spacing:-.01em;flex:1}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--blue);color:white;box-shadow:var(--shb)}
+.btn-primary:hover{background:var(--blueh);transform:translateY(-1px);box-shadow:var(--shbl)}
+.btn-ghost{background:rgba(255,255,255,.04);color:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.1)}
+.btn-ghost:hover{background:rgba(255,255,255,.08);color:white;border-color:rgba(255,255,255,.2)}
+.btn-lg{font-size:17px;padding:17px 32px;border-radius:18px}
+.btn[disabled]{opacity:.5;cursor:not-allowed;pointer-events:none}
+
+/* CHIPS (multi-select) */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{padding:9px 16px;border-radius:9999px;font-size:13px;font-weight:600;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);color:rgba(255,255,255,.6);cursor:pointer;transition:all .2s var(--eo);user-select:none}
+.chip:hover{border-color:rgba(255,255,255,.25);color:white}
+.chip.active{background:var(--blue);border-color:var(--blue);color:white;box-shadow:0 4px 12px rgba(26,86,219,.3)}
+
+/* EMAIL CONFIRMATION SCREEN */
+.confirm-illustration{width:100px;height:100px;border-radius:24px;background:linear-gradient(135deg,rgba(26,86,219,.2),rgba(139,92,246,.15));border:1px solid rgba(26,86,219,.25);display:flex;align-items:center;justify-content:center;font-size:48px;margin:0 auto 32px;position:relative}
+.confirm-illustration::after{content:'';position:absolute;inset:-4px;border-radius:28px;border:2px solid rgba(26,86,219,.3);animation:confirm-pulse 2s ease-out infinite}
+@keyframes confirm-pulse{0%{transform:scale(1);opacity:.5}100%{transform:scale(1.3);opacity:0}}
+.email-display{background:rgba(26,86,219,.1);border:1px solid rgba(26,86,219,.25);border-radius:12px;padding:14px 18px;font-size:15px;color:white;font-weight:600;text-align:center;margin:24px 0;word-break:break-all}
+.demo-note{margin-top:36px;padding:20px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:18px;text-align:center}
+.demo-note-tag{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#FBBF24;margin-bottom:8px}
+.demo-note p{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px;line-height:1.6}
+.timer{display:inline-block;font-family:var(--ff);font-size:18px;color:#FBBF24;margin:0 4px}
+
+/* PASSWORD STRENGTH */
+.pwd-strength{height:4px;background:rgba(255,255,255,.06);border-radius:2px;margin-top:8px;overflow:hidden}
+.pwd-strength-fill{height:100%;width:0%;border-radius:2px;transition:width .3s,background .3s}
+.pwd-strength-fill.weak{background:#EF4444;width:25%}
+.pwd-strength-fill.medium{background:#F59E0B;width:60%}
+.pwd-strength-fill.strong{background:#10B981;width:100%}
+.pwd-tips{display:flex;flex-direction:column;gap:6px;margin-top:14px;padding:14px;background:rgba(255,255,255,.04);border-radius:12px}
+.pwd-tip{font-size:12px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:8px;transition:color .2s}
+.pwd-tip.ok{color:#34D399}
+.pwd-tip-check{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;transition:all .2s;flex-shrink:0}
+.pwd-tip.ok .pwd-tip-check{background:#34D399;color:white}
+
+/* UPLOAD */
+.upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+.upload-card{background:rgba(255,255,255,.04);border:2px dashed rgba(255,255,255,.15);border-radius:18px;padding:24px 18px;text-align:center;cursor:pointer;transition:all .28s var(--eo);position:relative;overflow:hidden}
+.upload-card:hover{border-color:rgba(26,86,219,.5);background:rgba(26,86,219,.06)}
+.upload-card.done{border-style:solid;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.06)}
+.upload-icon{font-size:32px;margin-bottom:10px;display:block;line-height:1}
+.upload-title{font-size:13px;font-weight:700;color:white;margin-bottom:4px}
+.upload-sub{font-size:11px;color:rgba(255,255,255,.45);line-height:1.5}
+.upload-card.done .upload-icon{color:#34D399}
+.upload-check{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:#10B981;display:flex;align-items:center;justify-content:center;color:white;font-size:11px;font-weight:800;display:none}
+.upload-card.done .upload-check{display:flex}
+
+/* AVAILABILITY */
+.days-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:24px}
+.day{padding:14px 6px;text-align:center;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;cursor:pointer;transition:all .2s var(--eo);font-size:12px;font-weight:600;color:rgba(255,255,255,.55)}
+.day:hover{border-color:rgba(255,255,255,.2);color:white}
+.day.active{background:var(--blue);border-color:var(--blue);color:white;box-shadow:0 4px 12px rgba(26,86,219,.3)}
+.day-letter{font-size:11px;display:block;opacity:.7;margin-bottom:3px;text-transform:uppercase;letter-spacing:1px}
+.day-num{font-family:var(--ff);font-size:18px;font-weight:400}
+
+/* SUCCESS */
+.success-icon{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,rgba(16,185,129,.2),rgba(52,211,153,.15));border:2px solid rgba(16,185,129,.4);display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 28px;animation:success-pop .6s var(--es)}
+@keyframes success-pop{0%{transform:scale(0);opacity:0}60%{transform:scale(1.15);opacity:1}100%{transform:scale(1);opacity:1}}
+.success-ref{display:inline-block;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:9999px;padding:8px 18px;font-family:monospace;font-size:13px;color:#93C5FD;margin:8px 0 20px}
+.success-list{text-align:left;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:24px;margin:24px 0}
+.success-item{display:flex;align-items:flex-start;gap:12px;font-size:14px;color:rgba(255,255,255,.7);padding:8px 0}
+.success-item-num{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:rgba(26,86,219,.15);border:1px solid rgba(26,86,219,.3);color:#93C5FD;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;z-index:900;background:var(--ink);color:white;padding:14px 20px;border-radius:14px;font-size:14px;font-weight:500;box-shadow:var(--shxl);display:flex;align-items:center;gap:10px;transform:translateY(20px);opacity:0;transition:all .28s var(--es);pointer-events:none;max-width:360px}
+.toast.vis{transform:none;opacity:1}
+
+/* RESPONSIVE */
+@media(max-width:580px){
+.hdr{padding:18px 0}
+.logo{font-size:22px}
+.back{font-size:13px}
+.progress{margin-top:32px}
+.card{margin:24px auto 60px;border-radius:24px}
+.pane{padding:32px 24px}
+.pane h1{font-size:clamp(24px,7vw,32px)}
+.fg-row{grid-template-columns:1fr}
+.upload-grid{grid-template-columns:1fr}
+.days-grid{grid-template-columns:repeat(4,1fr)}
+.cta-row{flex-direction:column}
+.btn{width:100%}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute;overflow:hidden;"><defs>
+<linearGradient id="gb" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A56DB"/><stop offset="100%" stop-color="#3B82F6"/></linearGradient>
+<symbol id="STAR" viewBox="0 0 56 56"><path d="M28 4C28 4 30.8 19 34.5 22.5C38.2 26 52 28 52 28C52 28 38.2 30 34.5 33.5C30.8 37 28 52 28 52C28 52 25.2 37 21.5 33.5C17.8 30 4 28 4 28C4 28 17.8 26 21.5 22.5C25.2 19 28 4 28 4Z" fill="url(#gb)"/></symbol>
+</defs></svg>
+
+<div class="toast" id="toast"><span id="toast-ic"></span><span id="toast-msg"></span></div>
+
+<div class="page">
+
+<header class="hdr">
+<div class="hdr-inner">
+<a href="/" class="logo"><svg width="26" height="26"><use href="#STAR"/></svg> cleaners</a>
+<a href="/" class="back">← Terug naar home</a>
+</div>
+</header>
+
+<div class="progress">
+<div class="progress-label">Stap <span id="step-num">1</span> van 7</div>
+<div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+
+<div class="card">
+
+<!-- STEP 1: Account info -->
+<div class="pane active" data-pane="1">
+<div class="pane-eyebrow">Welkom bij cleaners</div>
+<h1>Word <em>schoonmaker</em>.</h1>
+<p class="pane-lead">Verdien tot €2.100/maand op het meest betrouwde schoonmaakplatform van Amsterdam. We starten met je basisgegevens.</p>
+<div class="fg-row">
+<div><label class="fl">Voornaam</label><input class="fi" id="f-firstname" type="text" placeholder="Sofia" autocomplete="given-name"/></div>
+<div><label class="fl">Achternaam</label><input class="fi" id="f-lastname" type="text" placeholder="Rodriguez" autocomplete="family-name"/></div>
+</div>
+<div class="fg"><label class="fl">Email</label><input class="fi" id="f-email" type="email" placeholder="jou@email.nl" autocomplete="email"/></div>
+<div class="fg"><label class="fl">Telefoon</label><input class="fi" id="f-phone" type="tel" placeholder="+31 6 12345678" autocomplete="tel"/></div>
+<div class="fg"><label class="fl">Stadsdeel</label>
+<select class="fi fi-select" id="f-hood">
+<option value="">Selecteer je stadsdeel...</option>
+<option>Centrum</option><option>Jordaan</option><option>De Pijp</option><option>Oud-West</option><option>Oud-Zuid</option><option>Amsterdam-Oost</option><option>Amsterdam-Noord</option><option>Amsterdam-West</option><option>Grachtengordel</option><option>Zuidas</option><option>IJburg</option><option>Watergraafsmeer</option>
+</select>
+<div class="fhelp">Je werkgebied. Klanten in jouw buurt zien je profiel eerder.</div>
+</div>
+<div class="cta-row">
+<button class="btn btn-primary btn-lg" onclick="step1Next()">Verstuur bevestiging →</button>
+</div>
+<p style="text-align:center;font-size:12px;color:rgba(255,255,255,.4);margin-top:24px;">Heb je al een account? <a style="color:#93C5FD;font-weight:600;" href="/cleaner-dashboard.html">Inloggen →</a></p>
+</div>
+
+<!-- STEP 2: Email confirmation -->
+<div class="pane" data-pane="2">
+<div style="text-align:center;">
+<div class="confirm-illustration">📧</div>
+<div class="pane-eyebrow">Email verzonden</div>
+<h1>Controleer je <em>inbox</em>.</h1>
+<p class="pane-lead">We hebben een bevestigingslink gestuurd naar:</p>
+<div class="email-display" id="confirm-email">jou@email.nl</div>
+<p style="font-size:14px;color:rgba(255,255,255,.5);line-height:1.7;">Klik op de link in de email om je adres te bevestigen. De link verloopt over 24 uur.</p>
+<div class="demo-note">
+<div class="demo-note-tag">🧪 Demo mode</div>
+<p>In productie ontvang je een echte email via Resend. Voor de demo:</p>
+<button class="btn btn-primary" onclick="step2Confirm()" id="demo-confirm-btn" style="flex:0 0 auto;width:auto;padding:13px 28px;">Klik hier om email te bevestigen</button>
+<p style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.35);">Auto-bevestiging over <span class="timer" id="timer">10</span>s</p>
+</div>
+<button class="btn btn-ghost" style="margin-top:20px;flex:0 0 auto;width:auto;padding:11px 24px;font-size:13px;" onclick="step1Back()">← Wijzig email</button>
+</div>
+</div>
+
+<!-- STEP 3: Set password -->
+<div class="pane" data-pane="3">
+<div class="pane-eyebrow">✅ Email bevestigd</div>
+<h1>Stel je <em>wachtwoord</em> in.</h1>
+<p class="pane-lead">Kies een sterk wachtwoord. Je gebruikt dit om in te loggen op je dashboard.</p>
+<div class="fg"><label class="fl">Wachtwoord</label><input class="fi" id="f-pwd" type="password" placeholder="Minimaal 8 tekens" autocomplete="new-password" oninput="checkPwd()"/>
+<div class="pwd-strength"><div class="pwd-strength-fill" id="pwd-fill"></div></div>
+</div>
+<div class="fg"><label class="fl">Bevestig wachtwoord</label><input class="fi" id="f-pwd2" type="password" placeholder="Herhaal je wachtwoord" autocomplete="new-password" oninput="checkPwd()"/></div>
+<div class="pwd-tips">
+<div class="pwd-tip" id="pt-len"><div class="pwd-tip-check">·</div>Minimaal 8 tekens</div>
+<div class="pwd-tip" id="pt-up"><div class="pwd-tip-check">·</div>Een hoofdletter</div>
+<div class="pwd-tip" id="pt-num"><div class="pwd-tip-check">·</div>Een cijfer</div>
+<div class="pwd-tip" id="pt-match"><div class="pwd-tip-check">·</div>Wachtwoorden komen overeen</div>
+</div>
+<div class="cta-row">
+<button class="btn btn-ghost" onclick="goPane(2)">← Terug</button>
+<button class="btn btn-primary" id="pwd-next" onclick="goPane(4)" disabled>Doorgaan →</button>
+</div>
+</div>
+
+<!-- STEP 4: Professional profile -->
+<div class="pane" data-pane="4">
+<div class="pane-eyebrow">Jouw expertise</div>
+<h1>Vertel ons over je <em>werk</em>.</h1>
+<p class="pane-lead">Deze informatie zien klanten op je profiel. Wees authentiek — vertrouwen begint hier.</p>
+<div class="fg-row">
+<div><label class="fl">Jaren ervaring</label>
+<select class="fi fi-select" id="f-exp">
+<option value="0">Net begonnen</option><option value="1">1 jaar</option><option value="2">2 jaar</option><option value="3" selected>3 jaar</option><option value="5">5+ jaar</option><option value="10">10+ jaar</option>
+</select></div>
+<div><label class="fl">Uurtarief (€)</label><input class="fi" id="f-rate" type="number" placeholder="15" min="12" max="50" value="15"/>
+<div class="fhelp">Markt: €13-18</div>
+</div>
+</div>
+<div class="fg"><label class="fl">Diensten die je aanbiedt</label>
+<div class="chips" id="chips-services">
+<div class="chip" data-val="Reguliere schoonmaak" onclick="toggleChip(this)">Reguliere schoonmaak</div>
+<div class="chip" data-val="Grondige schoonmaak" onclick="toggleChip(this)">Grondige schoonmaak</div>
+<div class="chip" data-val="Airbnb wisseling" onclick="toggleChip(this)">Airbnb wisseling</div>
+<div class="chip" data-val="Kantoor" onclick="toggleChip(this)">Kantoor</div>
+<div class="chip" data-val="Ramen" onclick="toggleChip(this)">Ramen</div>
+<div class="chip" data-val="Strijken" onclick="toggleChip(this)">Strijken</div>
+<div class="chip" data-val="Oplevering" onclick="toggleChip(this)">Oplevering</div>
+<div class="chip" data-val="Ecologisch" onclick="toggleChip(this)">Ecologisch</div>
+</div></div>
+<div class="fg"><label class="fl">Talen</label>
+<div class="chips" id="chips-langs">
+<div class="chip active" data-val="Nederlands" onclick="toggleChip(this)">🇳🇱 Nederlands</div>
+<div class="chip" data-val="Engels" onclick="toggleChip(this)">🇬🇧 Engels</div>
+<div class="chip" data-val="Spaans" onclick="toggleChip(this)">🇪🇸 Spaans</div>
+<div class="chip" data-val="Pools" onclick="toggleChip(this)">🇵🇱 Pools</div>
+<div class="chip" data-val="Frans" onclick="toggleChip(this)">🇫🇷 Frans</div>
+<div class="chip" data-val="Duits" onclick="toggleChip(this)">🇩🇪 Duits</div>
+</div></div>
+<div class="fg"><label class="fl">Over jezelf</label><textarea class="fi fi-textarea" id="f-bio" placeholder="Schrijf 2-3 zinnen over je ervaring, stijl en wat klanten van je kunnen verwachten..."></textarea>
+<div class="fhelp">Tip: noem je specialiteiten, talen en wat jou onderscheidt.</div>
+</div>
+<div class="cta-row">
+<button class="btn btn-ghost" onclick="goPane(3)">← Terug</button>
+<button class="btn btn-primary" onclick="step4Next()">Doorgaan →</button>
+</div>
+</div>
+
+<!-- STEP 5: KYC / verification docs -->
+<div class="pane" data-pane="5">
+<div class="pane-eyebrow">🛡️ Verificatie</div>
+<h1>Upload je <em>documenten</em>.</h1>
+<p class="pane-lead">Wij verifiëren elke schoonmaker. Documenten zijn versleuteld opgeslagen en alleen zichtbaar voor ons compliance team.</p>
+<div class="fg"><label class="fl">Vereiste documenten</label>
+<div class="upload-grid">
+<div class="upload-card" onclick="mockUpload(this,'id')"><div class="upload-check">✓</div><span class="upload-icon">🪪</span><div class="upload-title">Paspoort of ID</div><div class="upload-sub">Voor- en achterkant</div></div>
+<div class="upload-card" onclick="mockUpload(this,'selfie')"><div class="upload-check">✓</div><span class="upload-icon">🤳</span><div class="upload-title">Selfie met ID</div><div class="upload-sub">Houd je ID naast gezicht</div></div>
+<div class="upload-card" onclick="mockUpload(this,'vog')"><div class="upload-check">✓</div><span class="upload-icon">📋</span><div class="upload-title">VOG</div><div class="upload-sub">Verklaring omtrent gedrag</div></div>
+<div class="upload-card" onclick="mockUpload(this,'photo')"><div class="upload-check">✓</div><span class="upload-icon">📸</span><div class="upload-title">Profielfoto</div><div class="upload-sub">Professioneel & vriendelijk</div></div>
+</div></div>
+<div style="background:rgba(26,86,219,.06);border:1px solid rgba(26,86,219,.2);border-radius:14px;padding:16px 18px;margin-top:20px;display:flex;gap:12px;align-items:flex-start;">
+<span style="font-size:18px;flex-shrink:0;">🔐</span>
+<div style="font-size:12px;color:rgba(255,255,255,.65);line-height:1.65;"><strong style="color:white;">100% versleuteld</strong> · GDPR-compliant · Documenten verwijderd na 90 dagen indien geweigerd. <a style="color:#93C5FD;" href="#">Meer info</a></div>
+</div>
+<div class="cta-row">
+<button class="btn btn-ghost" onclick="goPane(4)">← Terug</button>
+<button class="btn btn-primary" onclick="goPane(6)">Doorgaan →</button>
+</div>
+</div>
+
+<!-- STEP 6: Availability -->
+<div class="pane" data-pane="6">
+<div class="pane-eyebrow">📅 Beschikbaarheid</div>
+<h1>Wanneer kun je <em>werken</em>?</h1>
+<p class="pane-lead">Selecteer de dagen dat je beschikbaar bent. Je kunt dit later altijd aanpassen in je dashboard.</p>
+<div class="days-grid" id="days-grid">
+<div class="day active" data-day="mo" onclick="toggleDay(this)"><span class="day-letter">Ma</span><span class="day-num">✓</span></div>
+<div class="day active" data-day="tu" onclick="toggleDay(this)"><span class="day-letter">Di</span><span class="day-num">✓</span></div>
+<div class="day active" data-day="we" onclick="toggleDay(this)"><span class="day-letter">Wo</span><span class="day-num">✓</span></div>
+<div class="day active" data-day="th" onclick="toggleDay(this)"><span class="day-letter">Do</span><span class="day-num">✓</span></div>
+<div class="day active" data-day="fr" onclick="toggleDay(this)"><span class="day-letter">Vr</span><span class="day-num">✓</span></div>
+<div class="day" data-day="sa" onclick="toggleDay(this)"><span class="day-letter">Za</span><span class="day-num">·</span></div>
+<div class="day" data-day="su" onclick="toggleDay(this)"><span class="day-letter">Zo</span><span class="day-num">·</span></div>
+</div>
+<div class="fg-row">
+<div><label class="fl">Eerder dan</label>
+<select class="fi fi-select" id="f-start">
+<option value="07:00">07:00</option><option value="08:00">08:00</option><option value="09:00" selected>09:00</option><option value="10:00">10:00</option>
+</select></div>
+<div><label class="fl">Later dan</label>
+<select class="fi fi-select" id="f-end">
+<option value="16:00">16:00</option><option value="17:00" selected>17:00</option><option value="18:00">18:00</option><option value="19:00">19:00</option><option value="20:00">20:00</option>
+</select></div>
+</div>
+<div class="fg"><label class="fl">Uren per week (gewenst)</label>
+<select class="fi fi-select" id="f-hours">
+<option value="10">5-10 uur (part-time)</option><option value="20" selected>10-20 uur (regelmatig)</option><option value="30">20-30 uur (groot)</option><option value="40">30+ uur (full-time)</option>
+</select></div>
+<div class="cta-row">
+<button class="btn btn-ghost" onclick="goPane(5)">← Terug</button>
+<button class="btn btn-primary" onclick="finish()">Profiel afronden →</button>
+</div>
+</div>
+
+<!-- STEP 7: Success -->
+<div class="pane" data-pane="7">
+<div style="text-align:center;">
+<div class="success-icon">✓</div>
+<div class="pane-eyebrow" style="color:#34D399;">Welkom bij cleaners</div>
+<h1>Je profiel is <em>aangemaakt</em>.</h1>
+<p class="pane-lead">Welkom in het team, <strong id="success-name" style="color:white;">Sofia</strong>. We bekijken je documenten en activeren je profiel binnen 24-48 uur.</p>
+<div class="success-ref">Ref: <span id="success-ref">CL-XXXXXX</span></div>
+<div class="success-list">
+<div class="success-item"><div class="success-item-num">1</div><div><strong style="color:white;">Verificatie binnen 24-48u</strong><br>Ons team controleert je documenten en VOG.</div></div>
+<div class="success-item"><div class="success-item-num">2</div><div><strong style="color:white;">Bevestigingsmail</strong><br>Je ontvangt een email zodra je profiel is geactiveerd.</div></div>
+<div class="success-item"><div class="success-item-num">3</div><div><strong style="color:white;">Eerste klussen ontvangen</strong><br>Klanten in jouw buurt zien je profiel direct na activering.</div></div>
+</div>
+<button class="btn btn-primary btn-lg" style="width:100%;margin-top:8px;" onclick="goToDashboard()">Ga naar mijn dashboard →</button>
+<p style="font-size:12px;color:rgba(255,255,255,.4);margin-top:16px;">Je kunt nu al je dashboard verkennen terwijl we je verifiëren.</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+'use strict';
+const S={current:1,total:7,services:[],langs:['Nederlands'],days:['mo','tu','we','th','fr'],uploads:{}};
+
+function goPane(n){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('active',+p.dataset.pane===n));
+  S.current=n;
+  document.getElementById('step-num').textContent=n;
+  document.getElementById('progress-fill').style.width=`${(n/7)*100}%`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showToast(t,m){
+  const el=document.getElementById('toast');
+  document.getElementById('toast-ic').textContent=t==='success'?'✓':t==='error'?'✕':'ℹ';
+  document.getElementById('toast-msg').textContent=m;
+  el.classList.add('vis');
+  clearTimeout(showToast._t);showToast._t=setTimeout(()=>el.classList.remove('vis'),3200);
+}
+
+function step1Next(){
+  const fn=document.getElementById('f-firstname').value.trim();
+  const ln=document.getElementById('f-lastname').value.trim();
+  const em=document.getElementById('f-email').value.trim();
+  const ph=document.getElementById('f-phone').value.trim();
+  const hd=document.getElementById('f-hood').value;
+  if(!fn||!ln){showToast('error','Voornaam en achternaam vereist');return;}
+  if(!em||!em.includes('@')){showToast('error','Geldig email vereist');return;}
+  if(!ph){showToast('error','Telefoonnummer vereist');return;}
+  if(!hd){showToast('error','Selecteer een stadsdeel');return;}
+  saveDraft({firstname:fn,lastname:ln,email:em,phone:ph,hood:hd});
+  document.getElementById('confirm-email').textContent=em;
+  goPane(2);
+  startConfirmTimer();
+}
+
+function step1Back(){
+  clearInterval(S.timerInt);
+  goPane(1);
+}
+
+let timerVal=10;
+function startConfirmTimer(){
+  timerVal=10;
+  document.getElementById('timer').textContent=timerVal;
+  clearInterval(S.timerInt);
+  S.timerInt=setInterval(()=>{
+    timerVal--;
+    document.getElementById('timer').textContent=timerVal;
+    if(timerVal<=0){clearInterval(S.timerInt);step2Confirm();}
+  },1000);
+}
+
+function step2Confirm(){
+  clearInterval(S.timerInt);
+  saveDraft({emailVerified:true,emailVerifiedAt:new Date().toISOString()});
+  showToast('success','Email bevestigd!');
+  goPane(3);
+}
+
+function checkPwd(){
+  const p=document.getElementById('f-pwd').value;
+  const p2=document.getElementById('f-pwd2').value;
+  const len=p.length>=8;
+  const up=/[A-Z]/.test(p);
+  const num=/\d/.test(p);
+  const match=p&&p===p2;
+  document.getElementById('pt-len').classList.toggle('ok',len);
+  document.getElementById('pt-up').classList.toggle('ok',up);
+  document.getElementById('pt-num').classList.toggle('ok',num);
+  document.getElementById('pt-match').classList.toggle('ok',match);
+  const valid=[len,up,num].filter(Boolean).length;
+  const fill=document.getElementById('pwd-fill');
+  fill.classList.remove('weak','medium','strong');
+  if(valid===1)fill.classList.add('weak');
+  else if(valid===2)fill.classList.add('medium');
+  else if(valid===3)fill.classList.add('strong');
+  document.getElementById('pwd-next').disabled=!(len&&up&&num&&match);
+}
+
+function toggleChip(el){
+  el.classList.toggle('active');
+}
+
+function toggleDay(el){
+  el.classList.toggle('active');
+  const ic=el.querySelector('.day-num');
+  if(ic)ic.textContent=el.classList.contains('active')?'✓':'·';
+}
+
+function mockUpload(el,kind){
+  if(el.classList.contains('done'))return;
+  // Simulate upload animation
+  const orig=el.querySelector('.upload-icon').textContent;
+  el.querySelector('.upload-icon').textContent='⏳';
+  setTimeout(()=>{
+    el.classList.add('done');
+    el.querySelector('.upload-icon').textContent='✓';
+    S.uploads[kind]=true;
+    showToast('success','Document geüpload');
+  },800);
+}
+
+function step4Next(){
+  S.services=[...document.querySelectorAll('#chips-services .chip.active')].map(c=>c.dataset.val);
+  S.langs=[...document.querySelectorAll('#chips-langs .chip.active')].map(c=>c.dataset.val);
+  if(S.services.length===0){showToast('error','Selecteer minstens 1 dienst');return;}
+  if(S.langs.length===0){showToast('error','Selecteer minstens 1 taal');return;}
+  const bio=document.getElementById('f-bio').value.trim();
+  if(bio.length<20){showToast('error','Bio moet minstens 20 tekens zijn');return;}
+  saveDraft({
+    services:S.services,languages:S.langs,bio:bio,
+    yearsExperience:+document.getElementById('f-exp').value,
+    hourlyRate:+document.getElementById('f-rate').value
+  });
+  goPane(5);
+}
+
+function finish(){
+  S.days=[...document.querySelectorAll('#days-grid .day.active')].map(d=>d.dataset.day);
+  const draft=getDraft();
+  const profile={
+    id:'CL-'+Date.now().toString(36).toUpperCase().slice(-6),
+    ...draft,
+    name:`${draft.firstname} ${draft.lastname}`,
+    availability:{
+      days:S.days,
+      start:document.getElementById('f-start').value,
+      end:document.getElementById('f-end').value,
+      hoursPerWeek:+document.getElementById('f-hours').value
+    },
+    kyc:{
+      idDocument:S.uploads.id?'uploaded':'pending',
+      selfie:S.uploads.selfie?'uploaded':'pending',
+      vog:S.uploads.vog?'uploaded':'pending',
+      photo:S.uploads.photo?'uploaded':'pending',
+      status:'in_behandeling',
+      submittedAt:new Date().toISOString()
+    },
+    stats:{totalEarned:0,pendingPayout:0,jobsCompleted:0,rating:null,reviewsCount:0},
+    status:'in_behandeling',
+    createdAt:new Date().toISOString()
+  };
+  try{
+    localStorage.setItem('cl_profile_current',JSON.stringify(profile));
+    const list=JSON.parse(localStorage.getItem('cl_workers')||'[]');
+    list.unshift(profile);
+    localStorage.setItem('cl_workers',JSON.stringify(list.slice(0,20)));
+    localStorage.removeItem('cl_signup_draft');
+  }catch(e){}
+  document.getElementById('success-name').textContent=draft.firstname;
+  document.getElementById('success-ref').textContent=profile.id;
+  goPane(7);
+}
+
+function goToDashboard(){
+  window.location.href='/cleaner-dashboard.html';
+}
+
+function saveDraft(data){
+  try{
+    const cur=getDraft();
+    localStorage.setItem('cl_signup_draft',JSON.stringify({...cur,...data}));
+  }catch(e){}
+}
+
+function getDraft(){
+  try{return JSON.parse(localStorage.getItem('cl_signup_draft')||'{}')}catch(e){return{}}
+}
+
+// Restore draft if exists
+(function restore(){
+  const d=getDraft();
+  if(d.firstname)document.getElementById('f-firstname').value=d.firstname;
+  if(d.lastname)document.getElementById('f-lastname').value=d.lastname;
+  if(d.email)document.getElementById('f-email').value=d.email;
+  if(d.phone)document.getElementById('f-phone').value=d.phone;
+  if(d.hood)document.getElementById('f-hood').value=d.hood;
+})();
+</script>
+</body>
+</html>
