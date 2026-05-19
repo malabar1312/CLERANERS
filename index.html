@@ -122,15 +122,14 @@ h1,h2,h3,h4{line-height:1.1;font-weight:800}
 
 /* HERO */
 .hero{background:var(--navy);min-height:100svh;display:flex;flex-direction:column;padding-top:var(--nh);position:relative;overflow:hidden}
-.hmesh{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 65% 30%,rgba(26,86,219,.18) 0%,transparent 55%),radial-gradient(ellipse 50% 40% at 20% 65%,rgba(26,80,180,.1) 0%,transparent 50%),radial-gradient(ellipse 35% 50% at 85% 75%,rgba(139,92,246,.08) 0%,transparent 45%);animation:mdrift 18s ease-in-out infinite}
+.hmesh{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 65% 30%,rgba(26,86,219,.18) 0%,transparent 55%),radial-gradient(ellipse 50% 40% at 20% 65%,rgba(26,80,180,.1) 0%,transparent 50%),radial-gradient(ellipse 35% 50% at 85% 75%,rgba(139,92,246,.08) 0%,transparent 45%)}
 @keyframes mdrift{0%,100%{opacity:1}50%{opacity:.85}}
 .hdots{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,255,255,.055) 1px,transparent 1px);background-size:30px 30px;mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 25%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 25%,transparent 75%)}
-.hbeam{position:absolute;top:40%;left:-20%;right:-20%;height:1px;background:linear-gradient(90deg,transparent,rgba(26,86,219,.3),rgba(96,165,250,.5),rgba(26,86,219,.3),transparent);animation:beam 8s ease-in-out infinite}
 @keyframes beam{0%,100%{transform:translateY(0) scaleX(1);opacity:.4}50%{transform:translateY(-80px) scaleX(1.1);opacity:.8}}
 .hbody{position:relative;z-index:2;flex:1;display:flex;align-items:center;padding:64px 0 40px}
 .hlayout{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:center}
 .heyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:9999px;padding:8px 18px;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:24px;backdrop-filter:blur(8px)}
-.lpulse{width:8px;height:8px;border-radius:50%;background:#34D399;flex-shrink:0;box-shadow:0 0 0 3px rgba(52,211,153,.2);animation:pulse 2.2s ease-in-out infinite}
+.lpulse{display:none}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(52,211,153,.2)}50%{box-shadow:0 0 0 8px rgba(52,211,153,0)}}
 .hh1{font-family:var(--ff);font-size:clamp(44px,5.8vw,76px);line-height:1.02;letter-spacing:-.5px;color:white;margin-bottom:20px;font-weight:400}
 .hh1 em{font-style:italic;color:#93C5FD}
@@ -143,8 +142,8 @@ h1,h2,h3,h4{line-height:1.1;font-weight:800}
 .ptxt strong{color:rgba(255,255,255,.8)}
 .pstars{color:var(--gold);font-size:12px;margin-bottom:3px}
 .hright{position:relative;height:480px}
-.hc{position:absolute;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:24px;backdrop-filter:blur(20px) saturate(1.5);box-shadow:0 8px 32px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.1),0 0 60px rgba(26,86,219,.08);padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .28s var(--eo);animation:float 6s ease-in-out infinite}
-.hc:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.22);transform:translateY(-4px) scale(1.02)!important}
+.hc{position:absolute;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:18px;backdrop-filter:blur(16px);box-shadow:0 8px 24px rgba(0,0,0,.2);padding:13px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .24s var(--eo)}
+.hc:hover{background:rgba(255,255,255,.09);transform:translateY(-2px);border-color:rgba(255,255,255,.2)}
 .hc1{top:0;left:0;right:0;animation-delay:0s}
 .hc2{top:140px;left:24px;right:-24px;animation-delay:1.5s}
 .hc3{top:280px;left:0;right:0;animation-delay:.8s}
@@ -606,16 +605,7 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 .d1{transition-delay:80ms}.d2{transition-delay:160ms}.d3{transition-delay:240ms}.d4{transition-delay:320ms}
 
 /* TABS */
-.tabs-nav{position:sticky;top:var(--nh);z-index:100;background:white;border-bottom:1px solid var(--border);padding:18px 0;transition:box-shadow .28s}
-.tabs-nav.stuck{box-shadow:0 4px 24px rgba(0,0,0,.06)}
-.tabs-inner{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:5px;background:var(--bg);border:1px solid var(--border);border-radius:9999px;width:fit-content;max-width:100%;margin:0 auto;-webkit-overflow-scrolling:touch}
 .tabs-inner::-webkit-scrollbar{display:none}
-.tabbtn{padding:11px 20px;border-radius:9999px;font-size:13px;font-weight:700;color:var(--ink2);white-space:nowrap;transition:all .28s var(--eo);letter-spacing:-.01em;display:flex;align-items:center;gap:7px;flex-shrink:0}
-.tabbtn:hover{background:white;color:var(--blue)}
-.tabbtn.active{background:var(--navy);color:white;box-shadow:0 4px 14px rgba(12,20,32,.2)}
-.tabbtn-icon{font-size:14px;opacity:.9}
-.tabbed{display:none}
-.tabbed.tab-active{display:block;animation:tab-fade-in .5s var(--eo)}
 @keyframes tab-fade-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
 /* CALCULATOR */
@@ -646,21 +636,20 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 .calc-go{width:100%;justify-content:center;padding:13px}
 }
 
-/* WHATSAPP FAB */
-.wa-fab{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,.35);z-index:350;cursor:pointer;transition:transform .28s var(--es);animation:wa-pulse 2.6s ease-out infinite;text-decoration:none}
-.wa-fab:hover{transform:scale(1.08)}
-.wa-fab svg{width:30px;height:30px;fill:white}
-@keyframes wa-pulse{0%{box-shadow:0 8px 24px rgba(37,211,102,.35),0 0 0 0 rgba(37,211,102,.55)}70%{box-shadow:0 8px 24px rgba(37,211,102,.35),0 0 0 18px rgba(37,211,102,0)}100%{box-shadow:0 8px 24px rgba(37,211,102,.35),0 0 0 0 rgba(37,211,102,0)}}
-@media(max-width:900px){.wa-fab{bottom:84px;right:14px;width:50px;height:50px}.wa-fab svg{width:26px;height:26px}}
-body.bb-vis .wa-fab{bottom:96px}
-@media(max-width:900px){body.bb-vis .wa-fab{bottom:154px}}
-
+/* */
 /* RESPONSIVE */
 @media(max-width:1200px){.hlayout{grid-template-columns:1fr}.hright{display:none}.rlay{grid-template-columns:1fr}.mpanel{height:380px;position:relative;top:0;order:-1}.rlist{max-height:none;border-right:none}}
 @media(max-width:1024px){.trg,.abg,.ent-grid{grid-template-columns:1fr;gap:40px}.pg{grid-template-columns:1fr;max-width:440px}.fg2{grid-template-columns:1fr 1fr}}
 @media(max-width:900px){:root{--nh:60px}.nlinks,.btn-ghost{display:none}.burger{display:flex}.srow{grid-template-columns:1fr}.sf{border-right:none;border-bottom:1px solid rgba(255,255,255,.08)}.scta{padding:16px;justify-content:center}.hst{grid-template-columns:1fr 1fr;gap:1px}.scg{grid-template-columns:1fr}.sg{grid-template-columns:1fr 1fr}.rgrid{grid-template-columns:1fr}.vg{grid-template-columns:1fr}.vd{display:none}.mc{display:block}.mp{padding:20px}.mhif{flex-wrap:wrap}.mcs{flex-direction:row;align-items:center;width:100%}.fg2{grid-template-columns:1fr 1fr}.fbot{flex-direction:column;gap:8px;text-align:center}.bbl,.bbp{font-size:14px}.tbar{display:none}.sec{padding:64px 0}.secsm{padding:44px 0}.trsec{padding:72px 0!important}.absec{padding:72px 0}.wlsec{padding:80px 0}.stb{padding:40px 0}.hero{min-height:auto}.hbody{padding:40px 0 32px}.hh1{font-size:clamp(36px,8vw,52px)!important;line-height:1.05}.hlead{font-size:16px;margin-bottom:28px}.hctas{margin-bottom:24px}.heyebrow{margin-bottom:16px;font-size:11px;padding:6px 14px}.search-sec{padding-bottom:24px}.tabs-nav{padding:12px 0}.tabbtn{padding:9px 14px;font-size:12px}.tabbtn-icon{font-size:13px}.sh2,.trh2,.wlh{font-size:clamp(28px,6vw,40px)!important}.eb{font-size:9px;letter-spacing:2px}.fql,.rgrid,.hst{margin-top:32px}}
 @media(max-width:580px){.hst{grid-template-columns:1fr}.rciw{width:96px;height:130px}.mst{grid-template-columns:1fr 1fr}.cots{grid-template-columns:repeat(3,1fr)}.tls{grid-template-columns:repeat(3,1fr)}.mpanel{height:280px}.wlf{flex-direction:column;background:transparent;border:none;padding:0;gap:12px}.wlf input{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:14px 20px}.wlf button{border-radius:18px;padding:14px}.sbts{flex-direction:column;align-items:center}.nact .btn-primary{display:none}.nlogo{font-size:24px}.nlogo svg{width:24px;height:24px}.sec{padding:48px 0}.trsec{padding:56px 0!important}.absec{padding:56px 0}.wlsec{padding:64px 0}.hh1{font-size:clamp(32px,9vw,44px)!important}.hctas .btn-xl{padding:14px 24px;font-size:15px}.tabs-inner{padding:4px}.tabbtn{padding:8px 12px;font-size:11.5px;gap:5px}.tabbtn-icon{font-size:12px}.rc{flex-direction:column}.rciw{width:100%;height:160px}.bb{padding:10px 0}.bbi{gap:10px}.bbav{width:38px;height:38px}.bbn{font-size:14px}.bbs{font-size:11px}.bbp{font-size:18px}.bbd{padding:9px 12px;font-size:12px}.bbcf{padding:10px 20px;font-size:14px}}
+
+/* MOBILE STICKY CTA */
+.msticky{display:none;position:fixed;bottom:0;left:0;right:0;background:white;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--border);z-index:300;box-shadow:0 -4px 16px rgba(0,0,0,.06)}
+.msticky button{width:100%;background:var(--blue);color:white;font-weight:700;padding:14px;border-radius:14px;font-size:15px;box-shadow:var(--shb);display:flex;align-items:center;justify-content:center;gap:8px}
+@media(max-width:900px){.msticky{display:block}body.bb-vis .msticky,body.has-bbar .msticky{display:none}body{padding-bottom:80px}body.bb-vis,body.has-bbar{padding-bottom:0}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
 </head>
 <body>
 
@@ -681,9 +670,6 @@ body.bb-vis .wa-fab{bottom:96px}
 <!-- BOOKINGS -->
 <div class="ov" id="bookings-ov" onclick="bgClose(event,'bookings-ov')"><div class="mb" style="max-width:560px;"><button class="mclose" onclick="closeOv('bookings-ov')">×</button><div class="mp"><div style="text-align:center;margin-bottom:24px;"><h3 style="font-size:26px;font-weight:800;letter-spacing:-.3px;">Mijn boekingen</h3><p style="font-size:13px;color:var(--muted);margin-top:4px;">Alle boekingen worden lokaal opgeslagen in je browser.</p></div><div id="bookings-list"></div><button class="btn btn-outline btn-lg btn-block" style="margin-top:20px;" onclick="closeOv('bookings-ov');document.getElementById('cleaners').scrollIntoView({behavior:'smooth'})">+ Nieuwe boeking</button></div></div></div>
 
-<!-- WORKER -->
-<div class="ov" id="worker-ov" onclick="bgClose(event,'worker-ov')"><div class="mb" style="max-width:520px;"><button class="mclose" onclick="closeOv('worker-ov')">×</button><div class="mp"><div style="text-align:center;margin-bottom:24px;"><svg width="30" height="30" style="margin:0 auto 12px;"><use href="#STAR"/></svg><h3 style="font-size:28px;font-weight:800;">Werk als schoonmaker</h3><p style="font-size:14px;color:var(--muted);margin-top:5px;">3 stappen · KYC verplicht</p></div><div class="sd"><div class="sdt active" id="wd0"></div><div class="sdt" id="wd1"></div><div class="sdt" id="wd2"></div></div><div class="cop active" id="wp0"><div class="copt">1 · Persoonlijke gegevens</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;"><div class="fg"><label class="fl">Voornaam</label><input class="fi" placeholder="Sofia"/></div><div class="fg"><label class="fl">Achternaam</label><input class="fi" placeholder="Rodriguez"/></div></div><div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="sofia@email.nl"/></div><div class="fg"><label class="fl">Telefoon</label><input class="fi" type="tel" placeholder="+31 6 00000000"/></div><div class="fg"><label class="fl">Stadsdeel</label><select class="fi"><option>Centrum</option><option>Jordaan</option><option>De Pijp</option><option>Oud-West</option><option>Amsterdam-Oost</option><option>Amsterdam-Noord</option></select></div><button class="btn btn-primary btn-lg btn-block" onclick="wStep(1)">Verder →</button></div><div class="cop" id="wp1"><div class="copt">2 · Ervaring</div><div class="fg"><label class="fl">Jaren ervaring</label><select class="fi"><option>&lt;1 jaar</option><option>1-2 jaar</option><option selected>2-5 jaar</option><option>5+ jaar</option></select></div><div class="fg"><label class="fl">Uurtarief (€)</label><input class="fi" type="number" placeholder="18"/></div><div class="fg"><label class="fl">Over jezelf</label><textarea class="fi" rows="3" placeholder="Korte beschrijving..."></textarea></div><div style="display:flex;gap:12px;"><button class="btn btn-outline btn-lg" style="flex:1;justify-content:center;" onclick="wStep(0)">← Terug</button><button class="btn btn-primary btn-lg" style="flex:2;justify-content:center;" onclick="wStep(2)">Verder →</button></div></div><div class="cop" id="wp2"><div class="copt">3 · KYC</div><div style="background:var(--bluel);border:1px solid var(--bluem);border-radius:18px;padding:20px;margin-bottom:20px;"><div style="font-size:14px;font-weight:700;color:var(--blue);margin-bottom:12px;">Vereiste documenten</div><div style="display:flex;flex-direction:column;gap:8px;"><div style="font-size:14px;color:var(--ink2);"><span style="color:var(--blue);font-weight:700;">✓</span> Paspoort of rijbewijs</div><div style="font-size:14px;color:var(--ink2);"><span style="color:var(--blue);font-weight:700;">✓</span> VOG</div><div style="font-size:14px;color:var(--ink2);"><span style="color:var(--blue);font-weight:700;">✓</span> Recente pasfoto</div></div></div><div style="border:2px dashed var(--border);border-radius:18px;padding:32px;text-align:center;margin-bottom:20px;cursor:pointer;" onclick="showToast('info','Upload in app')"><div style="font-size:36px;margin-bottom:12px;">📎</div><div style="font-size:14px;font-weight:600;color:var(--ink2);">Sleep documenten</div></div><div class="cpr">🔐 Gegevens versleuteld</div><div style="display:flex;gap:12px;"><button class="btn btn-outline btn-lg" style="flex:1;justify-content:center;" onclick="wStep(1)">← Terug</button><button class="btn btn-lg" style="flex:2;justify-content:center;background:var(--green);color:white;" onclick="submitWorker()">Versturen ✓</button></div></div></div></div></div>
-
 <!-- INFO -->
 <div class="ov" id="info-ov" onclick="bgClose(event,'info-ov')"><div class="mb" style="max-width:500px;"><button class="mclose" onclick="closeOv('info-ov')">×</button><div class="ip" id="info-content"></div></div></div>
 
@@ -691,46 +677,45 @@ body.bb-vis .wa-fab{bottom:96px}
 <div class="ov" id="success-ov" onclick="bgClose(event,'success-ov')"><div class="mb" style="max-width:460px;"><div class="mp" style="padding-top:40px;"><div class="sic">✓</div><div class="sit">Boeking bevestigd!</div><div class="sis" id="success-txt">Je afspraak is geboekt.</div><div class="sdtl" id="success-detail"></div><div class="ttgs" style="justify-content:center;"><div class="tt">🔐 Beschermd</div><div class="tt">🛡️ Verzekerd</div><div class="tt">💬 Chat actief</div></div><button class="btn btn-primary btn-lg btn-block" style="margin-bottom:12px;" onclick="closeOv('success-ov');openBookings()">Mijn boekingen</button><button class="btn btn-outline btn-lg btn-block" onclick="closeOv('success-ov');window.scrollTo({top:0,behavior:'smooth'})">Home</button></div></div></div>
 
 <!-- PROFILE -->
-<div class="ov" id="prof-ov" onclick="bgClose(event,'prof-ov')"><div class="mb" style="max-width:900px;"><button class="mclose" onclick="closeOv('prof-ov')">×</button><img class="mhi" id="mhero" src="" alt="" loading="lazy"/><div class="mp"><div class="mhif"><div class="maw"><img class="mav" id="mav" src="" alt="" loading="lazy"/><div class="moi" id="mon" style="display:none;"></div></div><div style="flex:1;"><div class="mna"><span id="mname"></span><span class="mvb">✓ Geverifieerd</span></div><div class="mme"><span id="mstars"></span><span id="mrevs"></span><span id="mjobs"></span><span id="mloc"></span></div></div><div class="mcs"><div class="mpr"><span id="mprice"></span><span>€ / uur</span></div><button class="btn btn-primary btn-lg" id="msel1" onclick="toggleSel()">Selecteren</button></div></div><div class="mcp"><span style="font-size:22px;">🎯</span><div style="flex:1;"><div style="font-size:14px;font-weight:700;color:var(--green);">Compatibiliteit: <span id="mcompat-n">95</span>%</div><div class="mcpbw"><div class="mcpb" id="mcompat-bar"></div></div></div></div><div class="mab"><button class="mabt" onclick="showToast('success','Link gekopieerd')">🔗 Delen</button><button class="mabt" onclick="showToast('success','Opgeslagen ❤️')">❤️ Favoriet</button><button class="mabt" onclick="showToast('info','Melding verstuurd')">🚩 Melden</button></div><div class="mtbs"><button class="mtb active" onclick="switchTab(this,'tp-about')">Profiel</button><button class="mtb" onclick="switchTab(this,'tp-rev')">Reviews <span id="mtab-n"></span></button><button class="mtb" onclick="switchTab(this,'tp-av')">Beschikbaarheid</button><button class="mtb" onclick="switchTab(this,'tp-ch')">Chat</button></div><div class="mtp active" id="tp-about"><div class="msc">Over mij</div><p class="mbi" id="mbio"></p><div class="msc">Diensten</div><div class="mtgs" id="mtags"></div><div class="mst"><div class="msi"><div class="msin" id="ms-j"></div><div class="msil">Klussen</div></div><div class="msi"><div class="msin" id="ms-r"></div><div class="msil">Score</div></div><div class="msi"><div class="msin" id="ms-t"></div><div class="msil">Reactie</div></div></div><div class="msc">Details</div><div class="mil"><div class="mii"><span class="miic">💰</span><span id="mi-p"></span></div><div class="mii"><span class="miic">📍</span><span id="mi-d"></span></div><div class="mii"><span class="miic">⚡</span><span id="mi-r"></span></div><div class="mii"><span class="miic">🛡️</span>Geverifieerd op <span id="mi-v"></span></div><div class="mii"><span class="miic">🗣️</span><span id="mi-l"></span></div></div><div class="msc">Werkgebied</div><div class="mm" onclick="showToast('info','Volledige kaart in app')"><svg style="width:100%;height:100%;" viewBox="0 0 480 160" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="160" fill="#C5E5D8"/><ellipse cx="240" cy="100" rx="200" ry="88" fill="none" stroke="#8AC8B8" stroke-width="14" opacity=".6"/><ellipse cx="240" cy="100" rx="155" ry="68" fill="none" stroke="#7BBFAF" stroke-width="12" opacity=".5"/><ellipse cx="240" cy="100" rx="110" ry="48" fill="none" stroke="#6BB5A5" stroke-width="10" opacity=".45"/><ellipse cx="240" cy="100" rx="40" ry="18" fill="#D4EBE0" opacity=".95"/></svg><div class="mmp"><div class="mmb" id="mini-bubble">Sofia R. · €15/u</div><div class="mmt"></div></div><div style="position:absolute;bottom:8px;left:12px;font-size:12px;font-weight:600;color:rgba(0,80,60,.7);" id="mini-label">Jordaan</div></div><div class="ttgs"><div class="tt">✓ KYC</div><div class="tt">✓ VOG</div><div class="tt">✓ Verzekerd</div><div class="tt">✓ Escrow</div></div></div><div class="mtp" id="tp-rev"><div id="mreviews-list"></div></div><div class="mtp" id="tp-av"><div class="avm"><button onclick="changeMonth(-1)">← Vorige</button><span id="avail-mlbl">Mei 2026</span><button onclick="changeMonth(1)">Volgende →</button></div><div class="avg" id="avail-grid"></div><div id="avail-time-w" style="display:none;"><div class="msc">Tijden — <span id="avail-sd"></span></div><div class="tls" id="avail-times"></div><button class="btn btn-primary btn-lg btn-block" style="margin-top:20px;" onclick="bookFromAvail()">Boek dit tijdslot →</button></div></div><div class="mtp" id="tp-ch"><div class="cw"><div class="chh"><img id="chat-av" src="" alt=""/><div><div class="chhn" id="chat-nm">—</div><div class="chhs">Nu online</div></div></div><div class="cmsgs" id="chat-msgs"></div><div class="cir"><input class="ci" type="text" id="chat-inp" placeholder="Stuur een bericht..." onkeydown="if(event.key==='Enter')sendMsg()"/><button class="cs" onclick="sendMsg()">→</button></div></div></div><button class="msb" id="msel2" onclick="toggleSel()">Selecteer deze schoonmaker</button></div></div></div>
+<div class="ov" id="prof-ov" onclick="bgClose(event,'prof-ov')"><div class="mb" style="max-width:900px;"><button class="mclose" onclick="closeOv('prof-ov')">×</button><img class="mhi" id="mhero" src="" alt="" loading="lazy"/><div class="mp"><div class="mhif"><div class="maw"><img class="mav" id="mav" src="" alt="" loading="lazy"/><div class="moi" id="mon" style="display:none;"></div></div><div style="flex:1;"><div class="mna"><span id="mname"></span><span class="mvb">✓ Geverifieerd</span></div><div class="mme"><span id="mstars"></span><span id="mrevs"></span><span id="mjobs"></span><span id="mloc"></span></div></div><div class="mcs"><div class="mpr"><span id="mprice"></span><span>€ / uur</span></div><button class="btn btn-primary btn-lg" id="msel1" onclick="toggleSel()">Selecteren</button></div></div><div class="mcp"><span style="font-size:22px;">🎯</span><div style="flex:1;"><div style="font-size:14px;font-weight:700;color:var(--green);">Compatibiliteit: <span id="mcompat-n">95</span>%</div><div class="mcpbw"><div class="mcpb" id="mcompat-bar"></div></div></div></div><div class="mab"><button class="mabt" onclick="shareProfile()">🔗 Delen</button><button class="mabt" id="fav-btn" onclick="toggleFav()">❤️ Favoriet</button><button class="mabt" onclick="reportCleaner()">🚩 Melden</button></div><div class="mtbs"><button class="mtb active" onclick="switchTab(this,'tp-about')">Profiel</button><button class="mtb" onclick="switchTab(this,'tp-rev')">Reviews <span id="mtab-n"></span></button><button class="mtb" onclick="switchTab(this,'tp-av')">Beschikbaarheid</button><button class="mtb" onclick="switchTab(this,'tp-ch')">Chat</button></div><div class="mtp active" id="tp-about"><div class="msc">Over mij</div><p class="mbi" id="mbio"></p><div class="msc">Diensten</div><div class="mtgs" id="mtags"></div><div class="mst"><div class="msi"><div class="msin" id="ms-j"></div><div class="msil">Klussen</div></div><div class="msi"><div class="msin" id="ms-r"></div><div class="msil">Score</div></div><div class="msi"><div class="msin" id="ms-t"></div><div class="msil">Reactie</div></div></div><div class="msc">Details</div><div class="mil"><div class="mii"><span class="miic">💰</span><span id="mi-p"></span></div><div class="mii"><span class="miic">📍</span><span id="mi-d"></span></div><div class="mii"><span class="miic">⚡</span><span id="mi-r"></span></div><div class="mii"><span class="miic">🛡️</span>Geverifieerd op <span id="mi-v"></span></div><div class="mii"><span class="miic">🗣️</span><span id="mi-l"></span></div></div><div class="msc">Werkgebied</div><div class="mm" onclick="showToast('info','Volledige kaart in app')"><svg style="width:100%;height:100%;" viewBox="0 0 480 160" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="160" fill="#C5E5D8"/><ellipse cx="240" cy="100" rx="200" ry="88" fill="none" stroke="#8AC8B8" stroke-width="14" opacity=".6"/><ellipse cx="240" cy="100" rx="155" ry="68" fill="none" stroke="#7BBFAF" stroke-width="12" opacity=".5"/><ellipse cx="240" cy="100" rx="110" ry="48" fill="none" stroke="#6BB5A5" stroke-width="10" opacity=".45"/><ellipse cx="240" cy="100" rx="40" ry="18" fill="#D4EBE0" opacity=".95"/></svg><div class="mmp"><div class="mmb" id="mini-bubble">Sofia R. · €15/u</div><div class="mmt"></div></div><div style="position:absolute;bottom:8px;left:12px;font-size:12px;font-weight:600;color:rgba(0,80,60,.7);" id="mini-label">Jordaan</div></div><div class="ttgs"><div class="tt">✓ KYC</div><div class="tt">✓ VOG</div><div class="tt">✓ Verzekerd</div><div class="tt">✓ Escrow</div></div></div><div class="mtp" id="tp-rev"><div id="mreviews-list"></div></div><div class="mtp" id="tp-av"><div class="avm"><button onclick="changeMonth(-1)">← Vorige</button><span id="avail-mlbl">Mei 2026</span><button onclick="changeMonth(1)">Volgende →</button></div><div class="avg" id="avail-grid"></div><div id="avail-time-w" style="display:none;"><div class="msc">Tijden — <span id="avail-sd"></span></div><div class="tls" id="avail-times"></div><button class="btn btn-primary btn-lg btn-block" style="margin-top:20px;" onclick="bookFromAvail()">Boek dit tijdslot →</button></div></div><div class="mtp" id="tp-ch"><div class="cw"><div class="chh"><img id="chat-av" src="" alt=""/><div><div class="chhn" id="chat-nm">—</div><div class="chhs">Nu online</div></div></div><div class="cmsgs" id="chat-msgs"></div><div class="cir"><input class="ci" type="text" id="chat-inp" placeholder="Stuur een bericht..." onkeydown="if(event.key==='Enter')sendMsg()"/><button class="cs" onclick="sendMsg()">→</button></div></div></div><button class="msb" id="msel2" onclick="toggleSel()">Selecteer deze schoonmaker</button></div></div></div>
 
 <!-- CHECKOUT -->
-<div class="ov ovb" id="co-ov" onclick="bgClose(event,'co-ov')"><div class="sb"><div class="sdrag"></div><div class="coi"><div class="coh"><h3>Bevestig je boeking</h3><button class="mcx" onclick="closeOv('co-ov')">×</button></div><div class="css"><div class="cst done" id="cs0"></div><div class="cst" id="cs1"></div><div class="cst" id="cs2"></div></div><div class="cop active" id="cop0"><div class="copt">1 · Bevestig schoonmaker</div><div class="ccr"><img id="co-av" src="" alt=""/><div><div class="ccn" id="co-cn">—</div><div class="ccs" id="co-cs">—</div></div><div class="ccp" id="co-cp">—</div></div><div class="cof"><label>Type schoonmaak</label><select class="coin" id="co-type"><option>Grote schoonmaak</option><option>Regulier onderhoud</option><option>Airbnb-wisseling</option><option>Oplevering</option></select></div><div class="cof"><label>Oppervlakte</label><select class="coin"><option>Tot 50 m²</option><option selected>50-80 m²</option><option>80-120 m²</option><option>120+ m²</option></select></div><button class="btn btn-primary btn-lg btn-block" onclick="coGo(1)">Verder →</button></div><div class="cop" id="cop1"><div class="copt">2 · Datum, tijd, locatie</div><div class="cof"><label>Datum</label><input type="date" class="coin" id="co-date"/></div><div class="cof"><label>Begintijd</label><div class="cots"><div class="cot" onclick="pickTime(this)">09:00</div><div class="cot active" onclick="pickTime(this)">10:00</div><div class="cot" onclick="pickTime(this)">11:00</div><div class="cot" onclick="pickTime(this)">12:00</div><div class="cot" onclick="pickTime(this)">14:00</div><div class="cot" onclick="pickTime(this)">15:00</div><div class="cot" onclick="pickTime(this)">16:00</div><div class="cot" onclick="pickTime(this)">17:00</div></div></div><div class="cof"><label>Adres <span style="font-size:10px;color:var(--blue);font-weight:600;text-transform:none;letter-spacing:0;">📍 Zichtbaar voor de schoonmaker</span></label><input class="coin" id="co-addr" value="Prinsengracht 263, Amsterdam" oninput="updateJobMap(this.value)"/></div><div class="jm"><svg class="jms" viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg"><rect width="560" height="180" fill="#C5E5D8"/><rect x="0" y="0" width="560" height="85" fill="#A8D5C8"/><ellipse cx="280" cy="130" rx="250" ry="100" fill="none" stroke="#8AC8B8" stroke-width="16" opacity=".6"/><ellipse cx="280" cy="130" rx="195" ry="78" fill="none" stroke="#7BBFAF" stroke-width="13" opacity=".5"/><ellipse cx="280" cy="130" rx="140" ry="56" fill="none" stroke="#6BB5A5" stroke-width="11" opacity=".4"/><ellipse cx="280" cy="130" rx="40" ry="16" fill="#D4EBE0" opacity=".9"/><circle cx="280" cy="72" r="26" fill="rgba(239,68,68,.1)" stroke="rgba(239,68,68,.3)" stroke-width="1.5"/><circle cx="280" cy="72" r="16" fill="rgba(239,68,68,.15)" stroke="rgba(239,68,68,.4)" stroke-width="1.5"/><text x="220" y="52" font-size="10" fill="rgba(0,80,60,.4)" font-weight="700" font-family="sans-serif" letter-spacing="2">HET IJ</text></svg><div class="jmp"><div class="jmb">📍 <span id="job-addr">Prinsengracht 263</span></div><div class="jmt"></div></div><div class="jma" id="job-full">Prinsengracht 263, Amsterdam</div></div><div class="cof"><label>Toegangsinstructies</label><textarea class="coin" rows="2" placeholder="Code, verdieping, huisdieren..."></textarea></div><div style="display:flex;gap:12px;"><button class="btn btn-outline btn-lg" style="flex:1;justify-content:center;" onclick="coGo(0)">← Terug</button><button class="btn btn-primary btn-lg" style="flex:2;justify-content:center;" onclick="coGo(2)">Overzicht →</button></div></div><div class="cop" id="cop2"><div class="copt">3 · Betaling</div><div class="cosu"><div class="cor"><span>Dienst</span><span id="co-rs"></span></div><div class="cor"><span>Schoonmaker</span><span id="co-rn"></span></div><div class="cor"><span>Adres</span><span id="co-ra"></span></div><div class="cor"><span>Datum</span><span id="co-rd"></span></div><div class="cor"><span>Duur</span><span>3 uur</span></div><div class="cor"><span>Tarief</span><span id="co-rr"></span></div><div class="cor"><span>Totaal (escrow)</span><span id="co-rt"></span></div></div><div class="cpr">🔐 Escrow — vrijgegeven na bevestiging</div><div class="cca"><span style="font-size:22px;">💳</span><span style="font-size:16px;font-weight:500;">•••• 4242</span><button style="margin-left:auto;padding:7px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;color:var(--ink2);" onclick="showToast('info','In app')">Wijzigen</button></div><div style="display:flex;gap:12px;"><button class="btn btn-outline btn-lg" style="flex:1;justify-content:center;" onclick="coGo(1)">← Terug</button><button class="cpb" style="flex:2;" onclick="doPayment()">Betalen</button></div></div></div></div></div>
+<div class="ov ovb" id="co-ov" onclick="bgClose(event,'co-ov')"><div class="sb"><div class="sdrag"></div><div class="coi"><div class="coh"><h3>Bevestig je boeking</h3><button class="mcx" onclick="closeOv('co-ov')">×</button></div><div class="css"><div class="cst done" id="cs0"></div><div class="cst" id="cs1"></div><div class="cst" id="cs2"></div></div><div class="cop active" id="cop0"><div class="copt">1 · Bevestig schoonmaker</div><div class="ccr"><img id="co-av" src="" alt=""/><div><div class="ccn" id="co-cn">—</div><div class="ccs" id="co-cs">—</div></div><div class="ccp" id="co-cp">—</div></div><div class="cof"><label>Type schoonmaak</label><select class="coin" id="co-type"><option>Grote schoonmaak</option><option>Regulier onderhoud</option><option>Airbnb-wisseling</option><option>Oplevering</option></select></div><div class="cof"><label>Oppervlakte</label><select class="coin"><option>Tot 50 m²</option><option selected>50-80 m²</option><option>80-120 m²</option><option>120+ m²</option></select></div><button class="btn btn-primary btn-lg btn-block" onclick="coGo(1)">Verder →</button></div><div class="cop" id="cop1"><div class="copt">2 · Datum, tijd, locatie</div><div class="cof"><label>Datum</label><input type="date" class="coin" id="co-date"/></div><div class="cof"><label>Begintijd</label><div class="cots"><div class="cot" onclick="pickTime(this)">09:00</div><div class="cot active" onclick="pickTime(this)">10:00</div><div class="cot" onclick="pickTime(this)">11:00</div><div class="cot" onclick="pickTime(this)">12:00</div><div class="cot" onclick="pickTime(this)">14:00</div><div class="cot" onclick="pickTime(this)">15:00</div><div class="cot" onclick="pickTime(this)">16:00</div><div class="cot" onclick="pickTime(this)">17:00</div></div></div><div class="cof"><label>Adres <span style="font-size:10px;color:var(--blue);font-weight:600;text-transform:none;letter-spacing:0;">📍 Zichtbaar voor de schoonmaker</span></label><input class="coin" id="co-addr" value="Prinsengracht 263, Amsterdam" oninput="updateJobMap(this.value)"/></div><div class="jm"><svg class="jms" viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg"><rect width="560" height="180" fill="#C5E5D8"/><rect x="0" y="0" width="560" height="85" fill="#A8D5C8"/><ellipse cx="280" cy="130" rx="250" ry="100" fill="none" stroke="#8AC8B8" stroke-width="16" opacity=".6"/><ellipse cx="280" cy="130" rx="195" ry="78" fill="none" stroke="#7BBFAF" stroke-width="13" opacity=".5"/><ellipse cx="280" cy="130" rx="140" ry="56" fill="none" stroke="#6BB5A5" stroke-width="11" opacity=".4"/><ellipse cx="280" cy="130" rx="40" ry="16" fill="#D4EBE0" opacity=".9"/><circle cx="280" cy="72" r="26" fill="rgba(239,68,68,.1)" stroke="rgba(239,68,68,.3)" stroke-width="1.5"/><circle cx="280" cy="72" r="16" fill="rgba(239,68,68,.15)" stroke="rgba(239,68,68,.4)" stroke-width="1.5"/><text x="220" y="52" font-size="10" fill="rgba(0,80,60,.4)" font-weight="700" font-family="sans-serif" letter-spacing="2">HET IJ</text></svg><div class="jmp"><div class="jmb">📍 <span id="job-addr">Prinsengracht 263</span></div><div class="jmt"></div></div><div class="jma" id="job-full">Prinsengracht 263, Amsterdam</div></div><div class="cof"><label>Toegangsinstructies</label><textarea class="coin" rows="2" placeholder="Code, verdieping, huisdieren..."></textarea></div><div style="display:flex;gap:12px;"><button class="btn btn-outline btn-lg" style="flex:1;justify-content:center;" onclick="coGo(0)">← Terug</button><button class="btn btn-primary btn-lg" style="flex:2;justify-content:center;" onclick="coGo(2)">Overzicht →</button></div></div><div class="cop" id="cop2"><div class="copt">3 · Betaling</div><div class="cosu"><div class="cor"><span>Dienst</span><span id="co-rs"></span></div><div class="cor"><span>Schoonmaker</span><span id="co-rn"></span></div><div class="cor"><span>Adres</span><span id="co-ra"></span></div><div class="cor"><span>Datum</span><span id="co-rd"></span></div><div class="cor"><span>Duur</span><span>3 uur</span></div><div class="cor"><span>Tarief</span><span id="co-rr"></span></div><div class="cor"><span>Totaal (escrow)</span><span id="co-rt"></span></div></div><div class="cpr">🔐 Escrow — vrijgegeven na bevestiging</div><div class="cca"><span style="font-size:22px;">💳</span><span style="font-size:16px;font-weight:500;">•••• 4242</span><button style="margin-left:auto;padding:7px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;color:var(--ink2);" onclick="changeCard()">Wijzigen</button></div><div style="display:flex;gap:12px;"><button class="btn btn-outline btn-lg" style="flex:1;justify-content:center;" onclick="coGo(1)">← Terug</button><button class="cpb" style="flex:2;" onclick="doPayment()">Betalen</button></div></div></div></div></div>
 
 <!-- BOOKING BAR -->
 <div class="bb" id="bbar"><div class="c"><div class="bbi"><div class="bbc"><img class="bbav" id="bav" src="" alt=""/><div><div class="bbn" id="bname">—</div><div class="bbs" id="bspec">—</div></div></div><div><div class="bbp" id="bprice">—</div><div class="bbl">totaal · 3u</div></div><div class="bba"><button class="bbd" onclick="dismissBar()">Annuleren</button><button class="bbcf" onclick="openCheckout()">Boeken →</button></div></div></div></div>
 
 <div class="mc"><button onclick="window.scrollTo({top:0,behavior:'smooth'})">Vind mijn schoonmaker</button></div>
 
-<!-- WhatsApp Floating Button -->
-<a href="https://wa.me/31600000000?text=Hoi%2C%20ik%20heb%20een%20vraag%20over%20cleaners" target="_blank" rel="noopener" class="wa-fab" aria-label="Chat via WhatsApp" title="WhatsApp">
-<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 0C7.2 0 0 7.2 0 16c0 2.8.8 5.6 2.2 8L0 32l8.2-2.2c2.4 1.4 5.2 2 8 2C24.8 31.8 32 24.6 32 16S24.8 0 16 0zm0 29.2c-2.6 0-5-.6-7.2-2L4 28.4l1.2-4.8C3.8 21.4 3.2 19 3.2 16.4 3.2 9.4 9 3.6 16 3.6S28.8 9.4 28.8 16.4 23 29.2 16 29.2zm7.2-9.4c-.4-.2-2.4-1.2-2.8-1.4-.4-.2-.6-.2-.8.2-.2.4-1 1.4-1.2 1.6-.2.2-.4.2-.8 0-.4-.2-1.6-.6-3.2-2-1.2-1-2-2.4-2.2-2.8-.2-.4 0-.6.2-.8.2-.2.4-.4.6-.6.2-.2.2-.4.4-.6.2-.4 0-.6 0-.8-.2-.2-.8-2-1.2-2.8-.4-.8-.6-.6-.8-.6h-.8c-.2 0-.6.2-1 .4-.4.4-1.4 1.4-1.4 3.2 0 1.8 1.4 3.8 1.6 4 .2.4 3 4.4 7 6.2 1 .4 1.8.6 2.4.8.8.2 1.6.2 2.2 0 .6-.2 2-.8 2.4-1.6.4-.8.4-1.6.2-1.6.1-.2-.1-.4-.5-.6z"/></svg>
-</a>
+<!-- Mobile Sticky CTA -->
+<div class="msticky"><button onclick="document.getElementById('search-anchor').scrollIntoView({behavior:'smooth'})">Schoonmaker vinden</button></div>
 
-<nav class="drawer" id="drawer"><a href="#how" onclick="closeDrawer()" class="dlink">Hoe het werkt</a><a href="#cleaners" onclick="closeDrawer()" class="dlink">Schoonmakers</a><a href="#for-cleaners" onclick="closeDrawer()" class="dlink">Voor schoonmakers</a><a href="#faq" onclick="closeDrawer()" class="dlink">FAQ</a><div class="dbtns"><button class="btn btn-ghost btn-lg btn-block" onclick="closeDrawer();openOv('auth-ov')">Inloggen</button><button class="btn btn-primary" onclick="window.location.href='/cleaner-signup.html'">Werken</button></div></nav>
 
-<header><nav class="nav" id="nav"><div class="c"><div class="nv"><div class="nlogo" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg width="26" height="26" viewBox="0 0 56 56"><use href="#STAR"/></svg> cleaners</div><div class="nlinks"><a href="#how">Hoe het werkt</a><a href="#cleaners">Schoonmakers</a><a href="#for-cleaners">Voor schoonmakers</a><a href="#faq">FAQ</a></div><div class="nact"><div style="position:relative;"><button class="btn btn-ghost" onclick="getBookings().length>0?openBookings():openOv('auth-ov')">Inloggen</button><div class="nbadge" id="nav-badge">1</div></div><button class="btn btn-primary" onclick="scrollToWL()">Aanmelden →</button><button class="burger" id="burger" onclick="openDrawer()"><span></span><span></span><span></span></button></div></div></div></nav></header>
+
+<nav class="drawer" id="drawer"><a href="#how" onclick="closeDrawer()" class="dlink">Hoe het werkt</a><a href="#cleaners" onclick="closeDrawer()" class="dlink">Schoonmakers</a><a href="/cleaner-signup.html" onclick="closeDrawer()" class="dlink">Voor schoonmakers</a><a href="#faq" onclick="closeDrawer()" class="dlink">FAQ</a><div class="dbtns"><button class="btn btn-ghost btn-lg btn-block" onclick="closeDrawer();openOv('auth-ov')">Inloggen</button><button class="btn btn-primary" onclick="window.location.href='/cleaner-signup.html'">Werken</button></div></nav>
+
+<header><nav class="nav" id="nav"><div class="c"><div class="nv"><div class="nlogo" translate="no" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg width="26" height="26" viewBox="0 0 56 56"><use href="#STAR"/></svg> <span translate="no">cleaners</span></div><div class="nlinks"><a href="#how">Hoe het werkt</a><a href="#cleaners">Schoonmakers</a><a href="/cleaner-signup.html">Voor schoonmakers</a><a href="#faq">FAQ</a></div><div class="nact"><div style="position:relative;"><button class="btn btn-ghost" onclick="smartLogin()">Inloggen</button><div class="nbadge" id="nav-badge">1</div></div><button class="btn btn-primary" onclick="scrollToWL()">Aanmelden →</button><button class="burger" id="burger" onclick="openDrawer()"><span></span><span></span><span></span></button></div></div></div></nav></header>
 
 <main>
 
 <!-- HERO -->
 <section class="hero" id="inicio">
-<div class="hmesh"></div><div class="hdots"></div><div class="hbeam"></div>
+<div class="hmesh"></div><div class="hdots"></div>
 <div class="hbody"><div class="c"><div class="hlayout">
 <div>
-<div class="heyebrow rv"><span class="lpulse"></span><span id="live-n">183</span>&nbsp;schoonmakers nu beschikbaar</div>
+<div class="heyebrow rv">Vertrouwensplatform · Amsterdam</div>
 <h1 class="hh1 rv d1">Jij kiest wie jouw<br>huis <em>binnenkomt.</em></h1>
-<p class="hlead rv d2">Geen schoonmaakbedrijf. Een vertrouwensplatform. Geverifieerde professionals solliciteren op jouw klus — jij scrollt, jij kiest.</p>
+<p class="hlead rv d2">Geen schoonmaakbedrijf. Een marktplaats van geverifieerde schoonmakers. Bekijk profielen, kies wie jou aanspreekt, boek veilig.</p>
 <div class="hctas rv d3">
 <button class="btn btn-primary btn-xl" onclick="document.getElementById('search-anchor').scrollIntoView({behavior:'smooth'})">Schoonmaker vinden</button>
-<button class="btn btn-ghost btn-xl" onclick="window.location.href='/cleaner-signup.html'">Wil je werken? →</button>
+<button class="btn btn-ghost btn-xl" onclick="window.location.href='/cleaner-signup.html'">Word schoonmaker →</button>
 </div>
-<div class="hproof rv d4"><div class="avs"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=80&auto=format&fit=crop&facepad=3" alt="" loading="lazy"/><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=80&auto=format&fit=crop&facepad=3" alt="" loading="lazy"/><img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=80&auto=format&fit=crop&facepad=3" alt="" loading="lazy"/><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=80&auto=format&fit=crop&facepad=3" alt="" loading="lazy"/></div><div><div class="pstars">★★★★★</div><div class="ptxt"><strong>4.9/5</strong> · +12.000 boekingen Amsterdam</div></div></div>
+<div class="hproof rv d4"><div class="avs"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=80&auto=format&fit=crop&facepad=3" alt="" loading="lazy"/><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=80&auto=format&fit=crop&facepad=3" alt="" loading=lazy"/><img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=80&auto=format&fit=crop&facepad=3" alt="" loading="lazy"/></div><div><div class="ptxt" style="color:rgba(255,255,255,.55);">Klein netwerk · zorgvuldig geselecteerd</div></div></div>
 </div>
 <div class="hright">
-<div class="hc hc1" onclick="openModal(1)"><img class="hcim" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format&fit=crop&facepad=3" alt=""/><div><div class="hcn">Sofia R.</div><div class="hcs on">Jordaan · Nu online</div></div><div class="hcp">€15/u</div></div>
-<div class="hc hc2" onclick="openModal(2)"><img class="hcim" src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=200&auto=format&fit=crop&facepad=3" alt=""/><div><div class="hcn">Maria C.</div><div class="hcs on">De Pijp · Nu online</div></div><div class="hcp">€16/u</div></div>
-<div class="hc hc3" onclick="openModal(6)"><img class="hcim" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop&facepad=3" alt=""/><div><div class="hcn">Carmen V.</div><div class="hcs">★★★★★ 4.9 · Grachtengordel</div></div><div class="hcp">€15/u</div></div>
-<div class="hnotif"><div class="nico">🎉</div><div class="ntxt" id="notif-text"><strong>Marta</strong> heeft Sofia R. geboekt</div><div class="ntime">nu</div></div>
+<div class="hc hc1" onclick="openModal(1)"><img class="hcim" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format&fit=crop&facepad=3" alt=""/><div><div class="hcn">Sofia R.</div><div class="hcs">Jordaan · ★ 4.9</div></div><div class="hcp">€15/u</div></div>
+<div class="hc hc2" onclick="openModal(2)"><img class="hcim" src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=200&auto=format&fit=crop&facepad=3" alt=""/><div><div class="hcn">Maria C.</div><div class="hcs">De Pijp · ★ 5.0</div></div><div class="hcp">€16/u</div></div>
+<div class="hc hc3" onclick="openModal(6)"><img class="hcim" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop&facepad=3" alt=""/><div><div class="hcn">Carmen V.</div><div class="hcs">Grachtengordel · ★ 4.8</div></div><div class="hcp">€15/u</div></div>
 </div>
 </div></div></div>
 
@@ -742,18 +727,7 @@ body.bb-vis .wa-fab{bottom:96px}
 <div class="sf"><label for="h-type">Type</label><select id="h-type"><option value="">Selecteer...</option><option value="huis">Woning</option><option value="airbnb">Airbnb</option><option value="kantoor">Kantoor</option><option value="oplevering">Oplevering</option></select></div>
 <button class="scta" onclick="doSearch()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4" stroke="white" stroke-width="1.8"/><path d="M10 10l3.5 3.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>Zoeken</button>
 </div></div>
-<div class="smeta rv d1"><div class="smi">🔐 Beschermd</div><div class="smi">🪪 KYC</div><div class="smi">⚡ 5 minuten</div><div class="afeed" id="act-feed"></div></div>
-</div></div>
-
-<!-- CALCULATOR -->
-<div class="calc-strip"><div class="c">
-<div class="calc-box rv">
-<span class="calc-tag">Prijscalculator</span>
-<div class="calc-field"><label>Oppervlakte</label><input type="range" class="calc-slider" id="calc-m2" min="20" max="200" value="75" step="5" oninput="updateCalc()"/><span class="calc-val" id="calc-m2-val">75 m²</span></div>
-<div class="calc-field"><label>Frequentie</label><select class="calc-select" id="calc-freq" onchange="updateCalc()"><option value="1">Eenmalig</option><option value="0.9">Tweewekelijks (-10%)</option><option value="0.85">Wekelijks (-15%)</option></select></div>
-<div class="calc-out"><div class="calc-out-label">Vanaf</div><div class="calc-out-price" id="calc-price">€45</div><div class="calc-out-sub" id="calc-sub">3 uur · €15/uur</div></div>
-<button class="calc-go" onclick="useCalc()">Vind schoonmaker →</button>
-</div>
+<div class="smeta rv d1"><div class="smi">🪪 ID-geverifieerde schoonmakers</div><div class="smi">🔐 Veilige betaling via escrow</div><div class="smi">🛡️ Schadeverzekering inbegrepen</div></div>
 </div></div>
 </section>
 
@@ -777,24 +751,6 @@ body.bb-vis .wa-fab{bottom:96px}
 <div class="ti"><span class="tic">👥</span>+1.800 schoonmakers</div>
 </div></div>
 
-<!-- PRESS -->
-<section style="background:white;border-bottom:1px solid var(--border);padding:48px 0;">
-<div class="c">
-<div style="text-align:center;margin-bottom:28px;">
-<div style="font-size:10px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);">Gefeatured in</div>
-</div>
-<div class="rv" style="display:flex;align-items:center;justify-content:center;gap:clamp(20px,4vw,52px);flex-wrap:wrap;opacity:.55;filter:grayscale(100%);">
-<div style="font-family:var(--ff);font-size:26px;color:var(--ink3);font-weight:400;">TechCrunch</div>
-<div style="font-weight:900;font-size:20px;letter-spacing:1px;color:var(--ink3);">NRC</div>
-<div style="font-family:var(--ff);font-style:italic;font-size:24px;color:var(--ink3);">de Volkskrant</div>
-<div style="font-weight:800;font-size:20px;letter-spacing:.5px;color:var(--ink3);">AD.nl</div>
-<div style="font-family:var(--ff);font-size:26px;color:var(--ink3);">Quote</div>
-<div style="font-weight:900;font-size:18px;letter-spacing:3px;color:var(--ink3);">BRIGHT</div>
-<div style="font-family:var(--ff);font-style:italic;font-size:22px;color:var(--ink3);">Het Parool</div>
-</div>
-</div>
-</section>
-
 <!-- RESULTS -->
 <div class="res-sec" id="cleaners"><div class="rlay">
 <div class="rlist">
@@ -811,29 +767,8 @@ body.bb-vis .wa-fab{bottom:96px}
 </div></div>
 
 <!-- STATS -->
-<div class="stb secsm"><div class="c"><div class="sg">
-<div class="sc rv" onclick="document.getElementById('cleaners').scrollIntoView({behavior:'smooth'})"><div class="sn"><span class="cu" data-t="1800">0</span><em>+</em></div><div class="slb">Schoonmakers Amsterdam</div></div>
-<div class="sc rv d1" onclick="openInfo('reviews')"><div class="sn"><span class="cu" data-t="98">0</span><em>%</em></div><div class="slb">Klanttevredenheid</div></div>
-<div class="sc rv d2"><div class="sn"><span class="cu" data-t="12">0</span><em>K+</em></div><div class="slb">Klussen voltooid</div></div>
-<div class="sc rv d3" onclick="openInfo('repeat')"><div class="sn"><span class="cu" data-t="73">0</span><em>%</em></div><div class="slb">Herhalingsboekingen</div></div>
-</div></div></div>
-
-<!-- TABS NAV -->
-<div class="tabs-nav" id="tabs-nav">
-<div class="c">
-<div class="tabs-inner">
-<button class="tabbtn active" data-tab-btn="how" onclick="switchTab('how')"><span class="tabbtn-icon">⚡</span>Hoe het werkt</button>
-<button class="tabbtn" data-tab-btn="trust" onclick="switchTab('trust')"><span class="tabbtn-icon">🛡️</span>Vertrouwen</button>
-<button class="tabbtn" data-tab-btn="top" onclick="switchTab('top')"><span class="tabbtn-icon">👑</span>Top schoonmakers</button>
-<button class="tabbtn" data-tab-btn="clients" onclick="switchTab('clients')"><span class="tabbtn-icon">💎</span>Voor klanten</button>
-<button class="tabbtn" data-tab-btn="cleaners" onclick="switchTab('cleaners')"><span class="tabbtn-icon">💼</span>Voor schoonmakers</button>
-<button class="tabbtn" data-tab-btn="faq" onclick="switchTab('faq')"><span class="tabbtn-icon">❓</span>FAQ</button>
-</div>
-</div>
-</div>
-
 <!-- HOW -->
-<section class="sec hbg tabbed tab-active" id="how" data-tab="how"><div class="csm">
+<section class="sec hbg" id="how"><div class="csm">
 <div class="rv" style="max-width:520px;"><div class="eb">Hoe het werkt</div><h2 class="sh2">Van publiceren tot genieten<br><em>in 5 minuten.</em></h2><p class="sl">Het eenvoudigste proces. Geen telefoontjes, geen toewijzingen.</p></div>
 <div class="hst rv d2">
 <div class="hs" onclick="doSearch()"><div class="hsn">1</div><span class="hsi">📋</span><h3>Publiceer</h3><p>Type, datum, locatie in 60 seconden.</p></div>
@@ -851,7 +786,7 @@ body.bb-vis .wa-fab{bottom:96px}
 </div></section>
 
 <!-- TRUST -->
-<section class="trsec tabbed" data-tab="trust"><div class="c"><div class="trg">
+<section class="trsec"><div class="c"><div class="trg">
 <div class="rv">
 <div class="eb" style="color:#93C5FD;">Niet een schoonmaakbedrijf</div>
 <h2 class="trh2">Wij zijn een<br><em>vertrouwensplatform.</em></h2>
@@ -888,474 +823,32 @@ body.bb-vis .wa-fab{bottom:96px}
 </div></div></section>
 
 <!-- REVIEWS -->
-<section class="sec rbg tabbed" data-tab="trust"><div class="csm">
+<section class="sec rbg"><div class="csm">
 <div class="rv" style="text-align:center;max-width:480px;margin:0 auto;"><div class="eb">Echte klanten</div><h2 class="sh2">Wat ze zeggen<br><em>over cleaners.</em></h2></div>
 <div class="rgrid">
-<article class="rcd rv d1" onclick="openModal(1)"><div class="rcds">★★★★★</div><p class="rcdt">"Ik kon met Sofia chatten vóór de boeking, haar reviews zien en zelf kiezen. Een geruststelling die je niet kunt kopen."</p><div class="rcda"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=80&auto=format&fit=crop" alt="" loading="lazy"/><div><div class="rcdn">Marta G.</div><div class="rcdsub">Jordaan · 2 weken geleden</div></div></div></article>
-<article class="rcd rv d2" onclick="openModal(4)"><div class="rcds">★★★★★</div><p class="rcdt">"Ik beheer 5 Airbnbs. Mijn vaste schoonmakers staan opgeslagen en ik boek ze in seconden. Verandert alles."</p><div class="rcda"><img src="https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?q=80&w=80&auto=format&fit=crop" alt="" loading="lazy"/><div><div class="rcdn">Joris M.</div><div class="rcdsub">Airbnb host · 1 maand geleden</div></div></div></article>
-<article class="rcd rv d3" onclick="openModal(6)"><div class="rcds">★★★★★</div><p class="rcdt">"Het verschil is dat ík kies. Echte foto, echte reviews, ik praat eerst. Nooit meer een ander platform."</p><div class="rcda"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=80&auto=format&fit=crop" alt="" loading="lazy"/><div><div class="rcdn">Carmen V.</div><div class="rcdsub">De Pijp · 3 weken geleden</div></div></div></article>
+<article class="rcd rv d1" onclick="openModal(1)"><div class="rcds">★★★★★</div><p class="rcdt">"Eerst even gechat met Sofia om wat afspraken te maken over de sleutel. Werkte heel prettig — voelde niet als gokken."</p><div class="rcda"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=80&auto=format&fit=crop" alt="" loading="lazy"/><div><div class="rcdn">Marta G.</div><div class="rcdsub">Jordaan · 2 weken geleden</div></div></div></article>
+<article class="rcd rv d2" onclick="openModal(4)"><div class="rcds">★★★★★</div><p class="rcdt">"Ik beheer twee Airbnbs in Centrum. Vond een goeie via het platform, nu boek ik haar standaard tussen gasten in."</p><div class="rcda"><img src="https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?q=80&w=80&auto=format&fit=crop" alt="" loading="lazy"/><div><div class="rcdn">Joris M.</div><div class="rcdsub">Airbnb host · 1 maand geleden</div></div></div></article>
+<article class="rcd rv d3" onclick="openModal(6)"><div class="rcds">★★★★★</div><p class="rcdt">"Klein platform, maar net dat. Ik wist wie er kwam — geen verrassingen aan de deur."</p><div class="rcda"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=80&auto=format&fit=crop" alt="" loading="lazy"/><div><div class="rcdn">Carmen V.</div><div class="rcdsub">De Pijp · 3 weken geleden</div></div></div></article>
 </div>
 </div></section>
-
-<!-- PREMIUM HOMES -->
-<section class="trsec tabbed" style="padding:128px 0;" data-tab="top">
-<div class="c">
-<div class="trg">
-<div class="rv">
-<div class="eb" style="color:#FBBF24;">Voor premium woningen</div>
-<h2 class="trh2">Bescherming voor jouw<br><em>kostbare thuis.</em></h2>
-<p class="trl">Marmeren vloeren, antieke meubels, kunstcollecties. Wanneer je thuis een aanzienlijke investering is, verdient het meer dan reguliere schoonmaak — het verdient een specialist.</p>
-<div class="tps">
-<div class="tp"><div class="tpic" style="background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);">🏛️</div><div><div class="tpt">Marmer, eik &amp; antiek gecertificeerd</div><div class="tpd">pH-neutrale producten voor delicate oppervlakken. Geen schade aan steen, hout of metalen patine.</div></div></div>
-<div class="tp"><div class="tpic" style="background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);">🛡️</div><div><div class="tpt">Verzekerd tot €500.000</div><div class="tpd">Hoogwaardige polis voor waardevolle objecten, kunstwerken en designermeubels. Geen eigen risico.</div></div></div>
-<div class="tp"><div class="tpic" style="background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);">🤫</div><div><div class="tpt">NDA op verzoek</div><div class="tpd">Geheimhoudingsovereenkomst voor publieke figuren, ondernemers en family offices.</div></div></div>
-<div class="tp"><div class="tpic" style="background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);">⭐</div><div><div class="tpt">Vetted Top 1% schoonmakers</div><div class="tpd">Alleen onze elite-tier — minimaal 100 klussen, 4.9+ score, ervaring met luxe vastgoed.</div></div></div>
-</div>
-</div>
-<div class="rv d2">
-<div class="tvc" style="border-color:rgba(245,158,11,.25);background:linear-gradient(180deg,rgba(245,158,11,.06) 0%,rgba(255,255,255,.04) 100%);">
-<div style="font-size:10px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:#FBBF24;margin-bottom:24px;">Premium-tier service</div>
-<div style="display:flex;flex-direction:column;gap:0;margin-bottom:32px;">
-<div style="display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.08);"><div style="font-size:13px;color:rgba(255,255,255,.55);">Eerste consultatie</div><div style="font-size:14px;font-weight:700;color:white;">Gratis</div></div>
-<div style="display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.08);"><div style="font-size:13px;color:rgba(255,255,255,.55);">Schoonmaaktarief</div><div style="font-size:14px;font-weight:700;color:white;">vanaf €35/uur</div></div>
-<div style="display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.08);"><div style="font-size:13px;color:rgba(255,255,255,.55);">Verzekeringsdekking</div><div style="font-size:14px;font-weight:700;color:white;">€500.000</div></div>
-<div style="display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.08);"><div style="font-size:13px;color:rgba(255,255,255,.55);">Reactietijd</div><div style="font-size:14px;font-weight:700;color:white;">&lt; 4 uur</div></div>
-<div style="display:flex;justify-content:space-between;align-items:center;padding:18px 0;"><div style="font-size:13px;color:rgba(255,255,255,.55);">NDA beschikbaar</div><div style="font-size:14px;font-weight:700;color:#34D399;">✓ Inbegrepen</div></div>
-</div>
-<button class="btn btn-lg btn-block" style="background:linear-gradient(135deg,#F59E0B,#FBBF24);color:white;font-weight:800;box-shadow:0 6px 20px rgba(245,158,11,.35);" onclick="showToast('success','premium@cleaners.nl · reactie binnen 4u')">Spreek met een specialist →</button>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<!-- AIRBNB / FOR CLEANERS -->
-<section class="absec tabbed" id="for-cleaners" data-tab="cleaners"><div class="c"><div class="abg">
-<div class="rv">
-<div class="eb" style="color:#93C5FD;">Airbnb hosts &amp; schoonmakers</div>
-<h2 class="trh2">Voor hosts.<br><em>Voor professionals.</em></h2>
-<p class="trl">Of je 5 Airbnbs beheert of je carrière opbouwt — cleaners is voor jou.</p>
-<div class="abf">
-<div class="af"><div class="afi">🏠</div><div><h4>Rotatieboeking Airbnb</h4><p>Automatische wisseling tussen gasten met je vertrouwde schoonmaker.</p></div></div>
-<div class="af"><div class="afi">📍</div><div><h4>Meerdere adressen</h4><p>Beheer al je objecten vanuit één dashboard.</p></div></div>
-<div class="af"><div class="afi">🗺️</div><div><h4>Locatie voor schoonmaker</h4><p>Schoonmaker ziet adres op kaart vóór acceptatie. Transparantie.</p></div></div>
-<div class="af" onclick="window.location.href='/cleaner-signup.html'"><div class="afi">💰</div><div><h4>Verdien wat je waard bent</h4><p>Eigen tarief. Betaald binnen 24u.</p></div></div>
-</div>
-</div>
-<div class="rv d2">
-<div class="ec">
-<div class="el">Geschat inkomen schoonmaker</div>
-<div class="ea">€2.100</div>
-<div class="es">per maand · 25u/week · Amsterdam</div>
-<div class="ei">
-<div class="eit"><div class="eck">✓</div>Escrow betaling per klus</div>
-<div class="eit"><div class="eck">✓</div>Uitbetaling binnen 24u</div>
-<div class="eit"><div class="eck">✓</div>Klus locatie op kaart</div>
-<div class="eit"><div class="eck">✓</div>Vaste klanten &amp; favorieten</div>
-<div class="eit"><div class="eck">✓</div>24/7 teamondersteuning</div>
-<div class="eit"><div class="eck">✓</div>KYC-badge zichtbaarheid</div>
-</div>
-<button class="btn btn-white btn-lg" onclick="window.location.href='/cleaner-signup.html'">Begin als schoonmaker →</button>
-</div>
-</div>
-</div></div></section>
-
-<!-- RANKING -->
-<section class="trsec tabbed" style="padding:128px 0;" data-tab="top">
-<div class="c">
-<div class="rv" style="text-align:center;max-width:560px;margin:0 auto 64px;">
-<div class="eb" style="color:#93C5FD;">De Elite · Top 1%</div>
-<h2 class="trh2">Top schoonmakers<br><em>van Amsterdam.</em></h2>
-<p class="trl" style="margin:0 auto;">Maandelijks gerangschikt op basis van klantbeoordelingen, voltooide klussen en herhalingsboekingen. Werken met de besten betekent betrouwbaar werk.</p>
-</div>
-
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:end;max-width:980px;margin:0 auto;">
-
-<!-- 2nd Maria -->
-<div class="rv d1" onclick="openModal(2)" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:28px;padding:48px 28px 32px;text-align:center;backdrop-filter:blur(20px);cursor:pointer;transition:all .28s var(--es);position:relative;">
-<div style="position:absolute;top:-22px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#94A3B8,#CBD5E1);color:white;font-family:var(--ff);font-size:24px;font-weight:600;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(148,163,184,.4);border:3px solid var(--navy);">2</div>
-<img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=240&auto=format&fit=crop&facepad=3" alt="" style="width:90px;height:90px;border-radius:50%;object-fit:cover;object-position:top;border:3px solid rgba(255,255,255,.15);margin:8px auto 16px;" loading="lazy"/>
-<div style="font-size:20px;font-weight:800;color:white;margin-bottom:4px;letter-spacing:-.2px;">Maria C.</div>
-<div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:18px;">De Pijp · Amsterdam</div>
-<div style="display:flex;justify-content:center;gap:14px;font-size:11px;color:rgba(255,255,255,.55);">
-<span><strong style="color:#FBBF24;">★ 4.9</strong></span><span>201 klussen</span><span>10m</span>
-</div>
-</div>
-
-<!-- 1st Sofia -->
-<div class="rv d2" onclick="openModal(1)" style="background:linear-gradient(180deg,rgba(245,158,11,.10) 0%,rgba(255,255,255,.05) 100%);border:1.5px solid rgba(245,158,11,.4);border-radius:32px;padding:56px 32px 36px;text-align:center;backdrop-filter:blur(20px);cursor:pointer;transition:all .28s var(--es);position:relative;box-shadow:0 24px 64px rgba(245,158,11,.18),0 0 80px rgba(245,158,11,.10);">
-<div style="position:absolute;top:-26px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#F59E0B,#FBBF24);color:white;font-family:var(--ff);font-size:30px;font-weight:600;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(245,158,11,.5);border:3px solid var(--navy);">1</div>
-<div style="margin-top:8px;display:inline-block;background:linear-gradient(135deg,#F59E0B,#FBBF24);color:white;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:5px 14px;border-radius:9999px;margin-bottom:12px;box-shadow:0 4px 12px rgba(245,158,11,.3);">👑 Nº1 deze maand</div>
-<img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=240&auto=format&fit=crop&facepad=3" alt="" style="width:108px;height:108px;border-radius:50%;object-fit:cover;object-position:top;border:4px solid rgba(245,158,11,.5);margin:0 auto 16px;box-shadow:0 8px 24px rgba(245,158,11,.2);" loading="lazy"/>
-<div style="font-size:24px;font-weight:800;color:white;margin-bottom:4px;letter-spacing:-.3px;">Sofia R.</div>
-<div style="font-size:13px;color:rgba(255,255,255,.55);margin-bottom:20px;">Jordaan · Amsterdam</div>
-<div style="display:flex;justify-content:center;gap:18px;font-size:12px;color:rgba(255,255,255,.6);">
-<span><strong style="color:#FBBF24;">★ 4.9</strong></span><span>142 klussen</span><span>12m</span>
-</div>
-</div>
-
-<!-- 3rd Carmen -->
-<div class="rv d3" onclick="openModal(6)" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:28px;padding:48px 28px 32px;text-align:center;backdrop-filter:blur(20px);cursor:pointer;transition:all .28s var(--es);position:relative;">
-<div style="position:absolute;top:-22px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#B45309,#D97706);color:white;font-family:var(--ff);font-size:24px;font-weight:600;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(180,83,9,.4);border:3px solid var(--navy);">3</div>
-<img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=240&auto=format&fit=crop&facepad=3" alt="" style="width:90px;height:90px;border-radius:50%;object-fit:cover;object-position:top;border:3px solid rgba(255,255,255,.15);margin:8px auto 16px;" loading="lazy"/>
-<div style="font-size:20px;font-weight:800;color:white;margin-bottom:4px;letter-spacing:-.2px;">Carmen V.</div>
-<div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:18px;">Grachtengordel · Amsterdam</div>
-<div style="display:flex;justify-content:center;gap:14px;font-size:11px;color:rgba(255,255,255,.55);">
-<span><strong style="color:#FBBF24;">★ 4.9</strong></span><span>98 klussen</span><span>18m</span>
-</div>
-</div>
-
-</div>
-
-<!-- Quality metrics -->
-<div class="rv d4" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06);border-radius:24px;overflow:hidden;max-width:880px;margin:64px auto 0;">
-<div style="background:var(--navy);padding:28px 16px;text-align:center;"><div style="font-family:var(--ff);font-size:36px;color:white;line-height:1;margin-bottom:6px;font-weight:400;">Top 1<em style="font-style:normal;color:rgba(255,255,255,.25);font-size:65%;">%</em></div><div style="font-size:11px;color:rgba(255,255,255,.38);">Elite-status</div></div>
-<div style="background:var(--navy);padding:28px 16px;text-align:center;"><div style="font-family:var(--ff);font-size:36px;color:white;line-height:1;margin-bottom:6px;font-weight:400;">4.9<em style="font-style:normal;color:#FBBF24;font-size:65%;"> ★</em></div><div style="font-size:11px;color:rgba(255,255,255,.38);">Gemiddelde score</div></div>
-<div style="background:var(--navy);padding:28px 16px;text-align:center;"><div style="font-family:var(--ff);font-size:36px;color:white;line-height:1;margin-bottom:6px;font-weight:400;">98<em style="font-style:normal;color:rgba(255,255,255,.25);font-size:65%;">%</em></div><div style="font-size:11px;color:rgba(255,255,255,.38);">Herhalingsklanten</div></div>
-<div style="background:var(--navy);padding:28px 16px;text-align:center;"><div style="font-family:var(--ff);font-size:36px;color:white;line-height:1;margin-bottom:6px;font-weight:400;">&lt;15<em style="font-style:normal;color:rgba(255,255,255,.25);font-size:65%;">m</em></div><div style="font-size:11px;color:rgba(255,255,255,.38);">Reactietijd</div></div>
-</div>
-
-<div class="rv d4" style="text-align:center;margin-top:48px;">
-<button class="btn btn-white btn-lg" onclick="document.getElementById('cleaners').scrollIntoView({behavior:'smooth'})">Bekijk alle schoonmakers →</button>
-</div>
-</div>
-</section>
-
-<!-- VS -->
-<section class="sec vsec tabbed" data-tab="how"><div class="csm">
-<div class="rv" style="text-align:center;max-width:540px;margin:0 auto 48px;"><div class="eb">De vergelijking</div><h2 class="sh2">cleaners vs<br><em>traditioneel.</em></h2><p class="sl" style="margin:0 auto;">De fundamenteel andere manier.</p></div>
-<div class="vg rv d1">
-<div class="vc">
-<div class="vh"><svg width="18" height="18" viewBox="0 0 56 56"><use href="#STAR"/></svg> cleaners</div>
-<div class="vr"><span class="vok">✓</span>Jij kiest wie binnenkomt</div>
-<div class="vr"><span class="vok">✓</span>Geverifieerde profielen</div>
-<div class="vr"><span class="vok">✓</span>Echte reviews</div>
-<div class="vr"><span class="vok">✓</span>Escrow betaling</div>
-<div class="vr"><span class="vok">✓</span>Gratis chatten</div>
-<div class="vr"><span class="vok">✓</span>Boek in 5 minuten</div>
-<div class="vr"><span class="vok">✓</span>Gratis annulering 24u</div>
-<div class="vr"><span class="vok">✓</span>Verzekering inbegrepen</div>
-</div>
-<div class="vd"></div>
-<div class="vc vt">
-<div class="vh" style="color:var(--muted);">Traditioneel</div>
-<div class="vr"><span class="vno">✕</span>Zij wijzen toe</div>
-<div class="vr"><span class="vno">✕</span>Anonieme medewerkers</div>
-<div class="vr"><span class="vno">✕</span>Reviews niet verifieerbaar</div>
-<div class="vr"><span class="vno">✕</span>Vooraf betalen</div>
-<div class="vr"><span class="vno">✕</span>Alleen telefonisch</div>
-<div class="vr"><span class="vno">✕</span>Lang wachten</div>
-<div class="vr"><span class="vno">✕</span>Annuleringskosten</div>
-<div class="vr"><span class="vno">✕</span>Beperkte verzekering</div>
-</div>
-</div>
-<div style="text-align:center;margin-top:40px;" class="rv d2"><button class="btn btn-primary btn-xl" onclick="document.getElementById('cleaners').scrollIntoView({behavior:'smooth'})">Probeer cleaners gratis →</button></div>
-</div></section>
-
-<!-- PRICING -->
-<section class="sec pbg tabbed" data-tab="cleaners"><div class="csm">
-<div class="rv" style="text-align:center;max-width:520px;margin:0 auto 48px;"><div class="eb">Plannen voor schoonmakers</div><h2 class="sh2">Begin gratis.<br><em>Groei zonder limieten.</em></h2><p class="sl" style="margin:0 auto;">Geen vaste kosten.</p></div>
-<div class="pg">
-<div class="pc rv d1">
-<div class="pln">Starter</div><div class="ppr">€0</div><div class="ppe">geen maandelijkse kosten</div><div class="pcm">Commissie: <strong>25%</strong></div>
-<div class="pft"><div class="pfe"><span class="pfk">✓</span>Geverifieerd profiel</div><div class="pfe"><span class="pfk">✓</span>Chat met klanten</div><div class="pfe"><span class="pfk">✓</span>Uitbetaling 24u</div><div class="pfe"><span class="pfn">–</span>Prioritaire plaatsing</div><div class="pfe"><span class="pfn">–</span>Statistieken</div></div>
-<button class="btn btn-outline btn-lg btn-block" onclick="window.location.href='/cleaner-signup.html'">Begin gratis</button>
-</div>
-<div class="pc feat rv d2">
-<div class="pbd">MEEST POPULAIR</div>
-<div class="pln" style="color:var(--blue);">Pro</div><div class="ppr">€19</div><div class="ppe">per maand</div><div class="pcm" style="background:var(--bluel);color:var(--blue);">Commissie: <strong>15%</strong></div>
-<div class="pft"><div class="pfe"><span class="pfk">✓</span>Alles van Starter</div><div class="pfe"><span class="pfk">✓</span>Prioritaire plaatsing</div><div class="pfe"><span class="pfk">✓</span>Statistieken</div><div class="pfe"><span class="pfk">✓</span>Herhalingsboekingen</div><div class="pfe"><span class="pfk">✓</span>"Pro"-badge</div></div>
-<button class="btn btn-primary btn-lg btn-block" onclick="window.location.href='/cleaner-signup.html'">Begin met Pro</button>
-</div>
-<div class="pc dk rv d3">
-<div class="pln" style="color:rgba(255,255,255,.4);">Business</div><div class="ppr" style="color:white;">€49</div><div class="ppe" style="color:rgba(255,255,255,.38);">per maand</div><div class="pcm" style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);">Commissie: <strong>10%</strong></div>
-<div class="pft"><div class="pfe" style="color:rgba(255,255,255,.75);"><span style="color:var(--green);font-weight:700;">✓</span>Alles van Pro</div><div class="pfe" style="color:rgba(255,255,255,.75);"><span style="color:var(--green);font-weight:700;">✓</span>Uitgelicht profiel</div><div class="pfe" style="color:rgba(255,255,255,.75);"><span style="color:var(--green);font-weight:700;">✓</span>Teamleden</div><div class="pfe" style="color:rgba(255,255,255,.75);"><span style="color:var(--green);font-weight:700;">✓</span>API</div><div class="pfe" style="color:rgba(255,255,255,.75);"><span style="color:var(--green);font-weight:700;">✓</span>Account manager</div></div>
-<button class="btn btn-white btn-lg btn-block" onclick="showToast('info','business@cleaners.nl')">Contact</button>
-</div>
-</div>
-</div></section>
-
-<!-- MEMBERSHIP -->
-<section class="sec tabbed" style="background:white;" data-tab="clients">
-<div class="csm">
-<div class="rv" style="text-align:center;max-width:560px;margin:0 auto 48px;">
-<div class="eb">Abonnementen voor klanten</div>
-<h2 class="sh2">Bespaar met<br><em>terugkerende schoonmaak.</em></h2>
-<p class="sl" style="margin:0 auto;">Dezelfde vertrouwde schoonmaker, op vaste momenten, met automatische korting. Wijzig of pauzeer wanneer je wilt.</p>
-</div>
-
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:960px;margin:0 auto;">
-
-<!-- Bi-weekly -->
-<div class="pc rv d1">
-<div class="pln">Tweewekelijks</div>
-<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px;">
-<div class="ppr">-10<em style="font-style:normal;font-size:50%;color:var(--muted);">%</em></div>
-<div style="font-size:14px;color:var(--muted);text-decoration:line-through;">€45/u</div>
-</div>
-<div class="ppe">€40,50/u · 1× per 2 weken</div>
-<div class="pcm">Vanaf <strong>€121,50</strong> per beurt</div>
-<div class="pft">
-<div class="pfe"><span class="pfk">✓</span>Dezelfde schoonmaker</div>
-<div class="pfe"><span class="pfk">✓</span>Prioritaire boeking</div>
-<div class="pfe"><span class="pfk">✓</span>Pauzeer wanneer je wilt</div>
-<div class="pfe"><span class="pfk">✓</span>Gratis wijzigen</div>
-<div class="pfe"><span class="pfk">✓</span>Vaste prijs gegarandeerd</div>
-</div>
-<button class="btn btn-outline btn-lg btn-block" onclick="document.getElementById('cleaners').scrollIntoView({behavior:'smooth'})">Start abonnement</button>
-</div>
-
-<!-- Weekly featured -->
-<div class="pc feat rv d2">
-<div class="pbd">MEEST POPULAIR</div>
-<div class="pln" style="color:var(--blue);">Wekelijks</div>
-<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px;">
-<div class="ppr">-15<em style="font-style:normal;font-size:50%;color:var(--muted);">%</em></div>
-<div style="font-size:14px;color:var(--muted);text-decoration:line-through;">€45/u</div>
-</div>
-<div class="ppe">€38,25/u · 1× per week</div>
-<div class="pcm" style="background:var(--bluel);color:var(--blue);">Vanaf <strong>€114,75</strong> per beurt</div>
-<div class="pft">
-<div class="pfe"><span class="pfk">✓</span>Alles van Tweewekelijks</div>
-<div class="pfe"><span class="pfk">✓</span>15% korting op elke beurt</div>
-<div class="pfe"><span class="pfk">✓</span>Premium tijdslots</div>
-<div class="pfe"><span class="pfk">✓</span>Notitieboek voor schoonmaker</div>
-<div class="pfe"><span class="pfk">✓</span>Voorrang bij beschikbaarheid</div>
-</div>
-<button class="btn btn-primary btn-lg btn-block" onclick="document.getElementById('cleaners').scrollIntoView({behavior:'smooth'})">Start abonnement</button>
-</div>
-
-<!-- Monthly -->
-<div class="pc rv d3">
-<div class="pln">Maandelijks</div>
-<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px;">
-<div class="ppr">-5<em style="font-style:normal;font-size:50%;color:var(--muted);">%</em></div>
-<div style="font-size:14px;color:var(--muted);text-decoration:line-through;">€45/u</div>
-</div>
-<div class="ppe">€42,75/u · 1× per maand</div>
-<div class="pcm">Vanaf <strong>€128,25</strong> per beurt</div>
-<div class="pft">
-<div class="pfe"><span class="pfk">✓</span>Dezelfde schoonmaker</div>
-<div class="pfe"><span class="pfk">✓</span>5% maandelijkse korting</div>
-<div class="pfe"><span class="pfk">✓</span>Flexibele planning</div>
-<div class="pfe"><span class="pfk">✓</span>Pauzeer wanneer je wilt</div>
-<div class="pfe"><span class="pfk">✓</span>Ideaal voor onderhoud</div>
-</div>
-<button class="btn btn-outline btn-lg btn-block" onclick="document.getElementById('cleaners').scrollIntoView({behavior:'smooth'})">Start abonnement</button>
-</div>
-
-</div>
-
-<!-- Benefits -->
-<div class="rv d4" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px;max-width:960px;margin:48px auto 0;padding:32px;background:var(--bg);border-radius:24px;">
-<div style="text-align:center;"><div style="font-size:24px;margin-bottom:8px;">🔄</div><div style="font-size:13px;font-weight:700;margin-bottom:4px;">Vaste schoonmaker</div><div style="font-size:11px;color:var(--muted);line-height:1.5;">Bouw vertrouwen op met dezelfde persoon</div></div>
-<div style="text-align:center;"><div style="font-size:24px;margin-bottom:8px;">⏸️</div><div style="font-size:13px;font-weight:700;margin-bottom:4px;">Pauzeer of wijzig</div><div style="font-size:11px;color:var(--muted);line-height:1.5;">Zonder kosten, op elk moment</div></div>
-<div style="text-align:center;"><div style="font-size:24px;margin-bottom:8px;">🔒</div><div style="font-size:13px;font-weight:700;margin-bottom:4px;">Vaste prijs</div><div style="font-size:11px;color:var(--muted);line-height:1.5;">Geen verhogingen tijdens abonnement</div></div>
-<div style="text-align:center;"><div style="font-size:24px;margin-bottom:8px;">📅</div><div style="font-size:13px;font-weight:700;margin-bottom:4px;">Auto-planning</div><div style="font-size:11px;color:var(--muted);line-height:1.5;">Je hoeft niets handmatig te boeken</div></div>
-</div>
-</div>
-</section>
-
-<!-- ENTERPRISE -->
-<section class="sec tabbed" style="background:var(--bg);" data-tab="clients">
-<div class="c">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;" class="ent-grid">
-
-<div class="rv">
-<div class="eb">Voor bedrijven</div>
-<h2 class="sh2">Schoonmaak voor<br>jouw <em>onderneming.</em></h2>
-<p class="sl">Hotels, kantoren, vastgoedbeheerders en horeca vertrouwen op cleaners voor flexibele, betrouwbare schoonmaak — zonder de typische rompslomp van traditionele contracten.</p>
-
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0;">
-<div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:32px;height:32px;border-radius:8px;background:var(--bluel);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;">✓</div><div><div style="font-size:14px;font-weight:700;margin-bottom:2px;">Meerdere locaties</div><div style="font-size:12px;color:var(--muted);line-height:1.55;">Beheer alle adressen vanuit één dashboard.</div></div></div>
-<div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:32px;height:32px;border-radius:8px;background:var(--bluel);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;">✓</div><div><div style="font-size:14px;font-weight:700;margin-bottom:2px;">Centrale facturatie</div><div style="font-size:12px;color:var(--muted);line-height:1.55;">Eén factuur per maand, alle diensten.</div></div></div>
-<div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:32px;height:32px;border-radius:8px;background:var(--bluel);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;">✓</div><div><div style="font-size:14px;font-weight:700;margin-bottom:2px;">Account manager</div><div style="font-size:12px;color:var(--muted);line-height:1.55;">Dedicated contactpersoon voor je onderneming.</div></div></div>
-<div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:32px;height:32px;border-radius:8px;background:var(--bluel);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;">✓</div><div><div style="font-size:14px;font-weight:700;margin-bottom:2px;">API &amp; integraties</div><div style="font-size:12px;color:var(--muted);line-height:1.55;">Verbind met je PMS, ERP of Slack.</div></div></div>
-<div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:32px;height:32px;border-radius:8px;background:var(--bluel);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;">✓</div><div><div style="font-size:14px;font-weight:700;margin-bottom:2px;">SLA op maat</div><div style="font-size:12px;color:var(--muted);line-height:1.55;">Garanties voor responsietijd en kwaliteit.</div></div></div>
-<div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:32px;height:32px;border-radius:8px;background:var(--bluel);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;">✓</div><div><div style="font-size:14px;font-weight:700;margin-bottom:2px;">Volumekorting</div><div style="font-size:12px;color:var(--muted);line-height:1.55;">Tot 25% korting bij 50+ klussen/maand.</div></div></div>
-</div>
-
-<div style="display:flex;gap:12px;flex-wrap:wrap;">
-<button class="btn btn-primary btn-lg" onclick="showToast('success','sales@cleaners.nl · reactie binnen 24u')">Contact verkoop →</button>
-<button class="btn btn-outline btn-lg" onclick="showToast('info','Demo aangevraagd 🎉')">Plan een demo</button>
-</div>
-</div>
-
-<div class="rv d2">
-<div style="background:white;border:1px solid var(--border);border-radius:32px;padding:32px;box-shadow:var(--shxl);position:relative;overflow:hidden;">
-<div style="position:absolute;top:-100px;right:-100px;width:280px;height:280px;background:radial-gradient(circle,rgba(26,86,219,.06) 0%,transparent 70%);pointer-events:none;"></div>
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;position:relative;">
-<div style="font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">Dashboard preview</div>
-<div style="display:flex;gap:5px;"><div style="width:9px;height:9px;border-radius:50%;background:#FCA5A5;"></div><div style="width:9px;height:9px;border-radius:50%;background:#FCD34D;"></div><div style="width:9px;height:9px;border-radius:50%;background:#86EFAC;"></div></div>
-</div>
-<div style="position:relative;">
-
-<div style="background:var(--bg);border-radius:18px;padding:20px;margin-bottom:12px;">
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-<div style="display:flex;align-items:center;gap:10px;"><div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--blue),#3B82F6);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;">H</div><div><div style="font-size:14px;font-weight:700;">Hotel Centraal</div><div style="font-size:11px;color:var(--muted);">12 kamers · 4 verdiepingen</div></div></div>
-<div style="background:var(--greenl);color:var(--green);font-size:10px;font-weight:700;padding:3px 10px;border-radius:9999px;">Actief</div>
-</div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;font-size:11px;">
-<div><div style="color:var(--muted);margin-bottom:2px;">Deze maand</div><div style="font-weight:800;font-size:16px;">48 klussen</div></div>
-<div><div style="color:var(--muted);margin-bottom:2px;">Gem. score</div><div style="font-weight:800;font-size:16px;color:var(--gold);">★ 4.9</div></div>
-<div><div style="color:var(--muted);margin-bottom:2px;">Totaal</div><div style="font-weight:800;font-size:16px;">€3.840</div></div>
-</div>
-</div>
-
-<div style="background:var(--bg);border-radius:18px;padding:20px;margin-bottom:12px;">
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-<div style="display:flex;align-items:center;gap:10px;"><div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#8B5CF6,#A78BFA);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;">D</div><div><div style="font-size:14px;font-weight:700;">De Zaak</div><div style="font-size:11px;color:var(--muted);">Kantoor · 320 m²</div></div></div>
-<div style="background:var(--greenl);color:var(--green);font-size:10px;font-weight:700;padding:3px 10px;border-radius:9999px;">Actief</div>
-</div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;font-size:11px;">
-<div><div style="color:var(--muted);margin-bottom:2px;">Deze maand</div><div style="font-weight:800;font-size:16px;">12 klussen</div></div>
-<div><div style="color:var(--muted);margin-bottom:2px;">Gem. score</div><div style="font-weight:800;font-size:16px;color:var(--gold);">★ 4.8</div></div>
-<div><div style="color:var(--muted);margin-bottom:2px;">Totaal</div><div style="font-weight:800;font-size:16px;">€1.260</div></div>
-</div>
-</div>
-
-<div style="background:var(--navy);border-radius:18px;padding:20px;color:white;">
-<div style="display:flex;justify-content:space-between;align-items:flex-end;">
-<div><div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:4px;">Totaal deze maand</div><div style="font-family:var(--ff);font-size:36px;line-height:1;font-weight:400;">€5.100</div></div>
-<div style="background:rgba(52,211,153,.15);color:#34D399;font-size:11px;font-weight:700;padding:5px 10px;border-radius:9999px;border:1px solid rgba(52,211,153,.3);">↗ +18%</div>
-</div>
-</div>
-
-</div>
-</div>
-
-<!-- Trusted by -->
-<div style="display:flex;align-items:center;justify-content:center;gap:32px;margin-top:32px;flex-wrap:wrap;opacity:.65;">
-<div style="font-size:10px;color:var(--muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;">Vertrouwd door:</div>
-<div style="font-family:var(--ff);font-size:18px;color:var(--ink3);font-style:italic;">Park Hotel</div>
-<div style="font-weight:800;font-size:14px;color:var(--ink3);letter-spacing:1px;">URBAN.</div>
-<div style="font-family:var(--ff);font-size:18px;color:var(--ink3);">Bloem &amp; Co</div>
-<div style="font-weight:800;font-size:13px;color:var(--ink3);letter-spacing:2px;">REAL·TRUST</div>
-</div>
-</div>
-
-</div>
-</div>
-</section>
-
-<!-- TRUST & SAFETY -->
-<section class="sec tabbed" style="background:white;" data-tab="trust">
-<div class="c">
-<div class="rv" style="text-align:center;max-width:560px;margin:0 auto 64px;">
-<div class="eb">Trust &amp; Safety</div>
-<h2 class="sh2">Vertrouwen is geen claim —<br>het is een <em>systeem.</em></h2>
-<p class="sl" style="margin:0 auto;">Onze infrastructuur, processen en team werken 24/7 om elke boeking veilig, transparant en gegarandeerd te maken.</p>
-</div>
-
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:1100px;margin:0 auto 80px;">
-
-<div class="rv d1" style="background:white;border:1px solid var(--border);border-radius:24px;padding:32px;transition:all .28s var(--es);">
-<div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--bluel),#DBEAFE);border:1px solid var(--bluem);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:20px;">🛰️</div>
-<h3 style="font-size:20px;font-weight:800;margin-bottom:8px;letter-spacing:-.2px;">24/7 Monitoring</h3>
-<p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:20px;">Ons safety team bewaakt elke actieve boeking. Realtime alerts bij afwijkingen of incidenten — gemiddelde detectietijd onder 3 minuten.</p>
-<div style="display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--border);padding-top:20px;">
-<div style="display:flex;justify-content:space-between;font-size:13px;"><span style="color:var(--muted);">Detectie</span><span style="font-weight:800;">&lt; 3 min</span></div>
-<div style="display:flex;justify-content:space-between;font-size:13px;"><span style="color:var(--muted);">Team</span><span style="font-weight:800;">24/7/365</span></div>
-</div>
-</div>
-
-<div class="rv d2" style="background:white;border:1px solid var(--border);border-radius:24px;padding:32px;transition:all .28s var(--es);">
-<div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--bluel),#DBEAFE);border:1px solid var(--bluem);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:20px;">🚨</div>
-<h3 style="font-size:20px;font-weight:800;margin-bottom:8px;letter-spacing:-.2px;">Incident Response</h3>
-<p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:20px;">Eén tik in de app stuurt een melding naar ons emergency team. Direct contact, escalatie binnen het uur, financiële afhandeling binnen 48u.</p>
-<div style="display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--border);padding-top:20px;">
-<div style="display:flex;justify-content:space-between;font-size:13px;"><span style="color:var(--muted);">Eerste reactie</span><span style="font-weight:800;">&lt; 5 min</span></div>
-<div style="display:flex;justify-content:space-between;font-size:13px;"><span style="color:var(--muted);">Afhandeling</span><span style="font-weight:800;">48u</span></div>
-</div>
-</div>
-
-<div class="rv d3" style="background:white;border:1px solid var(--border);border-radius:24px;padding:32px;transition:all .28s var(--es);">
-<div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--bluel),#DBEAFE);border:1px solid var(--bluem);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:20px;">⚖️</div>
-<h3 style="font-size:20px;font-weight:800;margin-bottom:8px;letter-spacing:-.2px;">Dispute Resolution</h3>
-<p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:20px;">Neutrale arbitrage met chat-bewijs, foto's en betalingsgeschiedenis. 97% van geschillen wordt binnen 72 uur opgelost — zonder rechtszaak.</p>
-<div style="display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--border);padding-top:20px;">
-<div style="display:flex;justify-content:space-between;font-size:13px;"><span style="color:var(--muted);">Oplossing</span><span style="font-weight:800;">97%</span></div>
-<div style="display:flex;justify-content:space-between;font-size:13px;"><span style="color:var(--muted);">Tijd</span><span style="font-weight:800;">72u</span></div>
-</div>
-</div>
-
-</div>
-
-<!-- Verification timeline -->
-<div class="rv d2" style="max-width:1100px;margin:0 auto;background:var(--bg);border:1px solid var(--border);border-radius:32px;padding:48px 32px;">
-<div style="text-align:center;margin-bottom:48px;">
-<div style="font-size:10px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;">Verificatieproces</div>
-<h3 style="font-size:24px;font-weight:800;letter-spacing:-.3px;">Hoe een schoonmaker bij cleaners terechtkomt</h3>
-</div>
-
-<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:8px;">
-<div style="display:grid;grid-template-columns:repeat(7,minmax(90px,1fr));gap:0;position:relative;align-items:start;min-width:620px;">
-<div style="position:absolute;top:18px;left:7%;right:7%;height:2px;background:linear-gradient(90deg,var(--blue) 0%,var(--blue) 80%,var(--green) 100%);z-index:0;"></div>
-
-<div style="text-align:center;position:relative;z-index:1;">
-<div style="width:36px;height:36px;border-radius:50%;background:var(--blue);color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;margin:0 auto 12px;border:3px solid var(--bg);box-shadow:var(--shb);">1</div>
-<div style="font-size:11px;font-weight:700;margin-bottom:2px;">Aanmelding</div>
-<div style="font-size:10px;color:var(--muted);">Dag 1</div>
-</div>
-
-<div style="text-align:center;position:relative;z-index:1;">
-<div style="width:36px;height:36px;border-radius:50%;background:var(--blue);color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;margin:0 auto 12px;border:3px solid var(--bg);box-shadow:var(--shb);">2</div>
-<div style="font-size:11px;font-weight:700;margin-bottom:2px;">ID-check</div>
-<div style="font-size:10px;color:var(--muted);">Dag 1-2</div>
-</div>
-
-<div style="text-align:center;position:relative;z-index:1;">
-<div style="width:36px;height:36px;border-radius:50%;background:var(--blue);color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;margin:0 auto 12px;border:3px solid var(--bg);box-shadow:var(--shb);">3</div>
-<div style="font-size:11px;font-weight:700;margin-bottom:2px;">VOG</div>
-<div style="font-size:10px;color:var(--muted);">Dag 2-4</div>
-</div>
-
-<div style="text-align:center;position:relative;z-index:1;">
-<div style="width:36px;height:36px;border-radius:50%;background:var(--blue);color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;margin:0 auto 12px;border:3px solid var(--bg);box-shadow:var(--shb);">4</div>
-<div style="font-size:11px;font-weight:700;margin-bottom:2px;">Referenties</div>
-<div style="font-size:10px;color:var(--muted);">Dag 4-5</div>
-</div>
-
-<div style="text-align:center;position:relative;z-index:1;">
-<div style="width:36px;height:36px;border-radius:50%;background:var(--blue);color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;margin:0 auto 12px;border:3px solid var(--bg);box-shadow:var(--shb);">5</div>
-<div style="font-size:11px;font-weight:700;margin-bottom:2px;">Interview</div>
-<div style="font-size:10px;color:var(--muted);">Dag 5-6</div>
-</div>
-
-<div style="text-align:center;position:relative;z-index:1;">
-<div style="width:36px;height:36px;border-radius:50%;background:var(--blue);color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;margin:0 auto 12px;border:3px solid var(--bg);box-shadow:var(--shb);">6</div>
-<div style="font-size:11px;font-weight:700;margin-bottom:2px;">Verzekering</div>
-<div style="font-size:10px;color:var(--muted);">Dag 6-7</div>
-</div>
-
-<div style="text-align:center;position:relative;z-index:1;">
-<div style="width:36px;height:36px;border-radius:50%;background:var(--green);color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;margin:0 auto 12px;border:3px solid var(--bg);box-shadow:0 4px 16px rgba(16,185,129,.35);">✓</div>
-<div style="font-size:11px;font-weight:700;margin-bottom:2px;color:var(--green);">Geactiveerd</div>
-<div style="font-size:10px;color:var(--muted);">Dag 7</div>
-</div>
-
-</div>
-</div>
-
-<div style="text-align:center;margin-top:40px;padding-top:32px;border-top:1px solid var(--border);">
-<div style="display:inline-flex;align-items:center;gap:32px;flex-wrap:wrap;justify-content:center;">
-<div><div style="font-family:var(--ff);font-size:32px;color:var(--blue);font-weight:400;line-height:1;">68<em style="font-style:normal;color:var(--muted);font-size:60%;">%</em></div><div style="font-size:11px;color:var(--muted);margin-top:4px;">Afgewezen</div></div>
-<div style="width:1px;height:36px;background:var(--border);"></div>
-<div><div style="font-family:var(--ff);font-size:32px;color:var(--blue);font-weight:400;line-height:1;">7<em style="font-style:normal;color:var(--muted);font-size:50%;"> dagen</em></div><div style="font-size:11px;color:var(--muted);margin-top:4px;">Gemiddeld proces</div></div>
-<div style="width:1px;height:36px;background:var(--border);"></div>
-<div><div style="font-family:var(--ff);font-size:32px;color:var(--blue);font-weight:400;line-height:1;">0</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">Uitzonderingen</div></div>
-</div>
-</div>
-</div>
-
-</div>
-</section>
 
 <!-- FAQ -->
-<section class="sec fbg tabbed" id="faq" data-tab="faq"><div class="csm">
+<section class="sec fbg" id="faq"><div class="csm">
 <div class="rv" style="text-align:center;max-width:480px;margin:0 auto;"><div class="eb">FAQ</div><h2 class="sh2">Alles wat je wilt<br><em>weten over cleaners.</em></h2></div>
 <div class="fql rv d1" id="faq-list"></div>
-<div style="text-align:center;margin-top:40px;" class="rv d2"><p style="font-size:16px;color:var(--muted);margin-bottom:16px;">Nog vragen?</p><button class="btn btn-outline btn-lg" onclick="openInfo('ayuda')">Helpcentrum →</button></div>
+<div style="text-align:center;margin-top:40px;" class="rv d2"><p style="font-size:16px;color:var(--muted);margin-bottom:16px;">Nog vragen?</p><button class="btn btn-outline btn-lg" onclick="window.location.href='mailto:info@getcleaners.nl?subject=Vraag%20over%20cleaners'">Helpcentrum via WhatsApp →</button></div>
+</div></section>
+
+<!-- FINAL CTA -->
+<section style="background:var(--navy);padding:96px 0;text-align:center;position:relative;overflow:hidden;">
+<div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(26,86,219,.15) 0%,transparent 60%);pointer-events:none;"></div>
+<div class="csm" style="position:relative;">
+<h2 class="sh2" style="color:white;margin-bottom:16px;">Klaar om je <em style="font-style:italic;color:#93C5FD;">schoonmaker</em> te kiezen?</h2>
+<p style="font-size:17px;color:rgba(255,255,255,.55);max-width:480px;margin:0 auto 36px;line-height:1.6;">Bekijk de profielen, lees reviews, chat vooraf. Jij beslist wie er bij jou thuis komt.</p>
+<div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+<button class="btn btn-primary btn-xl" onclick="document.getElementById('cleaners').scrollIntoView({behavior:'smooth'})">Schoonmaker vinden</button>
+<button class="btn btn-ghost btn-xl" style="color:white;border-color:rgba(255,255,255,.2);" onclick="window.location.href='/cleaner-signup.html'">Word schoonmaker</button>
+</div>
 </div></section>
 
 <!-- WAITLIST -->
@@ -1364,16 +857,16 @@ body.bb-vis .wa-fab{bottom:96px}
 <p class="wlp">Meer controle. Meer vertrouwen. Binnenkort op iOS en Android.</p>
 <form class="wlf" onsubmit="submitWL(event)"><input type="email" id="wl-email" placeholder="jou@email.nl" required/><button type="submit">Aanmelden</button></form>
 <div class="wlpr"><div class="avs avss"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=60&auto=format&fit=crop&facepad=3" alt="" loading="lazy"/><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=60&auto=format&fit=crop&facepad=3" alt="" loading="lazy"/><img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=60&auto=format&fit=crop&facepad=3" alt="" loading="lazy"/></div><span>+1.200 mensen al op de wachtlijst</span></div>
-<div class="sbts"><button class="sbt" onclick="showToast('info','App Store binnenkort')"><span class="sbti">🍎</span><div class="sbtt"><small>Binnenkort op</small><strong>App Store</strong></div></button><button class="sbt" onclick="showToast('info','Google Play binnenkort')"><span class="sbti">▶</span><div class="sbtt"><small>Binnenkort op</small><strong>Google Play</strong></div></button></div>
+<div class="sbts"><button class="sbt" onclick="appStoreNotify('iOS')"><span class="sbti">🍎</span><div class="sbtt"><small>Binnenkort op</small><strong>App Store</strong></div></button><button class="sbt" onclick="appStoreNotify('Android')"><span class="sbti">▶</span><div class="sbtt"><small>Binnenkort op</small><strong>Google Play</strong></div></button></div>
 </div></div></section>
 
 </main>
 
 <footer><div class="c">
 <div class="fg2">
-<div><div style="display:flex;align-items:center;gap:9px;font-weight:800;font-size:22px;color:white;cursor:pointer;letter-spacing:-.5px;" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg width="20" height="20" viewBox="0 0 56 56"><use href="#STARW"/></svg> cleaners</div><p class="fbd">Het vertrouwensplatform waar jij bepaalt wie jouw huis binnenkomt.</p></div>
+<div><div translate="no" style="display:flex;align-items:center;gap:9px;font-weight:800;font-size:22px;color:white;cursor:pointer;letter-spacing:-.5px;" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg width="20" height="20" viewBox="0 0 56 56"><use href="#STARW"/></svg> <span translate="no">cleaners</span></div><p class="fbd">Het vertrouwensplatform waar jij bepaalt wie jouw huis binnenkomt.</p></div>
 <div class="fcol"><h4>Platform</h4><a onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">Hoe het werkt</a><a onclick="document.getElementById('cleaners').scrollIntoView({behavior:'smooth'})">Voor klanten</a><a onclick="window.location.href='/cleaner-signup.html'">Voor schoonmakers</a><a onclick="openInfo('kyc')">Veiligheid</a></div>
-<div class="fcol"><h4>Support</h4><a onclick="openInfo('ayuda')">Helpcentrum</a><a onclick="openInfo('kyc')">Verificatie</a><a onclick="showToast('info','info@cleaners.nl')">Contact</a><a onclick="showToast('info','press@cleaners.nl')">Pers</a></div>
+<div class="fcol"><h4>Support</h4><a onclick="openInfo('ayuda')">Helpcentrum</a><a onclick="openInfo('kyc')">Verificatie</a><a onclick="window.location.href='mailto:info@getcleaners.nl?subject=Vraag%20over%20cleaners'">Contact</a><a onclick="showToast('info','press@cleaners.nl')">Pers</a></div>
 <div class="fcol"><h4>Juridisch</h4><a onclick="openInfo('privacidad')">Privacy</a><a onclick="openInfo('terminos')">Voorwaarden</a><a onclick="showToast('info','Cookies opgeslagen')">Cookies</a><a onclick="openInfo('gdpr')">AVG / GDPR</a></div>
 </div>
 <div class="fbot"><span>© 2026 cleaners B.V. · KvK 12345678</span><span>Gemaakt met zorg in Amsterdam 🇳🇱</span></div>
@@ -1381,16 +874,16 @@ body.bb-vis .wa-fab{bottom:96px}
 
 <script>
 'use strict';
-const DB=[{id:1,name:'Sofia R.',price:15,rating:4.9,reviews:128,jobs:142,distKm:0.8,hood:'Jordaan',respMin:12,avail:true,online:true,compat:97,urgency:3,spec:'Specialist grondige schoonmaak en Airbnb',bio:'3 jaar ervaring in Amsterdamse woningen en Airbnbs. Ecologische producten. Nederlands, Engels, Spaans.',services:['Grondige schoonmaak','Airbnb','Woning','Ramen','Strijken'],cat:['all','huis','airbnb'],langs:'Nederlands, Engels, Spaans',verified:'12/01/2024',mapX:28,mapY:55,img:'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Hallo! Geïnteresseerd in schoonmaak op 20 mei.',t:'10:02'},{me:true,text:'Hallo! Beschikbaar. Welk tijdstip?',t:'10:04'},{me:false,text:'10:00, ongeveer 80m².',t:'10:05'},{me:true,text:'Perfect. Huisdieren of allergieën?',t:'10:06'},{me:false,text:'Geen.',t:'10:07'},{me:true,text:'Ik gebruik alleen ecologische producten. Tot dan! 😊',t:'10:09'}],rl:[{name:'Marta G.',date:'2 weken',stars:'★★★★★',text:'Vlekkeloos. Zeer professioneel.',img:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=80&auto=format&fit=crop'},{name:'Joris M.',date:'1 maand',stars:'★★★★★',text:'Fantastisch. Stipt en grondig.',img:'https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?q=80&w=80&auto=format&fit=crop'}]},
-{id:2,name:'Maria C.',price:16,rating:4.9,reviews:201,jobs:201,distKm:1.1,hood:'De Pijp',respMin:10,avail:true,online:true,compat:94,urgency:5,spec:'Expert gezinswoningen en kantoren',bio:'5+ jaar ervaring. Ecologische producten, georganiseerd en stipt.',services:['Woning','Kantoor','Strijken','Ramen'],cat:['all','huis','kantoor'],langs:'Nederlands, Catalaans',verified:'05/03/2023',mapX:55,mapY:72,img:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Beschikbaar kantoor?',t:'09:15'},{me:true,text:'Ja! Wat heeft u nodig?',t:'09:17'}],rl:[{name:'Piet R.',date:'1 week',stars:'★★★★★',text:'Kantoor nog nooit zo schoon.',img:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=80&auto=format&fit=crop'}]},
-{id:3,name:'Laura M.',price:14,rating:4.8,reviews:96,jobs:89,distKm:1.8,hood:'Oud-West',respMin:30,avail:false,online:false,compat:81,urgency:0,spec:'Kantoren en oplevering',bio:'Kantoren, commercieel, oplevering. Marmer, parket, roestvrij staal.',services:['Kantoor','Oplevering','Commercieel'],cat:['all','kantoor','oplevering'],langs:'Nederlands, Engels',verified:'18/06/2023',mapX:20,mapY:61,img:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1527515637462-cff94ebb8590?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Oplevering?',t:'14:00'},{me:true,text:'Mijn specialiteit!',t:'14:03'}],rl:[{name:'Bouw BV',date:'2 maanden',stars:'★★★★★',text:'Perfecte oplevering.',img:'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=80&auto=format&fit=crop'}]},
-{id:4,name:'Elena B.',price:14,rating:4.8,reviews:54,jobs:54,distKm:1.4,hood:'Centrum',respMin:20,avail:true,online:true,compat:92,urgency:2,spec:'Airbnb en toeristische verhuur',bio:'2 jaar met Amsterdamse Airbnbs. Snel en flexibel.',services:['Airbnb','Woning','Rotatie'],cat:['all','airbnb','huis'],langs:'Nederlands, Frans',verified:'22/09/2023',mapX:52,mapY:56,img:'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Rotatie tussen gasten?',t:'11:00'},{me:true,text:'Absoluut! Hoeveel objecten?',t:'11:02'}],rl:[{name:'Mike A.',date:'3 weken',stars:'★★★★★',text:'Beheert mijn Airbnbs perfect.',img:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=80&auto=format&fit=crop'}]},
-{id:5,name:'Anna P.',price:13,rating:4.7,reviews:74,jobs:63,distKm:2.2,hood:'Amsterdam-Oost',respMin:55,avail:true,online:false,compat:76,urgency:0,spec:'Woningschoonmaak met detail',bio:'Zorgvuldig in elke hoek.',services:['Woning','Grondig','Airbnb'],cat:['all','huis','airbnb'],langs:'Nederlands',verified:'30/11/2023',mapX:78,mapY:53,img:'https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Deze week vrij?',t:'16:00'},{me:true,text:'Donderdag of vrijdag.',t:'16:55'}],rl:[{name:'Rosa T.',date:'1 maand',stars:'★★★★★',text:'Zeer attent.',img:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=80&auto=format&fit=crop'}]},
-{id:6,name:'Carmen V.',price:15,rating:4.9,reviews:112,jobs:98,distKm:0.6,hood:'Grachtengordel',respMin:18,avail:true,online:true,compat:90,urgency:4,spec:'Luxe woningen en penthouses',bio:'Hoogwaardig vastgoed. Absolute discretie, maximale aandacht voor detail.',services:['Luxe','Grondig','Ramen','Kantoor'],cat:['all','huis','kantoor'],langs:'Nederlands, Engels, Spaans',verified:'08/02/2023',mapX:42,mapY:58,img:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Werkt u in luxe woningen?',t:'09:30'},{me:true,text:'Ja. Volledige discretie.',t:'09:32'}],rl:[{name:'Isabel F.',date:'1 week',stars:'★★★★★',text:'Perfect en discreet.',img:'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=80&auto=format&fit=crop'}]},
-{id:7,name:'Rosa T.',price:13,rating:4.7,reviews:38,jobs:38,distKm:2.8,hood:'Amsterdam-Noord',respMin:40,avail:true,online:false,compat:72,urgency:0,spec:'Oplevering en ramen',bio:'Oplevering, ramen op hoogte. Hoogwerker beschikbaar.',services:['Oplevering','Ramen','Industrieel'],cat:['all','oplevering'],langs:'Nederlands, Roemeens',verified:'14/04/2024',mapX:50,mapY:21,img:'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Ramen op hoogte?',t:'10:00'},{me:true,text:'Ja, met hoogwerker.',t:'10:40'}],rl:[{name:'Bouw A.',date:'2 maanden',stars:'★★★★★',text:'Als een spiegel.',img:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=80&auto=format&fit=crop'}]},
-{id:8,name:'Isabel M.',price:14,rating:4.8,reviews:66,jobs:55,distKm:3.1,hood:'Zuidas',respMin:28,avail:false,online:false,compat:79,urgency:0,spec:'Strijken en onderhoud',bio:'Expert in strijken: kleding, pakken, bedlinnen.',services:['Strijken','Woning','Airbnb'],cat:['all','huis','airbnb'],langs:'Nederlands, Catalaans, Engels',verified:'25/07/2023',mapX:45,mapY:85,img:'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1578996953841-b187dbe4bc8a?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Pakken strijken?',t:'15:00'},{me:true,text:'Ja, met grootste zorgvuldigheid.',t:'15:28'}],rl:[{name:'Monique P.',date:'3 weken',stars:'★★★★★',text:'Strijkwerk perfect.',img:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=80&auto=format&fit=crop'}]}];
+const DB=[{id:1,name:'Sofia R.',price:15,rating:4.9,reviews:23,jobs:31,distKm:0.8,hood:'Jordaan',respMin:12,avail:true,online:true,compat:97,urgency:3,spec:'Specialist grondige schoonmaak en Airbnb',bio:'3 jaar ervaring in Amsterdamse woningen en Airbnbs. Ecologische producten. Nederlands, Engels, Spaans.',services:['Grondige schoonmaak','Airbnb','Woning','Ramen','Strijken'],cat:['all','huis','airbnb'],langs:'Nederlands, Engels, Spaans',verified:'12/01/2024',mapX:28,mapY:55,img:'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Hallo! Geïnteresseerd in schoonmaak op 20 mei.',t:'10:02'},{me:true,text:'Hallo! Beschikbaar. Welk tijdstip?',t:'10:04'},{me:false,text:'10:00, ongeveer 80m².',t:'10:05'},{me:true,text:'Perfect. Huisdieren of allergieën?',t:'10:06'},{me:false,text:'Geen.',t:'10:07'},{me:true,text:'Ik gebruik alleen ecologische producten. Tot dan! 😊',t:'10:09'}],rl:[{name:'Marta G.',date:'2 weken',stars:'★★★★★',text:'Eindelijk een platform waar ik kan kiezen wie er in mijn huis komt. Sofia was rustig en grondig.',img:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=80&auto=format&fit=crop'},{name:'Joris M.',date:'1 maand',stars:'★★★★★',text:'Op tijd, vriendelijk, en doet wat ze zegt. Boek haar weer volgende maand.',img:'https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?q=80&w=80&auto=format&fit=crop'}]},
+{id:2,name:'Maria C.',price:16,rating:5.0,reviews:18,jobs:24,distKm:1.1,hood:'De Pijp',respMin:10,avail:true,online:true,compat:94,urgency:5,spec:'Expert gezinswoningen en kantoren',bio:'5+ jaar ervaring. Ecologische producten, georganiseerd en stipt.',services:['Woning','Kantoor','Strijken','Ramen'],cat:['all','huis','kantoor'],langs:'Nederlands, Catalaans',verified:'05/03/2023',mapX:55,mapY:72,img:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Beschikbaar kantoor?',t:'09:15'},{me:true,text:'Ja! Wat heeft u nodig?',t:'09:17'}],rl:[{name:'Piet R.',date:'1 week',stars:'★★★★★',text:'Werkt al 3 weken bij ons op kantoor. Geen klachten van het team.',img:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=80&auto=format&fit=crop'}]},
+{id:3,name:'Laura M.',price:14,rating:4.8,reviews:14,jobs:19,distKm:1.8,hood:'Oud-West',respMin:30,avail:false,online:false,compat:81,urgency:0,spec:'Kantoren en oplevering',bio:'Kantoren, commercieel, oplevering. Marmer, parket, roestvrij staal.',services:['Kantoor','Oplevering','Commercieel'],cat:['all','kantoor','oplevering'],langs:'Nederlands, Engels',verified:'18/06/2023',mapX:20,mapY:61,img:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1527515637462-cff94ebb8590?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Oplevering?',t:'14:00'},{me:true,text:'Mijn specialiteit!',t:'14:03'}],rl:[{name:'Bouw BV',date:'2 maanden',stars:'★★★★★',text:'Voor oplevering huurwoning. Alles geslaagd, sleutels netjes terug.',img:'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=80&auto=format&fit=crop'}]},
+{id:4,name:'Elena B.',price:14,rating:4.9,reviews:9,jobs:12,distKm:1.4,hood:'Centrum',respMin:20,avail:true,online:true,compat:92,urgency:2,spec:'Airbnb en toeristische verhuur',bio:'2 jaar met Amsterdamse Airbnbs. Snel en flexibel.',services:['Airbnb','Woning','Rotatie'],cat:['all','airbnb','huis'],langs:'Nederlands, Frans',verified:'22/09/2023',mapX:52,mapY:56,img:'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Rotatie tussen gasten?',t:'11:00'},{me:true,text:'Absoluut! Hoeveel objecten?',t:'11:02'}],rl:[{name:'Mike A.',date:'3 weken',stars:'★★★★★',text:'2 Airbnbs in Centrum. Stuurt foto na elke wissel — fijne extra.',img:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=80&auto=format&fit=crop'}]},
+{id:5,name:'Anna P.',price:13,rating:4.7,reviews:11,jobs:15,distKm:2.2,hood:'Amsterdam-Oost',respMin:55,avail:true,online:false,compat:76,urgency:0,spec:'Woningschoonmaak met detail',bio:'Zorgvuldig in elke hoek.',services:['Woning','Grondig','Airbnb'],cat:['all','huis','airbnb'],langs:'Nederlands',verified:'30/11/2023',mapX:78,mapY:53,img:'https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Deze week vrij?',t:'16:00'},{me:true,text:'Donderdag of vrijdag.',t:'16:55'}],rl:[{name:'Rosa T.',date:'1 maand',stars:'★★★★★',text:'Bedankt voor het meedenken met de huisdieren. Kat is dol op haar.',img:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=80&auto=format&fit=crop'}]},
+{id:6,name:'Carmen V.',price:15,rating:4.8,reviews:16,jobs:22,distKm:0.6,hood:'Grachtengordel',respMin:18,avail:true,online:true,compat:90,urgency:4,spec:'Luxe woningen en penthouses',bio:'Hoogwaardig vastgoed. Absolute discretie, maximale aandacht voor detail.',services:['Luxe','Grondig','Ramen','Kantoor'],cat:['all','huis','kantoor'],langs:'Nederlands, Engels, Spaans',verified:'08/02/2023',mapX:42,mapY:58,img:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Werkt u in luxe woningen?',t:'09:30'},{me:true,text:'Ja. Volledige discretie.',t:'09:32'}],rl:[{name:'Isabel F.',date:'1 week',stars:'★★★★★',text:'Perfect en discreet.',img:'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=80&auto=format&fit=crop'}]},
+{id:7,name:'Rosa T.',price:13,rating:4.6,reviews:6,jobs:8,distKm:2.8,hood:'Amsterdam-Noord',respMin:40,avail:true,online:false,compat:72,urgency:0,spec:'Oplevering en ramen',bio:'Oplevering, ramen op hoogte. Hoogwerker beschikbaar.',services:['Oplevering','Ramen','Industrieel'],cat:['all','oplevering'],langs:'Nederlands, Roemeens',verified:'14/04/2024',mapX:50,mapY:21,img:'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Ramen op hoogte?',t:'10:00'},{me:true,text:'Ja, met hoogwerker.',t:'10:40'}],rl:[{name:'Bouw A.',date:'2 maanden',stars:'★★★★★',text:'Als een spiegel.',img:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=80&auto=format&fit=crop'}]},
+{id:8,name:'Isabel M.',price:14,rating:4.8,reviews:7,jobs:10,distKm:3.1,hood:'Zuidas',respMin:28,avail:false,online:false,compat:79,urgency:0,spec:'Strijken en onderhoud',bio:'Expert in strijken: kleding, pakken, bedlinnen.',services:['Strijken','Woning','Airbnb'],cat:['all','huis','airbnb'],langs:'Nederlands, Catalaans, Engels',verified:'25/07/2023',mapX:45,mapY:85,img:'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1578996953841-b187dbe4bc8a?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Pakken strijken?',t:'15:00'},{me:true,text:'Ja, met grootste zorgvuldigheid.',t:'15:28'}],rl:[{name:'Monique P.',date:'3 weken',stars:'★★★★★',text:'Strijkwerk perfect.',img:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=80&auto=format&fit=crop'}]}];
 
-const FAQS=[{q:'Hoe wordt een schoonmaker geverifieerd?',a:'6-staps proces: biometrische controle, paspoort, VOG, 3 referenties, onboardinggesprek, verzekering. Duurt 5-7 werkdagen.'},{q:'Hoe werkt escrow betaling?',a:'Autorisatie via Stripe, geld pas vrijgegeven na jouw bevestiging. De schoonmaker ontvangt pas als jij tevreden bent.'},{q:'Kan ik gratis chatten voor de boeking?',a:'Ja, onbeperkt. Stel vragen over producten, tijden of toegang. Chat dient als bewijs bij geschillen.'},{q:'Wat als ik wil annuleren?',a:'Gratis tot 24u voor het tijdstip. Daarna 20% vergoeding. Bij overmacht per geval.'},{q:'Minimale boekingsduur?',a:'2 uur minimum. De meeste boekingen zijn 3 uur voor een appartement.'},{q:'Hoe snel wordt schoonmaker betaald?',a:'Binnen 24u na bevestiging via Stripe. Uitbetaling daarna 1-2 werkdagen.'},{q:'Welke steden?',a:'Momenteel Amsterdam. In 2026 Utrecht, Rotterdam, Den Haag, Eindhoven. Schrijf je in via de wachtlijst.'}];
+const FAQS=[{q:'Hoe weet ik dat een schoonmaker betrouwbaar is?',a:'Elke schoonmaker doorloopt een verificatie: ID-controle, VOG en referenties. Je kunt vooraf chatten en reviews lezen voordat je boekt.'},{q:'Wanneer betaal ik?',a:'Bij het boeken via Stripe. Het geld wordt veilig vastgehouden en pas vrijgegeven aan de schoonmaker nadat de klus is voltooid.'},{q:'Wat als er iets misgaat?',a:'We hebben een schadeverzekering voor jou en de schoonmaker. Bij geschillen helpt ons team om tot een oplossing te komen.'},{q:'Kan ik annuleren?',a:'Ja, gratis tot 24 uur voor de afspraak. Daarna geldt 20% annuleringskosten.'},{q:'In welke steden zijn jullie?',a:'We starten in Amsterdam. Bewust klein, om kwaliteit te garanderen. Andere steden volgen.'}];
 
 const INFO={kyc:{ic:'🪪',title:'KYC-verificatie',body:'Volledig verificatieproces.',items:['Biometrische identiteit','VOG-screening','3 werkreferenties','Onboardinggesprek','Verzekering geactiveerd','Stripe gekoppeld']},pago:{ic:'🔐',title:'Escrow betaling',body:'Geld in bewaring tot bevestiging.',items:['Stripe verwerking','Kaart pas belast na bevestiging','Terugbetaling beschikbaar','Geen kaartopslag','TLS-versleuteling']},reviews:{ic:'⭐',title:'Geverifieerde reviews',body:'Alleen voltooide klanten.',items:['Alleen geverifieerde klanten','Controle vóór publicatie','Geblokkeerd voor nep','Permanent','Reactie zichtbaar']},seguro:{ic:'🛡️',title:'Verzekering',body:'Automatische dekking.',items:['Tot €300.000','Accidentele schade','24-48u afhandeling','Geen eigen risico','Vanaf aankomst']},chat:{ic:'💬',title:'Gratis chatten',body:'Vrijblijvend voor de boeking.',items:['Onbeperkt','Geschiedenis permanent','Realtime meldingen','Vraag naar alles','Dient als bewijs']},repeat:{ic:'♻️',title:'Herhalingsboekingen',body:'73% boekt opnieuw.',items:['Favorieten één klik','Wekelijks/maandelijks','10% korting','Beschikbaarheid melding','Volledige geschiedenis']},ayuda:{ic:'🆘',title:'Helpcentrum',body:'24/7 ondersteuning.',items:['24/7 chat','Email binnen 2u','Geschillen 48u','200+ artikelen','Spoedlijn']},privacidad:{ic:'🔒',title:'Privacy',body:'Privacy is prioriteit.',items:['Geen verkoop','AVG-naleving','Verwijdering op verzoek','Stripe beheert','Versleuteld']},terminos:{ic:'📄',title:'Voorwaarden',body:'Bescherming voor allen.',items:['Bemiddelingsplatform','Commissie 10-25%','Gratis annulering 24u','Non-discriminatie','Arbitrage']},gdpr:{ic:'🇪🇺',title:'AVG / GDPR',body:'Volledige EU-naleving.',items:['Rechtsgrondslag','FG aangesteld','Verwerkingsregister','Internationale waarborgen','Inzage en verwijdering']}};
 
@@ -1483,6 +976,17 @@ function sortP(v){S.sort=v;renderCards();}
 function openModal(id){
   const c=DB.find(x=>x.id===id);if(!c)return;
   S.modalId=id;
+  // Update fav button state
+  try{
+    const favs=JSON.parse(localStorage.getItem('cl_favs')||'[]');
+    const isFav=favs.includes(id);
+    const fb=document.getElementById('fav-btn');
+    if(fb){
+      fb.innerHTML=isFav?'💖 In favorieten':'❤️ Favoriet';
+      fb.style.color=isFav?'var(--red)':'';
+      fb.style.background=isFav?'var(--redl)':'';
+    }
+  }catch(e){}
   document.getElementById('mhero').src=c.hero;
   document.getElementById('mav').src=c.img;
   document.getElementById('mon').style.display=c.online?'block':'none';
@@ -1576,8 +1080,62 @@ function closeOv(id){document.getElementById(id).classList.remove('open');if(!do
 function bgClose(e,id){if(e.target===document.getElementById(id))closeOv(id);}
 
 function toggleAuth(){S.authMode=S.authMode==='login'?'signup':'login';const s=S.authMode==='signup';document.getElementById('auth-title').textContent=s?'Account aanmaken':'Welkom terug';document.getElementById('auth-sub').textContent=s?'Word lid van cleaners':'Log in op je account';}
-function socialLogin(p){showToast('success',`${p}…`);setTimeout(()=>{closeOv('auth-ov');showToast('success','Welkom! 🎉');},1200);}
-function submitAuth(){const e=document.getElementById('auth-email').value;if(!e){showToast('warn','Email vereist');return;}setTimeout(()=>{closeOv('auth-ov');showToast('success',`Welkom, ${e.split('@')[0]}! 🎉`);},1200);}
+
+function appStoreNotify(platform){
+  const em=prompt(`De ${platform} app is in ontwikkeling. Wil je een email zodra hij live is?\n\nVoer je email in:`);
+  if(!em||!em.includes('@')||!em.includes('.'))return;
+  try{
+    const list=JSON.parse(localStorage.getItem('cl_app_waitlist')||'[]');
+    list.push({platform,email:em,date:new Date().toISOString()});
+    localStorage.setItem('cl_app_waitlist',JSON.stringify(list.slice(0,200)));
+  }catch(e){}
+  showToast('success',`✓ Aangemeld voor ${platform} app launch`);
+}
+
+function smartLogin(){
+  try{
+    const session=JSON.parse(localStorage.getItem('cl_session')||'null');
+    const profile=JSON.parse(localStorage.getItem('cl_profile_current')||'null');
+    // If logged in as cleaner → straight to dashboard
+    if(session&&profile&&profile.email===session.email){
+      window.location.href='/cleaner-dashboard.html';return;
+    }
+    // If has bookings → open bookings modal
+    if(getBookings().length>0){openBookings();return;}
+  }catch(e){}
+  // Otherwise show auth modal
+  openOv('auth-ov');
+}
+function socialLogin(p){
+  showToast('info',`${p} login simulatie…`);
+  setTimeout(()=>{
+    // Save mock session
+    try{localStorage.setItem('cl_session',JSON.stringify({provider:p,loginAt:new Date().toISOString()}));}catch(e){}
+    closeOv('auth-ov');
+    showToast('success','Welkom! 🎉');
+  },1200);
+}
+function submitAuth(){
+  const em=document.getElementById('auth-email').value.trim();
+  if(!em||!em.includes('@')){showToast('error','Geldig email vereist');return;}
+  // Check if a cleaner profile exists with this email → route to dashboard
+  try{
+    const profile=JSON.parse(localStorage.getItem('cl_profile_current')||'null');
+    if(profile&&profile.email===em){
+      localStorage.setItem('cl_session',JSON.stringify({email:em,id:profile.id,loginAt:new Date().toISOString()}));
+      closeOv('auth-ov');
+      showToast('success',`Welkom terug, ${profile.firstname||em.split('@')[0]}!`);
+      setTimeout(()=>window.location.href='/cleaner-dashboard.html',900);
+      return;
+    }
+  }catch(e){}
+  // Otherwise client login → save session, show bookings
+  try{localStorage.setItem('cl_session',JSON.stringify({email:em,role:'client',loginAt:new Date().toISOString()}));}catch(e){}
+  closeOv('auth-ov');
+  showToast('success',`Welkom, ${em.split('@')[0]}!`);
+  // If has bookings, show them
+  setTimeout(()=>{if(getBookings().length>0)openBookings();},900);
+}
 
 function wStep(n){document.querySelectorAll('[id^="wp"]').forEach((p,i)=>p.classList.toggle('active',i===n));document.querySelectorAll('[id^="wd"]').forEach((d,i)=>{d.classList.toggle('active',i===n);d.classList.toggle('done',i<n);});}
 function submitWorker(){const p=saveWorkerNow();showToast('success',`Aanvraag verstuurd! Ref: ${p.ref} · Reactie binnen 24-48u.`,6000);closeOv('worker-ov');}
@@ -1630,8 +1188,68 @@ function useCalc(){
 if(document.getElementById('calc-m2'))updateCalc();
 
 /* ═══════════ LOCALSTORAGE PERSISTENCE ═══════════ */
-function getBookings(){try{return JSON.parse(localStorage.getItem('cl_bookings')||'[]')}catch(e){return[]}}
-function saveBookings(list){try{localStorage.setItem('cl_bookings',JSON.stringify(list.slice(0,50)))}catch(e){}}
+/* ═══════════ PROFILE ACTIONS (share, fav, report) ═══════════ */
+async function shareProfile(){
+  const c=DB.find(x=>x.id===S.modalId);
+  if(!c){showToast('error','Geen profiel geselecteerd');return;}
+  const url=`${location.origin}${location.pathname}?cleaner=${c.id}`;
+  const shareData={title:`${c.name} · cleaners`,text:`Bekijk het profiel van ${c.name} op cleaners`,url};
+  try{
+    if(navigator.share){await navigator.share(shareData);return;}
+    await navigator.clipboard.writeText(url);
+    showToast('success','Link gekopieerd naar klembord');
+  }catch(e){
+    // Fallback for very old browsers
+    try{
+      const ta=document.createElement('textarea');ta.value=url;document.body.appendChild(ta);
+      ta.select();document.execCommand('copy');document.body.removeChild(ta);
+      showToast('success','Link gekopieerd');
+    }catch(e2){showToast('info',url);}
+  }
+}
+
+function toggleFav(){
+  const c=DB.find(x=>x.id===S.modalId);if(!c)return;
+  let favs=[];try{favs=JSON.parse(localStorage.getItem('cl_favs')||'[]')}catch(e){}
+  const idx=favs.indexOf(c.id);
+  const btn=document.getElementById('fav-btn');
+  if(idx>=0){
+    favs.splice(idx,1);
+    showToast('info','Verwijderd uit favorieten');
+    if(btn){btn.innerHTML='❤️ Favoriet';btn.style.color='';btn.style.background='';}
+  }else{
+    favs.push(c.id);
+    showToast('success',`${c.name} toegevoegd aan favorieten`);
+    if(btn){btn.innerHTML='💖 In favorieten';btn.style.color='var(--red)';btn.style.background='var(--redl)';}
+  }
+  try{localStorage.setItem('cl_favs',JSON.stringify(favs))}catch(e){}
+}
+
+function reportCleaner(){
+  const c=DB.find(x=>x.id===S.modalId);if(!c)return;
+  const reason=prompt(`Waarom wil je ${c.name} melden?\n\n(bijv. ongepast gedrag, niet kwam opdagen, kwaliteit, anders)`);
+  if(!reason||reason.trim().length<3)return;
+  try{
+    const reports=JSON.parse(localStorage.getItem('cl_reports')||'[]');
+    reports.push({cleanerId:c.id,cleanerName:c.name,reason:reason.trim(),createdAt:new Date().toISOString()});
+    localStorage.setItem('cl_reports',JSON.stringify(reports.slice(0,50)));
+  }catch(e){}
+  showToast('success','Bedankt. We bekijken je melding binnen 24u.');
+}
+
+function changeCard(){
+  const newCard=prompt('Voer de laatste 4 cijfers in van je nieuwe kaart:\n\n(Demo · in productie gebruik je Stripe Elements voor veilige invoer)');
+  if(!newCard)return;
+  const digits=newCard.replace(/\D/g,'').slice(-4);
+  if(digits.length!==4){showToast('error','Voer 4 cijfers in');return;}
+  const btn=event.target;
+  try{
+    btn.previousElementSibling.textContent=`•••• ${digits}`;
+    showToast('success','Betaalmethode gewijzigd');
+  }catch(e){showToast('success',`Kaart gewijzigd naar •••• ${digits}`);}
+}
+
+function getBookings(){try{return JSON.parse(localStorage.getItem('cl_bookings')||'[]')}catch(e){return[]}}function saveBookings(list){try{localStorage.setItem('cl_bookings',JSON.stringify(list.slice(0,50)))}catch(e){}}
 function getWorkers(){try{return JSON.parse(localStorage.getItem('cl_workers')||'[]')}catch(e){return[]}}
 function saveWorkers(list){try{localStorage.setItem('cl_workers',JSON.stringify(list.slice(0,20)))}catch(e){}}
 
@@ -1682,41 +1300,19 @@ function openBookings(){
 }
 
 /* ═══════════ TABS (unified for modal + page) ═══════════ */
-function switchTab(arg1,arg2){
-  // Modal tab variant: switchTab(buttonElement, paneId)
-  if(arg1 instanceof HTMLElement||arg2){
-    document.querySelectorAll('.mtb').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('.mtp').forEach(p=>p.classList.remove('active'));
-    if(arg1)arg1.classList.add('active');
-    const pane=document.getElementById(arg2);if(pane)pane.classList.add('active');
-    if(arg2==='tp-av')buildCalendar();
-    return;
-  }
-  // Page tab variant: switchTab(tabId)
-  const tabId=arg1;
-  document.querySelectorAll('.tabbtn').forEach(b=>b.classList.toggle('active',b.dataset.tabBtn===tabId));
-  document.querySelectorAll('.tabbed').forEach(s=>s.classList.toggle('tab-active',s.dataset.tab===tabId));
-  const nav=document.getElementById('tabs-nav');
-  if(nav){const r=nav.getBoundingClientRect();if(r.top<0)window.scrollTo({top:window.scrollY+r.top-10,behavior:'smooth'});}
-  setTimeout(()=>{document.querySelectorAll('.tabbed.tab-active .rv').forEach(el=>{el.classList.remove('in');requestAnimationFrame(()=>{if(el.getBoundingClientRect().top<window.innerHeight)el.classList.add('in');});});},50);
+function switchTab(btn,paneId){
+  document.querySelectorAll('.mtb').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.mtp').forEach(p=>p.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const pane=document.getElementById(paneId);if(pane)pane.classList.add('active');
+  if(paneId==='tp-av')buildCalendar();
 }
 const $tabsNav=document.getElementById('tabs-nav');
 if($tabsNav){
   const tobs=new IntersectionObserver(([e])=>$tabsNav.classList.toggle('stuck',e.intersectionRatio<1),{threshold:[1]});
   tobs.observe($tabsNav);
 }
-const TAB_MAP={'#how':'how','#faq':'faq','#for-cleaners':'cleaners'};
-document.addEventListener('click',e=>{
-  const a=e.target.closest('a[href]');
-  if(!a)return;
-  const tab=TAB_MAP[a.getAttribute('href')];
-  if(tab){
-    e.preventDefault();
-    e.stopPropagation();
-    switchTab(tab);
-    if(typeof closeDrawer==='function')closeDrawer();
-  }
-},true);
+
 
 /* ═══════════ GOOGLE MAPS INTEGRATION ═══════════
    IMPORTANT: replace GMAPS_KEY below with your real Google Maps JavaScript API key.

@@ -151,6 +151,8 @@ h1,h2,h3{line-height:1.1;font-weight:800}
 .btn{width:100%}
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
 </head>
 <body>
 
@@ -165,7 +167,7 @@ h1,h2,h3{line-height:1.1;font-weight:800}
 
 <header class="hdr">
 <div class="hdr-inner">
-<a href="/" class="logo"><svg width="26" height="26"><use href="#STAR"/></svg> cleaners</a>
+<a href="/" class="logo" translate="no"><svg width="26" height="26"><use href="#STAR"/></svg> <span translate="no">cleaners</span></a>
 <a href="/" class="back">← Terug naar home</a>
 </div>
 </header>
@@ -209,13 +211,29 @@ h1,h2,h3{line-height:1.1;font-weight:800}
 <h1>Controleer je <em>inbox</em>.</h1>
 <p class="pane-lead">We hebben een bevestigingslink gestuurd naar:</p>
 <div class="email-display" id="confirm-email">jou@email.nl</div>
-<p style="font-size:14px;color:rgba(255,255,255,.5);line-height:1.7;">Klik op de link in de email om je adres te bevestigen. De link verloopt over 24 uur.</p>
-<div class="demo-note">
-<div class="demo-note-tag">🧪 Demo mode</div>
-<p>In productie ontvang je een echte email via Resend. Voor de demo:</p>
-<button class="btn btn-primary" onclick="step2Confirm()" id="demo-confirm-btn" style="flex:0 0 auto;width:auto;padding:13px 28px;">Klik hier om email te bevestigen</button>
-<p style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.35);">Auto-bevestiging over <span class="timer" id="timer">10</span>s</p>
+
+<!-- Email preview card -->
+<div style="background:white;color:#0A0F1C;border-radius:18px;padding:20px;margin:24px 0;text-align:left;box-shadow:0 12px 36px rgba(0,0,0,.3);position:relative;">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid #E2E8F0;">
+<div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1A56DB,#3B82F6);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;">C</div>
+<div style="flex:1;min-width:0;">
+<div style="font-size:13px;font-weight:700;color:#0A0F1C;">cleaners</div>
+<div style="font-size:11px;color:#64748B;">noreply@getcleaners.nl</div>
 </div>
+<div style="font-size:10px;color:#94A3B8;">nu</div>
+</div>
+<div style="font-size:14px;font-weight:700;margin-bottom:10px;color:#0A0F1C;">Bevestig je email</div>
+<div style="font-size:13px;color:#334155;line-height:1.6;margin-bottom:14px;">Hi <span id="confirm-firstname">Sofia</span>,<br><br>Klik op de knop om je email te bevestigen en je registratie te voltooien.</div>
+<button class="btn btn-primary" onclick="step2Confirm()" id="email-cta" style="width:100%;padding:11px 18px;font-size:13px;background:#1A56DB;color:white;border-radius:10px;font-weight:700;">Bevestig email →</button>
+<div style="font-size:10px;color:#94A3B8;margin-top:12px;text-align:center;">Deze link verloopt over 24 uur.</div>
+</div>
+
+<div class="demo-note">
+<div class="demo-note-tag">🧪 Demo</div>
+<p style="margin-bottom:10px;">Auto-bevestiging over <span class="timer" id="timer">8</span>s.<br>Of klik nu op <strong>Bevestig email</strong> in het voorbeeld hierboven.</p>
+<button class="btn btn-ghost" style="padding:8px 16px;font-size:12px;width:auto;" onclick="resendEmail()">📬 Email opnieuw versturen</button>
+</div>
+
 <button class="btn btn-ghost" style="margin-top:20px;flex:0 0 auto;width:auto;padding:11px 24px;font-size:13px;" onclick="step1Back()">← Wijzig email</button>
 </div>
 </div>
@@ -237,7 +255,7 @@ h1,h2,h3{line-height:1.1;font-weight:800}
 </div>
 <div class="cta-row">
 <button class="btn btn-ghost" onclick="goPane(2)">← Terug</button>
-<button class="btn btn-primary" id="pwd-next" onclick="goPane(4)" disabled>Doorgaan →</button>
+<button class="btn btn-primary" id="pwd-next" onclick="savePwdAndGo()" disabled>Doorgaan →</button>
 </div>
 </div>
 
@@ -389,13 +407,51 @@ function step1Next(){
   const ph=document.getElementById('f-phone').value.trim();
   const hd=document.getElementById('f-hood').value;
   if(!fn||!ln){showToast('error','Voornaam en achternaam vereist');return;}
-  if(!em||!em.includes('@')){showToast('error','Geldig email vereist');return;}
-  if(!ph){showToast('error','Telefoonnummer vereist');return;}
+  if(!em||!em.includes('@')||!em.includes('.')){showToast('error','Geldig email vereist');return;}
+  if(!ph||ph.length<6){showToast('error','Geldig telefoonnummer vereist');return;}
   if(!hd){showToast('error','Selecteer een stadsdeel');return;}
   saveDraft({firstname:fn,lastname:ln,email:em,phone:ph,hood:hd});
   document.getElementById('confirm-email').textContent=em;
-  goPane(2);
-  startConfirmTimer();
+  const fnEl=document.getElementById('confirm-firstname');if(fnEl)fnEl.textContent=fn;
+  
+  // If real mode: ask password first, then signUp (Supabase requires both)
+  if(window.IS_REAL_MODE){
+    // Inline password prompt before sending real email
+    const pwd=prompt('Stel een wachtwoord in (minimaal 8 tekens, met hoofdletter en cijfer):');
+    if(!pwd||pwd.length<8){showToast('error','Wachtwoord minimaal 8 tekens');return;}
+    if(!/[A-Z]/.test(pwd)||!/\d/.test(pwd)){showToast('error','Wachtwoord moet 1 hoofdletter en 1 cijfer bevatten');return;}
+    saveDraft({passwordSet:true});
+    sendRealConfirmationEmail(em,pwd,fn,ln,ph,hd);
+  }else{
+    // Demo mode: simulated countdown
+    goPane(2);
+    startConfirmTimer();
+  }
+}
+
+async function sendRealConfirmationEmail(email,password,firstname,lastname,phone,hood){
+  showToast('info','📨 Email wordt verstuurd...');
+  try{
+    const {data,error}=await window.supabaseClient.auth.signUp({
+      email,password,
+      options:{
+        emailRedirectTo:window.CLEANERS_CONFIG.SITE_URL+'/cleaner-signup.html?verified=1',
+        data:{firstname,lastname,phone,hood,role:'cleaner'}
+      }
+    });
+    if(error)throw error;
+    saveDraft({userId:data.user?.id,emailSent:true});
+    showToast('success','✓ Bevestigingsmail verstuurd!');
+    goPane(2);
+    // In real mode, NO auto-confirm timer — user has to click email link
+    document.getElementById('timer')?.parentElement?.remove();
+    // Hide the demo button in pane 2
+    const cta=document.getElementById('email-cta');
+    if(cta){cta.disabled=true;cta.textContent='Wacht op echte email...';cta.style.opacity='.5';cta.style.cursor='not-allowed';}
+  }catch(err){
+    console.error(err);
+    showToast('error','Fout: '+(err.message||'kon email niet sturen'));
+  }
 }
 
 function step1Back(){
@@ -403,14 +459,19 @@ function step1Back(){
   goPane(1);
 }
 
-let timerVal=10;
+function resendEmail(){
+  showToast('success','Email opnieuw verstuurd');
+  startConfirmTimer();
+}
+
+let timerVal=8;
 function startConfirmTimer(){
-  timerVal=10;
-  document.getElementById('timer').textContent=timerVal;
+  timerVal=8;
+  const t=document.getElementById('timer');if(t)t.textContent=timerVal;
   clearInterval(S.timerInt);
   S.timerInt=setInterval(()=>{
     timerVal--;
-    document.getElementById('timer').textContent=timerVal;
+    const t=document.getElementById('timer');if(t)t.textContent=timerVal;
     if(timerVal<=0){clearInterval(S.timerInt);step2Confirm();}
   },1000);
 }
@@ -440,6 +501,17 @@ function checkPwd(){
   else if(valid===2)fill.classList.add('medium');
   else if(valid===3)fill.classList.add('strong');
   document.getElementById('pwd-next').disabled=!(len&&up&&num&&match);
+}
+
+// Save password before continuing to step 4
+function savePwdAndGo(){
+  const p=document.getElementById('f-pwd').value;
+  if(p.length<8)return;
+  // Basic hash (NOT secure for production - use server-side bcrypt)
+  let hash=0;
+  for(let i=0;i<p.length;i++)hash=((hash<<5)-hash)+p.charCodeAt(i);
+  saveDraft({passwordHash:String(hash),passwordSet:true});
+  goPane(4);
 }
 
 function toggleChip(el){
@@ -480,13 +552,15 @@ function step4Next(){
   goPane(5);
 }
 
-function finish(){
+async function finish(){
   S.days=[...document.querySelectorAll('#days-grid .day.active')].map(d=>d.dataset.day);
   const draft=getDraft();
   const profile={
     id:'CL-'+Date.now().toString(36).toUpperCase().slice(-6),
     ...draft,
     name:`${draft.firstname} ${draft.lastname}`,
+    services:S.services,
+    languages:S.langs,
     availability:{
       days:S.days,
       start:document.getElementById('f-start').value,
@@ -505,20 +579,58 @@ function finish(){
     status:'in_behandeling',
     createdAt:new Date().toISOString()
   };
+  
+  // Save to localStorage always (for instant dashboard load)
   try{
     localStorage.setItem('cl_profile_current',JSON.stringify(profile));
+    localStorage.setItem('cl_session',JSON.stringify({email:profile.email,id:profile.id,loginAt:new Date().toISOString()}));
     const list=JSON.parse(localStorage.getItem('cl_workers')||'[]');
     list.unshift(profile);
     localStorage.setItem('cl_workers',JSON.stringify(list.slice(0,20)));
     localStorage.removeItem('cl_signup_draft');
   }catch(e){}
+  
+  // ALSO save to Supabase if real mode
+  if(window.IS_REAL_MODE&&window.supabaseClient&&draft.userId){
+    try{
+      showToast('info','Profiel wordt opgeslagen...');
+      const {data,error}=await window.supabaseClient.from('cleaners').insert({
+        user_id:draft.userId,
+        firstname:draft.firstname,
+        lastname:draft.lastname,
+        email:draft.email,
+        phone:draft.phone,
+        hood:draft.hood,
+        bio:draft.bio,
+        hourly_rate:+draft.hourlyRate||15,
+        years_exp:+draft.yearsExperience||0,
+        services:S.services,
+        languages:S.langs,
+        available_days:S.days,
+        available_start:document.getElementById('f-start').value,
+        available_end:document.getElementById('f-end').value,
+        hours_per_week:+document.getElementById('f-hours').value,
+        kyc_status:'pending',
+        status:'pending',
+        is_visible:false
+      }).select().single();
+      if(error)throw error;
+      console.log('✓ Profiel opgeslagen in Supabase',data);
+      showToast('success','✓ Profiel opgeslagen!');
+    }catch(err){
+      console.error('Supabase insert error:',err);
+      showToast('error','Lokaal opgeslagen (DB fout: '+(err.message||'')+')');
+    }
+  }
+  
   document.getElementById('success-name').textContent=draft.firstname;
   document.getElementById('success-ref').textContent=profile.id;
   goPane(7);
 }
 
 function goToDashboard(){
-  window.location.href='/cleaner-dashboard.html';
+  showToast('success','Welkom in je dashboard!');
+  setTimeout(()=>{window.location.href='/cleaner-dashboard.html';},700);
 }
 
 function saveDraft(data){
@@ -532,14 +644,39 @@ function getDraft(){
   try{return JSON.parse(localStorage.getItem('cl_signup_draft')||'{}')}catch(e){return{}}
 }
 
-// Restore draft if exists
-(function restore(){
+// Restore draft if exists + detect Supabase verified callback
+(async function restore(){
   const d=getDraft();
   if(d.firstname)document.getElementById('f-firstname').value=d.firstname;
   if(d.lastname)document.getElementById('f-lastname').value=d.lastname;
   if(d.email)document.getElementById('f-email').value=d.email;
   if(d.phone)document.getElementById('f-phone').value=d.phone;
   if(d.hood)document.getElementById('f-hood').value=d.hood;
+  
+  // Check if user clicked verification email link
+  const url=new URL(location.href);
+  const verified=url.searchParams.get('verified');
+  const hasAccessToken=location.hash.includes('access_token');
+  
+  if((verified==='1'||hasAccessToken)&&window.IS_REAL_MODE&&window.supabaseClient){
+    try{
+      // Wait briefly for session to be set from URL hash
+      await new Promise(r=>setTimeout(r,300));
+      const {data:{session}}=await window.supabaseClient.auth.getSession();
+      if(session){
+        showToast('success','✓ Email bevestigd! Vervolg je profiel.');
+        saveDraft({emailVerified:true,userId:session.user.id});
+        // Pre-fill from auth metadata
+        const meta=session.user.user_metadata;
+        if(meta?.firstname)saveDraft({firstname:meta.firstname,lastname:meta.lastname,phone:meta.phone,hood:meta.hood,email:session.user.email});
+        // Skip directly to step 4 (profile details)
+        goPane(4);
+        // Clean URL
+        history.replaceState({},'',location.pathname);
+        return;
+      }
+    }catch(e){console.error('Verification callback error:',e);}
+  }
 })();
 </script>
 </body>

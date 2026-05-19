@@ -2,8 +2,5 @@
   "name": "cleaners-web",
   "version": "1.0.0",
   "description": "cleaners — Het vertrouwensplatform voor schoonmaak in Amsterdam",
-  "private": true,
-  "scripts": {
-    "build": "echo 'Static site - no build needed' && exit 0"
-  }
+  "private": true
 }

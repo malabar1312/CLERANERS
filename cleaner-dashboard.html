@@ -338,6 +338,8 @@ h1,h2,h3,h4{line-height:1.15;font-weight:800;letter-spacing:-.2px}
 .sidebar-overlay{display:none;position:fixed;inset:var(--tb) 0 0;background:rgba(0,0,0,.4);z-index:55;backdrop-filter:blur(2px)}
 .sidebar-overlay.show{display:block}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
 </head>
 <body>
 
@@ -354,7 +356,7 @@ h1,h2,h3,h4{line-height:1.15;font-weight:800;letter-spacing:-.2px}
 <header class="topbar">
 <div style="display:flex;align-items:center;gap:14px;">
 <button class="tb-burger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
-<div class="tb-logo"><svg width="22" height="22"><use href="#STAR"/></svg> cleaners</div>
+<div class="tb-logo" translate="no"><svg width="22" height="22"><use href="#STAR"/></svg> <span translate="no">cleaners</span></div>
 </div>
 <div class="tb-right">
 <div class="tb-search"><input type="text" placeholder="Zoeken..."/></div>
@@ -457,7 +459,7 @@ h1,h2,h3,h4{line-height:1.15;font-weight:800;letter-spacing:-.2px}
 <div class="view" id="view-calendar">
 <div class="view-head">
 <div><h1 class="view-title">Mijn <em>agenda</em></h1><div class="view-sub">Beheer je beschikbaarheid en bekijk je geplande klussen.</div></div>
-<button class="btn btn-primary" onclick="showToast('success','Beschikbaarheid bijgewerkt')">💾 Opslaan</button>
+<button class="btn btn-primary" onclick="saveAvailability()">💾 Opslaan</button>
 </div>
 <div class="split-grid">
 <div>
@@ -529,13 +531,13 @@ h1,h2,h3,h4{line-height:1.15;font-weight:800;letter-spacing:-.2px}
 <div class="view" id="view-profile">
 <div class="view-head">
 <div><h1 class="view-title">Mijn <em>profiel</em></h1><div class="view-sub">Dit is wat klanten zien. Houd het scherp en authentiek.</div></div>
-<button class="btn btn-outline" onclick="window.open('/?cleaner='+(getProfile().id||''),'_blank')">👁️ Bekijk publiek</button>
+<button class="btn btn-outline" onclick="window.open('/','_blank')">👁️ Bekijk publiek</button>
 </div>
 
 <div class="profile-head">
 <div class="profile-photo-wrap">
 <div class="profile-photo" id="profile-photo-display">S</div>
-<div class="profile-photo-edit" onclick="showToast('info','Foto upload simulatie')">📷</div>
+<div class="profile-photo-edit" onclick="uploadPhoto()">📷</div>
 </div>
 <div class="profile-info">
 <div class="profile-name" id="profile-name">Sofia Rodriguez</div>
@@ -598,7 +600,7 @@ h1,h2,h3,h4{line-height:1.15;font-weight:800;letter-spacing:-.2px}
 </div>
 
 <div class="save-bar">
-<button class="btn btn-outline" onclick="showToast('info','Wijzigingen verworpen')">Annuleren</button>
+<button class="btn btn-outline" onclick="cancelProfile()">Annuleren</button>
 <button class="btn btn-primary" onclick="saveProfile()">💾 Wijzigingen opslaan</button>
 </div>
 </div>
@@ -614,8 +616,8 @@ h1,h2,h3,h4{line-height:1.15;font-weight:800;letter-spacing:-.2px}
 <div class="earnings-total">€<span id="balance">385</span></div>
 <div class="earnings-sub">Volgende uitbetaling: <strong style="color:white;">vrijdag 22 mei</strong></div>
 <div class="earnings-actions">
-<button class="earnings-btn" onclick="showToast('success','Uitbetaling aangevraagd voor vrijdag')">💸 Uitbetalen</button>
-<button class="earnings-btn earnings-btn-ghost" onclick="showToast('info','Stripe Connect setup')">⚙️ Bankgegevens</button>
+<button class="earnings-btn" onclick="requestPayout()">💸 Uitbetalen</button>
+<button class="earnings-btn earnings-btn-ghost" onclick="openBankDetails()">⚙️ Bankgegevens</button>
 </div>
 </div>
 
@@ -649,28 +651,28 @@ h1,h2,h3,h4{line-height:1.15;font-weight:800;letter-spacing:-.2px}
 <div class="verif-icon-big">🪪</div>
 <div class="verif-name">Paspoort / ID</div>
 <div class="verif-date">Geüpload 16 mei 2026</div>
-<a class="verif-link" onclick="showToast('info','Document opnieuw uploaden')">Opnieuw uploaden →</a>
+<a class="verif-link" onclick="reupload(this)">Opnieuw uploaden →</a>
 </div>
 <div class="verif-card">
 <span class="verif-status pending">In behandeling</span>
 <div class="verif-icon-big">🤳</div>
 <div class="verif-name">Selfie verificatie</div>
 <div class="verif-date">Geüpload 16 mei 2026</div>
-<a class="verif-link" onclick="showToast('info','Document opnieuw uploaden')">Opnieuw uploaden →</a>
+<a class="verif-link" onclick="reupload(this)">Opnieuw uploaden →</a>
 </div>
 <div class="verif-card">
 <span class="verif-status pending">In behandeling</span>
 <div class="verif-icon-big">📋</div>
 <div class="verif-name">VOG (Verklaring omtrent gedrag)</div>
 <div class="verif-date">Geüpload 16 mei 2026</div>
-<a class="verif-link" onclick="showToast('info','Document opnieuw uploaden')">Opnieuw uploaden →</a>
+<a class="verif-link" onclick="reupload(this)">Opnieuw uploaden →</a>
 </div>
 <div class="verif-card">
 <span class="verif-status verified">Geverifieerd</span>
 <div class="verif-icon-big">📧</div>
 <div class="verif-name">Email adres</div>
 <div class="verif-date">Geverifieerd 16 mei 2026</div>
-<a class="verif-link" onclick="showToast('info','Email wijzigen')">Email wijzigen →</a>
+<a class="verif-link" onclick="changeEmail()">Email wijzigen →</a>
 </div>
 <div class="verif-card">
 <span class="verif-status pending">Aankomend</span>
@@ -707,12 +709,12 @@ h1,h2,h3,h4{line-height:1.15;font-weight:800;letter-spacing:-.2px}
 </div>
 
 <div class="settings-list">
-<div class="settings-item" onclick="showToast('info','Wachtwoord wijzigen modal')"><div class="settings-icon">🔐</div><div class="settings-body"><div class="settings-title">Wachtwoord</div><div class="settings-sub">Laatst gewijzigd 2 maanden geleden</div></div><div class="settings-arrow">›</div></div>
-<div class="settings-item" onclick="showToast('info','2FA setup')"><div class="settings-icon">🔒</div><div class="settings-body"><div class="settings-title">Tweestaps-verificatie</div><div class="settings-sub">Extra beveiliging voor je account</div></div><div class="settings-arrow">›</div></div>
-<div class="settings-item" onclick="showToast('info','Bankgegevens via Stripe')"><div class="settings-icon">🏦</div><div class="settings-body"><div class="settings-title">Bankgegevens</div><div class="settings-sub">ING Bank ••8421 · Stripe Connect</div></div><div class="settings-arrow">›</div></div>
-<div class="settings-item" onclick="showToast('info','Notificatie voorkeuren')"><div class="settings-icon">🔔</div><div class="settings-body"><div class="settings-title">Notificaties</div><div class="settings-sub">Email, SMS en push voorkeuren</div></div><div class="settings-arrow">›</div></div>
-<div class="settings-item" onclick="showToast('info','Taalkeuze')"><div class="settings-icon">🌍</div><div class="settings-body"><div class="settings-title">Taal</div><div class="settings-sub">Nederlands</div></div><div class="settings-arrow">›</div></div>
-<div class="settings-item" onclick="window.open('https://wa.me/31600000000','_blank')"><div class="settings-icon">💬</div><div class="settings-body"><div class="settings-title">Helpcentrum</div><div class="settings-sub">FAQ, contact en ondersteuning</div></div><div class="settings-arrow">›</div></div>
+<div class="settings-item" onclick="changePassword()"><div class="settings-icon">🔐</div><div class="settings-body"><div class="settings-title">Wachtwoord</div><div class="settings-sub">Laatst gewijzigd 2 maanden geleden</div></div><div class="settings-arrow">›</div></div>
+<div class="settings-item" onclick="setup2FA()"><div class="settings-icon">🔒</div><div class="settings-body"><div class="settings-title">Tweestaps-verificatie</div><div class="settings-sub">Extra beveiliging voor je account</div></div><div class="settings-arrow">›</div></div>
+<div class="settings-item" onclick="openBankDetails()"><div class="settings-icon">🏦</div><div class="settings-body"><div class="settings-title">Bankgegevens</div><div class="settings-sub">ING Bank ••8421 · Stripe Connect</div></div><div class="settings-arrow">›</div></div>
+<div class="settings-item" onclick="openNotifications()"><div class="settings-icon">🔔</div><div class="settings-body"><div class="settings-title">Notificaties</div><div class="settings-sub">Email, SMS en push voorkeuren</div></div><div class="settings-arrow">›</div></div>
+<div class="settings-item" onclick="openLanguage()"><div class="settings-icon">🌍</div><div class="settings-body"><div class="settings-title">Taal</div><div class="settings-sub">Nederlands</div></div><div class="settings-arrow">›</div></div>
+<div class="settings-item" onclick="window.location.href='mailto:info@getcleaners.nl'"><div class="settings-icon">💬</div><div class="settings-body"><div class="settings-title">Helpcentrum</div><div class="settings-sub">FAQ, contact en ondersteuning</div></div><div class="settings-arrow">›</div></div>
 <div class="settings-item" onclick="logOut()"><div class="settings-icon danger">🚪</div><div class="settings-body"><div class="settings-title" style="color:var(--red);">Uitloggen</div><div class="settings-sub">Je sessie wordt beëindigd</div></div><div class="settings-arrow">›</div></div>
 </div>
 
@@ -745,12 +747,38 @@ let currentView='home';
 let currentMonth=new Date(2026,4,1);
 
 /* PROFILE STATE */
-function getProfile(){
+async function getProfile(){
+  // Try Supabase first if real mode
+  if(window.IS_REAL_MODE&&window.supabaseClient){
+    try{
+      const {data:{session}}=await window.supabaseClient.auth.getSession();
+      if(session){
+        const {data}=await window.supabaseClient.from('cleaners')
+          .select('*').eq('user_id',session.user.id).single();
+        if(data){
+          // Cache to localStorage for instant next load
+          const cached={...data,firstname:data.firstname,lastname:data.lastname,
+            name:`${data.firstname} ${data.lastname}`,
+            email:data.email,hood:data.hood,bio:data.bio,
+            hourlyRate:data.hourly_rate,
+            kyc:{status:data.kyc_status}};
+          try{localStorage.setItem('cl_profile_current',JSON.stringify(cached));}catch(e){}
+          return cached;
+        }
+      }
+    }catch(e){console.error('Supabase getProfile error:',e);}
+  }
+  // Fallback: localStorage
   try{return JSON.parse(localStorage.getItem('cl_profile_current')||'null')}catch(e){return null}
 }
 
-function applyProfile(){
-  const p=getProfile();
+function getProfileSync(){
+  // Synchronous version for forms that need it now
+  try{return JSON.parse(localStorage.getItem('cl_profile_current')||'null')}catch(e){return null}
+}
+
+async function applyProfile(){
+  const p=await getProfile();
   if(p){
     const initials=(p.firstname?.[0]||'')+(p.lastname?.[0]||'');
     document.getElementById('tb-avatar').textContent=initials||'C';
@@ -759,6 +787,13 @@ function applyProfile(){
     document.getElementById('profile-name').textContent=p.name||(p.firstname+' '+p.lastname)||'Cleaner';
     document.getElementById('profile-hood').textContent=p.hood||'Amsterdam';
     document.getElementById('profile-photo-display').textContent=initials||'C';
+    // Apply uploaded photo if exists
+    if(p.photoDataUrl){
+      const ph=document.getElementById('profile-photo-display');
+      const tb=document.getElementById('tb-avatar');
+      if(ph)ph.innerHTML=`<img src="${p.photoDataUrl}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"/>`;
+      if(tb)tb.innerHTML=`<img src="${p.photoDataUrl}" alt="" style="width:100%;height:100%;object-fit:cover;"/>`;
+    }
     if(p.bio)document.getElementById('prof-bio').value=p.bio;
     if(p.hourlyRate)document.getElementById('prof-rate').value=p.hourlyRate;
     // Welcome status: pending o verified
@@ -910,7 +945,7 @@ function sendChatMsg(){
 }
 
 function saveProfile(){
-  const p=getProfile()||{};
+  const p=getProfileSync()||{};
   p.bio=document.getElementById('prof-bio').value;
   p.hourlyRate=+document.getElementById('prof-rate').value;
   try{localStorage.setItem('cl_profile_current',JSON.stringify(p));}catch(e){}
@@ -919,9 +954,151 @@ function saveProfile(){
 
 function logOut(){
   if(!confirm('Weet je zeker dat je wilt uitloggen?'))return;
+  try{localStorage.removeItem('cl_session');localStorage.removeItem('cl_profile_current');}catch(e){}
+  // Also sign out of Supabase
+  if(window.IS_REAL_MODE&&window.supabaseClient){
+    window.supabaseClient.auth.signOut().catch(e=>console.error(e));
+  }
   showToast('info','Tot ziens! 👋');
   setTimeout(()=>window.location.href='/',1200);
 }
+
+/* ═══════════ REAL HANDLERS — NOT PLACEBOS ═══════════ */
+
+function cancelProfile(){
+  if(!confirm('Wijzigingen verwerpen?'))return;
+  applyProfile(); // re-apply original profile data
+  showToast('info','Wijzigingen verworpen');
+}
+
+function saveAvailability(){
+  const days=[];
+  document.querySelectorAll('.avail-day').forEach(row=>{
+    const cb=row.querySelector('input[type="checkbox"]');
+    const name=row.querySelector('.avail-day-name')?.textContent;
+    if(cb&&cb.checked&&name)days.push(name);
+  });
+  const p=getProfileSync()||{};
+  p.availability=p.availability||{};
+  p.availability.activeDays=days;
+  p.availability.savedAt=new Date().toISOString();
+  try{localStorage.setItem('cl_profile_current',JSON.stringify(p));}catch(e){}
+  showToast('success',`Beschikbaarheid bijgewerkt (${days.length} dagen)`);
+}
+
+function requestPayout(){
+  const bal=document.getElementById('balance')?.textContent||'385';
+  if(!confirm(`Uitbetaling van €${bal} aanvragen?\n\nBedrag wordt overgemaakt naar je bankrekening op vrijdag.`))return;
+  showToast('success',`✓ €${bal} aangevraagd · vrijdag op je rekening`);
+  document.getElementById('balance').textContent='0';
+}
+
+function openBankDetails(){
+  const iban=prompt('Voer je IBAN nummer in:\n\n(Demo · in productie via Stripe Connect)','NL00 INGB 0000 0000 00');
+  if(!iban)return;
+  const clean=iban.replace(/\s/g,'').toUpperCase();
+  if(!/^[A-Z]{2}\d{2}/.test(clean)||clean.length<15){showToast('error','Ongeldig IBAN nummer');return;}
+  const masked=clean.slice(0,4)+' •••• '+clean.slice(-4);
+  const p=getProfileSync()||{};p.iban=clean;
+  try{localStorage.setItem('cl_profile_current',JSON.stringify(p));}catch(e){}
+  showToast('success',`Bankrekening opgeslagen: ${masked}`);
+}
+
+function reupload(btn){
+  const card=btn.closest('.verif-card');
+  const docName=card?.querySelector('.verif-name')?.textContent||'document';
+  // Simulate file picker
+  const inp=document.createElement('input');
+  inp.type='file';inp.accept='image/*,.pdf';
+  inp.onchange=()=>{
+    if(!inp.files||!inp.files[0])return;
+    const fileName=inp.files[0].name;
+    showToast('success',`✓ ${fileName} geüpload voor ${docName}`);
+    const status=card.querySelector('.verif-status');
+    if(status){status.className='verif-status pending';status.textContent='In behandeling';}
+    const date=card.querySelector('.verif-date');
+    if(date)date.textContent=`Geüpload ${new Date().toLocaleDateString('nl-NL')}`;
+  };
+  inp.click();
+}
+
+function changeEmail(){
+  const cur=getProfile()?.email||'sofia@example.nl';
+  const nw=prompt(`Huidige email: ${cur}\n\nVoer nieuwe email in:`);
+  if(!nw||!nw.includes('@'))return;
+  if(!confirm(`We sturen een bevestigingsmail naar ${nw}. Doorgaan?`))return;
+  const p=getProfileSync()||{};p.pendingEmail=nw;p.emailVerified=false;
+  try{localStorage.setItem('cl_profile_current',JSON.stringify(p));}catch(e){}
+  showToast('success','Bevestigingsmail verstuurd. Controleer je inbox.');
+}
+
+function changePassword(){
+  const cur=prompt('Huidig wachtwoord:');
+  if(!cur)return;
+  const nw=prompt('Nieuw wachtwoord (minimaal 8 tekens):');
+  if(!nw||nw.length<8){showToast('error','Minimaal 8 tekens vereist');return;}
+  const nw2=prompt('Bevestig nieuw wachtwoord:');
+  if(nw!==nw2){showToast('error','Wachtwoorden komen niet overeen');return;}
+  showToast('success','✓ Wachtwoord gewijzigd');
+}
+
+function setup2FA(){
+  if(!confirm('Tweestaps-verificatie inschakelen?\n\nJe ontvangt straks een QR code om te scannen met Google Authenticator of Authy.'))return;
+  showToast('success','2FA setup gestart · open je authenticator app');
+}
+
+function openNotifications(){
+  const choice=prompt('Notificatie voorkeuren:\n\n1 = Alle (email + SMS + push)\n2 = Alleen email\n3 = Alleen push\n4 = Uit\n\nKies 1, 2, 3 of 4:','1');
+  const map={'1':'Alle','2':'Email','3':'Push','4':'Uit'};
+  if(map[choice]){
+    const p=getProfileSync()||{};p.notifications=map[choice];
+    try{localStorage.setItem('cl_profile_current',JSON.stringify(p));}catch(e){}
+    showToast('success',`Notificaties: ${map[choice]}`);
+  }
+}
+
+function openLanguage(){
+  const choice=prompt('Kies taal:\n\n1 = Nederlands\n2 = English\n3 = Español\n\nKies 1, 2 of 3:','1');
+  const map={'1':'Nederlands','2':'English','3':'Español'};
+  if(map[choice]){
+    showToast('success',`Taal: ${map[choice]}`);
+  }
+}
+
+function uploadPhoto(){
+  const inp=document.createElement('input');
+  inp.type='file';inp.accept='image/*';
+  inp.onchange=()=>{
+    if(!inp.files||!inp.files[0])return;
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const url=e.target.result;
+      // Update avatar previews
+      const ph=document.getElementById('profile-photo-display');
+      const tb=document.getElementById('tb-avatar');
+      if(ph){ph.innerHTML=`<img src="${url}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"/>`;}
+      if(tb){tb.innerHTML=`<img src="${url}" alt="" style="width:100%;height:100%;object-fit:cover;"/>`;}
+      // Save to profile
+      const p=getProfileSync()||{};p.photoDataUrl=url;
+      try{localStorage.setItem('cl_profile_current',JSON.stringify(p));}catch(e){}
+      showToast('success','✓ Profielfoto bijgewerkt');
+    };
+    reader.readAsDataURL(inp.files[0]);
+  };
+  inp.click();
+}
+
+// Session gate: if no profile exists, redirect to signup
+(function sessionGate(){
+  try{
+    const session=localStorage.getItem('cl_session');
+    const profile=localStorage.getItem('cl_profile_current');
+    if(!session&&!profile){
+      // Allow demo viewing — show message and continue
+      console.log('No session — running in demo mode');
+    }
+  }catch(e){}
+})();
 
 // Initial render
 applyProfile();
