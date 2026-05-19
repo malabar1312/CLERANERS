@@ -17,8 +17,8 @@
 
 window.CLEANERS_CONFIG = {
   // ═══════════ SUPABASE (BACKEND REAL) ═══════════
-  SUPABASE_URL: '',          // Ej: https://xxxxx.supabase.co
-  SUPABASE_ANON_KEY: '',     // Ej: eyJhbG...
+  SUPABASE_URL: 'https://xrbvqasfdxaoomorapcm.supabase.co',          // Ej: https://xxxxx.supabase.co
+  SUPABASE_ANON_KEY: 'sb_publishable_aUIdqMxiCWts4MtlSLAtHA_mBPxUCne',     // Ej: eyJhbG...
   
   // ═══════════ DOMINIO ═══════════
   SITE_URL: 'https://getcleaners.nl',
