@@ -565,6 +565,54 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 .atab:hover{color:var(--ink2)}
 .atab.active{background:white;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04)}
 .fhint{font-size:11px;color:var(--muted);margin-top:5px;min-height:14px;line-height:1.4}
+.user-pill{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9999px;padding:4px 14px 4px 4px;cursor:pointer;transition:all .2s var(--eo);color:white}
+.role-card{display:flex;align-items:center;gap:14px;width:100%;padding:16px;background:white;border:1.5px solid var(--border);border-radius:14px;text-align:left;cursor:pointer;transition:all .24s var(--eo);margin-bottom:10px}
+.role-card:hover{border-color:var(--blue);box-shadow:0 4px 16px rgba(26,86,219,.12);transform:translateY(-1px)}
+.role-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.role-body{flex:1;min-width:0}
+.role-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px;letter-spacing:-.01em}
+.role-sub{font-size:12px;color:var(--muted);line-height:1.4}
+.role-arrow{font-size:20px;color:var(--muted2);flex-shrink:0;transition:color .2s,transform .2s}
+.role-card:hover .role-arrow{color:var(--blue);transform:translateX(3px)}
+
+/* 🍪 COOKIES BANNER */
+.cookies-banner{position:fixed;bottom:16px;left:16px;right:16px;max-width:540px;margin:0 auto;background:rgba(12,20,32,.96);backdrop-filter:blur(20px) saturate(1.5);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:18px 20px;box-shadow:0 16px 48px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.15);z-index:400;opacity:0;transform:translateY(20px);transition:opacity .35s var(--eo),transform .35s var(--eo);pointer-events:none}
+.cookies-banner.show{opacity:1;transform:none;pointer-events:auto}
+.cookies-inner{display:flex;flex-direction:column;gap:14px}
+.cookies-title{font-size:14px;font-weight:700;color:white;margin-bottom:4px;letter-spacing:-.01em}
+.cookies-body{font-size:12px;color:rgba(255,255,255,.65);line-height:1.55}
+.cookies-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn-cookies-primary{background:var(--blue);color:white;padding:9px 18px;border-radius:10px;font-size:12.5px;font-weight:700;transition:background .2s;letter-spacing:-.01em}
+.btn-cookies-primary:hover{background:var(--blueh)}
+.btn-cookies-ghost{background:rgba(255,255,255,.06);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.1);padding:9px 16px;border-radius:10px;font-size:12.5px;font-weight:600;transition:background .2s}
+.btn-cookies-ghost:hover{background:rgba(255,255,255,.12)}
+.btn-cookies-link{background:transparent;color:rgba(255,255,255,.55);padding:9px 8px;font-size:12px;font-weight:500;text-decoration:underline;text-underline-offset:2px;margin-right:auto}
+.btn-cookies-link:hover{color:white}
+@media(max-width:580px){
+.cookies-banner{bottom:12px;left:12px;right:12px;padding:16px}
+.cookies-actions{flex-direction:column-reverse;align-items:stretch}
+.btn-cookies-link{margin-right:0;order:99;text-align:center}
+.btn-cookies-primary,.btn-cookies-ghost{width:100%}
+}
+
+/* Cookie categories in settings modal */
+.cookie-cat{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px}
+.cookie-cat-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.cookie-cat-title{font-size:14px;font-weight:700;margin-bottom:3px;letter-spacing:-.01em}
+.cookie-cat-sub{font-size:12px;color:var(--muted);line-height:1.5}
+.cookie-toggle{position:relative;width:42px;height:24px;flex-shrink:0;cursor:pointer}
+.cookie-toggle input{opacity:0;width:0;height:0}
+.cookie-toggle .toggle-slider{position:absolute;inset:0;background:var(--border);border-radius:9999px;transition:background .2s}
+.cookie-toggle .toggle-slider::before{content:'';position:absolute;left:3px;top:3px;width:18px;height:18px;background:white;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s}
+.cookie-toggle input:checked + .toggle-slider{background:var(--green)}
+.cookie-toggle input:checked + .toggle-slider::before{transform:translateX(18px)}
+.cookie-toggle.locked{background:var(--greenl);color:var(--green);border-radius:9999px;display:flex;align-items:center;justify-content:center;cursor:not-allowed;font-size:13px;font-weight:800}
+.user-pill:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.18)}
+.user-pill-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#3B82F6);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:800;text-transform:uppercase;flex-shrink:0}
+.user-pill-name{font-size:13px;font-weight:600;letter-spacing:-.01em;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav.scrolled .user-pill{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.06);color:var(--ink2)}
+.nav.scrolled .user-pill:hover{background:rgba(0,0,0,.08)}
+@media(max-width:580px){.user-pill-name{display:none}}
 .fhint.error{color:var(--red);font-weight:500}
 .fhint.success{color:var(--green);font-weight:500}
 .fi.has-error{border-color:var(--red);box-shadow:0 0 0 3px rgba(239,68,68,.08)}
@@ -681,6 +729,25 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 <!-- Mode tabs -->
 <div class="atabs"><button class="atab" id="atab-login" onclick="setAuthMode('login')">Inloggen</button><button class="atab active" id="atab-signup" onclick="setAuthMode('signup')">Aanmaken</button></div>
 
+<!-- ROLE PICK (signup only - shown first) -->
+<div id="role-pick">
+<p style="text-align:center;font-size:13px;color:var(--muted);margin-bottom:14px;">Wat past bij jou?</p>
+<button class="role-card" onclick="pickRole('client')" type="button">
+<div class="role-icon" style="background:var(--bluel);color:var(--blue);">🔍</div>
+<div class="role-body"><div class="role-title">Ik zoek een schoonmaker</div><div class="role-sub">Boek een schoonmaak voor je huis, Airbnb of kantoor</div></div>
+<span class="role-arrow">→</span>
+</button>
+<button class="role-card" onclick="pickRole('cleaner')" type="button">
+<div class="role-icon" style="background:var(--goldl);color:var(--gold);">💼</div>
+<div class="role-body"><div class="role-title">Ik wil als schoonmaker werken</div><div class="role-sub">Verdien tot €2.100/maand · flexibele uren</div></div>
+<span class="role-arrow">→</span>
+</button>
+</div>
+
+<!-- SIGNUP FORM (hidden until role picked) -->
+<div id="signup-form-wrap" style="display:none;">
+<button id="role-back" onclick="resetRolePick()" type="button" style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:14px;padding:6px 0;">← Wijzig keuze</button>
+
 <!-- Social login -->
 <div class="sli"><button class="sbi btn-block" onclick="socialLogin('google')" type="button"><svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>Doorgaan met Google</button>
 <button class="sbi btn-block" onclick="socialLogin('apple')" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="#000"><path d="M17.05 20.28c-.98.95-2.05.94-3.08.41-1.09-.54-2.09-.5-3.24 0-1.44.62-2.2.44-3.06-.41C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>Doorgaan met Apple</button></div>
@@ -715,6 +782,7 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 <p id="auth-switch" style="text-align:center;font-size:13px;color:var(--muted);">Heb je al een account? <button type="button" style="color:var(--blue);font-weight:700;" onclick="setAuthMode('login')">Inloggen →</button></p>
 
 <p style="text-align:center;font-size:11px;color:var(--muted2);margin-top:14px;line-height:1.6;">Door verder te gaan ga je akkoord met onze <a href="#" style="color:var(--ink2);text-decoration:underline;">Algemene voorwaarden</a> en <a href="#" style="color:var(--ink2);text-decoration:underline;">Privacy</a>.</p>
+</div>
 
 </div></div></div>
 
@@ -740,6 +808,47 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 
 <!-- Mobile Sticky CTA -->
 <div class="msticky"><button onclick="document.getElementById('search-anchor').scrollIntoView({behavior:'smooth'})">Schoonmaker vinden</button></div>
+
+<!-- 🍪 COOKIES BANNER -->
+<div id="cookies-banner" class="cookies-banner" role="dialog" aria-label="Cookies">
+<div class="cookies-inner">
+<div class="cookies-text">
+<div class="cookies-title">🍪 We respecteren je privacy</div>
+<div class="cookies-body">We gebruiken cookies om je ervaring te verbeteren, het gebruik te analyseren en relevante content te tonen. Je kunt op elk moment je voorkeuren wijzigen.</div>
+</div>
+<div class="cookies-actions">
+<button onclick="setCookieChoice('necessary')" class="btn-cookies-ghost">Alleen noodzakelijk</button>
+<button onclick="openCookieSettings()" class="btn-cookies-link">Instellingen</button>
+<button onclick="setCookieChoice('all')" class="btn-cookies-primary">Akkoord met alles</button>
+</div>
+</div>
+</div>
+
+<!-- COOKIES SETTINGS MODAL -->
+<div class="ov" id="cookies-ov" onclick="bgClose(event,'cookies-ov')"><div class="mb" style="max-width:520px;"><button class="mclose" onclick="closeOv('cookies-ov')">×</button><div class="mp">
+<div style="margin-bottom:20px;"><h3 style="font-size:24px;font-weight:800;letter-spacing:-.3px;margin-bottom:6px;">Cookie instellingen</h3><p style="font-size:13px;color:var(--muted);line-height:1.6;">Kies welke cookies we mogen gebruiken. Je kunt deze instellingen op elk moment wijzigen.</p></div>
+
+<div class="cookie-cat">
+<div class="cookie-cat-head"><div><div class="cookie-cat-title">Noodzakelijk</div><div class="cookie-cat-sub">Voor het functioneren van de site (login, beveiliging)</div></div><div class="cookie-toggle locked"><span>✓</span></div></div>
+</div>
+
+<div class="cookie-cat">
+<div class="cookie-cat-head"><div><div class="cookie-cat-title">Functioneel</div><div class="cookie-cat-sub">Voorkeuren onthouden (taal, locatie)</div></div><label class="cookie-toggle"><input type="checkbox" id="cookie-functional" checked><span class="toggle-slider"></span></label></div>
+</div>
+
+<div class="cookie-cat">
+<div class="cookie-cat-head"><div><div class="cookie-cat-title">Analyse</div><div class="cookie-cat-sub">Anonieme statistieken om de site te verbeteren</div></div><label class="cookie-toggle"><input type="checkbox" id="cookie-analytics"><span class="toggle-slider"></span></label></div>
+</div>
+
+<div class="cookie-cat">
+<div class="cookie-cat-head"><div><div class="cookie-cat-title">Marketing</div><div class="cookie-cat-sub">Gepersonaliseerde advertenties op andere sites</div></div><label class="cookie-toggle"><input type="checkbox" id="cookie-marketing"><span class="toggle-slider"></span></label></div>
+</div>
+
+<div style="display:flex;gap:10px;margin-top:24px;flex-wrap:wrap;">
+<button class="btn btn-outline" style="flex:1;" onclick="saveCookieSettings()">Mijn keuze opslaan</button>
+<button class="btn btn-primary" style="flex:1;" onclick="setCookieChoice('all');closeOv('cookies-ov');">Alles toestaan</button>
+</div>
+</div></div></div>
 
 
 
@@ -1136,6 +1245,28 @@ S.authMode='signup';
 function openSignup(){setAuthMode('signup');openOv('auth-ov');setTimeout(()=>document.getElementById('au-firstname')?.focus(),300);}
 function openLogin(){setAuthMode('login');openOv('auth-ov');setTimeout(()=>document.getElementById('au-email')?.focus(),300);}
 
+S.signupRole=null;
+
+function pickRole(role){
+  if(role==='cleaner'){
+    closeOv('auth-ov');
+    showToast('info','We brengen je naar het schoonmaker registratie...');
+    setTimeout(()=>{window.location.href='/cleaner-signup.html';},800);
+    return;
+  }
+  // Client → show form
+  S.signupRole='client';
+  document.getElementById('role-pick').style.display='none';
+  document.getElementById('signup-form-wrap').style.display='block';
+  setTimeout(()=>document.getElementById('au-firstname')?.focus(),100);
+}
+
+function resetRolePick(){
+  S.signupRole=null;
+  document.getElementById('role-pick').style.display='block';
+  document.getElementById('signup-form-wrap').style.display='none';
+}
+
 function setAuthMode(mode){
   S.authMode=mode;
   const isSignup=mode==='signup';
@@ -1143,9 +1274,20 @@ function setAuthMode(mode){
   document.getElementById('auth-sub').textContent=isSignup?'Maak een account aan in 30 seconden':'Log in op je account';
   document.getElementById('atab-login').classList.toggle('active',!isSignup);
   document.getElementById('atab-signup').classList.toggle('active',isSignup);
+  // Role pick: show only in signup mode AND if no role chosen yet
+  const rolePick=document.getElementById('role-pick');
+  const formWrap=document.getElementById('signup-form-wrap');
+  if(isSignup){
+    if(S.signupRole){rolePick.style.display='none';formWrap.style.display='block';}
+    else{rolePick.style.display='block';formWrap.style.display='none';}
+  }else{
+    rolePick.style.display='none';
+    formWrap.style.display='block';
+  }
   document.getElementById('signup-fields').style.display=isSignup?'block':'none';
   document.getElementById('signup-hood-wrap').style.display=isSignup?'block':'none';
   document.getElementById('signup-pwd2-wrap').style.display=isSignup?'block':'none';
+  document.getElementById('role-back').style.display=isSignup?'flex':'none';
   document.getElementById('auth-submit').textContent=isSignup?'Account aanmaken':'Inloggen';
   document.getElementById('auth-switch').innerHTML=isSignup
     ?'Heb je al een account? <button type="button" style="color:var(--blue);font-weight:700;" onclick="setAuthMode(\'login\')">Inloggen →</button>'
@@ -1319,13 +1461,36 @@ function showAuthSuccess(email,firstname){
     <div style="text-align:center;padding:20px 0;">
       <div style="width:72px;height:72px;border-radius:50%;background:var(--greenl);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--green);margin:0 auto 20px;">✓</div>
       <h3 style="font-size:24px;font-weight:800;letter-spacing:-.3px;margin-bottom:8px;">Account aangemaakt!</h3>
-      <p style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px;">We hebben een bevestigingsmail gestuurd naar <strong style="color:var(--ink);">${email}</strong></p>
-      <div style="background:var(--bluel);border:1px solid var(--bluem);border-radius:14px;padding:16px;text-align:left;margin-bottom:20px;">
+      <p style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px;">We hebben een bevestigingsmail gestuurd naar<br><strong style="color:var(--ink);">${email}</strong></p>
+      <div style="background:var(--bluel);border:1px solid var(--bluem);border-radius:14px;padding:16px;text-align:left;margin-bottom:14px;">
         <div style="font-size:12px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Volgende stap</div>
-        <div style="font-size:13px;color:var(--ink2);line-height:1.6;">Open de email en klik op de link om je account te activeren. Controleer ook je spam folder.</div>
+        <div style="font-size:13px;color:var(--ink2);line-height:1.6;">Open de email <strong>(controleer ook spam!)</strong> en klik op de bevestigingslink. Afzender: <code style="background:white;padding:2px 6px;border-radius:4px;font-size:11px;border:1px solid var(--border);">noreply@mail.app.supabase.io</code></div>
       </div>
-      <button class="btn btn-primary btn-lg btn-block" onclick="closeOv('auth-ov')">Sluiten</button>
+      <button class="btn btn-outline btn-block" id="resend-btn" onclick="resendConfirm('${email}')" style="margin-bottom:10px;font-size:13px;padding:11px;">📬 Email opnieuw versturen</button>
+      <button class="btn btn-primary btn-lg btn-block" onclick="closeOv('auth-ov')">Begrepen</button>
     </div>`;
+}
+
+async function resendConfirm(email){
+  const btn=document.getElementById('resend-btn');
+  if(!window.IS_REAL_MODE||!window.supabaseClient){showToast('error','Supabase niet geconfigureerd');return;}
+  try{
+    btn.disabled=true;btn.textContent='Bezig met versturen...';
+    const {error}=await window.supabaseClient.auth.resend({
+      type:'signup',
+      email,
+      options:{emailRedirectTo:window.CLEANERS_CONFIG.SITE_URL||location.origin}
+    });
+    if(error)throw error;
+    btn.textContent='✓ Verstuurd! Controleer je spam.';
+    showToast('success','Email opnieuw verstuurd');
+    setTimeout(()=>{btn.disabled=false;btn.textContent='📬 Email opnieuw versturen';},10000);
+  }catch(err){
+    btn.disabled=false;btn.textContent='📬 Email opnieuw versturen';
+    const msg=(err&&err.message)||'';
+    if(msg.includes('rate')||msg.includes('Rate')){showToast('error','Te veel pogingen. Wacht 1 uur.');}
+    else{showToast('error',msg||'Versturen mislukt');}
+  }
 }
 
 function wStep(n){document.querySelectorAll('[id^="wp"]').forEach((p,i)=>p.classList.toggle('active',i===n));document.querySelectorAll('[id^="wd"]').forEach((d,i)=>{d.classList.toggle('active',i===n);d.classList.toggle('done',i<n);});}
@@ -1354,34 +1519,239 @@ document.querySelectorAll('.fp').forEach((b,i)=>{const c=['all','huis','airbnb',
 
 let resizeT=null;window.addEventListener('resize',()=>{clearTimeout(resizeT);resizeT=setTimeout(()=>renderCards(),150);});
 
+/* ═══════════ 🍪 COOKIES (GDPR) ═══════════ */
+(function initCookies(){
+  let prefs=null;
+  try{prefs=JSON.parse(localStorage.getItem('cl_cookies_consent')||'null');}catch(e){}
+  if(!prefs){
+    setTimeout(()=>{document.getElementById('cookies-banner')?.classList.add('show');},800);
+  }else{
+    applyCookiePrefs(prefs);
+  }
+})();
+
+function setCookieChoice(type){
+  const prefs={necessary:true,functional:type==='all',analytics:type==='all',marketing:type==='all',timestamp:new Date().toISOString(),version:1};
+  try{localStorage.setItem('cl_cookies_consent',JSON.stringify(prefs));}catch(e){}
+  document.getElementById('cookies-banner')?.classList.remove('show');
+  applyCookiePrefs(prefs);
+  if(type==='all')showToast('success','Cookies geaccepteerd');
+  else showToast('info','Alleen noodzakelijke cookies actief');
+}
+
+function openCookieSettings(){
+  try{
+    const prefs=JSON.parse(localStorage.getItem('cl_cookies_consent')||'null');
+    if(prefs){
+      document.getElementById('cookie-functional').checked=!!prefs.functional;
+      document.getElementById('cookie-analytics').checked=!!prefs.analytics;
+      document.getElementById('cookie-marketing').checked=!!prefs.marketing;
+    }
+  }catch(e){}
+  openOv('cookies-ov');
+}
+
+function saveCookieSettings(){
+  const prefs={
+    necessary:true,
+    functional:document.getElementById('cookie-functional').checked,
+    analytics:document.getElementById('cookie-analytics').checked,
+    marketing:document.getElementById('cookie-marketing').checked,
+    timestamp:new Date().toISOString(),version:1
+  };
+  try{localStorage.setItem('cl_cookies_consent',JSON.stringify(prefs));}catch(e){}
+  document.getElementById('cookies-banner')?.classList.remove('show');
+  closeOv('cookies-ov');
+  applyCookiePrefs(prefs);
+  showToast('success','Voorkeuren opgeslagen');
+}
+
+function applyCookiePrefs(prefs){
+  // Hook for actual analytics/marketing scripts later
+  window.COOKIE_PREFS=prefs;
+}
+
 renderCards();
 window.addEventListener('load',()=>{document.body.classList.add('loaded');setTimeout(()=>document.querySelectorAll('.rv').forEach(el=>{if(el.getBoundingClientRect().top<window.innerHeight)el.classList.add('in');}),50);});
 
-// Detect OAuth callback (when user returns from Google/Apple via Supabase)
-(async function detectOAuthCallback(){
-  if(!location.hash.includes('access_token'))return;
-  if(!window.IS_REAL_MODE||!window.supabaseClient)return;
-  try{
-    // Give Supabase a moment to set session from URL hash
-    await new Promise(r=>setTimeout(r,400));
-    const {data:{session}}=await window.supabaseClient.auth.getSession();
-    if(session&&session.user){
-      const u=session.user;
-      const name=u.user_metadata?.firstname||u.user_metadata?.full_name?.split(' ')[0]||u.email.split('@')[0];
-      showToast('success',`Welkom, ${name}!`);
-      // Check if cleaner profile exists
-      try{
-        const {data:profile}=await window.supabaseClient.from('cleaners')
-          .select('id,firstname').eq('user_id',u.id).maybeSingle();
-        if(profile){
-          setTimeout(()=>window.location.href='/cleaner-dashboard.html',1200);
+/* ═══════════ AUTH STATE LISTENER (handles email verification + OAuth callbacks) ═══════════ */
+if(window.IS_REAL_MODE&&window.supabaseClient){
+  // Run async to detect verification redirect
+  (async function initAuth(){
+    // Robust: wait for Supabase to process URL hash/query
+    await new Promise(r=>setTimeout(r,500));
+    
+    const url=new URL(location.href);
+    const hash=location.hash;
+    const isVerifyReturn = hash.includes('access_token') || 
+                            hash.includes('type=signup') ||
+                            url.searchParams.has('access_token') ||
+                            url.searchParams.has('code');
+    
+    try{
+      const {data:{session}}=await window.supabaseClient.auth.getSession();
+      if(session&&session.user){
+        // User is logged in
+        applyLoggedInState(session.user);
+        
+        if(isVerifyReturn){
+          // Just verified email — show welcome modal
+          const meta=session.user.user_metadata||{};
+          const name=meta.firstname||meta.full_name?.split(' ')[0]||session.user.email.split('@')[0];
+          showVerifiedModal(name,session.user.email,!!meta.firstname);
+          // Clean URL hash
+          history.replaceState({},'',location.pathname);
+          
+          // Check if cleaner profile exists → optional redirect later
+          try{
+            const {data:profile}=await window.supabaseClient.from('cleaners')
+              .select('id,firstname,status').eq('user_id',session.user.id).maybeSingle();
+            if(profile)S.cleanerProfile=profile;
+          }catch(e){}
         }
-      }catch(e){}
-      // Clean URL
-      history.replaceState({},'',location.pathname);
+      }
+    }catch(e){console.error('Auth init error:',e);}
+  })();
+  
+  // Listen for live auth state changes
+  window.supabaseClient.auth.onAuthStateChange((event,session)=>{
+    if(event==='SIGNED_IN'&&session){
+      applyLoggedInState(session.user);
+    }else if(event==='SIGNED_OUT'){
+      applyLoggedOutState();
     }
-  }catch(e){console.error('OAuth callback error:',e);}
-})();
+  });
+}
+
+function applyLoggedInState(user){
+  const meta=user.user_metadata||{};
+  const name=meta.firstname||meta.full_name?.split(' ')[0]||user.email.split('@')[0];
+  const initial=(name[0]||'C').toUpperCase();
+  
+  // Replace "Inloggen" button with user pill
+  const navAct=document.querySelector('.nact');
+  if(!navAct||navAct.querySelector('.user-pill'))return;
+  
+  const loginWrapper=navAct.querySelector('div[style*="relative"]');
+  if(loginWrapper){
+    loginWrapper.innerHTML=`<button class="user-pill" onclick="openUserMenu()" title="${user.email}">
+      <span class="user-pill-avatar">${initial}</span>
+      <span class="user-pill-name">${name}</span>
+    </button>`;
+  }
+  
+  const signupBtn=navAct.querySelector('.btn-primary');
+  if(signupBtn&&signupBtn.textContent.includes('Aanmelden'))signupBtn.style.display='none';
+  
+  // Ensure client profile exists in background (only if user came from client signup)
+  ensureClientProfile(user).then(profile=>{if(profile)S.clientProfile=profile;});
+  // Check cleaner profile too
+  checkCleanerProfile(user).then(profile=>{if(profile)S.cleanerProfile=profile;});
+}
+
+async function ensureClientProfile(user){
+  if(!user||!window.supabaseClient)return null;
+  try{
+    // Check if exists
+    const {data:existing}=await window.supabaseClient.from('clients')
+      .select('*').eq('user_id',user.id).maybeSingle();
+    if(existing)return existing;
+    
+    // Don't auto-create if user is signing up as cleaner
+    const meta=user.user_metadata||{};
+    if(meta.role==='cleaner')return null;
+    
+    // Create client profile
+    const {data,error}=await window.supabaseClient.from('clients').insert({
+      user_id:user.id,
+      firstname:meta.firstname||'',
+      lastname:meta.lastname||'',
+      email:user.email,
+      phone:meta.phone||'',
+      hood:meta.hood||''
+    }).select().single();
+    if(error){console.warn('ensureClientProfile:',error.message);return null;}
+    return data;
+  }catch(e){console.warn('ensureClientProfile error:',e);return null;}
+}
+
+async function checkCleanerProfile(user){
+  if(!user||!window.supabaseClient)return null;
+  try{
+    const {data}=await window.supabaseClient.from('cleaners')
+      .select('id,firstname,status').eq('user_id',user.id).maybeSingle();
+    return data;
+  }catch(e){return null;}
+}
+
+function applyLoggedOutState(){
+  // Reload to reset UI cleanly
+  location.reload();
+}
+
+async function openUserMenu(){
+  const {data:{session}}=await window.supabaseClient.auth.getSession();
+  if(!session)return;
+  const u=session.user;
+  const meta=u.user_metadata||{};
+  const name=meta.firstname||u.email.split('@')[0];
+  const hasCleanerProfile=!!S.cleanerProfile;
+  
+  showUserMenuModal({name,email:u.email,hasCleanerProfile});
+}
+
+function showUserMenuModal(opts){
+  const mp=document.querySelector('#auth-ov .mp');
+  if(!mp)return;
+  const {name,email,hasCleanerProfile}=opts;
+  const initial=(name[0]||'C').toUpperCase();
+  const hasClient=!!S.clientProfile;
+  
+  mp.innerHTML=`
+    <div style="text-align:center;padding:8px 0 20px;">
+      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#3B82F6);color:white;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;margin:0 auto 14px;">${initial}</div>
+      <h3 style="font-size:22px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px;">Hi, ${name}</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:24px;">${email}</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      ${hasClient?`<button class="sbi btn-block" onclick="closeOv('auth-ov');window.location.href='/client-dashboard.html'"><span style="font-size:16px;">🏠</span>Mijn dashboard</button>`:''}
+      ${hasCleanerProfile?`<button class="sbi btn-block" onclick="closeOv('auth-ov');window.location.href='/cleaner-dashboard.html'"><span style="font-size:16px;">💼</span>Schoonmaker dashboard</button>`:''}
+      <button class="sbi btn-block" onclick="closeOv('auth-ov');document.getElementById('cleaners').scrollIntoView({behavior:'smooth'})"><span style="font-size:16px;">🔍</span>Schoonmakers zoeken</button>
+      ${!hasCleanerProfile?`<button class="sbi btn-block" onclick="window.location.href='/cleaner-signup.html'"><span style="font-size:16px;">💼</span>Word schoonmaker</button>`:''}
+      <button class="sbi btn-block" style="color:var(--red);" onclick="userLogout()"><span style="font-size:16px;">🚪</span>Uitloggen</button>
+    </div>
+  `;
+  openOv('auth-ov');
+}
+
+async function userLogout(){
+  closeOv('auth-ov');
+  try{await window.supabaseClient.auth.signOut();}catch(e){}
+  try{localStorage.removeItem('cl_session');localStorage.removeItem('cl_profile_current');}catch(e){}
+  showToast('info','Tot ziens! 👋');
+  setTimeout(()=>location.reload(),900);
+}
+
+function showVerifiedModal(name,email,hasMetadata){
+  // First make sure modal is reset (in case it had previous content)
+  // Wait a tick if it was hidden
+  setTimeout(()=>{
+    const mp=document.querySelector('#auth-ov .mp');
+    if(!mp)return;
+    mp.innerHTML=`
+      <div style="text-align:center;padding:8px 0 0;">
+        <div style="width:80px;height:80px;border-radius:50%;background:var(--greenl);border:3px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:38px;color:var(--green);margin:0 auto 24px;">✓</div>
+        <h3 style="font-size:26px;font-weight:800;letter-spacing:-.3px;margin-bottom:8px;">Welkom${hasMetadata?', '+name:''}!</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:28px;">Je email is bevestigd en je account is actief. Je kunt nu schoonmakers zoeken en boeken.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button class="btn btn-primary btn-lg btn-block" onclick="closeOv('auth-ov');document.getElementById('cleaners').scrollIntoView({behavior:'smooth'})">🔍 Vind een schoonmaker</button>
+        <button class="btn btn-outline btn-block" onclick="closeOv('auth-ov');window.location.href='/cleaner-signup.html'" style="font-size:13px;padding:11px;">Ben je schoonmaker? Word er een →</button>
+      </div>
+    `;
+    openOv('auth-ov');
+  },200);
+}
 const $mesh=document.querySelector('.hmesh'),$beam=document.querySelector('.hbeam');
 window.addEventListener('scroll',()=>{const y=window.scrollY;if(y<700){if($mesh)$mesh.style.transform=`translateY(${y*.3}px)`;if($beam)$beam.style.opacity=Math.max(0,1-y/500);}},{passive:true});
 
