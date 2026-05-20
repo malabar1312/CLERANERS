@@ -575,6 +575,13 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 .role-arrow{font-size:20px;color:var(--muted2);flex-shrink:0;transition:color .2s,transform .2s}
 .role-card:hover .role-arrow{color:var(--blue);transform:translateX(3px)}
 
+/* OTP INPUTS — Stripe/Linear style */
+.otp-row{display:flex;gap:8px;justify-content:center;margin:8px 0 24px;direction:ltr}
+.otp-digit{width:48px;height:56px;border:1.5px solid var(--border);border-radius:12px;font-size:24px;font-weight:700;text-align:center;background:white;transition:all .18s var(--eo);caret-color:var(--blue);font-family:inherit;color:var(--ink);letter-spacing:0;-webkit-text-security:none}
+.otp-digit:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.1);transform:translateY(-1px);outline:none}
+.otp-digit.filled{border-color:var(--blue);background:var(--bluel);color:var(--blue)}
+@media(max-width:480px){.otp-row{gap:6px}.otp-digit{width:42px;height:50px;font-size:20px}}
+
 /* 🍪 COOKIES BANNER */
 .cookies-banner{position:fixed;bottom:16px;left:16px;right:16px;max-width:540px;margin:0 auto;background:rgba(12,20,32,.96);backdrop-filter:blur(20px) saturate(1.5);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:18px 20px;box-shadow:0 16px 48px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.15);z-index:400;opacity:0;transform:translateY(20px);transition:opacity .35s var(--eo),transform .35s var(--eo);pointer-events:none}
 .cookies-banner.show{opacity:1;transform:none;pointer-events:auto}
@@ -724,10 +731,10 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 
 <!-- AUTH -->
 <div class="ov" id="auth-ov" onclick="bgClose(event,'auth-ov')"><div class="mb" style="max-width:468px;"><button class="mclose" onclick="closeOv('auth-ov')">×</button><div class="mp">
-<div style="text-align:center;margin-bottom:20px;"><svg width="30" height="30" style="margin:0 auto 12px;"><use href="#STAR"/></svg><h3 style="font-size:26px;font-weight:800;letter-spacing:-.3px;" id="auth-title">Welkom bij <span translate="no">cleaners</span></h3><p style="font-size:14px;color:var(--muted);margin-top:5px;" id="auth-sub">Log in of maak een account aan</p></div>
+<div id="auth-header" style="text-align:center;margin-bottom:20px;"><svg width="30" height="30" style="margin:0 auto 12px;"><use href="#STAR"/></svg><h3 style="font-size:26px;font-weight:800;letter-spacing:-.3px;" id="auth-title">Welkom bij <span translate="no">cleaners</span></h3><p style="font-size:14px;color:var(--muted);margin-top:5px;" id="auth-sub">Log in of maak een account aan</p></div>
 
 <!-- Mode tabs -->
-<div class="atabs"><button class="atab" id="atab-login" onclick="setAuthMode('login')">Inloggen</button><button class="atab active" id="atab-signup" onclick="setAuthMode('signup')">Aanmaken</button></div>
+<div class="atabs" id="auth-tabs"><button class="atab" id="atab-login" onclick="setAuthMode('login')">Inloggen</button><button class="atab active" id="atab-signup" onclick="setAuthMode('signup')">Aanmaken</button></div>
 
 <!-- ROLE PICK (signup only - shown first) -->
 <div id="role-pick">
@@ -744,19 +751,16 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 </button>
 </div>
 
-<!-- SIGNUP FORM (hidden until role picked) -->
+<!-- SIGNUP FORM (shown after role pick) -->
 <div id="signup-form-wrap" style="display:none;">
 <button id="role-back" onclick="resetRolePick()" type="button" style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:14px;padding:6px 0;">← Wijzig keuze</button>
 
-<!-- Social login -->
 <div class="sli"><button class="sbi btn-block" onclick="socialLogin('google')" type="button"><svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>Doorgaan met Google</button>
 <button class="sbi btn-block" onclick="socialLogin('apple')" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="#000"><path d="M17.05 20.28c-.98.95-2.05.94-3.08.41-1.09-.54-2.09-.5-3.24 0-1.44.62-2.2.44-3.06-.41C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>Doorgaan met Apple</button></div>
 
 <div class="dv"><span>of met je email</span></div>
 
 <form id="auth-form" autocomplete="off" onsubmit="event.preventDefault();submitAuth()" data-form-type="other">
-
-<!-- Signup-only fields (toggleable) -->
 <div id="signup-fields">
 <div class="fg-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
 <div><label class="fl">Voornaam</label><input class="fi" id="au-firstname" type="text" autocomplete="given-name" placeholder="Sofia"/></div>
@@ -764,24 +768,49 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 </div>
 <div class="fg"><label class="fl">Telefoon</label><input class="fi" id="au-phone" type="tel" autocomplete="tel" placeholder="+31 6 12345678"/></div>
 </div>
-
 <div class="fg"><label class="fl">Email</label><input class="fi" id="au-email" type="email" autocomplete="email" placeholder="jou@email.nl"/></div>
-
 <div id="signup-hood-wrap" class="fg"><label class="fl">Voorkeursgebied</label><select class="fi" id="au-hood">
 <option value="">Selecteer je buurt...</option>
 <option>Centrum</option><option>Jordaan</option><option>De Pijp</option><option>Oud-West</option><option>Oud-Zuid</option><option>Amsterdam-Oost</option><option>Amsterdam-Noord</option><option>Amsterdam-West</option><option>Grachtengordel</option><option>Zuidas</option><option>IJburg</option><option>Watergraafsmeer</option>
 </select></div>
 
-<div class="fg"><label class="fl">Wachtwoord</label><input class="fi" id="au-pwd" type="password" autocomplete="new-password" placeholder="Minimaal 8 tekens"/><div id="pwd-hint" class="fhint"></div></div>
+<div style="background:var(--bluel);border:1px solid var(--bluem);border-radius:12px;padding:12px 14px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start;">
+<span style="font-size:16px;flex-shrink:0;">🔐</span>
+<div style="font-size:12px;color:var(--ink2);line-height:1.5;">Geen wachtwoord nodig. We sturen je een <strong>6-cijferige code</strong> per email om in te loggen.</div>
+</div>
 
-<div id="signup-pwd2-wrap" class="fg"><label class="fl">Bevestig wachtwoord</label><input class="fi" id="au-pwd2" type="password" autocomplete="new-password" placeholder="Herhaal je wachtwoord"/><div id="pwd2-hint" class="fhint"></div></div>
-
-<button class="btn btn-primary btn-lg btn-block" id="auth-submit" type="submit" style="margin-bottom:16px;">Account aanmaken</button>
+<button class="btn btn-primary btn-lg btn-block" id="auth-submit" type="submit" style="margin-bottom:16px;">Stuur verificatiecode →</button>
 </form>
 
 <p id="auth-switch" style="text-align:center;font-size:13px;color:var(--muted);">Heb je al een account? <button type="button" style="color:var(--blue);font-weight:700;" onclick="setAuthMode('login')">Inloggen →</button></p>
 
 <p style="text-align:center;font-size:11px;color:var(--muted2);margin-top:14px;line-height:1.6;">Door verder te gaan ga je akkoord met onze <a href="#" style="color:var(--ink2);text-decoration:underline;">Algemene voorwaarden</a> en <a href="#" style="color:var(--ink2);text-decoration:underline;">Privacy</a>.</p>
+</div>
+
+<!-- OTP STEP (hidden until form submitted) -->
+<div id="otp-step" style="display:none;">
+<button onclick="backToForm()" type="button" style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:18px;padding:6px 0;">← Terug</button>
+<div style="text-align:center;margin-bottom:20px;">
+<div style="width:64px;height:64px;border-radius:50%;background:var(--bluel);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 18px;">📨</div>
+<h3 style="font-size:22px;font-weight:800;letter-spacing:-.3px;margin-bottom:8px;">Controleer je email</h3>
+<p style="font-size:13.5px;color:var(--muted);line-height:1.6;">We hebben een 6-cijferige code gestuurd naar<br><strong style="color:var(--ink);" id="otp-email">jou@email.nl</strong></p>
+</div>
+
+<div class="otp-row">
+<input class="otp-digit" maxlength="1" inputmode="numeric" autocomplete="one-time-code" data-form-type="other" pattern="[0-9]"/>
+<input class="otp-digit" maxlength="1" inputmode="numeric" autocomplete="one-time-code" data-form-type="other" pattern="[0-9]"/>
+<input class="otp-digit" maxlength="1" inputmode="numeric" autocomplete="one-time-code" data-form-type="other" pattern="[0-9]"/>
+<input class="otp-digit" maxlength="1" inputmode="numeric" autocomplete="one-time-code" data-form-type="other" pattern="[0-9]"/>
+<input class="otp-digit" maxlength="1" inputmode="numeric" autocomplete="one-time-code" data-form-type="other" pattern="[0-9]"/>
+<input class="otp-digit" maxlength="1" inputmode="numeric" autocomplete="one-time-code" data-form-type="other" pattern="[0-9]"/>
+</div>
+
+<button class="btn btn-primary btn-lg btn-block" id="otp-submit" type="button" onclick="submitOtp()" style="margin-bottom:14px;">Verifieer code</button>
+
+<div style="text-align:center;margin-bottom:8px;">
+<button type="button" id="otp-resend" onclick="resendOtp()" style="color:var(--blue);font-weight:600;font-size:13px;background:transparent;padding:4px;">Code opnieuw versturen</button>
+</div>
+<p style="text-align:center;font-size:11px;color:var(--muted2);line-height:1.6;">Geen email ontvangen? Controleer ook je <strong>spam folder</strong>. De code is 1 uur geldig.</p>
 </div>
 
 </div></div></div>
@@ -1246,18 +1275,18 @@ function openSignup(){setAuthMode('signup');openOv('auth-ov');setTimeout(()=>doc
 function openLogin(){setAuthMode('login');openOv('auth-ov');setTimeout(()=>document.getElementById('au-email')?.focus(),300);}
 
 S.signupRole=null;
+S.authStep='form'; // 'form' or 'otp'
+S.pendingSignup=null;
+S.loginEmail=null;
 
 function pickRole(role){
-  if(role==='cleaner'){
-    closeOv('auth-ov');
-    showToast('info','We brengen je naar het schoonmaker registratie...');
-    setTimeout(()=>{window.location.href='/cleaner-signup.html';},800);
-    return;
-  }
-  // Client → show form
-  S.signupRole='client';
+  S.signupRole=role;
   document.getElementById('role-pick').style.display='none';
   document.getElementById('signup-form-wrap').style.display='block';
+  // Adjust copy based on role
+  const subtitle=document.getElementById('auth-sub');
+  if(role==='cleaner'){subtitle.textContent='Word schoonmaker bij cleaners';}
+  else{subtitle.textContent='Maak een account aan in 30 seconden';}
   setTimeout(()=>document.getElementById('au-firstname')?.focus(),100);
 }
 
@@ -1269,88 +1298,92 @@ function resetRolePick(){
 
 function setAuthMode(mode){
   S.authMode=mode;
+  S.authStep='form';
   const isSignup=mode==='signup';
-  document.getElementById('auth-title').innerHTML=isSignup?'Welkom bij <span translate="no">cleaners</span>':'Welkom terug';
-  document.getElementById('auth-sub').textContent=isSignup?'Maak een account aan in 30 seconden':'Log in op je account';
+  // Show form view (not OTP)
+  document.getElementById('signup-form-wrap').style.display=isSignup?(S.signupRole?'block':'none'):'block';
+  document.getElementById('otp-step').style.display='none';
+  document.getElementById('auth-header').style.display='block';
+  document.getElementById('auth-tabs').style.display='flex';
+  // Tabs
   document.getElementById('atab-login').classList.toggle('active',!isSignup);
   document.getElementById('atab-signup').classList.toggle('active',isSignup);
-  // Role pick: show only in signup mode AND if no role chosen yet
+  // Title
+  document.getElementById('auth-title').innerHTML=isSignup?'Welkom bij <span translate="no">cleaners</span>':'Welkom terug';
+  document.getElementById('auth-sub').textContent=isSignup?'Maak een account aan in 30 seconden':'Log in met je email';
+  // Role pick: only in signup mode AND not yet picked
   const rolePick=document.getElementById('role-pick');
-  const formWrap=document.getElementById('signup-form-wrap');
-  if(isSignup){
-    if(S.signupRole){rolePick.style.display='none';formWrap.style.display='block';}
-    else{rolePick.style.display='block';formWrap.style.display='none';}
-  }else{
-    rolePick.style.display='none';
-    formWrap.style.display='block';
-  }
+  if(isSignup){rolePick.style.display=S.signupRole?'none':'block';}
+  else{rolePick.style.display='none';}
+  // Signup-only fields
   document.getElementById('signup-fields').style.display=isSignup?'block':'none';
   document.getElementById('signup-hood-wrap').style.display=isSignup?'block':'none';
-  document.getElementById('signup-pwd2-wrap').style.display=isSignup?'block':'none';
   document.getElementById('role-back').style.display=isSignup?'flex':'none';
-  document.getElementById('auth-submit').textContent=isSignup?'Account aanmaken':'Inloggen';
+  // Submit label
+  document.getElementById('auth-submit').textContent=isSignup?'Stuur verificatiecode →':'Stuur login code →';
+  // Switch link
   document.getElementById('auth-switch').innerHTML=isSignup
     ?'Heb je al een account? <button type="button" style="color:var(--blue);font-weight:700;" onclick="setAuthMode(\'login\')">Inloggen →</button>'
     :'Nog geen account? <button type="button" style="color:var(--blue);font-weight:700;" onclick="setAuthMode(\'signup\')">Aanmaken →</button>';
-  const pwd=document.getElementById('au-pwd');
-  if(pwd)pwd.setAttribute('autocomplete',isSignup?'new-password':'current-password');
-  ['au-firstname','au-lastname','au-phone','au-email','au-hood','au-pwd','au-pwd2'].forEach(id=>{
+  // Clear errors
+  ['au-firstname','au-lastname','au-phone','au-email','au-hood'].forEach(id=>{
     const el=document.getElementById(id);if(el){el.classList.remove('has-error','has-success');}
   });
-  ['pwd-hint','pwd2-hint'].forEach(id=>{const el=document.getElementById(id);if(el){el.textContent='';el.className='fhint';}});
 }
 
-// Bind live validation on DOM ready
+// Live email validation
 document.addEventListener('DOMContentLoaded',()=>{
-  const p1=document.getElementById('au-pwd');
-  const p2=document.getElementById('au-pwd2');
   const em=document.getElementById('au-email');
-  if(p1)p1.addEventListener('input',()=>{
-    const v=p1.value;const h=document.getElementById('pwd-hint');
-    if(S.authMode!=='signup'){h.textContent='';h.className='fhint';return;}
-    if(!v){h.textContent='';h.className='fhint';p1.classList.remove('has-error','has-success');return;}
-    if(v.length<8){h.textContent='Minimaal 8 tekens';h.className='fhint error';p1.classList.add('has-error');p1.classList.remove('has-success');return;}
-    if(!/[A-Z]/.test(v)||!/\d/.test(v)){h.textContent='Voeg 1 hoofdletter en 1 cijfer toe';h.className='fhint error';p1.classList.add('has-error');p1.classList.remove('has-success');return;}
-    h.textContent='✓ Sterk wachtwoord';h.className='fhint success';p1.classList.add('has-success');p1.classList.remove('has-error');
-    if(p2&&p2.value)p2.dispatchEvent(new Event('input'));
-  });
-  if(p2)p2.addEventListener('input',()=>{
-    const v=p2.value,p1v=p1?p1.value:'';
-    const h=document.getElementById('pwd2-hint');
-    if(!v){h.textContent='';h.className='fhint';p2.classList.remove('has-error','has-success');return;}
-    if(v!==p1v){h.textContent='Wachtwoorden komen niet overeen';h.className='fhint error';p2.classList.add('has-error');p2.classList.remove('has-success');return;}
-    h.textContent='✓ Komt overeen';h.className='fhint success';p2.classList.add('has-success');p2.classList.remove('has-error');
-  });
   if(em)em.addEventListener('blur',()=>{
     const v=em.value.trim();
     if(!v){em.classList.remove('has-error','has-success');return;}
     if(!v.includes('@')||!v.includes('.')||v.length<5){em.classList.add('has-error');em.classList.remove('has-success');}
     else{em.classList.add('has-success');em.classList.remove('has-error');}
   });
+  
+  // OTP digit handling
+  const digits=document.querySelectorAll('.otp-digit');
+  digits.forEach((input,i)=>{
+    input.addEventListener('input',e=>{
+      // Only allow digits
+      input.value=input.value.replace(/\D/g,'').slice(0,1);
+      if(input.value){
+        input.classList.add('filled');
+        // Auto-advance
+        if(i<digits.length-1){digits[i+1].focus();}
+        // Auto-submit if all filled
+        const all=Array.from(digits).map(d=>d.value).join('');
+        if(all.length===6){setTimeout(()=>submitOtp(),100);}
+      }else{input.classList.remove('filled');}
+    });
+    input.addEventListener('keydown',e=>{
+      if(e.key==='Backspace'&&!input.value&&i>0){digits[i-1].focus();digits[i-1].value='';digits[i-1].classList.remove('filled');}
+      if(e.key==='ArrowLeft'&&i>0)digits[i-1].focus();
+      if(e.key==='ArrowRight'&&i<digits.length-1)digits[i+1].focus();
+    });
+    input.addEventListener('paste',e=>{
+      e.preventDefault();
+      const pasted=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
+      pasted.split('').forEach((ch,idx)=>{
+        if(digits[idx]){digits[idx].value=ch;digits[idx].classList.add('filled');}
+      });
+      if(pasted.length===6){digits[5].focus();setTimeout(()=>submitOtp(),100);}
+      else if(pasted.length>0){digits[pasted.length-1].focus();}
+    });
+  });
 });
-
-function appStoreNotify(platform){
-  const em=prompt(`De ${platform} app is in ontwikkeling. Wil je een email zodra hij live is?\n\nVoer je email in:`);
-  if(!em||!em.includes('@')||!em.includes('.'))return;
-  try{
-    const list=JSON.parse(localStorage.getItem('cl_app_waitlist')||'[]');
-    list.push({platform,email:em,date:new Date().toISOString()});
-    localStorage.setItem('cl_app_waitlist',JSON.stringify(list.slice(0,200)));
-  }catch(e){}
-  showToast('success',`✓ Aangemeld voor ${platform} app launch`);
-}
 
 function smartLogin(){
   try{
     const session=JSON.parse(localStorage.getItem('cl_session')||'null');
-    const profile=JSON.parse(localStorage.getItem('cl_profile_current')||'null');
-    if(session&&profile&&profile.email===session.email){
-      window.location.href='/cleaner-dashboard.html';return;
+    if(session&&session.email){
+      // Try to detect dashboard
+      window.location.href='/client-dashboard.html';return;
     }
-    if(getBookings().length>0){openBookings();return;}
   }catch(e){}
   openLogin();
 }
+
 async function socialLogin(provider){
   if(window.IS_REAL_MODE&&window.supabaseClient){
     try{
@@ -1363,12 +1396,12 @@ async function socialLogin(provider){
       showToast('error',`${provider} login niet beschikbaar. Activeer in Supabase → Authentication → Providers.`);
     }
   }else{
-    showToast('info',`Configureer Supabase eerst (zie SUPABASE-SETUP.md)`);
+    showToast('info','Configureer Supabase eerst');
   }
 }
+
 async function submitAuth(){
   const email=document.getElementById('au-email').value.trim();
-  const pwd=document.getElementById('au-pwd').value;
   const submitBtn=document.getElementById('auth-submit');
   
   if(!email||!email.includes('@')||!email.includes('.')){
@@ -1376,121 +1409,185 @@ async function submitAuth(){
     showToast('error','Geldig email vereist');return;
   }
   
+  let signupData=null;
+  
   if(S.authMode==='signup'){
     const firstname=document.getElementById('au-firstname').value.trim();
     const lastname=document.getElementById('au-lastname').value.trim();
     const phone=document.getElementById('au-phone').value.trim();
     const hood=document.getElementById('au-hood').value;
-    const pwd2=document.getElementById('au-pwd2').value;
     
     if(!firstname){document.getElementById('au-firstname').classList.add('has-error');showToast('error','Voornaam vereist');return;}
     if(!lastname){document.getElementById('au-lastname').classList.add('has-error');showToast('error','Achternaam vereist');return;}
     if(!phone||phone.length<6){document.getElementById('au-phone').classList.add('has-error');showToast('error','Geldig telefoonnummer vereist');return;}
     if(!hood){document.getElementById('au-hood').classList.add('has-error');showToast('error','Selecteer een voorkeursgebied');return;}
-    if(pwd.length<8){showToast('error','Wachtwoord moet minimaal 8 tekens zijn');return;}
-    if(!/[A-Z]/.test(pwd)||!/\d/.test(pwd)){showToast('error','Wachtwoord moet 1 hoofdletter en 1 cijfer bevatten');return;}
-    if(pwd!==pwd2){showToast('error','Wachtwoorden komen niet overeen');return;}
     
-    if(window.IS_REAL_MODE&&window.supabaseClient){
-      try{
-        submitBtn.disabled=true;submitBtn.textContent='Bezig met aanmaken...';
-        const {data,error}=await window.supabaseClient.auth.signUp({
-          email,password:pwd,
-          options:{
-            emailRedirectTo:(window.CLEANERS_CONFIG.SITE_URL||location.origin),
-            data:{firstname,lastname,phone,hood,role:'client'}
-          }
-        });
-        if(error)throw error;
-        showAuthSuccess(email,firstname);
-      }catch(err){
-        submitBtn.disabled=false;submitBtn.textContent='Account aanmaken';
-        const msg=(err&&err.message)||'';
-        if(msg.includes('already registered')||msg.includes('User already')){
-          showToast('error','Dit email is al geregistreerd. Probeer in te loggen.');
-          setTimeout(()=>setAuthMode('login'),1200);
-        }else if(msg.includes('rate limit')){
-          showToast('error','Te veel aanvragen. Wacht een minuut.');
-        }else{
-          showToast('error',msg||'Aanmelden mislukt');
-        }
-      }
+    signupData={firstname,lastname,phone,hood,role:S.signupRole||'client'};
+    S.pendingSignup={...signupData,email};
+  }else{
+    S.loginEmail=email;
+  }
+  
+  if(!window.IS_REAL_MODE||!window.supabaseClient){
+    showToast('info','Supabase niet geconfigureerd');return;
+  }
+  
+  try{
+    submitBtn.disabled=true;submitBtn.textContent='Versturen...';
+    const opts={
+      shouldCreateUser:S.authMode==='signup',
+      ...(signupData?{data:{...signupData,full_name:`${signupData.firstname} ${signupData.lastname}`}}:{})
+    };
+    const {error}=await window.supabaseClient.auth.signInWithOtp({email,options:opts});
+    if(error)throw error;
+    showOtpStep(email);
+  }catch(err){
+    submitBtn.disabled=false;
+    submitBtn.textContent=S.authMode==='signup'?'Stuur verificatiecode →':'Stuur login code →';
+    const msg=(err&&err.message)||'';
+    if(msg.includes('rate limit')||msg.includes('Email rate limit')){
+      showToast('error','Te veel emails verzonden. Wacht 1 uur of activeer custom SMTP (Resend).');
+    }else if(msg.includes('not found')||msg.includes('Signups not allowed')){
+      showToast('error','Email niet gevonden. Maak eerst een account aan.');
     }else{
-      showToast('info','Supabase nog niet geconfigureerd');
+      showToast('error',msg||'Versturen mislukt');
+    }
+  }
+}
+
+function showOtpStep(email){
+  document.getElementById('otp-email').textContent=email;
+  document.getElementById('signup-form-wrap').style.display='none';
+  document.getElementById('role-pick').style.display='none';
+  document.getElementById('auth-header').style.display='none';
+  document.getElementById('auth-tabs').style.display='none';
+  document.getElementById('otp-step').style.display='block';
+  S.authStep='otp';
+  // Clear all digits
+  document.querySelectorAll('.otp-digit').forEach(d=>{d.value='';d.classList.remove('filled');});
+  setTimeout(()=>document.querySelector('.otp-digit')?.focus(),200);
+  startResendCountdown();
+}
+
+function backToForm(){
+  document.getElementById('otp-step').style.display='none';
+  document.getElementById('auth-header').style.display='block';
+  document.getElementById('auth-tabs').style.display='flex';
+  if(S.authMode==='signup'&&S.signupRole){
+    document.getElementById('signup-form-wrap').style.display='block';
+  }else if(S.authMode==='signup'){
+    document.getElementById('role-pick').style.display='block';
+  }else{
+    document.getElementById('signup-form-wrap').style.display='block';
+  }
+  S.authStep='form';
+}
+
+let resendTimer=null;
+function startResendCountdown(){
+  const btn=document.getElementById('otp-resend');
+  let s=30;btn.disabled=true;btn.textContent=`Opnieuw versturen over ${s}s`;
+  clearInterval(resendTimer);
+  resendTimer=setInterval(()=>{
+    s--;
+    if(s<=0){clearInterval(resendTimer);btn.disabled=false;btn.textContent='Code opnieuw versturen';}
+    else{btn.textContent=`Opnieuw versturen over ${s}s`;}
+  },1000);
+}
+
+async function resendOtp(){
+  const email=S.pendingSignup?.email||S.loginEmail;
+  if(!email)return;
+  const btn=document.getElementById('otp-resend');
+  btn.disabled=true;btn.textContent='Versturen...';
+  try{
+    const opts={shouldCreateUser:S.authMode==='signup'};
+    if(S.pendingSignup){
+      opts.data={...S.pendingSignup,full_name:`${S.pendingSignup.firstname} ${S.pendingSignup.lastname}`};
+    }
+    const {error}=await window.supabaseClient.auth.signInWithOtp({email,options:opts});
+    if(error)throw error;
+    showToast('success','✓ Nieuwe code verstuurd');
+    startResendCountdown();
+  }catch(err){
+    btn.disabled=false;btn.textContent='Code opnieuw versturen';
+    showToast('error',err.message||'Versturen mislukt');
+  }
+}
+
+async function submitOtp(){
+  const digits=document.querySelectorAll('.otp-digit');
+  const token=Array.from(digits).map(d=>d.value).join('');
+  if(token.length!==6){showToast('error','Voer alle 6 cijfers in');return;}
+  const submitBtn=document.getElementById('otp-submit');
+  const email=S.pendingSignup?.email||S.loginEmail;
+  
+  try{
+    submitBtn.disabled=true;submitBtn.textContent='Verifiëren...';
+    const {data,error}=await window.supabaseClient.auth.verifyOtp({email,token,type:'email'});
+    if(error)throw error;
+    
+    // Account confirmed and logged in
+    await onAuthSuccess(data.user);
+  }catch(err){
+    submitBtn.disabled=false;submitBtn.textContent='Verifieer code';
+    const msg=(err&&err.message)||'';
+    if(msg.includes('expired')){showToast('error','Code is verlopen. Vraag een nieuwe aan.');}
+    else if(msg.includes('Invalid')||msg.includes('invalid')||msg.includes('Token')){
+      showToast('error','Ongeldige code. Probeer opnieuw.');
+      digits.forEach(d=>{d.value='';d.classList.remove('filled');});
+      digits[0].focus();
+    }else{showToast('error',msg||'Verificatie mislukt');}
+  }
+}
+
+async function onAuthSuccess(user){
+  // Replace OTP step with success state
+  const mp=document.querySelector('#auth-ov .mp');
+  if(mp){
+    mp.innerHTML=`<div style="text-align:center;padding:20px 0;">
+      <div style="width:72px;height:72px;border-radius:50%;background:var(--greenl);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--green);margin:0 auto 20px;">✓</div>
+      <h3 style="font-size:24px;font-weight:800;letter-spacing:-.3px;margin-bottom:8px;">${S.pendingSignup?'Account aangemaakt!':'Welkom terug!'}</h3>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:20px;">Je gaat naar je dashboard...</p>
+    </div>`;
+  }
+  
+  // Determine where to go based on user metadata + table
+  const meta=user.user_metadata||{};
+  const role=meta.role||(S.pendingSignup&&S.pendingSignup.role);
+  
+  // If signup → save to appropriate table
+  if(S.pendingSignup){
+    if(role==='cleaner'){
+      // Cleaner: go to /cleaner-signup.html to complete profile
+      try{localStorage.setItem('cl_session',JSON.stringify({email:user.email,id:user.id,loginAt:new Date().toISOString()}));}catch(e){}
+      setTimeout(()=>window.location.href='/cleaner-signup.html?verified=1',1200);
+    }else{
+      // Client: insert into clients table + go to dashboard
+      try{
+        await window.supabaseClient.from('clients').insert({
+          user_id:user.id,
+          firstname:S.pendingSignup.firstname,
+          lastname:S.pendingSignup.lastname,
+          email:user.email,
+          phone:S.pendingSignup.phone,
+          hood:S.pendingSignup.hood
+        });
+      }catch(e){console.log('Client insert (may already exist):',e.message);}
+      setTimeout(()=>window.location.href='/client-dashboard.html',1200);
     }
   }else{
-    // LOGIN
-    if(!pwd){showToast('error','Wachtwoord vereist');return;}
-    if(window.IS_REAL_MODE&&window.supabaseClient){
-      try{
-        submitBtn.disabled=true;submitBtn.textContent='Bezig met inloggen...';
-        const {data,error}=await window.supabaseClient.auth.signInWithPassword({email,password:pwd});
-        if(error)throw error;
-        try{
-          const {data:profile}=await window.supabaseClient.from('cleaners').select('id,firstname').eq('user_id',data.user.id).maybeSingle();
-          closeOv('auth-ov');
-          if(profile){
-            showToast('success',`Welkom terug, ${profile.firstname}!`);
-            setTimeout(()=>window.location.href='/cleaner-dashboard.html',900);
-          }else{
-            showToast('success','Welkom terug!');
-          }
-        }catch(e){
-          closeOv('auth-ov');
-          showToast('success','Welkom terug!');
-        }
-      }catch(err){
-        submitBtn.disabled=false;submitBtn.textContent='Inloggen';
-        const msg=(err&&err.message)||'';
-        if(msg.includes('Invalid login')){showToast('error','Ongeldig email of wachtwoord');}
-        else if(msg.includes('Email not confirmed')){showToast('error','Bevestig eerst je email');}
-        else{showToast('error',msg||'Inloggen mislukt');}
-      }
-    }else{
-      try{localStorage.setItem('cl_session',JSON.stringify({email,loginAt:new Date().toISOString()}));}catch(e){}
-      closeOv('auth-ov');
-      showToast('success',`Welkom, ${email.split('@')[0]}!`);
-    }
+    // Login: detect role from existing tables
+    let dest='/client-dashboard.html';
+    try{
+      const {data:cleaner}=await window.supabaseClient.from('cleaners').select('id').eq('user_id',user.id).maybeSingle();
+      if(cleaner)dest='/cleaner-dashboard.html';
+    }catch(e){}
+    setTimeout(()=>window.location.href=dest,1200);
   }
 }
 
-function showAuthSuccess(email,firstname){
-  const mp=document.querySelector('#auth-ov .mp');
-  if(!mp)return;
-  mp.innerHTML=`
-    <div style="text-align:center;padding:20px 0;">
-      <div style="width:72px;height:72px;border-radius:50%;background:var(--greenl);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--green);margin:0 auto 20px;">✓</div>
-      <h3 style="font-size:24px;font-weight:800;letter-spacing:-.3px;margin-bottom:8px;">Account aangemaakt!</h3>
-      <p style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px;">We hebben een bevestigingsmail gestuurd naar<br><strong style="color:var(--ink);">${email}</strong></p>
-      <div style="background:var(--bluel);border:1px solid var(--bluem);border-radius:14px;padding:16px;text-align:left;margin-bottom:14px;">
-        <div style="font-size:12px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Volgende stap</div>
-        <div style="font-size:13px;color:var(--ink2);line-height:1.6;">Open de email <strong>(controleer ook spam!)</strong> en klik op de bevestigingslink. Afzender: <code style="background:white;padding:2px 6px;border-radius:4px;font-size:11px;border:1px solid var(--border);">noreply@mail.app.supabase.io</code></div>
-      </div>
-      <button class="btn btn-outline btn-block" id="resend-btn" onclick="resendConfirm('${email}')" style="margin-bottom:10px;font-size:13px;padding:11px;">📬 Email opnieuw versturen</button>
-      <button class="btn btn-primary btn-lg btn-block" onclick="closeOv('auth-ov')">Begrepen</button>
-    </div>`;
-}
-
-async function resendConfirm(email){
-  const btn=document.getElementById('resend-btn');
-  if(!window.IS_REAL_MODE||!window.supabaseClient){showToast('error','Supabase niet geconfigureerd');return;}
-  try{
-    btn.disabled=true;btn.textContent='Bezig met versturen...';
-    const {error}=await window.supabaseClient.auth.resend({
-      type:'signup',
-      email,
-      options:{emailRedirectTo:window.CLEANERS_CONFIG.SITE_URL||location.origin}
-    });
-    if(error)throw error;
-    btn.textContent='✓ Verstuurd! Controleer je spam.';
-    showToast('success','Email opnieuw verstuurd');
-    setTimeout(()=>{btn.disabled=false;btn.textContent='📬 Email opnieuw versturen';},10000);
-  }catch(err){
-    btn.disabled=false;btn.textContent='📬 Email opnieuw versturen';
-    const msg=(err&&err.message)||'';
-    if(msg.includes('rate')||msg.includes('Rate')){showToast('error','Te veel pogingen. Wacht 1 uur.');}
-    else{showToast('error',msg||'Versturen mislukt');}
-  }
+function applyLoggedInState(user){
 }
 
 function wStep(n){document.querySelectorAll('[id^="wp"]').forEach((p,i)=>p.classList.toggle('active',i===n));document.querySelectorAll('[id^="wd"]').forEach((d,i)=>{d.classList.toggle('active',i===n);d.classList.toggle('done',i<n);});}
@@ -1621,32 +1718,6 @@ if(window.IS_REAL_MODE&&window.supabaseClient){
       applyLoggedOutState();
     }
   });
-}
-
-function applyLoggedInState(user){
-  const meta=user.user_metadata||{};
-  const name=meta.firstname||meta.full_name?.split(' ')[0]||user.email.split('@')[0];
-  const initial=(name[0]||'C').toUpperCase();
-  
-  // Replace "Inloggen" button with user pill
-  const navAct=document.querySelector('.nact');
-  if(!navAct||navAct.querySelector('.user-pill'))return;
-  
-  const loginWrapper=navAct.querySelector('div[style*="relative"]');
-  if(loginWrapper){
-    loginWrapper.innerHTML=`<button class="user-pill" onclick="openUserMenu()" title="${user.email}">
-      <span class="user-pill-avatar">${initial}</span>
-      <span class="user-pill-name">${name}</span>
-    </button>`;
-  }
-  
-  const signupBtn=navAct.querySelector('.btn-primary');
-  if(signupBtn&&signupBtn.textContent.includes('Aanmelden'))signupBtn.style.display='none';
-  
-  // Ensure client profile exists in background (only if user came from client signup)
-  ensureClientProfile(user).then(profile=>{if(profile)S.clientProfile=profile;});
-  // Check cleaner profile too
-  checkCleanerProfile(user).then(profile=>{if(profile)S.cleanerProfile=profile;});
 }
 
 async function ensureClientProfile(user){
