@@ -1,20 +1,3 @@
-/**
- * cleaners — Configuración
- * 
- * ⚠️ Para activar registro REAL de usuarios:
- * 
- * 1. Crea cuenta gratis en https://supabase.com
- * 2. Crea un proyecto nuevo
- * 3. Ve a Settings → API y copia:
- *    - "Project URL"   → pégalo en SUPABASE_URL abajo
- *    - "anon public"   → pégalo en SUPABASE_ANON_KEY abajo
- * 4. Ejecuta el script supabase-setup.sql en el SQL Editor de Supabase
- * 5. Guarda este archivo y sube a GitHub
- * 
- * Si dejas estos valores vacíos, la web funciona en "modo demo"
- * (datos en navegador, no envía emails reales).
- */
-
 window.CLEANERS_CONFIG = {
   // ═══════════ SUPABASE (BACKEND REAL) ═══════════
   SUPABASE_URL: 'https://xrbvqasfdxaoomorapcm.supabase.co',          // Ej: https://xxxxx.supabase.co
