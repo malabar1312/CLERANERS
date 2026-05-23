@@ -776,12 +776,41 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 
 <div id="signup-pwd2-wrap" class="fg"><label class="fl">Bevestig wachtwoord</label><input class="fi" id="au-pwd2" type="password" autocomplete="new-password" placeholder="Herhaal je wachtwoord"/><div id="pwd2-hint" class="fhint"></div></div>
 
-<button class="btn btn-primary btn-lg btn-block" id="auth-submit" type="submit" style="margin-bottom:16px;">Account aanmaken</button>
+<button class="btn btn-primary btn-lg btn-block" id="auth-submit" type="submit" style="margin-bottom:10px;">Account aanmaken</button>
 </form>
+
+<p id="auth-forgot-link" style="text-align:center;font-size:13px;margin-bottom:14px;display:none;"><button type="button" style="color:var(--blue);font-weight:600;" onclick="showForgotStep()">Wachtwoord vergeten?</button></p>
 
 <p id="auth-switch" style="text-align:center;font-size:13px;color:var(--muted);">Heb je al een account? <button type="button" style="color:var(--blue);font-weight:700;" onclick="setAuthMode('login')">Inloggen →</button></p>
 
 <p style="text-align:center;font-size:11px;color:var(--muted2);margin-top:14px;line-height:1.6;">Door verder te gaan ga je akkoord met onze <a href="#" style="color:var(--ink2);text-decoration:underline;">Algemene voorwaarden</a> en <a href="#" style="color:var(--ink2);text-decoration:underline;">Privacy</a>.</p>
+</div>
+
+<!-- FORGOT PASSWORD STEP -->
+<div id="forgot-step" style="display:none;">
+<button onclick="hideForgotStep()" type="button" style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:18px;padding:6px 0;">← Terug naar inloggen</button>
+<div style="text-align:center;">
+<div style="width:80px;height:80px;border-radius:50%;background:var(--bluel);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 22px;">🔐</div>
+<h3 style="font-size:24px;font-weight:800;letter-spacing:-.3px;margin-bottom:10px;">Wachtwoord vergeten?</h3>
+<p style="font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:22px;">Vul je email in en we sturen je een link om je wachtwoord opnieuw in te stellen.</p>
+</div>
+
+<div id="forgot-form-wrap">
+<form id="forgot-form" autocomplete="off" onsubmit="event.preventDefault();submitForgot()" data-form-type="other">
+<div class="fg"><label class="fl">Email</label><input class="fi" id="forgot-email" type="email" autocomplete="email" placeholder="jou@email.nl"/></div>
+<button class="btn btn-primary btn-lg btn-block" id="forgot-submit" type="submit">Verstuur herstellink</button>
+</form>
+</div>
+
+<div id="forgot-sent" style="display:none;text-align:center;">
+<div style="background:var(--bluel);border:1px solid var(--bluem);border-radius:14px;padding:18px 16px;margin-bottom:18px;">
+<div style="font-size:32px;margin-bottom:8px;">📨</div>
+<div style="font-size:14px;color:var(--ink2);line-height:1.6;">We hebben een email gestuurd naar<br><strong style="color:var(--ink);" id="forgot-sent-email">jou@email.nl</strong></div>
+</div>
+<p style="font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:18px;">Klik op de link in de email om je wachtwoord opnieuw in te stellen. De link is <strong>1 uur</strong> geldig. <strong>Controleer ook je spam folder.</strong></p>
+<button class="btn btn-outline btn-block" onclick="resetForgotForm()" style="margin-bottom:10px;font-size:13px;padding:11px;">📬 Email opnieuw versturen</button>
+<button class="btn btn-primary btn-lg btn-block" onclick="closeOv('auth-ov')">Sluiten</button>
+</div>
 </div>
 
 </div></div></div>
@@ -1270,6 +1299,13 @@ function resetRolePick(){
 function setAuthMode(mode){
   S.authMode=mode;
   const isSignup=mode==='signup';
+  // Ocultar forgot-step si está abierto
+  const fs=document.getElementById('forgot-step');if(fs)fs.style.display='none';
+  // Re-mostrar elementos del modal principal
+  const hdr=document.querySelector('#auth-ov .mp > div[style*="text-align:center"]');
+  const atabs=document.querySelector('#auth-ov .atabs');
+  if(hdr&&hdr.querySelector('#auth-title'))hdr.style.display='block';
+  if(atabs)atabs.style.display='flex';
   document.getElementById('auth-title').innerHTML=isSignup?'Welkom bij <span translate="no">cleaners</span>':'Welkom terug';
   document.getElementById('auth-sub').textContent=isSignup?'Maak een account aan in 30 seconden':'Log in op je account';
   document.getElementById('atab-login').classList.toggle('active',!isSignup);
@@ -1288,6 +1324,9 @@ function setAuthMode(mode){
   document.getElementById('signup-hood-wrap').style.display=isSignup?'block':'none';
   document.getElementById('signup-pwd2-wrap').style.display=isSignup?'block':'none';
   document.getElementById('role-back').style.display=isSignup?'flex':'none';
+  // Link "Wachtwoord vergeten?" solo en login
+  const fl=document.getElementById('auth-forgot-link');
+  if(fl)fl.style.display=isSignup?'none':'block';
   document.getElementById('auth-submit').textContent=isSignup?'Account aanmaken':'Inloggen';
   document.getElementById('auth-switch').innerHTML=isSignup
     ?'Heb je al een account? <button type="button" style="color:var(--blue);font-weight:700;" onclick="setAuthMode(\'login\')">Inloggen →</button>'
@@ -1298,6 +1337,95 @@ function setAuthMode(mode){
     const el=document.getElementById(id);if(el){el.classList.remove('has-error','has-success');}
   });
   ['pwd-hint','pwd2-hint'].forEach(id=>{const el=document.getElementById(id);if(el){el.textContent='';el.className='fhint';}});
+}
+
+// ═══════════ RECOVER PASSWORD ═══════════
+function showForgotStep(){
+  // Pre-pobla email si ya escribió uno en login
+  const loginEmail=(document.getElementById('au-email')||{}).value||'';
+  const fEmail=document.getElementById('forgot-email');
+  if(fEmail)fEmail.value=loginEmail.trim();
+
+  // Oculta resto del modal principal
+  document.getElementById('signup-form-wrap').style.display='none';
+  document.getElementById('role-pick').style.display='none';
+  const hdr=document.querySelector('#auth-ov .mp > div[style*="text-align:center"]');
+  const atabs=document.querySelector('#auth-ov .atabs');
+  if(hdr&&hdr.querySelector('#auth-title'))hdr.style.display='none';
+  if(atabs)atabs.style.display='none';
+
+  // Muestra forgot
+  const fs=document.getElementById('forgot-step');
+  fs.style.display='block';
+  document.getElementById('forgot-form-wrap').style.display='block';
+  document.getElementById('forgot-sent').style.display='none';
+
+  setTimeout(()=>{const el=document.getElementById('forgot-email');if(el&&!el.value)el.focus();},150);
+}
+
+function hideForgotStep(){
+  // Vuelve al modo login
+  setAuthMode('login');
+}
+
+function resetForgotForm(){
+  document.getElementById('forgot-form-wrap').style.display='block';
+  document.getElementById('forgot-sent').style.display='none';
+  const btn=document.getElementById('forgot-submit');
+  if(btn){btn.disabled=false;btn.textContent='Verstuur herstellink';}
+  setTimeout(()=>{const el=document.getElementById('forgot-email');if(el)el.focus();},150);
+}
+
+async function submitForgot(){
+  const emailEl=document.getElementById('forgot-email');
+  const email=(emailEl.value||'').trim().toLowerCase();
+  const btn=document.getElementById('forgot-submit');
+
+  // Validación
+  if(!email||!email.includes('@')||!email.includes('.')||email.length<5){
+    emailEl.classList.add('has-error');
+    showToast('error','Voer een geldig email adres in');
+    return;
+  }
+  emailEl.classList.remove('has-error');
+
+  // Modo demo (sin Supabase)
+  if(!window.IS_REAL_MODE||!window.supabaseClient){
+    document.getElementById('forgot-sent-email').textContent=email;
+    document.getElementById('forgot-form-wrap').style.display='none';
+    document.getElementById('forgot-sent').style.display='block';
+    showToast('info','Demo mode — configureer Supabase voor echte emails');
+    return;
+  }
+
+  btn.disabled=true;
+  btn.textContent='Versturen...';
+
+  try{
+    const redirectTo=(window.CLEANERS_CONFIG&&window.CLEANERS_CONFIG.SITE_URL?window.CLEANERS_CONFIG.SITE_URL:location.origin)+'/reset-password.html';
+    const {error}=await window.supabaseClient.auth.resetPasswordForEmail(email,{redirectTo});
+
+    // Por seguridad NO revelamos si el email existe o no
+    document.getElementById('forgot-sent-email').textContent=email;
+    document.getElementById('forgot-form-wrap').style.display='none';
+    document.getElementById('forgot-sent').style.display='block';
+
+    if(error){
+      console.warn('reset password warning:',error.message);
+      if(/rate limit/i.test(error.message)){
+        showToast('error','Te veel verzoeken. Wacht 1 uur en probeer opnieuw.');
+      }
+    }
+  }catch(err){
+    btn.disabled=false;
+    btn.textContent='Verstuur herstellink';
+    const msg=(err&&err.message)||'';
+    if(/rate limit/i.test(msg)){
+      showToast('error','Te veel verzoeken. Wacht 1 uur en probeer opnieuw.');
+    }else{
+      showToast('error','Er ging iets mis. Probeer het opnieuw.');
+    }
+  }
 }
 
 // Bind live validation on DOM ready
