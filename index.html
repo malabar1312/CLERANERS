@@ -582,6 +582,11 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 .pwd-toggle:hover{background:var(--bg2);color:var(--ink2)}
 .pwd-toggle:active{transform:translateY(-50%) scale(.92)}
 
+/* Cross-device verification waiting indicator */
+.verify-checking{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px 0;font-size:12px;color:var(--green);font-weight:600}
+.pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse-anim 1.5s ease-in-out infinite;flex-shrink:0}
+@keyframes pulse-anim{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.4);box-shadow:0 0 0 4px rgba(16,185,129,.15)}}
+
 /* OTP SINGLE INPUT — wide, monospace */
 .otp-single{width:100%;padding:18px 16px;border:1.5px solid var(--border);border-radius:14px;font-size:30px;font-weight:700;text-align:center;font-family:'SF Mono','Monaco','Consolas',monospace;letter-spacing:8px;color:var(--blue);background:white;transition:all .18s var(--eo);outline:none;caret-color:var(--blue)}
 .otp-single::placeholder{color:var(--muted2);letter-spacing:6px;font-weight:500;font-size:24px}
@@ -817,8 +822,10 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 <div id="pwd2-hint" class="fhint"></div>
 </div>
 
-<button class="btn btn-primary btn-lg btn-block" id="auth-submit" type="submit" style="margin-bottom:16px;">Account aanmaken</button>
+<button class="btn btn-primary btn-lg btn-block" id="auth-submit" type="submit" style="margin-bottom:10px;">Account aanmaken</button>
 </form>
+
+<p id="auth-forgot-link" style="text-align:center;font-size:13px;margin-bottom:14px;display:none;"><button type="button" style="color:var(--blue);font-weight:600;" onclick="showForgotStep()">Wachtwoord vergeten?</button></p>
 
 <p id="auth-switch" style="text-align:center;font-size:13px;color:var(--muted);">Heb je al een account? <button type="button" style="color:var(--blue);font-weight:700;" onclick="setAuthMode('login')">Inloggen →</button></p>
 
@@ -831,12 +838,46 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 <div style="text-align:center;">
 <div style="width:80px;height:80px;border-radius:50%;background:var(--bluel);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 22px;">📨</div>
 <h3 style="font-size:24px;font-weight:800;letter-spacing:-.3px;margin-bottom:10px;">Controleer je email</h3>
-<p style="font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:20px;">We hebben een bevestigingslink gestuurd naar<br><strong style="color:var(--ink);" id="verify-email">jou@email.nl</strong></p>
+<p style="font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:18px;">We hebben een bevestigingslink gestuurd naar<br><strong style="color:var(--ink);" id="verify-email">jou@email.nl</strong></p>
+
+<!-- LIVE POLLING INDICATOR -->
+<div id="verify-poll-indicator" style="display:none;align-items:center;justify-content:center;gap:10px;background:var(--bluel);border:1px solid var(--bluem);border-radius:14px;padding:13px 18px;margin-bottom:18px;">
+<span class="poll-dot"></span>
+<span style="font-size:13px;color:var(--blue);font-weight:600;">Wachten op bevestiging...</span>
+</div>
+
 <div style="background:var(--bluel);border:1px solid var(--bluem);border-radius:14px;padding:14px 16px;margin-bottom:18px;text-align:left;">
-<div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px;">Volgende stap</div>
-<div style="font-size:13px;color:var(--ink2);line-height:1.6;">Klik op de bevestigingslink in de email. Daarna log je in met je email en wachtwoord. <strong>Controleer ook je spam folder.</strong></div>
+<div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px;">💡 Tip</div>
+<div style="font-size:13px;color:var(--ink2);line-height:1.6;">Open de email op je <strong>telefoon of computer</strong> en klik op de link. Deze pagina detecteert automatisch wanneer je bevestigt. <strong>Controleer ook je spam folder.</strong></div>
 </div>
 <button class="btn btn-outline btn-block" id="resend-verify-btn" onclick="resendVerify()" style="margin-bottom:10px;font-size:13px;padding:11px;">📬 Email opnieuw versturen</button>
+<button class="btn btn-primary btn-lg btn-block" onclick="closeOv('auth-ov')">Sluiten</button>
+</div>
+</div>
+
+<!-- FORGOT PASSWORD STEP -->
+<div id="forgot-step" style="display:none;">
+<button onclick="backToForm()" type="button" style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:18px;padding:6px 0;">← Terug naar inloggen</button>
+<div style="text-align:center;">
+<div style="width:80px;height:80px;border-radius:50%;background:var(--bluel);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 22px;">🔐</div>
+<h3 style="font-size:24px;font-weight:800;letter-spacing:-.3px;margin-bottom:10px;">Wachtwoord vergeten?</h3>
+<p style="font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:22px;">Vul je email in en we sturen je een link om je wachtwoord opnieuw in te stellen.</p>
+</div>
+
+<div id="forgot-form-wrap">
+<form id="forgot-form" autocomplete="off" onsubmit="event.preventDefault();submitForgot()" data-form-type="other">
+<div class="fg"><label class="fl">Email</label><input class="fi" id="forgot-email" type="email" autocomplete="email" placeholder="jou@email.nl"/></div>
+<button class="btn btn-primary btn-lg btn-block" id="forgot-submit" type="submit">Verstuur herstellink</button>
+</form>
+</div>
+
+<div id="forgot-sent" style="display:none;text-align:center;">
+<div style="background:var(--bluel);border:1px solid var(--bluem);border-radius:14px;padding:18px 16px;margin-bottom:18px;">
+<div style="font-size:32px;margin-bottom:8px;">📨</div>
+<div style="font-size:14px;color:var(--ink2);line-height:1.6;">We hebben een email gestuurd naar<br><strong style="color:var(--ink);" id="forgot-sent-email">jou@email.nl</strong></div>
+</div>
+<p style="font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:18px;">Klik op de link in de email om je wachtwoord opnieuw in te stellen. De link is <strong>1 uur</strong> geldig. <strong>Controleer ook je spam folder.</strong></p>
+<button class="btn btn-outline btn-block" onclick="resetForgotForm()" style="margin-bottom:10px;font-size:13px;padding:11px;">📬 Email opnieuw versturen</button>
 <button class="btn btn-primary btn-lg btn-block" onclick="closeOv('auth-ov')">Sluiten</button>
 </div>
 </div>
@@ -1090,7 +1131,7 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 
 <script>
 'use strict';
-const DB=[{id:1,name:'Sofia R.',price:15,rating:4.9,reviews:23,jobs:31,distKm:0.8,hood:'Jordaan',respMin:12,avail:true,online:true,compat:97,urgency:3,spec:'Specialist grondige schoonmaak en Airbnb',bio:'3 jaar ervaring in Amsterdamse woningen en Airbnbs. Ecologische producten. Nederlands, Engels, Spaans.',services:['Grondige schoonmaak','Airbnb','Woning','Ramen','Strijken'],cat:['all','huis','airbnb'],langs:'Nederlands, Engels, Spaans',verified:'12/01/2024',mapX:28,mapY:55,img:'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Hallo! Geïnteresseerd in schoonmaak op 20 mei.',t:'10:02'},{me:true,text:'Hallo! Beschikbaar. Welk tijdstip?',t:'10:04'},{me:false,text:'10:00, ongeveer 80m².',t:'10:05'},{me:true,text:'Perfect. Huisdieren of allergieën?',t:'10:06'},{me:false,text:'Geen.',t:'10:07'},{me:true,text:'Ik gebruik alleen ecologische producten. Tot dan! 😊',t:'10:09'}],rl:[{name:'Marta G.',date:'2 weken',stars:'★★★★★',text:'Eindelijk een platform waar ik kan kiezen wie er in mijn huis komt. Sofia was rustig en grondig.',img:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=80&auto=format&fit=crop'},{name:'Joris M.',date:'1 maand',stars:'★★★★★',text:'Op tijd, vriendelijk, en doet wat ze zegt. Boek haar weer volgende maand.',img:'https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?q=80&w=80&auto=format&fit=crop'}]},
+let DB=[{id:1,name:'Sofia R.',price:15,rating:4.9,reviews:23,jobs:31,distKm:0.8,hood:'Jordaan',respMin:12,avail:true,online:true,compat:97,urgency:3,spec:'Specialist grondige schoonmaak en Airbnb',bio:'3 jaar ervaring in Amsterdamse woningen en Airbnbs. Ecologische producten. Nederlands, Engels, Spaans.',services:['Grondige schoonmaak','Airbnb','Woning','Ramen','Strijken'],cat:['all','huis','airbnb'],langs:'Nederlands, Engels, Spaans',verified:'12/01/2024',mapX:28,mapY:55,img:'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Hallo! Geïnteresseerd in schoonmaak op 20 mei.',t:'10:02'},{me:true,text:'Hallo! Beschikbaar. Welk tijdstip?',t:'10:04'},{me:false,text:'10:00, ongeveer 80m².',t:'10:05'},{me:true,text:'Perfect. Huisdieren of allergieën?',t:'10:06'},{me:false,text:'Geen.',t:'10:07'},{me:true,text:'Ik gebruik alleen ecologische producten. Tot dan! 😊',t:'10:09'}],rl:[{name:'Marta G.',date:'2 weken',stars:'★★★★★',text:'Eindelijk een platform waar ik kan kiezen wie er in mijn huis komt. Sofia was rustig en grondig.',img:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=80&auto=format&fit=crop'},{name:'Joris M.',date:'1 maand',stars:'★★★★★',text:'Op tijd, vriendelijk, en doet wat ze zegt. Boek haar weer volgende maand.',img:'https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?q=80&w=80&auto=format&fit=crop'}]},
 {id:2,name:'Maria C.',price:16,rating:5.0,reviews:18,jobs:24,distKm:1.1,hood:'De Pijp',respMin:10,avail:true,online:true,compat:94,urgency:5,spec:'Expert gezinswoningen en kantoren',bio:'5+ jaar ervaring. Ecologische producten, georganiseerd en stipt.',services:['Woning','Kantoor','Strijken','Ramen'],cat:['all','huis','kantoor'],langs:'Nederlands, Catalaans',verified:'05/03/2023',mapX:55,mapY:72,img:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Beschikbaar kantoor?',t:'09:15'},{me:true,text:'Ja! Wat heeft u nodig?',t:'09:17'}],rl:[{name:'Piet R.',date:'1 week',stars:'★★★★★',text:'Werkt al 3 weken bij ons op kantoor. Geen klachten van het team.',img:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=80&auto=format&fit=crop'}]},
 {id:3,name:'Laura M.',price:14,rating:4.8,reviews:14,jobs:19,distKm:1.8,hood:'Oud-West',respMin:30,avail:false,online:false,compat:81,urgency:0,spec:'Kantoren en oplevering',bio:'Kantoren, commercieel, oplevering. Marmer, parket, roestvrij staal.',services:['Kantoor','Oplevering','Commercieel'],cat:['all','kantoor','oplevering'],langs:'Nederlands, Engels',verified:'18/06/2023',mapX:20,mapY:61,img:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1527515637462-cff94ebb8590?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Oplevering?',t:'14:00'},{me:true,text:'Mijn specialiteit!',t:'14:03'}],rl:[{name:'Bouw BV',date:'2 maanden',stars:'★★★★★',text:'Voor oplevering huurwoning. Alles geslaagd, sleutels netjes terug.',img:'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=80&auto=format&fit=crop'}]},
 {id:4,name:'Elena B.',price:14,rating:4.9,reviews:9,jobs:12,distKm:1.4,hood:'Centrum',respMin:20,avail:true,online:true,compat:92,urgency:2,spec:'Airbnb en toeristische verhuur',bio:'2 jaar met Amsterdamse Airbnbs. Snel en flexibel.',services:['Airbnb','Woning','Rotatie'],cat:['all','airbnb','huis'],langs:'Nederlands, Frans',verified:'22/09/2023',mapX:52,mapY:56,img:'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=600&auto=format&fit=crop&facepad=3',hero:'https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?q=80&w=1400&auto=format&fit=crop',chat:[{me:false,text:'Rotatie tussen gasten?',t:'11:00'},{me:true,text:'Absoluut! Hoeveel objecten?',t:'11:02'}],rl:[{name:'Mike A.',date:'3 weken',stars:'★★★★★',text:'2 Airbnbs in Centrum. Stuurt foto na elke wissel — fijne extra.',img:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=80&auto=format&fit=crop'}]},
@@ -1292,7 +1333,12 @@ function updateJobMap(val){const s=val.split(',')[0]||'Prinsengracht 263';docume
 function doPayment(){const c=DB.find(x=>x.id===S.sel);const d=document.getElementById('co-date').value;const addr=document.getElementById('co-addr').value||'Prinsengracht 263';const booking=saveBookingNow();document.getElementById('success-txt').textContent=`Je afspraak met ${c.name} is bevestigd. Referentie: ${booking?booking.ref:''}`;document.getElementById('success-detail').innerHTML=`<div class="sdr"><span>Referentie</span><span style="font-family:monospace;">${booking?booking.ref:'—'}</span></div><div class="sdr"><span>Schoonmaker</span><span>${c.name}</span></div><div class="sdr"><span>Adres</span><span>${addr}</span></div><div class="sdr"><span>Datum</span><span>${d?new Date(d+'T12:00').toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long'})+' · '+S.selTime:'Binnenkort'}</span></div><div class="sdr"><span>Escrow</span><span>€${c.price*3}</span></div>`;closeOv('co-ov');setTimeout(()=>{openOv('success-ov');dismissBar();},400);}
 
 function openOv(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
-function closeOv(id){document.getElementById(id).classList.remove('open');if(!document.querySelector('.ov.open'))document.body.style.overflow='';}
+function closeOv(id){
+  // Stop verification polling when closing auth modal
+  if(id==='auth-ov'&&typeof stopVerificationPolling==='function')stopVerificationPolling();
+  document.getElementById(id).classList.remove('open');
+  if(!document.querySelector('.ov.open'))document.body.style.overflow='';
+}
 function bgClose(e,id){if(e.target===document.getElementById(id))closeOv(id);}
 
 /* ═══════════ AUTH (Supabase + dual mode) ═══════════ */
@@ -1343,6 +1389,7 @@ function setAuthMode(mode){
   const isSignup=mode==='signup';
   document.getElementById('signup-form-wrap').style.display=isSignup?(S.signupRole?'block':'none'):'block';
   document.getElementById('verify-step').style.display='none';
+  const fs=document.getElementById('forgot-step');if(fs)fs.style.display='none';
   document.getElementById('auth-header').style.display='block';
   document.getElementById('auth-tabs').style.display='flex';
   document.getElementById('atab-login').classList.toggle('active',!isSignup);
@@ -1356,6 +1403,9 @@ function setAuthMode(mode){
   document.getElementById('signup-hood-wrap').style.display=isSignup?'block':'none';
   document.getElementById('signup-pwd2-wrap').style.display=isSignup?'block':'none';
   document.getElementById('role-back').style.display=isSignup?'flex':'none';
+  // Mostrar link "Wachtwoord vergeten?" solo en login
+  const fl=document.getElementById('auth-forgot-link');
+  if(fl)fl.style.display=isSignup?'none':'block';
   // Password autocomplete: new for signup, current for login
   const pwd=document.getElementById('au-pwd');
   if(pwd)pwd.setAttribute('autocomplete',isSignup?'new-password':'current-password');
@@ -1463,8 +1513,11 @@ async function submitAuth(){
         }
       });
       if(error)throw error;
-      S.pendingSignup={email,firstname,role:S.signupRole||'client'};
+      // Store credentials in memory ONLY for cross-device polling
+      S.pendingSignup={email,firstname,role:S.signupRole||'client',_pwd:pwd};
       showVerifyStep(email);
+      // Start polling so the PC auto-progresses when user confirms on phone
+      startVerificationPolling(email,pwd);
     }catch(err){
       submitBtn.disabled=false;submitBtn.textContent='Account aanmaken';
       const msg=(err&&err.message)||'';
@@ -1505,7 +1558,9 @@ function showVerifyStep(email){
 }
 
 function backToForm(){
+  stopVerificationPolling();
   document.getElementById('verify-step').style.display='none';
+  const fs=document.getElementById('forgot-step');if(fs)fs.style.display='none';
   document.getElementById('auth-header').style.display='block';
   document.getElementById('auth-tabs').style.display='flex';
   if(S.authMode==='signup'&&S.signupRole){
@@ -1515,7 +1570,96 @@ function backToForm(){
   }else{
     document.getElementById('signup-form-wrap').style.display='block';
   }
+  // Re-mostrar link de forgot si volvemos a login
+  const fl=document.getElementById('auth-forgot-link');
+  if(fl)fl.style.display=S.authMode==='login'?'block':'none';
   S.authStep='form';
+}
+
+// ═══════════ RECOVER PASSWORD ═══════════
+function showForgotStep(){
+  // Pre-pobla email si ya escribió uno en login
+  const loginEmail=(document.getElementById('au-email')||{}).value||'';
+  const fEmail=document.getElementById('forgot-email');
+  if(fEmail)fEmail.value=loginEmail.trim();
+
+  // Oculta resto
+  document.getElementById('signup-form-wrap').style.display='none';
+  document.getElementById('role-pick').style.display='none';
+  document.getElementById('verify-step').style.display='none';
+  document.getElementById('auth-header').style.display='none';
+  document.getElementById('auth-tabs').style.display='none';
+
+  // Muestra forgot
+  const fs=document.getElementById('forgot-step');
+  fs.style.display='block';
+  document.getElementById('forgot-form-wrap').style.display='block';
+  document.getElementById('forgot-sent').style.display='none';
+
+  setTimeout(()=>{const el=document.getElementById('forgot-email');if(el&&!el.value)el.focus();},150);
+  S.authStep='forgot';
+}
+
+function resetForgotForm(){
+  document.getElementById('forgot-form-wrap').style.display='block';
+  document.getElementById('forgot-sent').style.display='none';
+  const btn=document.getElementById('forgot-submit');
+  if(btn){btn.disabled=false;btn.textContent='Verstuur herstellink';}
+  setTimeout(()=>{const el=document.getElementById('forgot-email');if(el)el.focus();},150);
+}
+
+async function submitForgot(){
+  const emailEl=document.getElementById('forgot-email');
+  const email=(emailEl.value||'').trim().toLowerCase();
+  const btn=document.getElementById('forgot-submit');
+
+  // Validación
+  if(!email||!email.includes('@')||!email.includes('.')||email.length<5){
+    emailEl.classList.add('has-error');
+    showToast('error','Voer een geldig email adres in');
+    return;
+  }
+  emailEl.classList.remove('has-error');
+
+  // Modo demo (sin Supabase)
+  if(!window.IS_REAL_MODE||!window.supabaseClient){
+    document.getElementById('forgot-sent-email').textContent=email;
+    document.getElementById('forgot-form-wrap').style.display='none';
+    document.getElementById('forgot-sent').style.display='block';
+    showToast('info','Demo mode — configureer Supabase voor echte emails');
+    return;
+  }
+
+  btn.disabled=true;
+  btn.textContent='Versturen...';
+
+  try{
+    const redirectTo=(window.CLEANERS_CONFIG&&window.CLEANERS_CONFIG.SITE_URL?window.CLEANERS_CONFIG.SITE_URL:location.origin)+'/reset-password.html';
+    const {error}=await window.supabaseClient.auth.resetPasswordForEmail(email,{redirectTo});
+
+    // Por seguridad NO revelamos si el email existe o no
+    // Siempre mostramos "email enviado"
+    document.getElementById('forgot-sent-email').textContent=email;
+    document.getElementById('forgot-form-wrap').style.display='none';
+    document.getElementById('forgot-sent').style.display='block';
+
+    if(error){
+      // Log silencioso — no contamos al user que falló
+      console.warn('reset password warning:',error.message);
+      if(/rate limit/i.test(error.message)){
+        showToast('error','Te veel verzoeken. Wacht 1 uur en probeer opnieuw.');
+      }
+    }
+  }catch(err){
+    btn.disabled=false;
+    btn.textContent='Verstuur herstellink';
+    const msg=(err&&err.message)||'';
+    if(/rate limit/i.test(msg)){
+      showToast('error','Te veel verzoeken. Wacht 1 uur en probeer opnieuw.');
+    }else{
+      showToast('error','Er ging iets mis. Probeer het opnieuw.');
+    }
+  }
 }
 
 async function resendVerify(){
@@ -1541,8 +1685,10 @@ async function resendVerify(){
 }
 
 async function onAuthSuccess(user,isNewSignup){
+  // Stop any ongoing polling
+  stopVerificationPolling();
+  
   const meta=user.user_metadata||{};
-  const role=meta.role||(S.pendingSignup?.role)||'client';
   
   const mp=document.querySelector('#auth-ov .mp');
   if(mp){
@@ -1554,33 +1700,102 @@ async function onAuthSuccess(user,isNewSignup){
     </div>`;
   }
   
+  // Smart routing: check both tables, fall back to metadata role
+  const dest = await smartRouteToDashboard(user, isNewSignup);
+  
+  // Clear sensitive data
+  if(S.pendingSignup)S.pendingSignup._pwd=null;
+  S.pendingSignup=null;
+  
+  setTimeout(()=>window.location.href=dest,1000);
+}
+
+async function smartRouteToDashboard(user, isNewSignup){
+  const meta=user.user_metadata||{};
+  
+  // 1. Check if user has a cleaner profile
+  try{
+    const {data:cleaner}=await window.supabaseClient.from('cleaners').select('id,status').eq('user_id',user.id).maybeSingle();
+    if(cleaner)return '/cleaner-dashboard.html';
+  }catch(e){}
+  
+  // 2. Check if user has a client profile
+  try{
+    const {data:client}=await window.supabaseClient.from('clients').select('id').eq('user_id',user.id).maybeSingle();
+    if(client)return '/client-dashboard.html';
+  }catch(e){}
+  
+  // 3. No profile yet - use role from metadata
+  const role=meta.role||(S.pendingSignup?.role)||'client';
+  
   if(role==='cleaner'){
+    // Cleaner needs to complete the full profile (KYC, services, etc)
+    return '/cleaner-signup.html?verified=1';
+  }
+  
+  // Default: create client profile + dashboard
+  if(isNewSignup||true){
     try{
-      const {data:cleaner}=await window.supabaseClient.from('cleaners').select('id').eq('user_id',user.id).maybeSingle();
-      if(cleaner){
-        setTimeout(()=>window.location.href='/cleaner-dashboard.html',1000);
-      }else{
-        setTimeout(()=>window.location.href='/cleaner-signup.html?verified=1',1000);
-      }
-    }catch(e){
-      setTimeout(()=>window.location.href='/cleaner-signup.html?verified=1',1000);
-    }
-  }else{
-    // Ensure client profile exists
-    try{
-      const {data:existing}=await window.supabaseClient.from('clients').select('id').eq('user_id',user.id).maybeSingle();
-      if(!existing&&isNewSignup&&S.pendingSignup){
-        await window.supabaseClient.from('clients').insert({
-          user_id:user.id,
-          firstname:meta.firstname||S.pendingSignup.firstname||'',
-          lastname:meta.lastname||'',
-          email:user.email,
-          phone:meta.phone||'',
-          hood:meta.hood||''
-        });
-      }
+      await window.supabaseClient.from('clients').insert({
+        user_id:user.id,
+        firstname:meta.firstname||(S.pendingSignup?.firstname)||'',
+        lastname:meta.lastname||'',
+        email:user.email,
+        phone:meta.phone||'',
+        hood:meta.hood||''
+      });
     }catch(e){console.log('Client insert:',e.message);}
-    setTimeout(()=>window.location.href='/client-dashboard.html',1000);
+  }
+  return '/client-dashboard.html';
+}
+
+/* ═══════════ CROSS-DEVICE POLLING ═══════════ */
+// When user signs up on PC then verifies on phone,
+// PC polls every 4s to detect verification and auto-advance.
+function startVerificationPolling(email, password){
+  stopVerificationPolling(); // safety
+  
+  let attempts=0;
+  const maxAttempts=225; // 15 min @ 4s
+  
+  S.verificationPollInterval=setInterval(async()=>{
+    attempts++;
+    if(attempts>maxAttempts){
+      stopVerificationPolling();
+      return;
+    }
+    
+    try{
+      const {data,error}=await window.supabaseClient.auth.signInWithPassword({email,password});
+      if(!error&&data?.session){
+        // SUCCESS! User verified email (on this or another device)
+        stopVerificationPolling();
+        await onAuthSuccess(data.user,true);
+      }
+      // If error is "Email not confirmed" — keep polling silently
+      // Don't show toasts during polling, it would spam the user
+    }catch(e){
+      // Silent fail - keep polling
+    }
+  },4000);
+  
+  // Visual indicator: pulsing dot
+  setTimeout(()=>{
+    const verifyStep=document.getElementById('verify-step');
+    if(verifyStep&&!verifyStep.querySelector('.verify-checking')){
+      const checking=document.createElement('div');
+      checking.className='verify-checking';
+      checking.innerHTML='<span class="pulse-dot"></span><span>Wachten op bevestiging...</span>';
+      const sluiten=verifyStep.querySelector('.btn-primary');
+      if(sluiten)sluiten.parentElement.insertBefore(checking,sluiten);
+    }
+  },500);
+}
+
+function stopVerificationPolling(){
+  if(S.verificationPollInterval){
+    clearInterval(S.verificationPollInterval);
+    S.verificationPollInterval=null;
   }
 }
 
@@ -1750,9 +1965,92 @@ if(window.IS_REAL_MODE&&window.supabaseClient){
       applyLoggedOutState();
     }
   });
+  
+  // Load real cleaners from Supabase (independent of auth state)
+  loadRealCleaners();
 }
 
-async function ensureClientProfile(user){
+async function loadRealCleaners(){
+  if(!window.IS_REAL_MODE||!window.supabaseClient)return;
+  try{
+    const {data,error}=await window.supabaseClient
+      .from('cleaners')
+      .select('*')
+      .eq('status','active')
+      .eq('is_visible',true)
+      .order('rating',{ascending:false,nullsFirst:false})
+      .limit(12);
+    
+    if(error)throw error;
+    if(!data||data.length===0){
+      console.log('cleaners: 0 real cleaners — keeping demo cards');
+      // Add subtle "Demo mode" badge to existing cards
+      showDemoBadge();
+      return;
+    }
+    
+    // Map Supabase data to DB shape
+    DB = data.map((c,i)=>({
+      id:c.id,
+      name:`${c.firstname||''} ${(c.lastname||'?')[0]}.`,
+      price:c.hourly_rate||15,
+      rating:c.rating||0,
+      reviews:c.reviews_count||0,
+      jobs:c.jobs_count||0,
+      distKm:0,
+      hood:c.hood||'Amsterdam',
+      respMin:30,
+      avail:true,
+      online:false,
+      compat:90,
+      urgency:5,
+      spec:c.bio?c.bio.slice(0,80):'Professionele schoonmaker',
+      bio:c.bio||'',
+      services:Array.isArray(c.services)?c.services:['Schoonmaak'],
+      cat:['all','huis'],
+      langs:Array.isArray(c.languages)?c.languages.join(', '):'Nederlands',
+      verified:c.created_at?new Date(c.created_at).toLocaleDateString('nl-NL'):'',
+      mapX:20+(i*8)%70,
+      mapY:30+(i*13)%50,
+      img:c.photo_url||`https://i.pravatar.cc/600?u=${c.id}`,
+      hero:c.photo_url||`https://i.pravatar.cc/1400?u=${c.id}`,
+      chat:[],
+      rl:[]
+    }));
+    
+    console.log(`✓ cleaners: ${DB.length} echte schoonmakers geladen`);
+    
+    // Re-render
+    if(typeof renderCards==='function')renderCards();
+    if(typeof drawDots==='function')drawDots();
+    
+    // Update stat badges in hero
+    updateLiveStats(data.length);
+    
+  }catch(e){
+    console.error('loadRealCleaners:',e.message);
+    showDemoBadge();
+  }
+}
+
+function showDemoBadge(){
+  // Add subtle "Demo mode" indicator near the cleaners section
+  const heading=document.querySelector('#cleaners h2, #cleaners .h2, #cleaners h1');
+  if(heading&&!document.querySelector('.demo-badge')){
+    const badge=document.createElement('span');
+    badge.className='demo-badge';
+    badge.style.cssText='display:inline-block;margin-left:10px;font-size:10px;font-weight:800;padding:3px 9px;border-radius:6px;background:rgba(245,158,11,.15);color:#92400E;letter-spacing:1px;vertical-align:middle';
+    badge.textContent='DEMO';
+    heading.appendChild(badge);
+  }
+}
+
+function updateLiveStats(count){
+  // Update any visible counters with real number
+  document.querySelectorAll('[data-live-stat="cleaners"]').forEach(el=>{
+    el.textContent=count;
+  });
+}
   if(!user||!window.supabaseClient)return null;
   try{
     // Check if exists

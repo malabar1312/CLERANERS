@@ -591,14 +591,19 @@ async function finish(){
   }catch(e){}
   
   // ALSO save to Supabase if real mode
-  if(window.IS_REAL_MODE&&window.supabaseClient&&draft.userId){
+  if(window.IS_REAL_MODE&&window.supabaseClient){
     try{
       showToast('info','Profiel wordt opgeslagen...');
+      // Get user_id from CURRENT session (more reliable than draft)
+      const {data:{session}}=await window.supabaseClient.auth.getSession();
+      if(!session)throw new Error('Geen actieve sessie. Log opnieuw in.');
+      const userId=session.user.id;
+      
       const {data,error}=await window.supabaseClient.from('cleaners').insert({
-        user_id:draft.userId,
+        user_id:userId,
         firstname:draft.firstname,
         lastname:draft.lastname,
-        email:draft.email,
+        email:draft.email||session.user.email,
         phone:draft.phone,
         hood:draft.hood,
         bio:draft.bio,
@@ -619,7 +624,12 @@ async function finish(){
       showToast('success','✓ Profiel opgeslagen!');
     }catch(err){
       console.error('Supabase insert error:',err);
-      showToast('error','Lokaal opgeslagen (DB fout: '+(err.message||'')+')');
+      const msg=(err&&err.message)||'';
+      if(msg.includes('duplicate')||msg.includes('unique')){
+        showToast('info','Profiel bestaat al — naar dashboard');
+      }else{
+        showToast('error','DB fout: '+msg);
+      }
     }
   }
   
@@ -645,7 +655,9 @@ function getDraft(){
 }
 
 // Restore draft if exists + detect Supabase verified callback
-(async function restore(){
+/* ═══════════ ROBUST AUTH-AWARE BOOT ═══════════ */
+(async function boot(){
+  // 1. Restore draft data into form fields (visible to user)
   const d=getDraft();
   if(d.firstname)document.getElementById('f-firstname').value=d.firstname;
   if(d.lastname)document.getElementById('f-lastname').value=d.lastname;
@@ -653,30 +665,76 @@ function getDraft(){
   if(d.phone)document.getElementById('f-phone').value=d.phone;
   if(d.hood)document.getElementById('f-hood').value=d.hood;
   
-  // Check if user clicked verification email link
+  if(!window.IS_REAL_MODE||!window.supabaseClient){
+    // Demo mode → use existing localStorage flow
+    return;
+  }
+  
+  // 2. Wait briefly for Supabase to process URL hash if present
   const url=new URL(location.href);
   const verified=url.searchParams.get('verified');
   const hasAccessToken=location.hash.includes('access_token');
-  
-  if((verified==='1'||hasAccessToken)&&window.IS_REAL_MODE&&window.supabaseClient){
-    try{
-      // Wait briefly for session to be set from URL hash
-      await new Promise(r=>setTimeout(r,300));
-      const {data:{session}}=await window.supabaseClient.auth.getSession();
-      if(session){
-        showToast('success','✓ Email bevestigd! Vervolg je profiel.');
-        saveDraft({emailVerified:true,userId:session.user.id});
-        // Pre-fill from auth metadata
-        const meta=session.user.user_metadata;
-        if(meta?.firstname)saveDraft({firstname:meta.firstname,lastname:meta.lastname,phone:meta.phone,hood:meta.hood,email:session.user.email});
-        // Skip directly to step 4 (profile details)
-        goPane(4);
-        // Clean URL
-        history.replaceState({},'',location.pathname);
-        return;
-      }
-    }catch(e){console.error('Verification callback error:',e);}
+  if(verified==='1'||hasAccessToken){
+    await new Promise(r=>setTimeout(r,400));
   }
+  
+  // 3. Check authentication status
+  let session=null;
+  try{
+    const r=await window.supabaseClient.auth.getSession();
+    session=r.data?.session;
+  }catch(e){console.error('Session check:',e);}
+  
+  if(!session){
+    // Not authenticated → show explanation and redirect
+    document.body.innerHTML=`
+      <div style="min-height:100svh;display:flex;align-items:center;justify-content:center;padding:40px 20px;text-align:center;background:radial-gradient(circle at 30% 0%,#0F1A30 0%,#0A0F1C 60%,#06080F 100%);color:white;">
+        <div style="max-width:480px;">
+          <svg width="44" height="44" style="margin:0 auto 24px;display:block;"><use href="#STAR"/></svg>
+          <h1 style="font-family:'Instrument Serif',Georgia,serif;font-size:42px;font-weight:400;margin-bottom:14px;letter-spacing:-1px;">Maak eerst een <em style="color:#3B82F6;">account</em></h1>
+          <p style="font-size:15px;color:rgba(255,255,255,.6);line-height:1.65;margin-bottom:32px;">Om je schoonmaker profiel te starten moet je eerst een account aanmaken op de homepage.</p>
+          <a href="/" style="display:inline-flex;align-items:center;gap:8px;background:#1A56DB;color:white;font-weight:700;padding:14px 28px;border-radius:12px;text-decoration:none;font-size:15px;box-shadow:0 6px 18px rgba(26,86,219,.3);">Naar homepage →</a>
+        </div>
+      </div>`;
+    setTimeout(()=>{window.location.href='/';},5000);
+    return;
+  }
+  
+  // 4. Authenticated → check if cleaner profile already exists
+  const userId=session.user.id;
+  let existingCleaner=null;
+  try{
+    const r=await window.supabaseClient.from('cleaners').select('*').eq('user_id',userId).maybeSingle();
+    existingCleaner=r.data;
+  }catch(e){console.error('Cleaner check:',e);}
+  
+  if(existingCleaner){
+    // Already a registered cleaner → go to dashboard
+    showToast('info','Je profiel bestaat al — naar je dashboard...');
+    setTimeout(()=>{window.location.href='/cleaner-dashboard.html';},800);
+    return;
+  }
+  
+  // 5. Authenticated, no cleaner profile yet → pre-populate from auth and skip to step 4
+  const meta=session.user.user_metadata||{};
+  saveDraft({
+    userId:userId,
+    emailVerified:true,
+    firstname:meta.firstname||d.firstname||'',
+    lastname:meta.lastname||d.lastname||'',
+    phone:meta.phone||d.phone||'',
+    hood:meta.hood||d.hood||'',
+    email:session.user.email
+  });
+  
+  // Skip directly to step 4 (professional details) since auth is done
+  goPane(4);
+  
+  // Show welcoming banner
+  showToast('success',`Welkom ${meta.firstname||''}! Vul je professionele profiel in.`);
+  
+  // Clean URL
+  history.replaceState({},'',location.pathname);
 })();
 </script>
 </body>

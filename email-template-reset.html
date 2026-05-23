@@ -1,0 +1,135 @@
+<!--
+═══════════════════════════════════════════════════════════
+TEMPLATE EMAIL RESET PASSWORD · cleaners · PREMIUM v1
+═══════════════════════════════════════════════════════════
+
+⚠️ USAR ESTE template para "Reset Password" en Supabase
+
+CÓMO USARLO:
+1. Supabase → Authentication → Email Templates
+2. Selecciona "Reset Password"
+3. Subject heading:
+   Wachtwoord opnieuw instellen · cleaners
+4. BORRA todo el HTML existente del cuadro grande
+5. Copia el HTML de abajo (desde <!DOCTYPE html> hasta </html>)
+6. Pégalo en el cuadro
+7. Click "Save"
+
+⚠️ TAMBIÉN: en Supabase → Authentication → URL Configuration
+   - Site URL: https://getcleaners.nl
+   - Redirect URLs (Additional): añade:
+       https://getcleaners.nl/reset-password.html
+       https://getcleaners.nl/reset-password
+       http://localhost:*/reset-password.html   (solo si haces local)
+
+═══════════════════════════════════════════════════════════
+⬇ COPIA DESDE LA SIGUIENTE LÍNEA
+═══════════════════════════════════════════════════════════
+-->
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="color-scheme" content="light only"/>
+<title>Wachtwoord opnieuw instellen</title>
+</head>
+<body style="margin:0;padding:0;background:#F1F5F9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased;color:#0A0F1C;">
+
+<div style="display:none;font-size:1px;color:#F1F5F9;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">
+Stel een nieuw wachtwoord in voor je cleaners account.
+</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F1F5F9;padding:40px 16px;">
+<tr><td align="center">
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;background:white;border-radius:24px;overflow:hidden;box-shadow:0 8px 32px rgba(12,20,32,.08),0 2px 6px rgba(12,20,32,.04);">
+
+<tr><td style="background:linear-gradient(135deg,#0C1420 0%,#13203A 100%);padding:32px 40px;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td style="vertical-align:middle;padding-right:12px;">
+<svg width="32" height="32" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#1A56DB"/></linearGradient></defs>
+<path d="M28 4C28 4 30.8 19 34.5 22.5C38.2 26 52 28 52 28C52 28 38.2 30 34.5 33.5C30.8 37 28 52 28 52C28 52 25.2 37 21.5 33.5C17.8 30 4 28 4 28C4 28 17.8 26 21.5 22.5C25.2 19 28 4 28 4Z" fill="url(#g1)"/>
+</svg>
+</td>
+<td style="vertical-align:middle;font-size:30px;font-weight:800;color:white;letter-spacing:-.7px;line-height:1;">
+cleaners
+</td>
+</tr>
+</table>
+</td></tr>
+
+<tr><td style="padding:44px 40px 0;text-align:center;">
+<div style="font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#1A56DB;margin-bottom:14px;">
+&#128274; Wachtwoord herstellen
+</div>
+<h1 style="font-size:28px;font-weight:800;color:#0A0F1C;margin:0 0 14px;letter-spacing:-.5px;line-height:1.2;">
+Stel een nieuw wachtwoord in
+</h1>
+<p style="font-size:15px;color:#64748B;line-height:1.7;margin:0;">
+We hebben een verzoek ontvangen om het wachtwoord van je cleaners account te resetten. Klik op de knop hieronder om een nieuw wachtwoord in te stellen.
+</p>
+</td></tr>
+
+<tr><td style="padding:36px 40px;text-align:center;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">
+<tr><td style="background:#1A56DB;border-radius:14px;box-shadow:0 6px 16px rgba(26,86,219,.28);">
+<a href="{{ .ConfirmationURL }}" style="display:inline-block;color:white;font-weight:700;font-size:15px;padding:17px 42px;text-decoration:none;letter-spacing:-.01em;border-radius:14px;line-height:1;">
+Wachtwoord opnieuw instellen &rarr;
+</a>
+</td></tr>
+</table>
+<p style="font-size:12px;color:#94A3B8;margin:18px 0 0;line-height:1.5;">
+De link is <strong>1 uur</strong> geldig.
+</p>
+</td></tr>
+
+<tr><td style="padding:0 40px;">
+<div style="border-top:1px solid #E2E8F0;"></div>
+</td></tr>
+
+<tr><td style="padding:24px 40px;">
+<p style="font-size:12px;color:#64748B;margin:0 0 8px;line-height:1.6;">
+<strong style="color:#334155;">Werkt de knop niet?</strong> Kopieer en plak deze link in je browser:
+</p>
+<p style="font-size:11px;color:#1A56DB;word-break:break-all;margin:0;line-height:1.5;">
+<a href="{{ .ConfirmationURL }}" style="color:#1A56DB;text-decoration:underline;">{{ .ConfirmationURL }}</a>
+</p>
+</td></tr>
+
+<tr><td style="padding:0 40px 30px;">
+<div style="background:#FEF3C7;border:1px solid #FCD34D;border-radius:16px;padding:18px;">
+<p style="font-size:13px;color:#78350F;margin:0;line-height:1.6;">
+<strong>&#9888;&#65039; Heb je dit verzoek niet zelf ingediend?</strong><br>
+Negeer deze email — je wachtwoord blijft ongewijzigd. Voor de zekerheid kun je inloggen en je account-instellingen controleren.
+</p>
+</div>
+</td></tr>
+
+<tr><td style="padding:30px 40px;text-align:center;background:#F8FAFC;border-top:1px solid #E2E8F0;">
+<p style="font-size:11px;color:#94A3B8;margin:0;line-height:1.6;">
+<strong style="color:#64748B;">cleaners</strong> &middot; Amsterdam &middot; <a href="https://getcleaners.nl" style="color:#94A3B8;text-decoration:none;">getcleaners.nl</a>
+</p>
+</td></tr>
+
+</table>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;margin-top:24px;">
+<tr><td style="text-align:center;font-size:11px;color:#94A3B8;line-height:1.6;">
+&copy; 2026 cleaners. Alle rechten voorbehouden.
+</td></tr>
+</table>
+
+</td></tr>
+</table>
+
+</body>
+</html>
+<!--
+═══════════════════════════════════════════════════════════
+⬆ COPIA HASTA AQUÍ
+═══════════════════════════════════════════════════════════
+-->

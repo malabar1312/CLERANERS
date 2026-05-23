@@ -756,14 +756,25 @@ async function getProfile(){
         const {data}=await window.supabaseClient.from('cleaners')
           .select('*').eq('user_id',session.user.id).single();
         if(data){
-          // Cache to localStorage for instant next load
-          const cached={...data,firstname:data.firstname,lastname:data.lastname,
-            name:`${data.firstname} ${data.lastname}`,
-            email:data.email,hood:data.hood,bio:data.bio,
+          // Normalize: snake_case from Supabase → camelCase + add legacy compat
+          const normalized={
+            ...data,
+            // Legacy compat fields
+            name:`${data.firstname||''} ${data.lastname||''}`.trim(),
             hourlyRate:data.hourly_rate,
-            kyc:{status:data.kyc_status}};
-          try{localStorage.setItem('cl_profile_current',JSON.stringify(cached));}catch(e){}
-          return cached;
+            yearsExperience:data.years_exp,
+            photoDataUrl:data.photo_url,
+            kyc:{status:data.kyc_status},
+            stats:{
+              totalEarned:0,
+              pendingPayout:0,
+              jobsCompleted:data.jobs_count||0,
+              rating:data.rating,
+              reviewsCount:data.reviews_count||0
+            }
+          };
+          try{localStorage.setItem('cl_profile_current',JSON.stringify(normalized));}catch(e){}
+          return normalized;
         }
       }
     }catch(e){console.error('Supabase getProfile error:',e);}
@@ -778,33 +789,113 @@ function getProfileSync(){
 }
 
 async function applyProfile(){
+  // AUTH GATE: if Supabase real mode but no session → redirect to home
+  if(window.IS_REAL_MODE&&window.supabaseClient){
+    try{
+      const {data:{session}}=await window.supabaseClient.auth.getSession();
+      if(!session){
+        showToast('info','Log in om je dashboard te zien');
+        setTimeout(()=>window.location.href='/',1500);
+        return;
+      }
+    }catch(e){console.error(e);}
+  }
+  
   const p=await getProfile();
   if(p){
-    const initials=(p.firstname?.[0]||'')+(p.lastname?.[0]||'');
-    document.getElementById('tb-avatar').textContent=initials||'C';
-    document.getElementById('tb-name').textContent=p.name||(p.firstname+' '+p.lastname)||'Cleaner';
-    document.getElementById('welcome-name').textContent=p.firstname||'Schoonmaker';
-    document.getElementById('profile-name').textContent=p.name||(p.firstname+' '+p.lastname)||'Cleaner';
+    const fn=p.firstname||'';
+    const ln=p.lastname||'';
+    const initials=((fn[0]||'')+(ln[0]||'')).toUpperCase()||'C';
+    const fullName=p.name||(`${fn} ${ln}`.trim())||'Cleaner';
+    
+    document.getElementById('tb-avatar').textContent=initials;
+    document.getElementById('tb-name').textContent=fullName;
+    document.getElementById('welcome-name').textContent=fn||'Schoonmaker';
+    document.getElementById('profile-name').textContent=fullName;
     document.getElementById('profile-hood').textContent=p.hood||'Amsterdam';
-    document.getElementById('profile-photo-display').textContent=initials||'C';
-    // Apply uploaded photo if exists
-    if(p.photoDataUrl){
+    document.getElementById('profile-photo-display').textContent=initials;
+    
+    // Apply uploaded photo / photo_url from Supabase
+    const photoUrl=p.photo_url||p.photoDataUrl;
+    if(photoUrl){
       const ph=document.getElementById('profile-photo-display');
       const tb=document.getElementById('tb-avatar');
-      if(ph)ph.innerHTML=`<img src="${p.photoDataUrl}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"/>`;
-      if(tb)tb.innerHTML=`<img src="${p.photoDataUrl}" alt="" style="width:100%;height:100%;object-fit:cover;"/>`;
+      if(ph)ph.innerHTML=`<img src="${photoUrl}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"/>`;
+      if(tb)tb.innerHTML=`<img src="${photoUrl}" alt="" style="width:100%;height:100%;object-fit:cover;"/>`;
     }
+    
+    // Bio + rate (both Supabase column names and legacy)
     if(p.bio)document.getElementById('prof-bio').value=p.bio;
-    if(p.hourlyRate)document.getElementById('prof-rate').value=p.hourlyRate;
-    // Welcome status: pending o verified
+    const rate=p.hourly_rate||p.hourlyRate;
+    if(rate)document.getElementById('prof-rate').value=rate;
+    
+    // STATUS LOGIC — 3 estados posibles
     const status=document.getElementById('welcome-status');
-    if(p.kyc?.status==='verified'){
+    const kycCard=document.getElementById('kyc-card');
+    const supabaseStatus=p.status||p.kyc?.status;
+    const isVisible=p.is_visible===true;
+    const kycStatus=p.kyc_status||p.kyc?.status;
+    
+    if(kycStatus==='verified'&&isVisible){
+      // FULLY ACTIVE
       status.className='welcome-status verified';
-      status.innerHTML='<span class="pulse"></span>Geverifieerd · Top profiel';
-      document.getElementById('kyc-card').className='kyc-card verified';
-      document.getElementById('kyc-card').innerHTML='<div class="kyc-title">✓ Verificatie compleet</div><div class="kyc-msg">Je profiel staat live en ontvangt aanvragen.</div>';
+      status.innerHTML='<span class="pulse"></span>Geverifieerd · Live · Top profiel';
+      kycCard.className='kyc-card verified';
+      kycCard.innerHTML='<div class="kyc-title">✓ Verificatie compleet</div><div class="kyc-msg">Je profiel staat live en ontvangt aanvragen.</div>';
+    }else if(kycStatus==='verified'&&!isVisible){
+      // VERIFIED BUT NOT YET VISIBLE
+      status.className='welcome-status pending';
+      status.innerHTML='<span class="pulse"></span>Geverifieerd · Wachten op activering';
+      kycCard.className='kyc-card';
+      kycCard.innerHTML='<div class="kyc-title">⏳ Bijna live</div><div class="kyc-msg">Je verificatie is goedgekeurd. We zetten je profiel zichtbaar binnen 24u.</div>';
+    }else{
+      // PENDING (initial state)
+      status.className='welcome-status pending';
+      status.innerHTML='<span class="pulse"></span>In beoordeling';
+      kycCard.className='kyc-card';
+      kycCard.innerHTML='<div class="kyc-title">⏳ Profiel in beoordeling</div><div class="kyc-msg">We controleren je documenten. Dit duurt meestal 24-48u. Je krijgt een email zodra je live staat.</div>';
     }
+    
+    // Show profile completion if any field is missing
+    showProfileCompleteness(p);
   }
+}
+
+function showProfileCompleteness(p){
+  // Check what's missing
+  const missing=[];
+  if(!p.bio||p.bio.length<20)missing.push({field:'bio',label:'Schrijf een bio (min. 20 tekens)',view:'profile'});
+  if(!p.photo_url&&!p.photoDataUrl)missing.push({field:'photo',label:'Voeg een profielfoto toe',view:'profile'});
+  if(!p.services||p.services.length===0)missing.push({field:'services',label:'Selecteer je diensten',view:'profile'});
+  if(!p.hourly_rate&&!p.hourlyRate)missing.push({field:'rate',label:'Stel je uurtarief in',view:'profile'});
+  if(!p.iban&&!p.iban_last4)missing.push({field:'iban',label:'Voeg je bankgegevens toe',view:'earnings'});
+  
+  // Render in dashboard header area if any missing
+  let bannerHost=document.getElementById('completeness-banner');
+  if(missing.length===0){
+    if(bannerHost)bannerHost.style.display='none';
+    return;
+  }
+  if(!bannerHost){
+    const homeView=document.getElementById('view-home');
+    if(!homeView)return;
+    bannerHost=document.createElement('div');
+    bannerHost.id='completeness-banner';
+    bannerHost.style.cssText='background:linear-gradient(135deg,#FFF7ED 0%,#FED7AA 100%);border:1px solid #F59E0B;border-radius:16px;padding:18px 20px;margin-bottom:20px;display:flex;gap:14px;align-items:flex-start;';
+    homeView.insertBefore(bannerHost,homeView.firstChild);
+  }
+  bannerHost.style.display='flex';
+  bannerHost.innerHTML=`
+    <div style="font-size:24px;flex-shrink:0;">⚡</div>
+    <div style="flex:1;min-width:0;">
+      <div style="font-size:14px;font-weight:700;color:#92400E;margin-bottom:6px;">Maak je profiel af (${5-missing.length}/5)</div>
+      <div style="font-size:12px;color:#78350F;line-height:1.6;margin-bottom:12px;">Een compleet profiel krijgt 3x meer aanvragen.</div>
+      <ul style="font-size:12px;color:#78350F;line-height:1.7;margin:0;padding-left:18px;">
+        ${missing.slice(0,3).map(m=>`<li>${m.label}</li>`).join('')}
+      </ul>
+      <button onclick="showView('profile')" style="margin-top:12px;background:#0A0F1C;color:white;font-size:12px;font-weight:700;padding:8px 16px;border-radius:8px;">Profiel afmaken →</button>
+    </div>
+  `;
 }
 
 function showView(v){
@@ -944,11 +1035,35 @@ function sendChatMsg(){
   },1500);
 }
 
-function saveProfile(){
+async function saveProfile(){
+  const bio=document.getElementById('prof-bio').value;
+  const hourlyRate=+document.getElementById('prof-rate').value||0;
+  
+  // Update localStorage cache
   const p=getProfileSync()||{};
-  p.bio=document.getElementById('prof-bio').value;
-  p.hourlyRate=+document.getElementById('prof-rate').value;
+  p.bio=bio;
+  p.hourlyRate=hourlyRate;
+  p.hourly_rate=hourlyRate;
   try{localStorage.setItem('cl_profile_current',JSON.stringify(p));}catch(e){}
+  
+  // Save to Supabase
+  if(window.IS_REAL_MODE&&window.supabaseClient){
+    try{
+      const {data:{session}}=await window.supabaseClient.auth.getSession();
+      if(session){
+        const {error}=await window.supabaseClient.from('cleaners')
+          .update({bio,hourly_rate:hourlyRate})
+          .eq('user_id',session.user.id);
+        if(error)throw error;
+        showToast('success','✓ Wijzigingen opgeslagen');
+        return;
+      }
+    }catch(e){
+      console.error('saveProfile:',e);
+      showToast('error','Lokaal opgeslagen (DB fout: '+(e.message||'')+')');
+      return;
+    }
+  }
   showToast('success','✓ Wijzigingen opgeslagen');
 }
 
