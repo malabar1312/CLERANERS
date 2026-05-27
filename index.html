@@ -117,6 +117,11 @@ h1,h2,h3,h4{line-height:1.1;font-weight:800}
 .fg{margin-bottom:20px}
 .fl{display:block;font-size:12px;font-weight:700;margin-bottom:6px;color:var(--ink2);letter-spacing:.3px;text-transform:uppercase}
 .fi{width:100%;border:1.5px solid var(--border);border-radius:12px;padding:14px 20px;font-size:16px;outline:none;color:var(--ink);transition:border-color .16s,box-shadow .16s;background:white}
+.pwd-wrapper{position:relative}
+.pwd-wrapper .fi{padding-right:48px}
+.pwd-toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted);background:transparent;border:none;cursor:pointer;transition:all .15s}
+.pwd-toggle:hover{background:var(--bg2);color:var(--ink2)}
+.pwd-toggle:active{transform:translateY(-50%) scale(.94)}
 .fi:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.12)}
 .fi::placeholder{color:var(--muted2)}
 
@@ -772,9 +777,9 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 <option>Centrum</option><option>Jordaan</option><option>De Pijp</option><option>Oud-West</option><option>Oud-Zuid</option><option>Amsterdam-Oost</option><option>Amsterdam-Noord</option><option>Amsterdam-West</option><option>Grachtengordel</option><option>Zuidas</option><option>IJburg</option><option>Watergraafsmeer</option>
 </select></div>
 
-<div class="fg"><label class="fl">Wachtwoord</label><input class="fi" id="au-pwd" type="password" autocomplete="new-password" placeholder="Minimaal 8 tekens"/><div id="pwd-hint" class="fhint"></div></div>
+<div class="fg"><label class="fl">Wachtwoord</label><div class="pwd-wrapper"><input class="fi" id="au-pwd" type="password" autocomplete="new-password" placeholder="Minimaal 8 tekens"/><button type="button" class="pwd-toggle" onclick="togglePwd('au-pwd','eye-pwd')" tabindex="-1" aria-label="Toon wachtwoord"><svg id="eye-pwd" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></button></div><div id="pwd-hint" class="fhint"></div></div>
 
-<div id="signup-pwd2-wrap" class="fg"><label class="fl">Bevestig wachtwoord</label><input class="fi" id="au-pwd2" type="password" autocomplete="new-password" placeholder="Herhaal je wachtwoord"/><div id="pwd2-hint" class="fhint"></div></div>
+<div id="signup-pwd2-wrap" class="fg"><label class="fl">Bevestig wachtwoord</label><div class="pwd-wrapper"><input class="fi" id="au-pwd2" type="password" autocomplete="new-password" placeholder="Herhaal je wachtwoord"/><button type="button" class="pwd-toggle" onclick="togglePwd('au-pwd2','eye-pwd2')" tabindex="-1" aria-label="Toon wachtwoord"><svg id="eye-pwd2" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></button></div><div id="pwd2-hint" class="fhint"></div></div>
 
 <button class="btn btn-primary btn-lg btn-block" id="auth-submit" type="submit" style="margin-bottom:10px;">Account aanmaken</button>
 </form>
@@ -1640,6 +1645,41 @@ function submitWL(e){e.preventDefault();const em=document.getElementById('wl-ema
 const $drawer=document.getElementById('drawer'),$burger=document.getElementById('burger');
 function openDrawer(){$drawer.classList.add('open');document.body.style.overflow='hidden';}
 function closeDrawer(){$drawer.classList.remove('open');document.body.style.overflow='';}
+
+// ═══════════ FIX: Backspace navigation prevention ═══════════
+// Algunos navegadores (Firefox/Safari) hacen history.back() cuando
+// se pulsa Backspace fuera de un input. Esto cierra el modal porque
+// la página actual cambia. Lo prevenimos aquí.
+window.addEventListener('keydown',function(e){
+  if(e.key!=='Backspace')return;
+  const t=e.target;
+  if(!t)return;
+  const tag=(t.tagName||'').toLowerCase();
+  const isEditableInput=tag==='input'&&!t.disabled&&!t.readOnly&&/^(text|email|password|tel|number|search|url|date|datetime-local|time|month|week)$/i.test(t.type||'text');
+  const isTextarea=tag==='textarea'&&!t.disabled&&!t.readOnly;
+  const isContentEditable=t.isContentEditable;
+  if(!isEditableInput&&!isTextarea&&!isContentEditable){
+    e.preventDefault();
+  }
+},true);
+
+// ═══════════ PASSWORD TOGGLE (ver / ocultar) ═══════════
+function togglePwd(inputId,eyeId){
+  const input=document.getElementById(inputId);
+  const eye=document.getElementById(eyeId);
+  if(!input)return;
+  const isPwd=input.type==='password';
+  input.type=isPwd?'text':'password';
+  if(eye){
+    if(isPwd){
+      // Mostrar icono "ojo tachado"
+      eye.innerHTML='<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/>';
+    }else{
+      // Restaurar icono "ojo"
+      eye.innerHTML='<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>';
+    }
+  }
+}
 
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.ov.open').forEach(o=>o.classList.remove('open'));document.body.style.overflow='';closeDrawer();}});
 
