@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#0C1420"/>
+<title>Mijn account · cleaners</title>
+<meta name="robots" content="noindex,nofollow"/>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+<style>
+:root{--navy:#0C1420;--navy2:#13203A;--blue:#1A56DB;--blueh:#1648c0;--bluel:#EFF6FF;--bluem:#BFDBFE;--ink:#0A0F1C;--ink2:#1E293B;--ink3:#334155;--muted:#64748B;--muted2:#94A3B8;--border:#E2E8F0;--border2:#F1F5F9;--bg:#F8FAFC;--bg2:#F1F5F9;--green:#10B981;--greenl:#ECFDF5;--red:#EF4444;--redl:#FEF2F2;--gold:#F59E0B;--goldl:#FFFBEB;--purple:#8B5CF6;--shb:0 4px 16px rgba(26,86,219,.3);--shm:0 8px 24px rgba(0,0,0,.08);--shl:0 16px 48px rgba(0,0,0,.1);--shxl:0 32px 80px rgba(0,0,0,.12);--ff:'Instrument Serif',Georgia,serif;--eo:cubic-bezier(.16,1,.3,1);--es:cubic-bezier(.34,1.4,.64,1);--sb:240px;--tb:64px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden;-webkit-text-size-adjust:100%}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:14px;line-height:1.55;color:var(--ink);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;line-height:1;font-family:inherit;color:inherit}
+input,select,textarea{font-family:inherit;font-size:inherit;color:inherit;outline:none}
+h1,h2,h3,h4{line-height:1.15;font-weight:800;letter-spacing:-.2px}
+:focus{outline:none}:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:8px}
+
+/* APP SHELL */
+.shell{min-height:100svh;display:grid;grid-template-columns:var(--sb) 1fr;grid-template-rows:var(--tb) 1fr}
+.topbar{grid-column:1/-1;background:var(--navy);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,.06)}
+.sidebar{background:white;border-right:1px solid var(--border);padding:24px 16px;display:flex;flex-direction:column;gap:4px;position:sticky;top:var(--tb);height:calc(100svh - var(--tb));overflow-y:auto}
+.main{padding:32px;min-width:0;overflow-x:hidden}
+
+.tb-logo{display:flex;align-items:center;gap:11px;font-size:22px;font-weight:800;letter-spacing:-.5px;color:white}
+.tb-right{display:flex;align-items:center;gap:14px}
+.tb-icon{position:relative;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition:all .2s;font-size:15px}
+.tb-icon:hover{background:rgba(255,255,255,.1);color:white}
+.tb-icon-badge{position:absolute;top:-2px;right:-2px;min-width:18px;height:18px;border-radius:9px;background:var(--red);color:white;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid var(--navy)}
+.tb-user{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9999px;padding:4px 14px 4px 4px;cursor:pointer;transition:all .2s}
+.tb-user:hover{background:rgba(255,255,255,.12)}
+.tb-user-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#3B82F6);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:800;text-transform:uppercase;flex-shrink:0;overflow:hidden}
+.tb-user-name{font-size:13px;font-weight:600;color:white;white-space:nowrap}
+.tb-burger{display:none;flex-direction:column;gap:4px;padding:8px;border-radius:8px;transition:background .16s}
+.tb-burger:hover{background:rgba(255,255,255,.08)}
+.tb-burger span{display:block;width:18px;height:2px;background:white;border-radius:2px}
+
+/* SIDEBAR */
+.nav-section-label{font-size:10px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted2);padding:14px 12px 6px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;color:var(--ink2);font-size:14px;font-weight:600;transition:all .16s;cursor:pointer;position:relative}
+.nav-item:hover{background:var(--bg2);color:var(--ink)}
+.nav-item.active{background:var(--bluel);color:var(--blue)}
+.nav-item.active .nav-icon{background:var(--blue);color:white}
+.nav-icon{width:28px;height:28px;border-radius:8px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .16s;flex-shrink:0}
+.nav-badge{margin-left:auto;background:var(--red);color:white;font-size:10px;font-weight:800;padding:2px 7px;border-radius:9999px;min-width:18px;height:18px;display:flex;align-items:center;justify-content:center}
+.nav-divider{height:1px;background:var(--border);margin:12px 0}
+
+/* VIEWS */
+.view{display:none}
+.view.active{display:block;animation:view-in .4s var(--eo)}
+@keyframes view-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.view-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap}
+.view-title{font-family:var(--ff);font-size:36px;line-height:1;color:var(--ink);font-weight:400;letter-spacing:-.5px}
+.view-title em{font-style:italic;color:var(--blue)}
+.view-sub{font-size:14px;color:var(--muted);margin-top:6px}
+
+/* CARDS */
+.card{background:white;border:1px solid var(--border);border-radius:18px;padding:24px;transition:box-shadow .2s,border-color .2s}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.card-title{font-size:15px;font-weight:700;color:var(--ink)}
+.card-link{font-size:12px;font-weight:600;color:var(--blue);transition:opacity .16s}
+.card-link:hover{opacity:.7}
+
+/* WELCOME HERO */
+.welcome-card{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);color:white;border-radius:24px;padding:32px;margin-bottom:24px;position:relative;overflow:hidden}
+.welcome-card::before{content:'';position:absolute;top:-100px;right:-100px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(26,86,219,.3) 0%,transparent 70%)}
+.welcome-eyebrow{font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:#93C5FD;margin-bottom:8px;position:relative}
+.welcome-title{font-family:var(--ff);font-size:36px;font-weight:400;letter-spacing:-.5px;margin-bottom:8px;position:relative}
+.welcome-sub{font-size:14px;color:rgba(255,255,255,.55);position:relative}
+.welcome-cta{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:white;padding:12px 22px;border-radius:12px;font-size:14px;font-weight:700;margin-top:18px;transition:all .2s;position:relative;box-shadow:0 4px 14px rgba(26,86,219,.3)}
+.welcome-cta:hover{background:var(--blueh);transform:translateY(-1px);box-shadow:0 8px 24px rgba(26,86,219,.4)}
+
+/* STATS GRID */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:white;border:1px solid var(--border);border-radius:16px;padding:20px}
+.stat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:14px}
+.stat-icon.blue{background:var(--bluel);color:var(--blue)}
+.stat-icon.green{background:var(--greenl);color:var(--green)}
+.stat-icon.gold{background:var(--goldl);color:var(--gold)}
+.stat-icon.purple{background:#F3E8FF;color:var(--purple)}
+.stat-value{font-family:var(--ff);font-size:30px;line-height:1;font-weight:400;color:var(--ink);margin-bottom:4px}
+.stat-label{font-size:12px;color:var(--muted);margin-bottom:8px}
+
+/* BOOKINGS LIST */
+.booking-card{background:white;border:1px solid var(--border);border-radius:16px;padding:18px;display:flex;gap:16px;align-items:center;margin-bottom:12px;transition:all .2s var(--eo)}
+.booking-card:hover{box-shadow:var(--shm);border-color:var(--bluem)}
+.booking-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#A78BFA,#8B5CF6);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;flex-shrink:0;font-size:18px;text-transform:uppercase;overflow:hidden}
+.booking-avatar img{width:100%;height:100%;object-fit:cover}
+.booking-body{flex:1;min-width:0}
+.booking-name{font-size:15px;font-weight:700;margin-bottom:3px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.booking-tag{font-size:9px;font-weight:800;padding:3px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px}
+.booking-tag.confirmed{background:var(--greenl);color:var(--green)}
+.booking-tag.pending{background:var(--goldl);color:var(--gold)}
+.booking-tag.completed{background:var(--bluel);color:var(--blue)}
+.booking-tag.cancelled{background:var(--redl);color:var(--red)}
+.booking-meta{font-size:12px;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap;margin-bottom:3px}
+.booking-addr{font-size:12px;color:var(--muted2)}
+.booking-right{text-align:right;flex-shrink:0}
+.booking-price{font-family:var(--ff);font-size:22px;color:var(--ink);font-weight:400}
+.booking-actions{display:flex;gap:6px;margin-top:6px;justify-content:flex-end}
+.booking-actions button{font-size:11px;font-weight:600;padding:6px 12px;border-radius:8px;transition:all .16s}
+.btn-mini-primary{background:var(--blue);color:white}
+.btn-mini-primary:hover{background:var(--blueh)}
+.btn-mini-ghost{background:var(--bg2);color:var(--ink3)}
+.btn-mini-ghost:hover{background:var(--border)}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:56px 20px;color:var(--muted)}
+.empty-icon{font-size:56px;margin-bottom:18px;opacity:.4}
+.empty-title{font-size:18px;font-weight:700;color:var(--ink2);margin-bottom:6px}
+.empty-sub{font-size:14px;margin-bottom:20px;line-height:1.6}
+
+/* FAVORITES */
+.fav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.fav-card{background:white;border:1px solid var(--border);border-radius:16px;padding:18px;text-align:center;transition:all .2s}
+.fav-card:hover{box-shadow:var(--shm);border-color:var(--bluem);transform:translateY(-2px)}
+.fav-photo{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#EC4899,#F472B6);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;color:white;font-size:24px;font-weight:800;text-transform:uppercase;overflow:hidden}
+.fav-photo img{width:100%;height:100%;object-fit:cover}
+.fav-name{font-size:14px;font-weight:700;margin-bottom:4px}
+.fav-meta{font-size:11px;color:var(--muted);margin-bottom:12px}
+.fav-rate{font-family:var(--ff);font-size:22px;color:var(--blue);margin-bottom:12px;font-weight:400}
+
+/* ADDRESS CARDS */
+.address-card{background:white;border:1.5px solid var(--border);border-radius:14px;padding:18px;margin-bottom:10px;display:flex;align-items:flex-start;gap:14px;transition:all .2s}
+.address-card.default{border-color:var(--blue);background:var(--bluel)}
+.address-card:hover{box-shadow:var(--shm)}
+.address-icon{width:40px;height:40px;border-radius:10px;background:var(--bg2);color:var(--ink2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.address-card.default .address-icon{background:var(--blue);color:white}
+.address-body{flex:1;min-width:0}
+.address-name{font-size:14px;font-weight:700;margin-bottom:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.address-default-pill{font-size:9px;font-weight:800;background:var(--blue);color:white;padding:2px 7px;border-radius:9999px;text-transform:uppercase;letter-spacing:.5px}
+.address-full{font-size:12px;color:var(--muted);line-height:1.5}
+.address-actions{display:flex;gap:6px}
+.address-actions button{font-size:11px;padding:6px 10px;border-radius:8px;background:transparent;color:var(--muted);transition:color .2s,background .2s}
+.address-actions button:hover{background:var(--bg);color:var(--ink2)}
+
+/* PAYMENT CARDS */
+.payment-card{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);color:white;border-radius:14px;padding:18px;margin-bottom:10px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden}
+.payment-card::before{content:'';position:absolute;top:-50px;right:-50px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(26,86,219,.25) 0%,transparent 70%)}
+.payment-icon{width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,.1);color:white;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;position:relative}
+.payment-body{flex:1;min-width:0;position:relative}
+.payment-number{font-size:14px;font-weight:700;letter-spacing:1px;font-family:monospace;margin-bottom:3px}
+.payment-meta{font-size:11px;color:rgba(255,255,255,.55)}
+.payment-default-pill{position:absolute;top:14px;right:14px;font-size:9px;font-weight:800;background:rgba(255,255,255,.15);color:white;padding:3px 8px;border-radius:9999px;text-transform:uppercase;letter-spacing:.5px}
+
+/* FORM SECTIONS */
+.form-section{background:white;border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px}
+.form-section h3{font-size:15px;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.form-section h3 .form-icon{width:28px;height:28px;border-radius:8px;background:var(--bluel);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:14px}
+.field{margin-bottom:16px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.field-label{display:block;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ink2);margin-bottom:6px}
+.field-input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:14px;background:white;transition:border-color .2s,box-shadow .2s}
+.field-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.1)}
+
+/* SETTINGS LIST */
+.settings-list{background:white;border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.settings-item{display:flex;align-items:center;gap:14px;padding:18px 20px;border-bottom:1px solid var(--border2);cursor:pointer;transition:background .15s}
+.settings-item:last-child{border-bottom:none}
+.settings-item:hover{background:var(--bg)}
+.settings-icon{width:36px;height:36px;border-radius:10px;background:var(--bg2);color:var(--ink2);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.settings-icon.danger{background:var(--redl);color:var(--red)}
+.settings-body{flex:1;min-width:0}
+.settings-title{font-size:14px;font-weight:700;margin-bottom:2px}
+.settings-sub{font-size:12px;color:var(--muted)}
+.settings-arrow{color:var(--muted2);font-size:16px}
+
+/* BTN */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:700;border-radius:10px;transition:all .25s var(--eo);font-size:13px;padding:10px 18px;letter-spacing:-.01em}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--blue);color:white;box-shadow:var(--shb)}
+.btn-primary:hover{background:var(--blueh)}
+.btn-outline{border:1.5px solid var(--border);background:white;color:var(--ink2)}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.btn-lg{font-size:15px;padding:13px 24px;border-radius:12px}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;z-index:900;background:var(--ink);color:white;padding:13px 20px;border-radius:12px;font-size:13px;font-weight:500;box-shadow:var(--shxl);display:flex;align-items:center;gap:10px;transform:translateY(20px);opacity:0;transition:all .28s var(--es);pointer-events:none;max-width:360px}
+.toast.vis{transform:none;opacity:1}
+
+/* MOBILE */
+@media(max-width:900px){
+:root{--sb:0px}
+.shell{grid-template-columns:1fr}
+.sidebar{position:fixed;left:0;top:var(--tb);bottom:0;width:280px;z-index:60;transform:translateX(-100%);transition:transform .3s var(--eo);box-shadow:var(--shxl)}
+.sidebar.open{transform:none}
+.tb-burger{display:flex}
+.tb-user-name{display:none}
+.main{padding:20px}
+.welcome-title{font-size:28px}
+.welcome-card{padding:24px}
+.stats-grid{grid-template-columns:repeat(2,1fr)}
+.view-title{font-size:28px}
+.field-row{grid-template-columns:1fr}
+.booking-card{flex-wrap:wrap}
+.booking-right{order:-1;margin-left:auto}
+.fav-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:580px){.stats-grid{grid-template-columns:1fr 1fr;gap:10px}.stat-card{padding:14px}.stat-value{font-size:24px}.fav-grid{grid-template-columns:1fr}}
+
+.sidebar-overlay{display:none;position:fixed;inset:var(--tb) 0 0;background:rgba(0,0,0,.4);z-index:55;backdrop-filter:blur(2px)}
+.sidebar-overlay.show{display:block}
+
+/* MODAL */
+.ov{position:fixed;inset:0;background:rgba(12,20,32,.55);backdrop-filter:blur(12px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;animation:ov-in .3s ease}
+.ov.show{display:flex}
+@keyframes ov-in{from{opacity:0}to{opacity:1}}
+.mb{background:white;border-radius:24px;max-width:520px;width:100%;max-height:90svh;overflow-y:auto;position:relative;box-shadow:var(--shxl);animation:mb-in .35s var(--es)}
+@keyframes mb-in{from{opacity:0;transform:translateY(20px) scale(.98)}to{opacity:1;transform:none}}
+.mclose{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--bg);font-size:18px;display:flex;align-items:center;justify-content:center;z-index:5;transition:background .15s}
+.mclose:hover{background:var(--border)}
+.mp{padding:32px}
+@media(max-width:580px){.mp{padding:24px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute;overflow:hidden;"><defs>
+<linearGradient id="gb" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A56DB"/><stop offset="100%" stop-color="#3B82F6"/></linearGradient>
+<symbol id="STAR" viewBox="0 0 56 56"><path d="M28 4C28 4 30.8 19 34.5 22.5C38.2 26 52 28 52 28C52 28 38.2 30 34.5 33.5C30.8 37 28 52 28 52C28 52 25.2 37 21.5 33.5C17.8 30 4 28 4 28C4 28 17.8 26 21.5 22.5C25.2 19 28 4 28 4Z" fill="url(#gb)"/></symbol>
+</defs></svg>
+
+<div class="toast" id="toast"><span id="toast-ic"></span><span id="toast-msg"></span></div>
+<div class="sidebar-overlay" id="sb-overlay" onclick="toggleSidebar()"></div>
+
+<div class="shell">
+
+<header class="topbar">
+<div style="display:flex;align-items:center;gap:14px;">
+<button class="tb-burger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+<div class="tb-logo" translate="no"><svg width="22" height="22"><use href="#STAR"/></svg> <span translate="no">cleaners</span></div>
+</div>
+<div class="tb-right">
+<button class="tb-icon" onclick="showView('messages')" title="Berichten"><span>💬</span><span class="tb-icon-badge" id="tb-msg-badge" style="display:none;">0</span></button>
+<button class="tb-icon" title="Notificaties"><span>🔔</span></button>
+<div class="tb-user" onclick="showView('settings')">
+<div class="tb-user-avatar" id="tb-avatar">C</div>
+<div class="tb-user-name" id="tb-name">Klant</div>
+</div>
+</div>
+</header>
+
+<nav class="sidebar" id="sidebar">
+<div class="nav-section-label">Mijn account</div>
+<div class="nav-item active" data-view="home" onclick="showView('home')"><div class="nav-icon">🏠</div>Dashboard</div>
+<div class="nav-item" data-view="bookings" onclick="showView('bookings')"><div class="nav-icon">📋</div>Mijn boekingen<span class="nav-badge" id="nav-bookings-badge" style="display:none;">0</span></div>
+<div class="nav-item" data-view="favorites" onclick="showView('favorites')"><div class="nav-icon">❤️</div>Favorieten</div>
+<div class="nav-item" data-view="messages" onclick="showView('messages')"><div class="nav-icon">💬</div>Berichten</div>
+
+<div class="nav-divider"></div>
+
+<div class="nav-section-label">Instellingen</div>
+<div class="nav-item" data-view="profile" onclick="showView('profile')"><div class="nav-icon">👤</div>Mijn profiel</div>
+<div class="nav-item" data-view="addresses" onclick="showView('addresses')"><div class="nav-icon">📍</div>Adressen</div>
+<div class="nav-item" data-view="payments" onclick="showView('payments')"><div class="nav-icon">💳</div>Betaalmethoden</div>
+<div class="nav-item" data-view="settings" onclick="showView('settings')"><div class="nav-icon">⚙️</div>Account</div>
+
+<div style="margin-top:auto;padding:16px 12px 0;">
+<button onclick="window.location.href='/'" style="display:flex;align-items:center;gap:8px;width:100%;padding:10px 12px;border-radius:10px;font-size:13px;font-weight:600;color:var(--muted);transition:background .15s;background:var(--bg);">
+🔍 &nbsp;Schoonmakers zoeken
+</button>
+</div>
+</nav>
+
+<main class="main">
+
+<!-- VIEW: HOME -->
+<div class="view active" id="view-home">
+<div class="welcome-card">
+<div class="welcome-eyebrow">Goedemorgen</div>
+<div class="welcome-title" id="welcome-name">Welkom</div>
+<div class="welcome-sub" id="welcome-sub">Klaar om je volgende schoonmaak te boeken?</div>
+<button class="welcome-cta" onclick="window.location.href='/#cleaners'">🔍 Schoonmaker vinden</button>
+</div>
+
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-icon blue">📋</div>
+<div class="stat-value" id="s-bookings">0</div>
+<div class="stat-label">Totaal boekingen</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon green">💰</div>
+<div class="stat-value">€<span id="s-spent">0</span></div>
+<div class="stat-label">Uitgegeven</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon gold">❤️</div>
+<div class="stat-value" id="s-favs">0</div>
+<div class="stat-label">Favoriete schoonmakers</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon purple">📅</div>
+<div class="stat-value" id="s-upcoming">0</div>
+<div class="stat-label">Gepland</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-head"><div class="card-title">Aankomende boekingen</div><a class="card-link" onclick="showView('bookings')">Alle bekijken →</a></div>
+<div id="home-upcoming"></div>
+</div>
+</div>
+
+<!-- VIEW: BOOKINGS -->
+<div class="view" id="view-bookings">
+<div class="view-head">
+<div><h1 class="view-title">Mijn <em>boekingen</em></h1><div class="view-sub">Aankomende afspraken, historie en reviews.</div></div>
+<button class="btn btn-primary" onclick="window.location.href='/#cleaners'">+ Nieuwe boeking</button>
+</div>
+<div style="display:flex;gap:8px;margin-bottom:20px;">
+<button class="btn btn-outline tab-btn active" onclick="filterBookings('all',event)">Alle</button>
+<button class="btn btn-outline tab-btn" onclick="filterBookings('upcoming',event)">Aankomend</button>
+<button class="btn btn-outline tab-btn" onclick="filterBookings('past',event)">Voorbij</button>
+<button class="btn btn-outline tab-btn" onclick="filterBookings('cancelled',event)">Geannuleerd</button>
+</div>
+<div id="bookings-list"></div>
+</div>
+
+<!-- VIEW: FAVORITES -->
+<div class="view" id="view-favorites">
+<div class="view-head">
+<div><h1 class="view-title">Favoriete <em>schoonmakers</em></h1><div class="view-sub">De cleaners die je hebt opgeslagen.</div></div>
+</div>
+<div id="favorites-list"></div>
+</div>
+
+<!-- VIEW: MESSAGES -->
+<div class="view" id="view-messages">
+<div class="view-head">
+<div><h1 class="view-title">Berichten</h1><div class="view-sub">Chat met schoonmakers over je boekingen.</div></div>
+</div>
+<div id="messages-list">
+<div class="empty-state">
+<div class="empty-icon">💬</div>
+<div class="empty-title">Nog geen gesprekken</div>
+<div class="empty-sub">Wanneer je een schoonmaker boekt verschijnt hier de chat.</div>
+<button class="btn btn-primary" onclick="window.location.href='/#cleaners'">Schoonmaker vinden</button>
+</div>
+</div>
+</div>
+
+<!-- VIEW: PROFILE -->
+<div class="view" id="view-profile">
+<div class="view-head"><div><h1 class="view-title">Mijn <em>profiel</em></h1><div class="view-sub">Beheer je persoonlijke gegevens.</div></div></div>
+
+<div class="form-section">
+<h3><span class="form-icon">👤</span>Persoonlijke gegevens</h3>
+<div class="field-row">
+<div><label class="field-label">Voornaam</label><input class="field-input" id="prof-firstname" type="text"/></div>
+<div><label class="field-label">Achternaam</label><input class="field-input" id="prof-lastname" type="text"/></div>
+</div>
+<div class="field-row">
+<div><label class="field-label">Email</label><input class="field-input" id="prof-email" type="email" disabled style="background:var(--bg);"/></div>
+<div><label class="field-label">Telefoon</label><input class="field-input" id="prof-phone" type="tel"/></div>
+</div>
+<div class="field"><label class="field-label">Voorkeursgebied</label>
+<select class="field-input" id="prof-hood">
+<option value="">Selecteer...</option>
+<option>Centrum</option><option>Jordaan</option><option>De Pijp</option><option>Oud-West</option><option>Oud-Zuid</option><option>Amsterdam-Oost</option><option>Amsterdam-Noord</option><option>Amsterdam-West</option><option>Grachtengordel</option><option>Zuidas</option><option>IJburg</option><option>Watergraafsmeer</option>
+</select></div>
+<button class="btn btn-primary" onclick="saveProfile()">💾 Wijzigingen opslaan</button>
+</div>
+</div>
+
+<!-- VIEW: ADDRESSES -->
+<div class="view" id="view-addresses">
+<div class="view-head">
+<div><h1 class="view-title">Mijn <em>adressen</em></h1><div class="view-sub">Bewaar je vaste adressen voor snelle boekingen.</div></div>
+<button class="btn btn-primary" onclick="addAddress()">+ Adres toevoegen</button>
+</div>
+<div id="addresses-list"></div>
+</div>
+
+<!-- VIEW: PAYMENTS -->
+<div class="view" id="view-payments">
+<div class="view-head">
+<div><h1 class="view-title">Betaal<em>methoden</em></h1><div class="view-sub">Beheer je creditcards en betaalvoorkeuren.</div></div>
+<button class="btn btn-primary" onclick="addPayment()">+ Betaalmethode toevoegen</button>
+</div>
+<div id="payments-list"></div>
+<div style="background:var(--bluel);border:1px solid var(--bluem);border-radius:14px;padding:16px;margin-top:20px;display:flex;gap:12px;">
+<span style="font-size:18px;flex-shrink:0;">🔒</span>
+<div style="font-size:12px;color:var(--ink2);line-height:1.65;"><strong>100% veilig</strong> · Betalingen verwerkt via <strong>Stripe</strong>. We slaan nooit je kaartgegevens op.</div>
+</div>
+</div>
+
+<!-- VIEW: SETTINGS -->
+<div class="view" id="view-settings">
+<div class="view-head"><div><h1 class="view-title">Account</h1><div class="view-sub">Wachtwoord, notificaties, taal en meer.</div></div></div>
+
+<div class="settings-list">
+<div class="settings-item" onclick="changePassword()"><div class="settings-icon">🔐</div><div class="settings-body"><div class="settings-title">Wachtwoord wijzigen</div><div class="settings-sub">Wijzig je inloggegevens</div></div><div class="settings-arrow">›</div></div>
+<div class="settings-item" onclick="openNotifications()"><div class="settings-icon">🔔</div><div class="settings-body"><div class="settings-title">Notificaties</div><div class="settings-sub">Email, SMS en push voorkeuren</div></div><div class="settings-arrow">›</div></div>
+<div class="settings-item" onclick="openLanguage()"><div class="settings-icon">🌍</div><div class="settings-body"><div class="settings-title">Taal</div><div class="settings-sub">Nederlands</div></div><div class="settings-arrow">›</div></div>
+<div class="settings-item" onclick="openCookies()"><div class="settings-icon">🍪</div><div class="settings-body"><div class="settings-title">Cookie voorkeuren</div><div class="settings-sub">Beheer je cookie instellingen</div></div><div class="settings-arrow">›</div></div>
+<div class="settings-item" onclick="window.location.href='mailto:info@getcleaners.nl'"><div class="settings-icon">💬</div><div class="settings-body"><div class="settings-title">Helpcentrum</div><div class="settings-sub">Contact opnemen</div></div><div class="settings-arrow">›</div></div>
+<div class="settings-item" onclick="logOut()"><div class="settings-icon danger">🚪</div><div class="settings-body"><div class="settings-title" style="color:var(--red);">Uitloggen</div><div class="settings-sub">Beëindig je sessie</div></div><div class="settings-arrow">›</div></div>
+</div>
+
+<div style="margin-top:32px;padding:20px;background:var(--redl);border:1px solid rgba(239,68,68,.2);border-radius:14px;">
+<h3 style="color:var(--red);font-size:14px;margin-bottom:6px;">⚠️ Gevarenzone</h3>
+<p style="font-size:13px;color:var(--ink2);margin-bottom:12px;">Account verwijderen kan niet ongedaan worden gemaakt.</p>
+<button class="btn" style="background:var(--red);color:white;" onclick="deleteAccount()">Account verwijderen</button>
+</div>
+</div>
+
+</main>
+
+</div>
+
+<script>
+'use strict';
+
+let currentView='home';
+let allBookings=[];
+let allFavs=[];
+let clientProfile=null;
+let currentUser=null;
+
+/* ═══════════ AUTH GATE ═══════════ */
+(async function authGate(){
+  if(!window.IS_REAL_MODE||!window.supabaseClient){
+    console.warn('Demo mode — showing static dashboard');
+    return;
+  }
+  try{
+    const {data:{session}}=await window.supabaseClient.auth.getSession();
+    if(!session){
+      showToast('info','Log eerst in om je dashboard te zien');
+      setTimeout(()=>window.location.href='/',1500);
+      return;
+    }
+    currentUser=session.user;
+    await loadProfile();
+    await loadBookings();
+    await loadFavorites();
+  }catch(e){console.error('Auth gate error:',e);}
+})();
+
+async function loadProfile(){
+  if(!currentUser)return;
+  try{
+    const {data,error}=await window.supabaseClient.from('clients')
+      .select('*').eq('user_id',currentUser.id).maybeSingle();
+    if(error)throw error;
+    if(data){
+      clientProfile=data;
+      applyProfile(data);
+    }else{
+      // Auto-create client profile if missing
+      const meta=currentUser.user_metadata||{};
+      const {data:newProfile}=await window.supabaseClient.from('clients').insert({
+        user_id:currentUser.id,
+        firstname:meta.firstname||'',
+        lastname:meta.lastname||'',
+        email:currentUser.email,
+        phone:meta.phone||'',
+        hood:meta.hood||''
+      }).select().single();
+      if(newProfile){clientProfile=newProfile;applyProfile(newProfile);}
+    }
+  }catch(e){console.error('loadProfile:',e);}
+}
+
+function applyProfile(p){
+  const name=p.firstname||p.email.split('@')[0];
+  const initial=(name[0]||'C').toUpperCase();
+  document.getElementById('tb-avatar').textContent=initial;
+  document.getElementById('tb-name').textContent=name;
+  document.getElementById('welcome-name').textContent=`Hi, ${name}`;
+  // Pre-fill profile form
+  document.getElementById('prof-firstname').value=p.firstname||'';
+  document.getElementById('prof-lastname').value=p.lastname||'';
+  document.getElementById('prof-email').value=p.email||'';
+  document.getElementById('prof-phone').value=p.phone||'';
+  document.getElementById('prof-hood').value=p.hood||'';
+  // Stats
+  document.getElementById('s-bookings').textContent=p.total_bookings||0;
+  document.getElementById('s-spent').textContent=Math.round(p.total_spent||0);
+  // Render addresses
+  renderAddresses(p.addresses||[]);
+  // Render payments
+  renderPayments(p.payment_methods||[]);
+}
+
+async function loadBookings(){
+  if(!currentUser)return;
+  try{
+    const {data}=await window.supabaseClient.from('bookings')
+      .select('*,cleaner:cleaners(firstname,lastname,photo_url,hood)')
+      .eq('client_user_id',currentUser.id)
+      .order('scheduled_date',{ascending:false});
+    allBookings=data||[];
+    renderBookings('all');
+    // Stats
+    const upcoming=allBookings.filter(b=>b.status==='confirmed'&&new Date(b.scheduled_date)>=new Date()).length;
+    document.getElementById('s-upcoming').textContent=upcoming;
+    // Home upcoming preview
+    renderHomeUpcoming();
+  }catch(e){console.error('loadBookings:',e);allBookings=[];renderBookings('all');}
+}
+
+async function loadFavorites(){
+  if(!currentUser)return;
+  try{
+    const {data}=await window.supabaseClient.from('favorites')
+      .select('*,cleaner:cleaners(*)').eq('client_user_id',currentUser.id);
+    allFavs=data||[];
+    document.getElementById('s-favs').textContent=allFavs.length;
+    renderFavorites();
+  }catch(e){console.error('loadFavorites:',e);allFavs=[];renderFavorites();}
+}
+
+/* ═══════════ NAV ═══════════ */
+function showView(v){
+  document.querySelectorAll('.view').forEach(el=>el.classList.toggle('active',el.id==='view-'+v));
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.view===v));
+  currentView=v;
+  if(window.innerWidth<=900)toggleSidebar(false);
+  window.scrollTo({top:0});
+}
+
+function toggleSidebar(force){
+  const sb=document.getElementById('sidebar'),ov=document.getElementById('sb-overlay');
+  const open=force===undefined?!sb.classList.contains('open'):force;
+  sb.classList.toggle('open',open);
+  ov.classList.toggle('show',open);
+}
+
+function showToast(t,m){
+  const el=document.getElementById('toast');
+  document.getElementById('toast-ic').textContent=t==='success'?'✓':t==='error'?'✕':'ℹ';
+  document.getElementById('toast-msg').textContent=m;
+  el.classList.add('vis');
+  clearTimeout(showToast._t);showToast._t=setTimeout(()=>el.classList.remove('vis'),3000);
+}
+
+/* ═══════════ BOOKINGS ═══════════ */
+function filterBookings(filter,e){
+  if(e&&e.target){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    e.target.classList.add('active');
+  }
+  renderBookings(filter);
+}
+
+function renderBookings(filter){
+  const list=document.getElementById('bookings-list');
+  let filtered=allBookings;
+  const now=new Date();
+  if(filter==='upcoming')filtered=allBookings.filter(b=>b.status==='confirmed'&&new Date(b.scheduled_date)>=now);
+  else if(filter==='past')filtered=allBookings.filter(b=>b.status==='completed'||(b.status==='confirmed'&&new Date(b.scheduled_date)<now));
+  else if(filter==='cancelled')filtered=allBookings.filter(b=>b.status==='cancelled');
+  
+  if(filtered.length===0){
+    list.innerHTML=`<div class="empty-state">
+      <div class="empty-icon">📋</div>
+      <div class="empty-title">Nog geen boekingen</div>
+      <div class="empty-sub">Vind een schoonmaker en boek je eerste schoonmaak.</div>
+      <button class="btn btn-primary" onclick="window.location.href='/#cleaners'">🔍 Schoonmaker vinden</button>
+    </div>`;
+    return;
+  }
+  list.innerHTML=filtered.map(b=>{
+    const cleaner=b.cleaner||{firstname:'Onbekend'};
+    const initials=((cleaner.firstname?.[0]||'')+(cleaner.lastname?.[0]||'')).toUpperCase()||'?';
+    const statusMap={confirmed:'Bevestigd',completed:'Voltooid',cancelled:'Geannuleerd',in_progress:'Bezig',disputed:'Geschil'};
+    return `<div class="booking-card">
+      <div class="booking-avatar">${cleaner.photo_url?`<img src="${cleaner.photo_url}"/>`:initials}</div>
+      <div class="booking-body">
+        <div class="booking-name">${cleaner.firstname} ${cleaner.lastname||''}<span class="booking-tag ${b.status}">${statusMap[b.status]||b.status}</span></div>
+        <div class="booking-meta"><span>📅 ${formatDate(b.scheduled_date)} · ${b.scheduled_time}</span><span>⏱️ ${b.hours||3}u</span></div>
+        <div class="booking-addr">📍 ${b.address}</div>
+      </div>
+      <div class="booking-right">
+        <div class="booking-price">€${b.total_price||0}</div>
+        <div class="booking-actions">
+          ${b.status==='confirmed'?`<button class="btn-mini-ghost" onclick="cancelBooking('${b.id}')">Annuleer</button>`:''}
+          ${b.status==='completed'&&!b.rating?`<button class="btn-mini-primary" onclick="rateBooking('${b.id}')">⭐ Review</button>`:''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderHomeUpcoming(){
+  const home=document.getElementById('home-upcoming');
+  const upcoming=allBookings.filter(b=>b.status==='confirmed'&&new Date(b.scheduled_date)>=new Date()).slice(0,3);
+  if(upcoming.length===0){
+    home.innerHTML=`<div class="empty-state" style="padding:30px 20px;">
+      <div class="empty-icon" style="font-size:38px;">📅</div>
+      <div class="empty-title" style="font-size:15px;">Geen aankomende boekingen</div>
+      <div class="empty-sub" style="font-size:13px;">Boek je volgende schoonmaak.</div>
+    </div>`;
+    return;
+  }
+  home.innerHTML=upcoming.map(b=>{
+    const cleaner=b.cleaner||{firstname:'Onbekend'};
+    const initials=((cleaner.firstname?.[0]||'')+(cleaner.lastname?.[0]||'')).toUpperCase();
+    return `<div class="booking-card">
+      <div class="booking-avatar">${cleaner.photo_url?`<img src="${cleaner.photo_url}"/>`:initials}</div>
+      <div class="booking-body">
+        <div class="booking-name">${cleaner.firstname} ${cleaner.lastname||''}</div>
+        <div class="booking-meta"><span>📅 ${formatDate(b.scheduled_date)} · ${b.scheduled_time}</span></div>
+      </div>
+      <div class="booking-right"><div class="booking-price">€${b.total_price||0}</div></div>
+    </div>`;
+  }).join('');
+}
+
+function formatDate(d){
+  if(!d)return 'binnenkort';
+  return new Date(d).toLocaleDateString('nl-NL',{weekday:'short',day:'numeric',month:'short'});
+}
+
+async function cancelBooking(id){
+  if(!confirm('Boeking annuleren? Tot 24u vooraf is dit gratis.'))return;
+  try{
+    await window.supabaseClient.from('bookings').update({status:'cancelled'}).eq('id',id);
+    showToast('success','Boeking geannuleerd');
+    await loadBookings();
+  }catch(e){showToast('error','Kon niet annuleren');}
+}
+
+function rateBooking(id){
+  const stars=prompt('Hoeveel sterren (1-5)?');
+  const r=parseInt(stars);
+  if(!r||r<1||r>5){showToast('error','1-5 sterren');return;}
+  const text=prompt('Schrijf een review (optioneel):')||'';
+  window.supabaseClient.from('bookings').update({rating:r,review_text:text}).eq('id',id)
+    .then(()=>{showToast('success','Bedankt voor je review!');loadBookings();})
+    .catch(()=>showToast('error','Kon review niet opslaan'));
+}
+
+/* ═══════════ FAVORITES ═══════════ */
+function renderFavorites(){
+  const list=document.getElementById('favorites-list');
+  if(allFavs.length===0){
+    list.innerHTML=`<div class="empty-state">
+      <div class="empty-icon">❤️</div>
+      <div class="empty-title">Nog geen favorieten</div>
+      <div class="empty-sub">Klik op het hartje bij een schoonmaker om hem op te slaan.</div>
+      <button class="btn btn-primary" onclick="window.location.href='/#cleaners'">🔍 Schoonmakers bekijken</button>
+    </div>`;
+    return;
+  }
+  list.innerHTML=`<div class="fav-grid">${allFavs.map(f=>{
+    const c=f.cleaner;if(!c)return '';
+    const initials=((c.firstname?.[0]||'')+(c.lastname?.[0]||'')).toUpperCase();
+    return `<div class="fav-card">
+      <div class="fav-photo">${c.photo_url?`<img src="${c.photo_url}"/>`:initials}</div>
+      <div class="fav-name">${c.firstname} ${c.lastname||''}</div>
+      <div class="fav-meta">${c.hood||'Amsterdam'} · ⭐ ${c.rating||'—'}</div>
+      <div class="fav-rate">€${c.hourly_rate||15}<span style="font-size:12px;color:var(--muted);">/u</span></div>
+      <button class="btn btn-primary btn-block" onclick="window.location.href='/?cleaner=${c.id}'">Boek opnieuw</button>
+      <button onclick="removeFav('${f.id}')" style="margin-top:8px;font-size:11px;color:var(--muted);">Verwijderen</button>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+async function removeFav(id){
+  if(!confirm('Verwijderen uit favorieten?'))return;
+  try{
+    await window.supabaseClient.from('favorites').delete().eq('id',id);
+    await loadFavorites();
+    showToast('info','Verwijderd uit favorieten');
+  }catch(e){showToast('error','Kon niet verwijderen');}
+}
+
+/* ═══════════ ADDRESSES ═══════════ */
+function renderAddresses(addresses){
+  const list=document.getElementById('addresses-list');
+  if(!addresses||addresses.length===0){
+    list.innerHTML=`<div class="empty-state">
+      <div class="empty-icon">📍</div>
+      <div class="empty-title">Nog geen adressen</div>
+      <div class="empty-sub">Voeg je vaste adressen toe voor snellere boekingen.</div>
+      <button class="btn btn-primary" onclick="addAddress()">+ Eerste adres toevoegen</button>
+    </div>`;
+    return;
+  }
+  list.innerHTML=addresses.map((a,i)=>`<div class="address-card ${a.isDefault?'default':''}">
+    <div class="address-icon">${a.type==='office'?'🏢':a.type==='airbnb'?'🏨':'🏠'}</div>
+    <div class="address-body">
+      <div class="address-name">${a.name||'Adres'}${a.isDefault?'<span class="address-default-pill">Standaard</span>':''}</div>
+      <div class="address-full">${a.street}, ${a.postcode} ${a.city}</div>
+    </div>
+    <div class="address-actions">
+      ${!a.isDefault?`<button onclick="setDefaultAddress(${i})">Maak standaard</button>`:''}
+      <button onclick="editAddress(${i})">Bewerken</button>
+      <button onclick="deleteAddress(${i})" style="color:var(--red);">Verwijderen</button>
+    </div>
+  </div>`).join('');
+}
+
+async function addAddress(){
+  const name=prompt('Naam van het adres (bijv. "Thuis", "Kantoor"):');
+  if(!name)return;
+  const street=prompt('Straat + huisnummer:');
+  if(!street)return;
+  const postcode=prompt('Postcode (bijv. 1011 AB):');
+  if(!postcode)return;
+  const city=prompt('Stad:','Amsterdam');
+  if(!city)return;
+  const type=prompt('Type: home / office / airbnb','home');
+  
+  const addresses=[...(clientProfile.addresses||[])];
+  const newAddr={id:crypto.randomUUID(),name,street,postcode,city,type:type||'home',isDefault:addresses.length===0};
+  addresses.push(newAddr);
+  
+  try{
+    await window.supabaseClient.from('clients').update({addresses}).eq('user_id',currentUser.id);
+    clientProfile.addresses=addresses;
+    renderAddresses(addresses);
+    showToast('success','Adres toegevoegd');
+  }catch(e){showToast('error','Kon adres niet opslaan');}
+}
+
+async function setDefaultAddress(idx){
+  const addresses=clientProfile.addresses.map((a,i)=>({...a,isDefault:i===idx}));
+  try{
+    await window.supabaseClient.from('clients').update({addresses}).eq('user_id',currentUser.id);
+    clientProfile.addresses=addresses;
+    renderAddresses(addresses);
+    showToast('success','Standaard adres bijgewerkt');
+  }catch(e){showToast('error','Fout');}
+}
+
+async function editAddress(idx){
+  const a=clientProfile.addresses[idx];
+  const street=prompt('Straat:',a.street);if(!street)return;
+  const postcode=prompt('Postcode:',a.postcode);if(!postcode)return;
+  const city=prompt('Stad:',a.city);if(!city)return;
+  const addresses=[...clientProfile.addresses];
+  addresses[idx]={...a,street,postcode,city};
+  try{
+    await window.supabaseClient.from('clients').update({addresses}).eq('user_id',currentUser.id);
+    clientProfile.addresses=addresses;
+    renderAddresses(addresses);
+    showToast('success','Adres bijgewerkt');
+  }catch(e){showToast('error','Fout');}
+}
+
+async function deleteAddress(idx){
+  if(!confirm('Adres verwijderen?'))return;
+  const addresses=clientProfile.addresses.filter((_,i)=>i!==idx);
+  try{
+    await window.supabaseClient.from('clients').update({addresses}).eq('user_id',currentUser.id);
+    clientProfile.addresses=addresses;
+    renderAddresses(addresses);
+    showToast('info','Adres verwijderd');
+  }catch(e){showToast('error','Fout');}
+}
+
+/* ═══════════ PAYMENTS ═══════════ */
+function renderPayments(methods){
+  const list=document.getElementById('payments-list');
+  if(!methods||methods.length===0){
+    list.innerHTML=`<div class="empty-state">
+      <div class="empty-icon">💳</div>
+      <div class="empty-title">Nog geen betaalmethoden</div>
+      <div class="empty-sub">Voeg een kaart toe om sneller te boeken.</div>
+      <button class="btn btn-primary" onclick="addPayment()">+ Kaart toevoegen</button>
+    </div>`;
+    return;
+  }
+  list.innerHTML=methods.map((m,i)=>`<div class="payment-card">
+    <div class="payment-icon">💳</div>
+    <div class="payment-body">
+      <div class="payment-number">•••• •••• •••• ${m.last4}</div>
+      <div class="payment-meta">${m.brand||'Card'} · Vervalt ${m.expMonth}/${m.expYear}</div>
+    </div>
+    ${m.isDefault?'<div class="payment-default-pill">Standaard</div>':''}
+  </div>`).join('');
+}
+
+async function addPayment(){
+  // Mock — real impl needs Stripe Elements
+  const last4=prompt('Laatste 4 cijfers van je kaart:\n\n(Demo · in productie via Stripe Elements)');
+  if(!last4||last4.length!==4)return;
+  const exp=prompt('Vervaldatum (MM/JJ):');
+  if(!exp||!exp.includes('/'))return;
+  const [m,y]=exp.split('/');
+  const methods=[...(clientProfile.payment_methods||[])];
+  methods.push({id:crypto.randomUUID(),last4,expMonth:m,expYear:y,brand:'Visa',isDefault:methods.length===0});
+  try{
+    await window.supabaseClient.from('clients').update({payment_methods:methods}).eq('user_id',currentUser.id);
+    clientProfile.payment_methods=methods;
+    renderPayments(methods);
+    showToast('success','Kaart toegevoegd');
+  }catch(e){showToast('error','Fout');}
+}
+
+/* ═══════════ PROFILE SAVE ═══════════ */
+async function saveProfile(){
+  const updates={
+    firstname:document.getElementById('prof-firstname').value.trim(),
+    lastname:document.getElementById('prof-lastname').value.trim(),
+    phone:document.getElementById('prof-phone').value.trim(),
+    hood:document.getElementById('prof-hood').value
+  };
+  try{
+    await window.supabaseClient.from('clients').update(updates).eq('user_id',currentUser.id);
+    Object.assign(clientProfile,updates);
+    applyProfile(clientProfile);
+    showToast('success','✓ Profiel bijgewerkt');
+  }catch(e){showToast('error','Kon niet opslaan');}
+}
+
+/* ═══════════ SETTINGS ═══════════ */
+async function changePassword(){
+  const nw=prompt('Nieuw wachtwoord (minimaal 8 tekens):');
+  if(!nw||nw.length<8){showToast('error','Minimaal 8 tekens');return;}
+  try{
+    await window.supabaseClient.auth.updateUser({password:nw});
+    showToast('success','✓ Wachtwoord gewijzigd');
+  }catch(e){showToast('error','Fout: '+(e.message||''));}
+}
+
+function openNotifications(){
+  const choice=prompt('1=Alle · 2=Email · 3=Push · 4=Uit','1');
+  const map={'1':'Alle','2':'Email','3':'Push','4':'Uit'};
+  if(map[choice])showToast('success',`Notificaties: ${map[choice]}`);
+}
+
+function openLanguage(){
+  const choice=prompt('1=NL · 2=EN · 3=ES','1');
+  const map={'1':'Nederlands','2':'English','3':'Español'};
+  if(map[choice])showToast('success',`Taal: ${map[choice]}`);
+}
+
+function openCookies(){
+  showToast('info','Wis cookies en herlaad om opnieuw in te stellen');
+  if(confirm('Cookie keuze resetten en banner opnieuw tonen?')){
+    localStorage.removeItem('cl_cookies_consent');
+    showToast('success','Voorkeuren gereset');
+    setTimeout(()=>window.location.href='/',900);
+  }
+}
+
+async function logOut(){
+  if(!confirm('Uitloggen?'))return;
+  try{
+    if(window.supabaseClient)await window.supabaseClient.auth.signOut();
+    localStorage.removeItem('cl_session');
+  }catch(e){}
+  showToast('info','Tot ziens 👋');
+  setTimeout(()=>window.location.href='/',900);
+}
+
+async function deleteAccount(){
+  const conf=prompt('Type "VERWIJDER" om je account permanent te verwijderen:');
+  if(conf!=='VERWIJDER'){showToast('info','Geannuleerd');return;}
+  // Real deletion requires server-side admin function
+  try{
+    await window.supabaseClient.from('clients').delete().eq('user_id',currentUser.id);
+    await window.supabaseClient.auth.signOut();
+  }catch(e){}
+  showToast('info','Account aanvraag geregistreerd');
+  setTimeout(()=>window.location.href='/',1500);
+}
+</script>
+</body>
+</html>

@@ -64,6 +64,82 @@ CREATE TABLE IF NOT EXISTS public.cleaners (
   updated_at  TIMESTAMPTZ DEFAULT NOW()
 );
 
+
+-- ───────────────────────────────────────────────────────────
+-- TABLA: clients (clientes que reservan limpiezas)
+-- ───────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS public.clients (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id     UUID UNIQUE REFERENCES auth.users(id) ON DELETE CASCADE,
+  
+  firstname   TEXT NOT NULL,
+  lastname    TEXT NOT NULL,
+  email       TEXT NOT NULL,
+  phone       TEXT,
+  hood        TEXT,
+  
+  -- Direcciones guardadas (casa, oficina, airbnbs...)
+  addresses   JSONB DEFAULT '[]'::jsonb,
+  default_address_id UUID,
+  
+  -- Métodos de pago (referencias a Stripe, no datos sensibles)
+  payment_methods JSONB DEFAULT '[]'::jsonb,
+  stripe_customer_id TEXT,
+  
+  -- Preferencias
+  notifications JSONB DEFAULT '{"email":true,"sms":false,"push":true}'::jsonb,
+  preferred_language TEXT DEFAULT 'nl',
+  
+  -- Stats (calculadas)
+  total_bookings INTEGER DEFAULT 0,
+  total_spent NUMERIC(10,2) DEFAULT 0,
+  
+  -- Estado
+  status      TEXT DEFAULT 'active' CHECK (status IN ('active','paused','suspended')),
+  
+  created_at  TIMESTAMPTZ DEFAULT NOW(),
+  updated_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_clients_user_id ON public.clients(user_id);
+CREATE INDEX IF NOT EXISTS idx_clients_email ON public.clients(email);
+
+ALTER TABLE public.clients ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Client ziet zijn eigen profiel"
+  ON public.clients FOR SELECT
+  USING (auth.uid() = user_id);
+
+CREATE POLICY "Client maakt zijn eigen profiel"
+  ON public.clients FOR INSERT
+  WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Client bewerkt zijn eigen profiel"
+  ON public.clients FOR UPDATE
+  USING (auth.uid() = user_id);
+
+CREATE TRIGGER clients_updated_at
+  BEFORE UPDATE ON public.clients
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+-- ───────────────────────────────────────────────────────────
+-- TABLA: favorites (clientes guardan cleaners favoritos)
+-- ───────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS public.favorites (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  client_user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  cleaner_id  UUID REFERENCES public.cleaners(id) ON DELETE CASCADE,
+  created_at  TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(client_user_id, cleaner_id)
+);
+
+ALTER TABLE public.favorites ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Client beheert zijn favorieten"
+  ON public.favorites FOR ALL
+  USING (auth.uid() = client_user_id)
+  WITH CHECK (auth.uid() = client_user_id);
+
 -- ───────────────────────────────────────────────────────────
 -- 2. TABLA: bookings (reservas hechas por clientes)
 -- ───────────────────────────────────────────────────────────
