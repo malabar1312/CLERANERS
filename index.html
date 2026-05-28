@@ -794,6 +794,190 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
 }
 </style>
+<style id="premium-v3-f2">
+/* ============================================================
+   PREMIUM v3 · FASE 2 — secciones inferiores "otro nivel"
+   Editorial / Stripe-Linear-grade. Override-only (+1 class .finalcta).
+   Paleta cohesiva: navy/blue → indigo → violet. Sin cyan/aurora/ticker.
+   Revertir: borrar este bloque <style id="premium-v3-f2">.
+   ============================================================ */
+:root{
+  --g-iris:linear-gradient(135deg,#1A56DB 0%,#4F46E5 52%,#8B5CF6 100%);
+  --g-blue:linear-gradient(135deg,#1A56DB 0%,#3B82F6 60%,#60A5FA 100%);
+  --g-light:linear-gradient(100deg,#BFD4FF 0%,#C9C2FF 100%);
+  --card-sh:0 1px 2px rgba(16,24,40,.05),0 14px 34px -16px rgba(16,24,40,.22);
+  --card-shh:0 2px 6px rgba(16,24,40,.06),0 28px 56px -20px rgba(26,86,219,.30);
+}
+/* texto con gradiente (siempre con color fallback antes del clip) */
+.f2-grad,.sh2 em,.trh2 em,.wlh em,.finalcta .sh2 em{
+  background:var(--g-iris);-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.trh2 em,.wlh em,.finalcta .sh2 em{background:var(--g-light);-webkit-background-clip:text;background-clip:text}
+
+/* ---------- Tipografía editorial de sección ---------- */
+.sec{padding:108px 0}
+.sh2{font-size:clamp(40px,5.2vw,68px);line-height:1.04;letter-spacing:-1.4px;font-weight:400}
+.trh2{font-size:clamp(40px,5.2vw,66px);letter-spacing:-1.4px}
+.wlh{font-size:clamp(40px,5.4vw,68px);letter-spacing:-1.4px}
+.sl,.trl{font-size:17px}
+/* eyebrow → pill que se adapta al color del contexto */
+.eb{gap:8px;padding:7px 14px;border-radius:9999px;font-size:11px;letter-spacing:1.6px;
+  background:color-mix(in srgb,currentColor 12%,transparent);
+  border:1px solid color-mix(in srgb,currentColor 24%,transparent)}
+.eb::before{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* ---------- HOW IT WORKS ---------- */
+.hbg{background:linear-gradient(180deg,#fff 0%,var(--bg) 100%)}
+.hst{margin-top:56px;gap:16px;background:transparent;border:none;border-radius:0;overflow:visible}
+.hs{background:#fff;border:1px solid var(--border);border-radius:22px;padding:38px 22px 30px;
+  box-shadow:var(--card-sh);position:relative;overflow:hidden;
+  transition:transform .42s var(--eo),box-shadow .42s var(--eo),border-color .42s}
+.hs::after{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--g-iris);transform:scaleX(0);transform-origin:left;transition:transform .42s var(--eo)}
+.hs:hover{transform:translateY(-6px);box-shadow:var(--card-shh);border-color:transparent;background:#fff}
+.hs:hover::after{transform:scaleX(1)}
+.hsn{width:auto;height:auto;margin:0 0 6px;border-radius:0;background:none;box-shadow:none;
+  font-family:var(--ff);font-size:50px;line-height:1;color:#1A56DB;
+  background:var(--g-iris);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hsi{font-size:30px;margin-bottom:10px}
+.hs h3{font-size:15px;letter-spacing:-.2px;margin-bottom:6px}
+.hs p{font-size:12px;line-height:1.65}
+.scg{margin-top:18px;gap:16px;background:transparent;border:none;border-radius:0;overflow:visible;grid-template-columns:repeat(4,1fr)}
+.scc{background:#fff;border:1px solid var(--border);border-radius:22px;padding:30px 26px;
+  box-shadow:var(--card-sh);transition:transform .42s var(--eo),box-shadow .42s var(--eo),border-color .42s}
+.scc:hover{transform:translateY(-5px);box-shadow:var(--card-shh);border-color:color-mix(in srgb,var(--blue) 28%,transparent)}
+.sci{width:56px;height:56px;border-radius:16px;font-size:24px;
+  background:linear-gradient(135deg,#EEF3FF,#E7ECFF);border:1px solid #DDE5FF;
+  box-shadow:0 6px 16px -8px rgba(26,86,219,.5),inset 0 1px 0 rgba(255,255,255,.8)}
+.scc h3{font-size:17px;letter-spacing:-.2px}
+@media(max-width:980px){.scg{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.scg{grid-template-columns:1fr}}
+
+/* ---------- TRUST (navy) ---------- */
+.trsec{padding:140px 0}
+.trsec::before{background:
+  radial-gradient(60% 70% at 22% 35%,rgba(79,70,229,.20) 0%,transparent 60%),
+  radial-gradient(50% 60% at 85% 75%,rgba(139,92,246,.14) 0%,transparent 55%),
+  radial-gradient(45% 55% at 70% 10%,rgba(26,86,219,.18) 0%,transparent 55%)}
+.trsec::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(rgba(255,255,255,.04) 1px,transparent 1px);background-size:26px 26px;
+  -webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,#000 30%,transparent 75%);
+  mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,#000 30%,transparent 75%)}
+.tp{border-radius:18px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);
+  transition:transform .4s var(--eo),background .4s,border-color .4s,box-shadow .4s}
+.tp:hover{transform:translateY(-3px);background:rgba(255,255,255,.075);border-color:rgba(96,165,250,.4);
+  box-shadow:0 18px 40px -22px rgba(79,70,229,.9)}
+.tpic{border-radius:14px;background:var(--g-iris);border:none;font-size:19px;
+  box-shadow:0 10px 24px -10px rgba(79,70,229,.9),inset 0 1px 0 rgba(255,255,255,.25)}
+.tpt{font-size:16px}
+/* verification card → gradient border + profundidad */
+.tvc{border:1px solid transparent;border-radius:26px;
+  background:linear-gradient(#0f1b30,#0f1b30) padding-box,var(--g-iris) border-box;
+  box-shadow:0 30px 70px -30px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.04) inset}
+.tva{border-color:rgba(96,165,250,.5)}
+.tvb{background:rgba(79,70,229,.22);border-color:rgba(129,140,248,.5);color:#C7D2FE}
+.tvci{background:linear-gradient(135deg,rgba(16,185,129,.25),rgba(16,185,129,.12));border-color:rgba(16,185,129,.45)}
+.tvsn{font-size:32px;background:var(--g-light);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#93C5FD}
+
+/* ---------- REVIEWS ---------- */
+.rbg{background:linear-gradient(180deg,var(--bg) 0%,#fff 100%)}
+.rgrid{margin-top:52px}
+.rcd{border-radius:24px;border:1px solid var(--border);box-shadow:var(--card-sh);
+  position:relative;overflow:hidden;transition:transform .42s var(--eo),box-shadow .42s var(--eo)}
+.rcd::before{content:"\201C";position:absolute;top:-22px;right:20px;font-family:var(--ff);
+  font-size:140px;line-height:1;color:color-mix(in srgb,var(--blue) 9%,transparent);pointer-events:none}
+.rcd::after{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--g-iris);
+  transform:scaleX(0);transform-origin:left;transition:transform .42s var(--eo)}
+.rcd:hover{transform:translateY(-6px);box-shadow:var(--card-shh)}
+.rcd:hover::after{transform:scaleX(1)}
+.rcdt{font-size:19px;position:relative;z-index:1}
+.rcda img{box-shadow:0 4px 12px -4px rgba(0,0,0,.3)}
+
+/* ---------- FAQ ---------- */
+.fql{margin-top:52px}
+.fqi{border-radius:16px;border:1px solid var(--border);transition:border-color .3s,box-shadow .3s,background .3s}
+.fqi:hover{border-color:color-mix(in srgb,var(--blue) 30%,transparent);box-shadow:var(--card-sh)}
+.fqi.open{border-color:transparent;box-shadow:var(--card-sh);
+  background:linear-gradient(180deg,#fff,#F8FAFF)}
+.fqi.open .fqar{background:var(--g-iris);color:#fff}
+.fqq{font-size:16.5px}
+
+/* ---------- FINAL CTA ---------- */
+.finalcta{padding:128px 0!important;
+  background:radial-gradient(120% 120% at 50% 0%,#16233d 0%,var(--navy) 55%)!important}
+.finalcta::before{content:"";position:absolute;inset:0;pointer-events:none;background:
+  radial-gradient(45% 60% at 30% 20%,rgba(79,70,229,.28) 0%,transparent 60%),
+  radial-gradient(40% 55% at 75% 80%,rgba(139,92,246,.20) 0%,transparent 55%)}
+.finalcta::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1px);background-size:28px 28px;
+  -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 20%,transparent 70%);
+  mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 20%,transparent 70%)}
+.finalcta .sh2{font-size:clamp(44px,6vw,76px);letter-spacing:-1.6px}
+.finalcta .btn-primary{box-shadow:0 10px 30px -8px rgba(59,130,246,.7),0 0 0 1px rgba(255,255,255,.08) inset}
+.finalcta .btn-primary:hover{box-shadow:0 16px 44px -10px rgba(59,130,246,.85)}
+
+/* ---------- WAITLIST ---------- */
+.wlsec{padding:140px 0}
+.wlsec::before{background:
+  radial-gradient(60% 80% at 50% -10%,rgba(79,70,229,.26) 0%,transparent 55%),
+  radial-gradient(40% 60% at 85% 60%,rgba(139,92,246,.16) 0%,transparent 55%)}
+.wlf{border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 24px 60px -30px rgba(79,70,229,.9),inset 0 1px 0 rgba(255,255,255,.08)}
+.wlf button{box-shadow:0 8px 24px -8px rgba(59,130,246,.7)}
+.sbt{border-radius:16px;transition:transform .35s var(--eo),background .35s,border-color .35s}
+.sbt:hover{transform:translateY(-2px)}
+
+/* ---------- FOOTER ---------- */
+footer{position:relative;background:#0a0f1c;padding-top:88px}
+footer::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(96,165,250,.5),rgba(139,92,246,.4),transparent)}
+.fcol a{transition:color .18s,transform .18s}
+.fcol a:hover{color:#fff;transform:translateX(2px)}
+</style>
+<style id="premium-v3-hero">
+/* ============================================================
+   PREMIUM v3 · HERO/SEARCH/CARDS al nivel editorial f2.
+   Cohesión navy→indigo→violet. Override-only.
+   Revertir: borrar este bloque <style id="premium-v3-hero">.
+   ============================================================ */
+/* Fondo hero + mesh más rico */
+.hero{background:radial-gradient(130% 100% at 50% 0%,#16233d 0%,var(--navy) 60%)}
+.hmesh{background:
+  radial-gradient(46% 52% at 68% 26%,rgba(79,70,229,.30) 0%,transparent 60%),
+  radial-gradient(42% 46% at 16% 60%,rgba(26,86,219,.22) 0%,transparent 55%),
+  radial-gradient(36% 46% at 90% 78%,rgba(139,92,246,.20) 0%,transparent 52%)}
+
+/* Eyebrow pill (dot heredado del bloque f2) */
+.heyebrow{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16)}
+
+/* Título: palabra <em> en gradient light + lead más legible */
+.hh1{letter-spacing:-1px}
+.hh1 em{font-style:italic;color:#93C5FD;background:var(--g-light);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hlead{color:rgba(255,255,255,.58)}
+
+/* Botones hero con glow */
+.hctas .btn-primary{box-shadow:0 10px 30px -8px rgba(59,130,246,.7),0 0 0 1px rgba(255,255,255,.08) inset}
+.hctas .btn-primary:hover{box-shadow:0 16px 44px -10px rgba(59,130,246,.9);transform:translateY(-1px)}
+
+/* Floating cards: gradient-border + profundidad + glow */
+.hc{border:1px solid transparent;border-radius:18px;
+  background:linear-gradient(rgba(19,30,54,.74),rgba(19,30,54,.74)) padding-box,
+            linear-gradient(135deg,rgba(96,165,250,.55),rgba(139,92,246,.45)) border-box;
+  box-shadow:0 22px 50px -26px rgba(79,70,229,.95)}
+.hc:hover{transform:translateY(-3px);
+  background:linear-gradient(rgba(26,40,72,.82),rgba(26,40,72,.82)) padding-box,
+            linear-gradient(135deg,rgba(96,165,250,.8),rgba(139,92,246,.65)) border-box;
+  box-shadow:0 28px 62px -24px rgba(79,70,229,1)}
+.hcp{color:#93C5FD;background:var(--g-light);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+
+/* Search box blanco premium (más profundidad) + botón gradient */
+.sbox{box-shadow:0 26px 64px -30px rgba(6,10,26,.95),0 2px 6px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.7)}
+.scta{background:linear-gradient(135deg,#1A56DB,#4F46E5);box-shadow:0 8px 24px -8px rgba(79,70,229,.6)}
+.scta:hover{background:linear-gradient(135deg,#1648c0,#4338CA)}
+.smeta .smi{color:rgba(255,255,255,.52)}
+</style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
 <script src="/config.js"></script>
 </head>
@@ -1117,7 +1301,7 @@ footer{background:var(--ink);color:white;padding:80px 0 32px}
 </div></section>
 
 <!-- FINAL CTA -->
-<section style="background:var(--navy);padding:96px 0;text-align:center;position:relative;overflow:hidden;">
+<section class="finalcta" style="background:var(--navy);padding:96px 0;text-align:center;position:relative;overflow:hidden;">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(26,86,219,.15) 0%,transparent 60%);pointer-events:none;"></div>
 <div class="csm" style="position:relative;">
 <h2 class="sh2" style="color:white;margin-bottom:16px;">Klaar om je <em style="font-style:italic;color:#93C5FD;">schoonmaker</em> te kiezen?</h2>
