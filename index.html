@@ -1028,6 +1028,7 @@ footer::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
 <script src="/config.js"></script>
+<script src="/pago.js"></script>
 </head>
 <body>
 
@@ -1590,7 +1591,29 @@ function coGo(n){if(n===2){const {c,hours,sub,fee,total}=coCalc();const d=docume
 function updateCo(){document.querySelectorAll('.cop').forEach((p,i)=>p.classList.toggle('active',i===S.coStep));document.querySelectorAll('.cst').forEach((s,i)=>s.classList.toggle('done',i<=S.coStep));}
 function pickTime(el){document.querySelectorAll('.cot').forEach(t=>t.classList.remove('active'));el.classList.add('active');S.selTime=el.textContent;}
 function updateJobMap(val){const s=val.split(',')[0]||'Prinsengracht 263';document.getElementById('job-addr').textContent=s;document.getElementById('job-full').textContent=val||'Prinsengracht 263, Amsterdam';}
-function doPayment(){const c=DB.find(x=>x.id===S.sel);const d=document.getElementById('co-date').value;const addr=document.getElementById('co-addr').value||'Prinsengracht 263';const booking=saveBookingNow();document.getElementById('success-txt').textContent=`Je afspraak met ${c.name} is bevestigd. Referentie: ${booking?booking.ref:''}`;document.getElementById('success-detail').innerHTML=`<div class="sdr"><span>Referentie</span><span style="font-family:monospace;">${booking?booking.ref:'—'}</span></div><div class="sdr"><span>Schoonmaker</span><span>${c.name}</span></div><div class="sdr"><span>Adres</span><span>${addr}</span></div><div class="sdr"><span>Datum</span><span>${d?new Date(d+'T12:00').toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long'})+' · '+S.selTime:'Binnenkort'}</span></div><div class="sdr"><span>Escrow (totaal)</span><span>€${coCalc().total.toFixed(2)}</span></div>`;closeOv('co-ov');setTimeout(()=>{openOv('success-ov');dismissBar();},400);}
+async function doPayment(){
+  const c=DB.find(x=>x.id===S.sel);if(!c)return;
+  const d=document.getElementById('co-date').value;
+  const addr=document.getElementById('co-addr').value||'Prinsengracht 263';
+  // MODO REAL: si hay backend desplegado + el cleaner tiene UUID de Supabase
+  if(window.IS_REAL_MODE && window.cleanersPago && c.supabase_id){
+    try{
+      const {hours}=coCalc();
+      await window.cleanersPago.checkout({
+        cleaner_id:c.supabase_id,
+        service_type:document.getElementById('co-type').value,
+        hours, scheduled_at:d, address:addr,
+        access_notes:(document.querySelector('#cop1 textarea')||{}).value||''
+      });
+      return; // redirige a Stripe Checkout
+    }catch(e){ showToast('error', e.message||'Betaling niet beschikbaar — demo modus'); }
+  }
+  // MODO DEMO (fallback) — flujo actual sin tocar
+  const booking=saveBookingNow();
+  document.getElementById('success-txt').textContent=`Je afspraak met ${c.name} is bevestigd. Referentie: ${booking?booking.ref:''}`;
+  document.getElementById('success-detail').innerHTML=`<div class="sdr"><span>Referentie</span><span style="font-family:monospace;">${booking?booking.ref:'—'}</span></div><div class="sdr"><span>Schoonmaker</span><span>${c.name}</span></div><div class="sdr"><span>Adres</span><span>${addr}</span></div><div class="sdr"><span>Datum</span><span>${d?new Date(d+'T12:00').toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long'})+' · '+S.selTime:'Binnenkort'}</span></div><div class="sdr"><span>Escrow (totaal)</span><span>€${coCalc().total.toFixed(2)}</span></div>`;
+  closeOv('co-ov');setTimeout(()=>{openOv('success-ov');dismissBar();},400);
+}
 
 function openOv(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
 function closeOv(id){document.getElementById(id).classList.remove('open');if(!document.querySelector('.ov.open'))document.body.style.overflow='';}
