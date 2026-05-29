@@ -2148,7 +2148,7 @@ function applyLoggedInState(user){
   
   const loginWrapper=navAct.querySelector('div[style*="relative"]');
   if(loginWrapper){
-    loginWrapper.innerHTML=`<button class="user-pill" onclick="openUserMenu()" title="${user.email}">
+    loginWrapper.innerHTML=`<button class="user-pill" onclick="goToMyDashboard()" title="Naar mijn dashboard">
       <span class="user-pill-avatar">${initial}</span>
       <span class="user-pill-name">${name}</span>
     </button>`;
@@ -2161,7 +2161,7 @@ function applyLoggedInState(user){
   try{
     const dwBtns=document.querySelector('.drawer .dbtns');
     if(dwBtns){
-      dwBtns.innerHTML=`<button class="btn btn-primary btn-lg btn-block" onclick="closeDrawer();openUserMenu()">Mijn account &amp; dashboard</button><button class="btn btn-ghost btn-lg btn-block" onclick="userLogout()">Uitloggen</button>`;
+      dwBtns.innerHTML=`<button class="btn btn-primary btn-lg btn-block" onclick="closeDrawer();goToMyDashboard()">Naar mijn dashboard →</button><button class="btn btn-ghost btn-lg btn-block" onclick="closeDrawer();openUserMenu()">Meer opties</button><button class="btn btn-ghost btn-lg btn-block" onclick="userLogout()">Uitloggen</button>`;
     }
     const dw=document.getElementById('drawer');
     if(dw&&!dw.querySelector('.drawer-user')){
@@ -2218,6 +2218,12 @@ function applyLoggedOutState(){
   location.reload();
 }
 
+// Navegación directa al dashboard del usuario.
+// Si tiene perfil de cleaner → cleaner-dashboard. Sino → client-dashboard.
+function goToMyDashboard(){
+  const url = (window.S && S.cleanerProfile) ? '/cleaner-dashboard.html' : '/client-dashboard.html';
+  window.location.href = url;
+}
 async function openUserMenu(){
   const {data:{session}}=await window.supabaseClient.auth.getSession();
   if(!session)return;

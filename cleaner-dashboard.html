@@ -765,7 +765,7 @@ h1,h2,h3,h4{line-height:1.15;font-weight:800;letter-spacing:-.2px}
 <script>
 'use strict';
 
-const REQUESTS=[
+let REQUESTS=[
 {id:1,name:'Marta Gonzalez',initials:'MG',color:'linear-gradient(135deg,#EC4899,#F472B6)',type:'Grondige schoonmaak',date:'Morgen · 10:00',hours:3,total:60,address:'Prinsengracht 263, Jordaan',distance:'1.2 km',tag:'new',urgent:false},
 {id:2,name:'Joris Mertens',initials:'JM',color:'linear-gradient(135deg,#06B6D4,#0EA5E9)',type:'Airbnb wisseling',date:'Vandaag · 14:00',hours:2,total:40,address:'Keizersgracht 124, Centrum',distance:'2.4 km',tag:'urgent',urgent:true},
 {id:3,name:'Carmen Vasquez',initials:'CV',color:'linear-gradient(135deg,#F59E0B,#FBBF24)',type:'Wekelijkse onderhoud',date:'Vrijdag · 09:30',hours:3,total:60,address:'Herengracht 411, Grachtengordel',distance:'0.8 km',tag:'repeat',urgent:false}
@@ -983,6 +983,44 @@ function renderRequests(){
 </div>
 </div>`).join('');
   document.getElementById('all-requests').innerHTML=html;
+}
+
+// Carga aanvragen REALES desde Supabase (bookings con status='paid' dirigidos a este cleaner).
+// Si trae datos, reemplaza el array demo y re-renderiza. Si falla o está vacío, deja el demo intacto.
+async function loadRealRequests(){
+  if(!window.supabaseClient) return;
+  try{
+    const {data:{session}}=await window.supabaseClient.auth.getSession();
+    if(!session) return;
+    const {data,error}=await window.supabaseClient.from('bookings')
+      .select('id,reference,service_type,scheduled_at,hours,cleaner_amount_cents,address,status')
+      .eq('cleaner_id', session.user.id)
+      .in('status', ['paid','accepted'])
+      .order('created_at',{ascending:false})
+      .limit(20);
+    if(error || !data || data.length===0) return;
+    REQUESTS = data.map(b=>{
+      const ref=(b.reference||String(b.id||'').slice(0,4)).toUpperCase();
+      const dt=b.scheduled_at?new Date(b.scheduled_at):null;
+      return {
+        id: b.id,
+        name: 'Klant · '+ref,
+        initials: ref.slice(-2),
+        color: 'linear-gradient(135deg,#1A56DB,#4F46E5)',
+        type: b.service_type||'Schoonmaak',
+        date: dt?dt.toLocaleString('nl-NL',{weekday:'long',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'Binnenkort',
+        hours: Number(b.hours)||3,
+        total: Math.round((b.cleaner_amount_cents||0)/100),
+        address: b.address||'—',
+        distance: '',
+        tag: b.status==='accepted'?'repeat':'new',
+        urgent: false
+      };
+    });
+    renderRequests();
+    const badge=document.getElementById('nav-req-badge');
+    if(badge){ badge.textContent=REQUESTS.length; badge.style.display=REQUESTS.length?'':'none'; }
+  }catch(e){ console.warn('loadRealRequests:',e); }
 }
 
 function renderTodayJobs(){
@@ -1253,6 +1291,8 @@ applyProfile();
 renderRequests();
 renderTodayJobs();
 buildCalendar();
+// Si hay backend real, intenta sustituir demo por aanvragen reales (async, no bloquea).
+loadRealRequests();
 </script>
 </body>
 </html>
