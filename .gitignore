@@ -1,7 +1,22 @@
-.DS_Store
+# secrets — NUNCA committear
 .env
 .env.local
 .env.*.local
+backend/.env
+backend/.env.*
+
+# deps / build
 node_modules/
 .vercel
+dist/
+build/
+
+# OS / editor
+.DS_Store
+Thumbs.db
 *.log
+npm-debug.log*
+
+# temporales
+*.tmp
+.cache/
