@@ -168,6 +168,36 @@ textarea.fi{min-height:90px;resize:vertical;font-family:inherit}
 }
 @media(min-width:901px){.menu-btn{display:none}}
 </style>
+<style id="premium-v3">
+/* ============================================================
+   PREMIUM v3 · admin — panel interno, premium sobrio.
+   Override-only. No toca handlers/ids. Revertir: borrar este bloque.
+   ============================================================ */
+:root{
+  --g-iris:linear-gradient(135deg,#1A56DB,#4F46E5 52%,#7C3AED);
+  --card-sh:0 1px 2px rgba(16,24,40,.04),0 12px 30px -14px rgba(16,24,40,.18);
+  --card-shh:0 2px 6px rgba(16,24,40,.05),0 20px 44px -18px rgba(26,86,219,.24);
+}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:8px}
+/* Sidebar navy con gradiente + item activo con barra iris */
+.sb{background:linear-gradient(180deg,#0C1420 0%,#101a30 100%)}
+.nav-item.active{background:linear-gradient(90deg,rgba(79,70,229,.30),rgba(79,70,229,.08))}
+.nav-item.active::before{content:"";position:absolute;left:-14px;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:var(--g-iris)}
+/* Stats con profundidad + valores en gradient */
+.stat{box-shadow:var(--card-sh);border-radius:16px;transition:transform .3s var(--eo),box-shadow .3s var(--eo),border-color .3s}
+.stat:hover{transform:translateY(-3px);box-shadow:var(--card-shh);border-color:rgba(79,70,229,.24)}
+.stat-val{color:var(--ink);background:var(--g-iris);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.page-title{letter-spacing:-.6px}
+/* Cards y tablas con profundidad */
+.cl-card,.tbl{box-shadow:var(--card-sh)}
+.cl-card:hover{box-shadow:var(--card-shh);transform:translateY(-2px)}
+/* Botones con glow */
+.btn-primary{box-shadow:0 8px 20px -8px rgba(26,86,219,.5)}
+.btn-primary:hover{box-shadow:0 12px 28px -10px rgba(79,70,229,.65)}
+.btn-approve{box-shadow:0 6px 16px -6px rgba(16,185,129,.5)}
+.btn-approve:hover{box-shadow:0 10px 24px -8px rgba(16,185,129,.6)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+</style>
 </head>
 <body>
 
