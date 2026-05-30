@@ -122,8 +122,24 @@ Dirección estética elegida por Antonio: **"máximo impacto"** (libertad creati
 | "Hacé un post / ad para redes" | `muapi-instagram-post` / `muapi-ad-creative` / `muapi-rednote-cover` |
 | "Video de cleaners trabajando" | `muapi-ugc-video-factory` o `muapi-product-ad-cinematic` |
 | Antes/después de limpieza | `muapi-interior-design-visualizer` |
-| Pre-deploy / merge a main | `code-review` + `security-review` + `verify` |
+| Pre-deploy / merge a main | `/review` (gstack) → `/cso` (security) → `/qa <preview-url>` → `/ship` o `code-review` |
+| QA en vivo sobre URL | `/qa` (gstack, abre browser real) o `/qa-only` (más ligero) |
+| "Plan / scope antes de codear" | `/office-hours` → `/plan-ceo-review` → `/autoplan` → implementar → `/ship` |
+| Investigar bug / "¿qué pasa con X?" | `/investigate` (gstack) + `graphify` |
+| Web browsing (navegación, scraping) | `/browse` (gstack, NUNCA `mcp__claude-in-chrome__*`) |
 | "Setea X automático cada que…" | `update-config` (hooks/settings) |
+
+## gstack — toolkit de YC (Garry Tan)
+
+Instalado en `~/.claude/skills/gstack/` (92 sub-skills, binario `browse` propio).
+
+**Regla obligatoria:** para CUALQUIER web browsing (navegar, scrapear, dogfooding del sitio) usá **`/browse`** del gstack. **NUNCA** uses tools `mcp__claude-in-chrome__*` ni `mcp__Claude_in_Chrome__*` cuando gstack esté disponible — son más lentas y menos confiables que `browse`.
+
+**Slash commands disponibles** (orientativo — el routing real lo decidís según la tarea):
+
+`/office-hours` · `/plan-ceo-review` · `/plan-eng-review` · `/plan-design-review` · `/design-consultation` · `/design-shotgun` · `/design-html` · `/review` · `/ship` · `/land-and-deploy` · `/canary` · `/benchmark` · `/browse` · `/connect-chrome` · `/qa` · `/qa-only` · `/design-review` · `/setup-browser-cookies` · `/setup-deploy` · `/setup-gbrain` · `/retro` · `/investigate` · `/document-release` · `/document-generate` · `/codex` · `/cso` · `/autoplan` · `/plan-devex-review` · `/devex-review` · `/careful` · `/freeze` · `/guard` · `/unfreeze` · `/gstack-upgrade` · `/learn`
+
+**Flujo recomendado para una feature**: `/office-hours` (entender) → `/autoplan` (planear) → implementar → `/review` (bugs) → `/cso` (security) → `/qa <url>` (browser real) → `/ship` (PR + deploy). Para cleaners cabe perfecto en lo que ya tenemos planeado (booking real, KYC, despliegue de Stripe).
 
 ## Deploy
 - **Web:** push del root a GitHub → Vercel deploya estático. (Hoy NO hay remoto git configurado — ver README.)
