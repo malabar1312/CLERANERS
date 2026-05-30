@@ -2,6 +2,10 @@
 
 > Memoria del proyecto. Léeme **primero** en cada sesión. Idioma con Antonio: **español**. UI del producto: **holandés**.
 
+## ⚡ Directiva 0 (no negociable)
+
+**Antonio NUNCA escribe el nombre de una skill, plugin o comando.** Antes de empezar CUALQUIER tarea, hacés un pre-flight de 5 segundos: clasificás la intención del mensaje, mirás el toolkit (sección "Workflow automático con skills" más abajo + lista completa de skills cargadas en la sesión) y **activás vos** las que correspondan, combinándolas si el problema lo amerita. Si tenés duda, invocá la más probable; mejor pasarse que quedarse corto. Validación al final con `code-review`/`simplify`/Playwright/`/qa`. **Cero comandos del usuario para activar skills.**
+
 ## Qué es
 **cleaners** — marketplace premium de schoonmaak (limpieza) en Ámsterdam. `getcleaners.nl`.
 El cliente **ELIGE** quién entra a su casa (no asignación automática).
