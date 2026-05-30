@@ -63,8 +63,67 @@ Dirección estética elegida por Antonio: **"máximo impacto"** (libertad creati
 3. **KYC real**: uploads a Supabase Storage (hoy son mock).
 4. **connect-onboard** (Stripe Express del cleaner), **Resend** (emails transaccionales), **Google Maps key** (o mantener el SVG mock).
 
-## Skills de diseño disponibles (globales, en `~/.claude/skills/`)
-`design-taste-frontend` · `impeccable` (/impeccable audit|polish|critique…) · `ui-ux-pro-max`. Usar para refinar/auditar diseño.
+## 🔁 Workflow automático con skills (REGLA OPERATIVA)
+
+**Antonio NUNCA tiene que pedir una skill por nombre.** En CADA tarea de este proyecto, vos hacés un **pre-flight de 5 segundos** ANTES de empezar a desarrollar:
+
+1. **Clasificá** el tipo de tarea (UI/CSS, integración backend, generación de assets, auditoría de código, refactor, debug, deploy…).
+2. **Mirá** la lista de skills disponibles abajo y elegí las que aplican.
+3. **Invocá** vía el Skill tool **sin avisar ni pedir confirmación**.
+4. **Repartí el trabajo** entre varias skills si la tarea lo amerita (ej.: redesign = `design-taste-frontend` para dirección + `impeccable craft` para implementación + `emil-design-eng` para micro-interacciones + `muapi-brand-kit` para assets).
+5. **Validá al final** con Playwright + `code-review` o `simplify` sobre el diff.
+
+> Si no estás seguro qué encaja, **igual invocá la más probable** y ajustá. Mejor invocar de más que no invocar.
+
+### Skills disponibles (globales, en `~/.claude/skills/`) — routing rápido
+
+**🎨 Diseño / UI / UX** (combinar para resultado premium):
+- `impeccable` — auditar, pulir, criticar, animar, refactor visual end-to-end. Comandos: craft, polish, audit, critique, distill, harden, animate, bolder, quieter, layout, typeset.
+- `design-taste-frontend` — anti-slop para landings, portfolios y **redesigns**. Lee brief, infiere dirección, audit-first.
+- `emil-design-eng` — polish, micro-interacciones, transiciones, los detalles invisibles que hacen que se sienta premium.
+- `ui-ux-pro-max` — 96 paletas, 57 font pairings, 67 estilos, 25 charts, 13 stacks. Incluye MCP shadcn/ui.
+- `muapi-ui-design` / `muapi-url-to-design` — mockups Atomic Design + rediseño desde URL.
+
+**🧠 Arquitectura / código** (entender antes de tocar):
+- `graphify` — **`/graphify .` mapea TODO el proyecto** en un grafo queryable. Úsala ANTES de cambios grandes para entender impacto y relaciones.
+- `code-review` — bugs + reuse/efficiency sobre el diff actual. Ofrece `--fix` para aplicar.
+- `simplify` — reuse + altitud + cleanups (sin cazar bugs).
+- `security-review` — review pre-deploy.
+
+**🖼️ Assets visuales (web + marketing de cleaners)**:
+- `muapi-brand-kit` / `muapi-design-guide` — kit visual completo de cleaners (logo, paleta, tipos, UI).
+- `muapi-logo-creator` / `muapi-logo-branding` / `muapi-3d-logo-animation` — logos en variantes + animado.
+- `muapi-interior-design-visualizer` — **antes/después de limpieza** (testimonios visuales en el sitio).
+- `muapi-ad-creative` / `muapi-instagram-post` / `muapi-blog-header` — campañas y social.
+- `muapi-product-campaign` / `muapi-product-ad-cinematic` — multicanal + cinematic 5-10s.
+- `muapi-ugc-lifestyle-try-on` / `muapi-ugc-video-factory` — UGC ads (cleaners en acción).
+- `muapi-social-media-video` / `muapi-youtube-shorts` / `muapi-youtube-thumbnail` — contenido vertical.
+- `muapi-cinema-director` / `muapi-seedance-2` — video alta gama.
+- `nanobanana` (MCP) — generación rápida con Gemini 3 Image (necesita billing en Google AI).
+
+**🧩 Componentes React** (solo si decidimos remake a Next.js):
+- `magic` (MCP, `/ui`) — componentes shadcn/ui + Tailwind desde lenguaje natural.
+
+**✅ Verificación / despliegue / utilidades**:
+- `verify` — confirma que un cambio funciona corriendo la app.
+- `run` — launch del proyecto para ver el cambio en vivo.
+- `update-config` — settings.json, hooks, permisos.
+- `init` — refresh de este CLAUDE.md cuando cambien los hechos del proyecto.
+
+### Tabla de routing automático
+| Antonio dice / envía | Skills que invoco automático |
+|---|---|
+| "Mejorá X" / "Polish X" | `impeccable polish` + `emil-design-eng` + (`graphify` si toca varios archivos) |
+| "Audita el sitio" / "Critica" | `impeccable critique/audit` + `design-taste-frontend` (audit-first) + Playwright |
+| "Rediseñá / Hacé un remake" | `design-taste-frontend` (dirección) + `impeccable craft` + `ui-ux-pro-max` (paleta) + `muapi-brand-kit` |
+| Cambios grandes / refactor | `graphify` (mapeo previo) → cambios → `code-review` + `simplify` sobre el diff |
+| "¿Dónde se …?" / "Cómo conecta …?" | `graphify` (query del grafo) |
+| "Generá logo / brand kit / OG image" | `muapi-brand-kit` o `muapi-logo-branding` (o `nanobanana` si billing) |
+| "Hacé un post / ad para redes" | `muapi-instagram-post` / `muapi-ad-creative` / `muapi-rednote-cover` |
+| "Video de cleaners trabajando" | `muapi-ugc-video-factory` o `muapi-product-ad-cinematic` |
+| Antes/después de limpieza | `muapi-interior-design-visualizer` |
+| Pre-deploy / merge a main | `code-review` + `security-review` + `verify` |
+| "Setea X automático cada que…" | `update-config` (hooks/settings) |
 
 ## Deploy
 - **Web:** push del root a GitHub → Vercel deploya estático. (Hoy NO hay remoto git configurado — ver README.)
