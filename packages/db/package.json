@@ -1,0 +1,14 @@
+{
+  "name": "@cleaners/db",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "gen": "echo 'Run: supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > types.ts'"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

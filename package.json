@@ -1,6 +1,22 @@
 {
-  "name": "cleaners-web",
-  "version": "1.0.0",
-  "description": "cleaners — Het vertrouwensplatform voor schoonmaak in Amsterdam",
-  "private": true
+  "name": "cleaners",
+  "version": "2.0.0",
+  "description": "cleaners — vertrouwensplatform voor schoonmaak in Amsterdam (Next.js remake)",
+  "private": true,
+  "packageManager": "pnpm@11.5.0",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "clean": "turbo run clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.6"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=10"
+  }
 }

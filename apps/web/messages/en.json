@@ -1,0 +1,24 @@
+{
+  "nav": {
+    "howItWorks": "How it works",
+    "schoonmakers": "Cleaners",
+    "forCleaners": "For cleaners",
+    "faq": "FAQ",
+    "login": "Log in",
+    "signup": "Sign up",
+    "myDashboard": "My dashboard",
+    "logout": "Log out"
+  },
+  "hero": {
+    "eyebrow": "Trust platform · Amsterdam",
+    "title": "You choose who enters your home.",
+    "lead": "Not a cleaning company. A marketplace of verified cleaners. Browse profiles, pick who you connect with, book safely.",
+    "ctaPrimary": "Find a cleaner",
+    "ctaSecondary": "Become a cleaner"
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong.",
+    "tryAgain": "Try again"
+  }
+}

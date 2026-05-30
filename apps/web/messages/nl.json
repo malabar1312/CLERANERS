@@ -1,0 +1,24 @@
+{
+  "nav": {
+    "howItWorks": "Hoe het werkt",
+    "schoonmakers": "Schoonmakers",
+    "forCleaners": "Voor schoonmakers",
+    "faq": "FAQ",
+    "login": "Inloggen",
+    "signup": "Aanmelden",
+    "myDashboard": "Mijn dashboard",
+    "logout": "Uitloggen"
+  },
+  "hero": {
+    "eyebrow": "Vertrouwensplatform · Amsterdam",
+    "title": "Jij kiest wie jouw huis binnenkomt.",
+    "lead": "Geen schoonmaakbedrijf. Een marktplaats van geverifieerde schoonmakers. Bekijk profielen, kies wie jou aanspreekt, boek veilig.",
+    "ctaPrimary": "Schoonmaker vinden",
+    "ctaSecondary": "Word schoonmaker"
+  },
+  "common": {
+    "loading": "Laden…",
+    "error": "Er ging iets mis.",
+    "tryAgain": "Probeer opnieuw"
+  }
+}

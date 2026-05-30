@@ -2,6 +2,28 @@
 
 > Memoria del proyecto. Léeme **primero** en cada sesión. Idioma con Antonio: **español**. UI del producto: **holandés**.
 
+> 🆕 **Branch v2-nextjs activa.** Estás en la remake Next.js. El stack vanilla "LOCKED" descrito más abajo aplica solo al branch `main` (el MVP en producción `getcleaners.nl`). En `v2-nextjs` el stack es Next.js 15 + TypeScript strict + Tailwind v4 + shadcn-style primitives + Supabase SSR + next-intl. Ver `docs/REMAKE-BRIEF.md` y `docs/DISCOVERY.md`.
+
+## v2-nextjs · setup operativo
+
+- **Monorepo**: pnpm workspaces + turbo. `apps/web` (Next.js 15) + `packages/db` (Supabase types).
+- **Comandos**: `pnpm dev` · `pnpm build` · `pnpm typecheck` · `pnpm lint` (todos pasan por turbo).
+- **Env**: copiar `apps/web/.env.example` → `apps/web/.env.local` y llenar Supabase URL+anon. Sin esto el dev server arranca pero `lib/supabase/*` tira al primer request.
+- **Brand primitives** ya escritos: `<Star />`, `<Wordmark>` (con `translate="no"` obligatorio), `<Logo />`, `<Container />`, `<Button />` (variantes primary/secondary/ghost/ghost-on-dark/danger), `<Nav />` (paridad móvil, scroll-aware), `<Drawer />` (logueado/no-logueado), `<UserPill />`.
+- **i18n**: `nl` default + `en` con next-intl 4, `localePrefix: "as-needed"` (la URL raíz sirve nl sin prefijo). Mensajes en `apps/web/messages/{nl,en}.json`.
+- **Routing**: `app/[locale]/page.tsx` (landing placeholder con hero + nav), `app/layout.tsx` pass-through. Middleware en `middleware.ts` (locale negotiation; supabase auth refresh se compone en Fase 4).
+- **CI**: `.github/workflows/ci.yml` corre typecheck + lint + build con env placeholders en cada push a `main` y `v2-nextjs`.
+- **Vercel**: `vercel.json` actualizado a `framework: "nextjs"` + `buildCommand: pnpm turbo run build --filter=web...` + headers de seguridad preservados.
+
+### Próximas fases (después de Foundation)
+- **Fase 2 · Landing pública** — hero + cómo funciona + features + grid de cleaners (mock) + reviews + FAQ + footer. 2 sesiones.
+- **Fase 3 · Booking real** — calendar + servicekosten transparente (18%) + Stripe Checkout → webhook → bookings table. 2 sesiones.
+- **Fase 4 · Cleaner journey** — wizard signup + Stripe Connect Express + KYC vía Stripe Identity + dashboard real. 2 sesiones.
+- **Fase 5 · Cliente + admin + polish** — dashboard cliente + admin + emails Resend + polish.
+- **Fase 6 · Producción** — Vercel prod + dominio + monitoring + launch checklist.
+
+---
+
 ## ⚡ Directiva 0 (no negociable)
 
 **Antonio NUNCA escribe el nombre de una skill, plugin o comando.** Antes de empezar CUALQUIER tarea, hacés un pre-flight de 5 segundos: clasificás la intención del mensaje, mirás el toolkit (sección "Workflow automático con skills" más abajo + lista completa de skills cargadas en la sesión) y **activás vos** las que correspondan, combinándolas si el problema lo amerita. Si tenés duda, invocá la más probable; mejor pasarse que quedarse corto. Validación al final con `code-review`/`simplify`/Playwright/`/qa`. **Cero comandos del usuario para activar skills.**
