@@ -26,6 +26,10 @@ const config: NextConfig = {
       "clsx",
       "tailwind-merge",
     ],
+    // Allowlist de origins para Server Actions (defensa anti CSRF / host spoof).
+    serverActions: {
+      allowedOrigins: ["getcleaners.nl", "www.getcleaners.nl", "localhost:3000", "localhost:3100", "*.vercel.app"],
+    },
   },
   images: {
     formats: ["image/avif", "image/webp"],

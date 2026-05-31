@@ -18,6 +18,7 @@ import { Footer } from "@/components/sections/footer";
 import { Container } from "@/components/layout/container";
 import { Card } from "@/components/ui/card";
 import { AvatarInitials } from "@/components/ui/avatar-initials";
+import { BookingButton } from "@/components/domain/booking-flow";
 import { Link } from "@/i18n/navigation";
 import { asArray } from "@/lib/utils";
 import { getCleanerProfile, cleanerIds } from "@/lib/mock/cleaners";
@@ -182,15 +183,17 @@ export default async function CleanerProfilePage({
                   <span className="text-sm text-[var(--color-dark-muted)]">{t("book.perHour")}</span>
                 </div>
 
-                <button
-                  type="button"
-                  disabled
-                  aria-disabled="true"
-                  className="mt-5 inline-flex h-[3.25rem] w-full items-center justify-center rounded-full bg-[var(--color-blue)] px-7 text-[13px] font-semibold uppercase tracking-[0.06em] text-[var(--color-blue-ink)] opacity-50"
-                >
-                  {t("book.cta")}
-                </button>
-                <p className="mt-2 text-center text-xs text-[var(--color-dark-muted)]">{t("book.soon")}</p>
+                <div className="mt-5">
+                  <BookingButton
+                    cleaner={{
+                      id: profile.id,
+                      name: profile.name,
+                      pricePerHour: profile.pricePerHour,
+                      hood: profile.hood,
+                      tone: profile.tone,
+                    }}
+                  />
+                </div>
 
                 <p className="mt-5 border-t border-[var(--color-dark-line)] pt-5 text-xs text-[var(--color-dark-muted)]">
                   {t("book.feeNote")}
