@@ -131,8 +131,9 @@ Dirección estética elegida por Antonio: **"máximo impacto"** (libertad creati
 - `muapi-cinema-director` / `muapi-seedance-2` — video alta gama.
 - `nanobanana` (MCP) — generación rápida con Gemini 3 Image (necesita billing en Google AI).
 
-**🧩 Componentes React** (solo si decidimos remake a Next.js):
+**🧩 Componentes React / diseño de pantallas** (estamos en el remake Next.js — `v2-nextjs`):
 - `magic` (MCP, `/ui`) — componentes shadcn/ui + Tailwind desde lenguaje natural.
+- `stitch` (MCP, Google) — genera pantallas/UI completas con IA. Úsalo como **referencia de diseño** al crear pantallas nuevas (perfil de cleaner, booking, dashboards), y SIEMPRE bajá el output al sistema **Noir Editorial** (noir/marfil/lima ácida + Anton). No copies su estilo crudo — respetá nuestros tokens.
 
 **✅ Verificación / despliegue / utilidades**:
 - `verify` — confirma que un cambio funciona corriendo la app.
