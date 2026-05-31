@@ -9,8 +9,9 @@ type FooterLink = { label: string; href: string };
 type FooterColumn = { title: string; links: FooterLink[] };
 
 /**
- * `<Footer />` — noir editorial. 3 columnas + wachtlijst (Server Action +
- * honeypot). KvK/BTW placeholder `····` hasta lanzamiento.
+ * `<Footer />` — Stitch Quiet-Luxury. Cierre oscuro premium. 3 columnas +
+ * wachtlijst (Server Action + honeypot). KvK/BTW placeholder `····` hasta
+ * lanzamiento.
  */
 export async function Footer() {
   const t = await getTranslations("footer");
@@ -18,16 +19,16 @@ export async function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[var(--color-line)] bg-[var(--color-noir)] text-[var(--color-ivory)]">
+    <footer className="border-t border-[var(--color-dark-line)] bg-[var(--color-dark)] text-[var(--color-dark-ink)]">
       <Container size="wide">
         <div className="grid gap-12 py-16 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-4">
             <Logo tone="onDark" size="lg" />
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-[var(--color-ivory-dim)]">{t("tagline")}</p>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-[var(--color-dark-muted)]">{t("tagline")}</p>
 
             <div className="mt-8 max-w-sm">
-              <p className="kicker text-[var(--color-acid)]">{t("waitlist.title")}</p>
-              <p className="mt-2 text-sm text-[var(--color-ivory-dim)]">{t("waitlist.body")}</p>
+              <p className="label text-[var(--color-blue)]">{t("waitlist.title")}</p>
+              <p className="mt-2 text-sm text-[var(--color-dark-muted)]">{t("waitlist.body")}</p>
               <div className="mt-3.5">
                 <FooterWaitlistForm />
               </div>
@@ -40,11 +41,11 @@ export async function Footer() {
               const links = asArray<FooterLink>(col?.links);
               return (
                 <nav key={key} aria-label={col?.title}>
-                  <h2 className="kicker text-[var(--color-ivory-dim)]">{col?.title}</h2>
+                  <h2 className="label text-[var(--color-dark-muted)]">{col?.title}</h2>
                   <ul className="mt-4 space-y-3">
                     {links.map((link) => (
                       <li key={link.href}>
-                        <Link href={link.href} className="text-sm text-[var(--color-ivory-2)] transition-colors hover:text-[var(--color-acid)]">
+                        <Link href={link.href} className="text-sm text-[var(--color-dark-muted)] transition-colors hover:text-white">
                           {link.label}
                         </Link>
                       </li>
@@ -56,7 +57,7 @@ export async function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 border-t border-[var(--color-line)] py-6 text-xs text-[var(--color-ivory-dim)] sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 border-t border-[var(--color-dark-line)] py-6 text-xs text-[var(--color-dark-muted)] sm:flex-row sm:items-center sm:justify-between">
           <p>{t("company.copy", { year })}</p>
           <p className="flex items-center gap-4">
             <span title={t("company.kvkTooltip")}>{t("company.kvk")}</span>

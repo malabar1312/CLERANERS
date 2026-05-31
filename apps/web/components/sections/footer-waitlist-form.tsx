@@ -31,8 +31,8 @@ export function FooterWaitlistForm() {
 
   if (success || (state && !state.ok && state.error === "duplicate")) {
     return (
-      <div className="flex items-center gap-2.5 rounded-lg border border-[var(--color-line)] bg-[var(--color-noir-2)] px-4 py-3.5 text-sm text-[var(--color-ivory)]">
-        <CheckCircle2 className="h-5 w-5 shrink-0 text-[var(--color-acid)]" aria-hidden="true" />
+      <div className="flex items-center gap-2.5 rounded-lg border border-[var(--color-dark-line)] bg-[color:rgb(255_255_255/0.06)] px-4 py-3.5 text-sm text-[var(--color-dark-ink)]">
+        <CheckCircle2 className="h-5 w-5 shrink-0 text-[var(--color-blue)]" aria-hidden="true" />
         {t("success")}
       </div>
     );
@@ -63,17 +63,17 @@ export function FooterWaitlistForm() {
             placeholder={t("placeholder")}
             aria-invalid={errorMsg ? true : undefined}
             className={cn(
-              "h-11 w-full rounded-full border bg-[var(--color-noir-2)] px-4 text-[15px] text-[var(--color-ivory)]",
-              "transition placeholder:text-[var(--color-ivory-dim)]",
-              "focus:border-[var(--color-acid)] focus:outline-none focus:ring-2 focus:ring-[var(--color-acid)]/30",
-              errorMsg ? "border-[var(--color-danger)]" : "border-[var(--color-line)]",
+              "h-11 w-full rounded-full border bg-[color:rgb(255_255_255/0.06)] px-4 text-[15px] text-[var(--color-dark-ink)]",
+              "transition placeholder:text-[var(--color-dark-muted)]",
+              "focus:border-[var(--color-blue)] focus:outline-none focus:ring-2 focus:ring-[var(--color-blue)]/30",
+              errorMsg ? "border-[var(--color-danger)]" : "border-[var(--color-dark-line)]",
             )}
           />
         </label>
         <button
           type="submit"
           disabled={pending}
-          className={buttonStyles({ variant: "primary", size: "md", className: "shrink-0" })}
+          className={buttonStyles({ variant: "accent", size: "md", className: "shrink-0" })}
         >
           {pending ? t("submitting") : t("submit")}
           {!pending && <ArrowRight className="h-4 w-4" aria-hidden="true" />}

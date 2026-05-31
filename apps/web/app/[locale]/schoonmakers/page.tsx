@@ -27,19 +27,18 @@ export default async function SchoonmakersPage({
   return (
     <>
       <Nav />
-      <main className="bg-[var(--color-noir)] text-[var(--color-ivory)]">
+      <main className="bg-[var(--color-white)] text-[var(--color-ink)]">
         {/* Page header — clears the fixed nav */}
         <header className="relative overflow-hidden border-b border-[var(--color-line)] pt-[calc(var(--nav-h-sm)+3.5rem)] pb-14">
-          <div aria-hidden="true" className="bg-grain pointer-events-none absolute inset-0 -z-10 opacity-[0.1] mix-blend-screen" />
           <Container size="wide">
-            <p className="kicker flex items-center gap-2 text-[var(--color-acid)]">
-              <span className="h-1.5 w-1.5 bg-[var(--color-acid)]" aria-hidden="true" />
+            <p className="label flex items-center gap-2 text-[var(--color-blue)]">
+              <span className="h-1.5 w-1.5 bg-[var(--color-blue)]" aria-hidden="true" />
               {t("kicker")}
             </p>
-            <h1 className="headline mt-5 max-w-[14ch] text-balance text-[length:var(--text-display-1)]">
+            <h1 className="display mt-5 max-w-[16ch] text-balance text-[length:var(--text-display)] text-[var(--color-ink)]">
               {t("title")}
             </h1>
-            <p className="measure-prose mt-5 text-pretty text-[length:var(--text-lead)] leading-relaxed text-[var(--color-ivory-dim)]">
+            <p className="measure-prose mt-5 text-pretty text-[length:var(--text-lead)] leading-relaxed text-[var(--color-muted)]">
               {t("lead")}
             </p>
           </Container>

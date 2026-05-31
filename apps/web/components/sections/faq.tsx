@@ -23,7 +23,7 @@ export function FAQ() {
   const baseId = useId();
 
   return (
-    <Section id="faq" variant="noir" containerSize="sm" kicker={t("eyebrow")} title={t("title")} lead={t("lead")}>
+    <Section id="faq" variant="white" containerSize="sm" kicker={t("eyebrow")} title={t("title")} lead={t("lead")}>
       <ul className="mx-auto max-w-2xl divide-y divide-[var(--color-line)] border-y border-[var(--color-line)]">
         {items.map((item, i) => {
           const isOpen = open === i;
@@ -38,15 +38,15 @@ export function FAQ() {
                   aria-expanded={isOpen}
                   aria-controls={panelId}
                   onClick={() => setOpen(isOpen ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors hover:text-[var(--color-acid)]"
+                  className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors hover:text-[var(--color-blue)]"
                 >
-                  <span className="text-[17px] font-semibold tracking-tight text-[var(--color-ivory)]">
+                  <span className="text-[17px] font-semibold tracking-tight text-[var(--color-ink)]">
                     {item.q}
                   </span>
                   <ChevronDown
                     className={cn(
-                      "h-5 w-5 shrink-0 text-[var(--color-ivory-dim)] transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)]",
-                      isOpen && "rotate-180 text-[var(--color-acid)]",
+                      "h-5 w-5 shrink-0 text-[var(--color-muted)] transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)]",
+                      isOpen && "rotate-180 text-[var(--color-blue)]",
                     )}
                     aria-hidden="true"
                   />
@@ -68,7 +68,7 @@ export function FAQ() {
                 className="overflow-hidden"
                 hidden={reduce ? !isOpen : undefined}
               >
-                <p className="pb-5 text-[15px] leading-relaxed text-[var(--color-ivory-dim)]">
+                <p className="pb-5 text-[15px] leading-relaxed text-[var(--color-muted)]">
                   {item.a}
                 </p>
               </motion.div>

@@ -15,8 +15,8 @@ import { cn } from "@/lib/utils";
 type CurrentUser = { name: string; role: "client" | "cleaner" } | null;
 
 /**
- * `<Nav />` — top bar noir editorial. Texto marfil siempre; al hacer scroll
- * aparece la barra (fondo casi-negro + hairline). Scroll rAF-throttled.
+ * `<Nav />` — Stitch: barra superior flotante glassmorphic, persistente.
+ * Texto tinta sobre claro. Al scroll gana borde + opacidad. Scroll rAF.
  */
 export function Nav({ initialUser = null }: { initialUser?: CurrentUser }) {
   const t = useTranslations("nav");
@@ -50,39 +50,34 @@ export function Nav({ initialUser = null }: { initialUser?: CurrentUser }) {
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-40 transition-all",
+          "glass fixed inset-x-0 top-0 z-40 transition-all",
           "duration-[var(--dur-mid)] ease-[var(--ease-out)]",
           scrolled
-            ? "border-b border-[var(--color-line)] bg-[color:rgb(10_10_11/0.82)] backdrop-blur-xl"
-            : "border-b border-transparent bg-transparent",
+            ? "border-b border-[var(--color-line)] shadow-[var(--shadow-xs)]"
+            : "border-b border-transparent",
         )}
       >
         <Container size="wide">
           <div className="flex h-[var(--nav-h)] items-center justify-between sm:h-[var(--nav-h-sm)]">
             <Link href="/" className="flex items-center" aria-label="cleaners — home">
-              <Logo tone="onDark" size="md" />
+              <Logo tone="onLight" size="md" />
             </Link>
 
-            {/* Desktop links */}
-            <nav className="hidden items-center gap-7 lg:flex" aria-label="Hoofdnavigatie">
+            <nav className="hidden items-center gap-1 lg:flex" aria-label="Hoofdnavigatie">
               {navLinks.map(({ href, labelKey }) => (
                 <Link
                   key={href}
                   href={href}
-                  className={cn(
-                    "kicker text-[var(--color-ivory-dim)] transition-colors",
-                    "duration-[var(--dur-base)] hover:text-[var(--color-ivory)]",
-                  )}
+                  className="font-display rounded-full px-3.5 py-2 text-sm font-medium text-[var(--color-slate)] transition-colors hover:bg-[var(--color-surface-2)] hover:text-[var(--color-ink)]"
                 >
                   {t(labelKey)}
                 </Link>
               ))}
             </nav>
 
-            {/* Desktop right */}
-            <div className="hidden items-center gap-3 lg:flex">
+            <div className="hidden items-center gap-2 lg:flex">
               {user ? (
-                <UserPill name={user.name} role={user.role} tone="onDark" />
+                <UserPill name={user.name} role={user.role} />
               ) : (
                 <>
                   <Link href="/login" className={buttonStyles({ variant: "ghost", size: "sm" })}>
@@ -95,15 +90,11 @@ export function Nav({ initialUser = null }: { initialUser?: CurrentUser }) {
               )}
             </div>
 
-            {/* Mobile right */}
             <div className="flex items-center gap-2 lg:hidden">
               {user ? (
-                <UserPill name={user.name} role={user.role} tone="onDark" />
+                <UserPill name={user.name} role={user.role} />
               ) : (
-                <Link
-                  href="/login"
-                  className={buttonStyles({ variant: "ghost", size: "sm", className: "px-3" })}
-                >
+                <Link href="/login" className={buttonStyles({ variant: "ghost", size: "sm", className: "px-3" })}>
                   {t("login")}
                 </Link>
               )}
@@ -113,11 +104,7 @@ export function Nav({ initialUser = null }: { initialUser?: CurrentUser }) {
                 aria-label="Menu openen"
                 aria-expanded={drawerOpen}
                 aria-controls="mobile-drawer"
-                className={cn(
-                  "flex h-11 w-11 items-center justify-center rounded-full transition",
-                  "border border-[var(--color-line)] bg-[color:rgb(245_243_239/0.05)] text-[var(--color-ivory)]",
-                  "hover:bg-[color:rgb(245_243_239/0.1)]",
-                )}
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-line)] bg-[var(--color-white)] text-[var(--color-ink)] transition hover:bg-[var(--color-surface-2)]"
               >
                 <Menu className="h-5 w-5" />
               </button>

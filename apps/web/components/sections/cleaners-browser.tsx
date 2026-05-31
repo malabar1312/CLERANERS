@@ -33,14 +33,14 @@ function Select({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={cn(
-          "h-11 appearance-none rounded-full border border-[var(--color-line)] bg-[var(--color-noir-2)] pr-9 pl-4",
-          "text-sm font-medium text-[var(--color-ivory)] transition-colors",
-          "hover:border-[color:rgb(245_243_239/0.3)] focus:border-[var(--color-acid)] focus:outline-none",
+          "h-11 appearance-none rounded-full border border-[var(--color-line)] bg-[var(--color-white)] pr-9 pl-4",
+          "text-sm font-medium text-[var(--color-ink)] transition-colors",
+          "hover:border-[var(--color-ink)] focus:border-[var(--color-blue)] focus:outline-none",
         )}
       >
         {children}
       </select>
-      <ChevronDown className="pointer-events-none absolute right-3 h-4 w-4 text-[var(--color-ivory-dim)]" aria-hidden="true" />
+      <ChevronDown className="pointer-events-none absolute right-3 h-4 w-4 text-[var(--color-muted)]" aria-hidden="true" />
     </label>
   );
 }
@@ -76,7 +76,7 @@ export function CleanersBrowser() {
   };
 
   return (
-    <section className="bg-[var(--color-noir)] pb-[var(--space-section-lg)]">
+    <section className="bg-[var(--color-white)] pb-[var(--space-section)]">
       <Container size="wide">
         {/* Filter bar */}
         <div className="flex flex-col gap-4 border-y border-[var(--color-line)] py-5 sm:flex-row sm:items-center sm:justify-between">
@@ -102,14 +102,14 @@ export function CleanersBrowser() {
               <button
                 type="button"
                 onClick={reset}
-                className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-[var(--color-ivory-dim)] transition-colors hover:text-[var(--color-acid)]"
+                className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-[var(--color-muted)] transition-colors hover:text-[var(--color-blue)]"
               >
                 <X className="h-3.5 w-3.5" aria-hidden="true" />
                 {tf("filters.clear")}
               </button>
             )}
           </div>
-          <p className="kicker text-[var(--color-ivory-dim)]" aria-live="polite">
+          <p className="label text-[var(--color-muted)]" aria-live="polite">
             {tf("count", { count: results.length })}
           </p>
         </div>
@@ -125,11 +125,11 @@ export function CleanersBrowser() {
           </div>
         ) : (
           <div className="mt-16 flex flex-col items-center gap-4 py-16 text-center">
-            <p className="headline text-2xl text-[var(--color-ivory)]">{tf("empty")}</p>
+            <p className="headline text-2xl text-[var(--color-ink)]">{tf("empty")}</p>
             <button
               type="button"
               onClick={reset}
-              className="text-sm font-medium text-[var(--color-acid)] underline-offset-4 hover:underline"
+              className="text-sm font-medium text-[var(--color-blue)] underline-offset-4 hover:underline"
             >
               {tf("emptyAction")}
             </button>

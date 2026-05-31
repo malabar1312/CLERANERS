@@ -1,21 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import { Anton, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale, getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 
-// Display — Anton: condensed, heavy, uppercase. The brutal headline voice.
-const anton = Anton({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-anton",
-  weight: ["400"],
-});
-
-// Body / UI — Inter variable.
+// Body / UI — Inter variable. Display/headings — Geist (var: --font-geist-sans).
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -43,7 +36,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0b",
+  themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -69,7 +62,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${anton.variable} ${inter.variable}`}
+      className={`${GeistSans.variable} ${inter.variable}`}
       suppressHydrationWarning
     >
       <body>

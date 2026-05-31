@@ -11,9 +11,9 @@ const sizeStyles: Record<Size, string> = {
 };
 
 /**
- * `<AvatarInitials />` — Noir Editorial: avatares monocromos (sin fotos stock).
- * Superficies en escala de grises noir + iniciales marfil. El único color es
- * el punto "online" en lima ácida. Editorial = contención.
+ * `<AvatarInitials />` — Stitch Quiet-Luxury. Avatares neutros claros
+ * (placeholder hasta foto real en Fase 4): superficie gris suave + iniciales
+ * en tinta + punto online azul. Sin AI-stock.
  */
 export function AvatarInitials({
   name,
@@ -35,21 +35,21 @@ export function AvatarInitials({
     .map((w) => w[0]?.toUpperCase() ?? "")
     .join("");
 
-  // Monochrome noir surfaces — subtle tonal variety, no hue.
+  // Subtle light neutrals — no hue (the only color is the online dot).
   const tones = [
-    "bg-[#1d1d20]",
-    "bg-[#242428]",
-    "bg-[#16161a]",
-    "bg-[#2a2a2f]",
-    "bg-[#1a1a1d]",
-    "bg-[#202024]",
+    "bg-[#eef0f2]",
+    "bg-[#e9ebee]",
+    "bg-[#f1f2f4]",
+    "bg-[#e6e9ec]",
+    "bg-[#edeef0]",
+    "bg-[#e8eaed]",
   ] as const;
   const safeTone = tones[Math.abs(tone) % tones.length] ?? tones[0];
 
   return (
     <span
       className={cn(
-        "relative inline-flex select-none items-center justify-center rounded-full font-semibold text-[var(--color-ivory)]",
+        "relative inline-flex select-none items-center justify-center rounded-full font-display font-semibold text-[var(--color-ink-2)]",
         "ring-1 ring-[var(--color-line)]",
         safeTone,
         sizeStyles[size],
@@ -60,7 +60,7 @@ export function AvatarInitials({
       <span aria-hidden="true">{initials || "?"}</span>
       {online && (
         <span
-          className="absolute right-0 bottom-0 h-2.5 w-2.5 rounded-full bg-[var(--color-acid)] ring-2 ring-[var(--color-noir)]"
+          className="absolute right-0 bottom-0 h-2.5 w-2.5 rounded-full bg-[var(--color-blue)] ring-2 ring-[var(--color-white)]"
           aria-hidden="true"
         />
       )}

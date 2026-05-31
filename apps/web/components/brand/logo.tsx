@@ -5,18 +5,17 @@ import { Wordmark } from "./wordmark";
 type Size = "sm" | "md" | "lg" | "xl";
 
 /**
- * `<Logo />` — lockup: estrella (lima ácida) + wordmark "cleaners".
- * Noir editorial: la estrella es el único toque de color en el lockup.
- * `tone="onDark"` → wordmark marfil; `tone="onLight"` → wordmark tinta sobre papel.
+ * `<Logo />` — estrella (azul eléctrico) + wordmark "cleaners".
+ * `tone="onLight"` → wordmark tinta; `tone="onDark"` → wordmark blanco.
  */
 export function Logo({
   className,
-  tone = "onDark",
+  tone = "onLight",
   size = "md",
   iconOnly = false,
 }: {
   className?: string;
-  tone?: "onDark" | "onLight";
+  tone?: "onLight" | "onDark";
   size?: Size;
   iconOnly?: boolean;
 }) {
@@ -44,8 +43,8 @@ export function Logo({
         weight="semibold"
         className={cn(
           text[size],
-          "lowercase",
-          tone === "onDark" ? "text-[var(--color-ivory)]" : "text-[var(--color-paper-ink)]",
+          "lowercase tracking-tight font-display",
+          tone === "onDark" ? "text-[var(--color-dark-ink)]" : "text-[var(--color-ink)]",
         )}
       />
     </span>

@@ -11,8 +11,8 @@ import { navLinks } from "./links";
 import { cn } from "@/lib/utils";
 
 /**
- * `<Drawer />` — overlay móvil noir editorial. Focus-trap, Esc, scroll-lock.
- * Panel casi-negro, texto marfil, hairlines, CTA lima ácida.
+ * `<Drawer />` — overlay móvil Stitch (light). Focus-trap, Esc, scroll-lock.
+ * Panel blanco, tinta, hairlines, CTAs negro/azul.
  */
 export function Drawer({
   open,
@@ -42,7 +42,6 @@ export function Drawer({
     if (!open) return;
     const previouslyFocused = document.activeElement as HTMLElement | null;
     closeBtnRef.current?.focus();
-
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.preventDefault();
@@ -50,12 +49,10 @@ export function Drawer({
         return;
       }
       if (e.key !== "Tab" || !panelRef.current) return;
-      const focusable = panelRef.current.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
-      );
-      if (focusable.length === 0) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
+      const f = panelRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+      if (f.length === 0) return;
+      const first = f[0];
+      const last = f[f.length - 1];
       if (!first || !last) return;
       if (e.shiftKey && document.activeElement === first) {
         e.preventDefault();
@@ -65,7 +62,6 @@ export function Drawer({
         first.focus();
       }
     };
-
     window.addEventListener("keydown", onKey);
     return () => {
       window.removeEventListener("keydown", onKey);
@@ -83,12 +79,11 @@ export function Drawer({
         role="presentation"
         onClick={onClose}
         className={cn(
-          "absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity",
+          "absolute inset-0 bg-[color:rgb(10_10_10/0.4)] backdrop-blur-sm transition-opacity",
           "duration-[var(--dur-mid)] ease-[var(--ease-out)]",
           open ? "opacity-100" : "opacity-0",
         )}
       />
-
       <aside
         ref={panelRef}
         role="dialog"
@@ -96,19 +91,19 @@ export function Drawer({
         aria-labelledby="drawer-title"
         className={cn(
           "absolute inset-y-0 right-0 flex w-[88%] max-w-sm flex-col",
-          "border-l border-[var(--color-line)] bg-[var(--color-noir)] text-[var(--color-ivory)] shadow-[var(--shadow-modal)]",
+          "border-l border-[var(--color-line)] bg-[var(--color-white)] text-[var(--color-ink)] shadow-[var(--shadow-glass)]",
           "transition-transform duration-[var(--dur-mid)] ease-[var(--ease-out)]",
           open ? "translate-x-0" : "translate-x-full",
         )}
       >
         <header className="flex items-center justify-between border-b border-[var(--color-line)] px-5 py-4">
           <h2 id="drawer-title" className="sr-only">Menu</h2>
-          <Logo size="sm" tone="onDark" />
+          <Logo size="sm" tone="onLight" />
           <button
             ref={closeBtnRef}
             type="button"
             onClick={onClose}
-            className="rounded-full p-2 text-[var(--color-ivory-dim)] transition-colors hover:bg-[var(--color-noir-2)] hover:text-[var(--color-ivory)]"
+            className="rounded-full p-2 text-[var(--color-muted)] transition-colors hover:bg-[var(--color-surface-2)] hover:text-[var(--color-ink)]"
             aria-label="Menu sluiten"
           >
             <X className="h-5 w-5" />
@@ -117,12 +112,12 @@ export function Drawer({
 
         <div className="flex-1 overflow-y-auto px-5 py-6">
           {user ? (
-            <div className="mb-6 rounded-lg border border-[var(--color-line)] bg-[var(--color-noir-2)] p-4">
-              <UserPill name={user.name} role={user.role} tone="onDark" />
+            <div className="mb-6 rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-4">
+              <UserPill name={user.name} role={user.role} />
               <Link
                 href={user.role === "cleaner" ? "/dashboard/cleaner" : "/dashboard"}
                 onClick={onClose}
-                className="mt-3 block rounded-md border border-[var(--color-line)] px-4 py-3 text-sm font-medium text-[var(--color-ivory)] transition hover:border-[var(--color-acid)] hover:text-[var(--color-acid)]"
+                className="mt-3 block rounded-xl border border-[var(--color-line)] px-4 py-3 text-sm font-medium text-[var(--color-ink)] transition hover:border-[var(--color-blue)] hover:text-[var(--color-blue)]"
               >
                 {t("myDashboard")}
               </Link>
@@ -135,7 +130,7 @@ export function Drawer({
                 key={href}
                 href={href}
                 onClick={onClose}
-                className="headline border-b border-[var(--color-line)] py-4 text-2xl text-[var(--color-ivory)] transition-colors hover:text-[var(--color-acid)]"
+                className="headline border-b border-[var(--color-line)] py-4 text-2xl text-[var(--color-ink)] transition-colors hover:text-[var(--color-blue)]"
               >
                 {t(labelKey)}
               </Link>

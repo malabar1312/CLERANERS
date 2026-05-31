@@ -63,11 +63,11 @@ export default async function CleanerProfilePage({
   return (
     <>
       <Nav />
-      <main className="min-h-screen bg-[var(--color-noir)] text-[var(--color-ivory)]">
-        <Container size="wide" className="pt-[calc(var(--nav-h-sm)+2rem)] pb-[var(--space-section-lg)]">
+      <main className="min-h-screen bg-[var(--color-dark)] text-[var(--color-dark-ink)]">
+        <Container size="wide" className="pt-[calc(var(--nav-h-sm)+2rem)] pb-[var(--space-section)]">
           <Link
             href="/schoonmakers"
-            className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-ivory-dim)] transition-colors hover:text-[var(--color-acid)]"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-dark-muted)] transition-colors hover:text-[var(--color-blue)]"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             {t("back")}
@@ -77,21 +77,21 @@ export default async function CleanerProfilePage({
             {/* Main column */}
             <div className="lg:col-span-2">
               {/* Identity */}
-              <div className="flex flex-col gap-5 border-b border-[var(--color-line)] pb-10 sm:flex-row sm:items-center">
+              <div className="flex flex-col gap-5 border-b border-[var(--color-dark-line)] pb-10 sm:flex-row sm:items-center">
                 <AvatarInitials name={profile.name} size="xl" tone={profile.tone} online={profile.online} />
                 <div className="min-w-0">
                   <div className="flex items-center gap-2.5">
-                    <h1 className="headline text-[length:var(--text-display-3)] text-[var(--color-ivory)]">
+                    <h1 className="headline text-[length:var(--text-headline)] text-[var(--color-dark-ink)]">
                       {profile.name}
                     </h1>
                     {profile.verified && (
-                      <BadgeCheck className="h-6 w-6 shrink-0 text-[var(--color-acid)]" aria-label="Geverifieerd" />
+                      <BadgeCheck className="h-6 w-6 shrink-0 text-[var(--color-blue)]" aria-label="Geverifieerd" />
                     )}
                   </div>
-                  <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-[var(--color-ivory-dim)]">
+                  <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-[var(--color-dark-muted)]">
                     <span className="flex items-center gap-1.5">
-                      <StarIcon className="h-4 w-4 fill-[var(--color-acid)] text-[var(--color-acid)]" aria-hidden="true" />
-                      <span className="font-semibold text-[var(--color-ivory)]">{profile.rating.toFixed(1)}</span>
+                      <StarIcon className="h-4 w-4 fill-[var(--color-blue)] text-[var(--color-blue)]" aria-hidden="true" />
+                      <span className="font-semibold text-[var(--color-dark-ink)]">{profile.rating.toFixed(1)}</span>
                       {profile.reviews} {t("reviewsWord")}
                     </span>
                     <span className="flex items-center gap-1.5">
@@ -107,27 +107,27 @@ export default async function CleanerProfilePage({
               </div>
 
               {/* About */}
-              <section className="border-b border-[var(--color-line)] py-10">
-                <h2 className="kicker text-[var(--color-acid)]">{t("aboutTitle")}</h2>
-                <p className="measure-prose mt-4 text-pretty text-lg leading-relaxed text-[var(--color-ivory-2)]">
+              <section className="border-b border-[var(--color-dark-line)] py-10">
+                <h2 className="label text-[var(--color-blue)]">{t("aboutTitle")}</h2>
+                <p className="measure-prose mt-4 text-pretty text-lg leading-relaxed text-[var(--color-dark-ink)] opacity-90">
                   {profile.bio}
                 </p>
-                <p className="mt-6 flex items-center gap-2 text-sm text-[var(--color-ivory-dim)]">
-                  <Languages className="h-4 w-4 text-[var(--color-acid)]" aria-hidden="true" />
+                <p className="mt-6 flex items-center gap-2 text-sm text-[var(--color-dark-muted)]">
+                  <Languages className="h-4 w-4 text-[var(--color-blue)]" aria-hidden="true" />
                   {t("speaks")}: {profile.languages.join(" · ")}
-                  <span className="text-[var(--color-line)]">|</span>
+                  <span className="text-[var(--color-dark-line)]">|</span>
                   {t("since", { year: profile.since })}
                 </p>
               </section>
 
               {/* Specialties */}
-              <section className="border-b border-[var(--color-line)] py-10">
-                <h2 className="kicker text-[var(--color-acid)]">{t("specialtiesTitle")}</h2>
+              <section className="border-b border-[var(--color-dark-line)] py-10">
+                <h2 className="label text-[var(--color-blue)]">{t("specialtiesTitle")}</h2>
                 <ul className="mt-4 flex flex-wrap gap-2">
                   {profile.specialties.map((s) => (
                     <li
                       key={s}
-                      className="rounded-full border border-[var(--color-line)] bg-[var(--color-noir-2)] px-4 py-2 text-sm font-medium text-[var(--color-ivory-2)]"
+                      className="rounded-full border border-[var(--color-dark-line)] bg-[var(--color-dark-2)] px-4 py-2 text-sm font-medium text-[var(--color-dark-ink)]"
                     >
                       {s}
                     </li>
@@ -136,12 +136,12 @@ export default async function CleanerProfilePage({
               </section>
 
               {/* Included */}
-              <section className="border-b border-[var(--color-line)] py-10">
-                <h2 className="kicker text-[var(--color-acid)]">{t("includedTitle")}</h2>
+              <section className="border-b border-[var(--color-dark-line)] py-10">
+                <h2 className="label text-[var(--color-blue)]">{t("includedTitle")}</h2>
                 <ul className="mt-5 grid gap-3 sm:grid-cols-2">
                   {included.map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-[15px] text-[var(--color-ivory-2)]">
-                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--color-acid)] text-[var(--color-acid-ink)]">
+                    <li key={item} className="flex items-center gap-3 text-[15px] text-[var(--color-dark-ink)]">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--color-blue)] text-[var(--color-blue-ink)]">
                         <Check className="h-3.5 w-3.5" aria-hidden="true" />
                       </span>
                       {item}
@@ -152,19 +152,19 @@ export default async function CleanerProfilePage({
 
               {/* Reviews */}
               <section className="py-10">
-                <h2 className="kicker text-[var(--color-acid)]">{t("reviewsTitle")}</h2>
+                <h2 className="label text-[var(--color-blue)]">{t("reviewsTitle")}</h2>
                 <div className="mt-5 grid gap-4 sm:grid-cols-2">
                   {reviews.map((review) => (
-                    <Card key={review.id} variant="noir" padding="md" className="flex flex-col">
+                    <Card key={review.id} variant="dark" padding="md" className="flex flex-col">
                       <div className="flex gap-0.5" aria-hidden="true">
                         {Array.from({ length: review.rating }).map((_, idx) => (
-                          <StarIcon key={idx} className="h-3.5 w-3.5 fill-[var(--color-acid)] text-[var(--color-acid)]" />
+                          <StarIcon key={idx} className="h-3.5 w-3.5 fill-[var(--color-blue)] text-[var(--color-blue)]" />
                         ))}
                       </div>
-                      <blockquote className="mt-3 flex-1 text-pretty text-sm leading-relaxed text-[var(--color-ivory-2)]">
+                      <blockquote className="mt-3 flex-1 text-pretty text-sm leading-relaxed text-[var(--color-dark-ink)] opacity-90">
                         {review.quote}
                       </blockquote>
-                      <p className="mt-4 text-xs text-[var(--color-ivory-dim)]">
+                      <p className="mt-4 text-xs text-[var(--color-dark-muted)]">
                         {review.author} · {review.hood}
                       </p>
                     </Card>
@@ -175,24 +175,24 @@ export default async function CleanerProfilePage({
 
             {/* Sidebar — booking card */}
             <aside className="lg:col-span-1">
-              <Card variant="noir" padding="lg" className="lg:sticky lg:top-[calc(var(--nav-h-sm)+1.5rem)]">
+              <Card variant="dark" padding="lg" className="lg:sticky lg:top-[calc(var(--nav-h-sm)+1.5rem)]">
                 <div className="flex items-baseline gap-1.5">
-                  <span className="kicker text-[var(--color-ivory-dim)]">{t("book.from")}</span>
-                  <span className="font-display text-4xl text-[var(--color-ivory)]">€{profile.pricePerHour}</span>
-                  <span className="text-sm text-[var(--color-ivory-dim)]">{t("book.perHour")}</span>
+                  <span className="label text-[var(--color-dark-muted)]">{t("book.from")}</span>
+                  <span className="font-display text-4xl text-[var(--color-dark-ink)]">€{profile.pricePerHour}</span>
+                  <span className="text-sm text-[var(--color-dark-muted)]">{t("book.perHour")}</span>
                 </div>
 
                 <button
                   type="button"
                   disabled
                   aria-disabled="true"
-                  className="mt-5 inline-flex h-[3.25rem] w-full items-center justify-center rounded-full bg-[var(--color-acid)] px-7 text-[13px] font-semibold uppercase tracking-[0.06em] text-[var(--color-acid-ink)] opacity-50"
+                  className="mt-5 inline-flex h-[3.25rem] w-full items-center justify-center rounded-full bg-[var(--color-blue)] px-7 text-[13px] font-semibold uppercase tracking-[0.06em] text-[var(--color-blue-ink)] opacity-50"
                 >
                   {t("book.cta")}
                 </button>
-                <p className="mt-2 text-center text-xs text-[var(--color-ivory-dim)]">{t("book.soon")}</p>
+                <p className="mt-2 text-center text-xs text-[var(--color-dark-muted)]">{t("book.soon")}</p>
 
-                <p className="mt-5 border-t border-[var(--color-line)] pt-5 text-xs text-[var(--color-ivory-dim)]">
+                <p className="mt-5 border-t border-[var(--color-dark-line)] pt-5 text-xs text-[var(--color-dark-muted)]">
                   {t("book.feeNote")}
                 </p>
 
@@ -200,8 +200,8 @@ export default async function CleanerProfilePage({
                   {guarantees.map((g, i) => {
                     const Icon = guaranteeIcons[i] ?? ShieldCheck;
                     return (
-                      <li key={g} className="flex items-center gap-2.5 text-sm text-[var(--color-ivory-2)]">
-                        <Icon className="h-4 w-4 shrink-0 text-[var(--color-acid)]" aria-hidden="true" />
+                      <li key={g} className="flex items-center gap-2.5 text-sm text-[var(--color-dark-ink)]">
+                        <Icon className="h-4 w-4 shrink-0 text-[var(--color-blue)]" aria-hidden="true" />
                         {g}
                       </li>
                     );

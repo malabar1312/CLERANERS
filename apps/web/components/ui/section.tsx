@@ -2,22 +2,18 @@ import type { ReactNode } from "react";
 import { Container } from "@/components/layout/container";
 import { cn } from "@/lib/utils";
 
-type Variant = "noir" | "paper" | "acid";
-type Spacing = "sm" | "md" | "lg";
+type Variant = "white" | "surface" | "dark";
+type Spacing = "sm" | "md";
 type ContainerSize = "sm" | "md" | "wide";
 
 /**
- * `<Section />` — wrapper estandarizado. Noir Editorial:
- *  - `noir`  → fondo casi-negro, texto marfil (default)
- *  - `paper` → fondo papel cálido, texto tinta (sección invertida, ritmo)
- *  - `acid`  → bloque lima ácida, texto noir (declaración / statement)
- *
- * Header: kicker (label en mayúsculas con tracking) + headline (Anton,
- * mayúsculas, escala brutal) + lead.
+ * `<Section />` — Stitch Quiet-Luxury. Variantes white / surface (off-white) /
+ * dark. Header: label kicker (azul) + headline Geist + lead. Whitespace
+ * generoso (section gap ~120px).
  */
 export function Section({
   id,
-  variant = "noir",
+  variant = "white",
   spacing = "md",
   containerSize = "md",
   kicker,
@@ -40,58 +36,31 @@ export function Section({
 }) {
   const padding: Record<Spacing, string> = {
     sm: "py-[var(--space-section-sm)]",
-    md: "py-[var(--space-section-md)]",
-    lg: "py-[var(--space-section-lg)]",
+    md: "py-[var(--space-section)]",
   };
-
   const surface: Record<Variant, string> = {
-    noir: "bg-[var(--color-noir)] text-[var(--color-ivory)]",
-    paper: "bg-[var(--color-paper)] text-[var(--color-paper-ink)]",
-    acid: "bg-[var(--color-acid)] text-[var(--color-acid-ink)]",
+    white: "bg-[var(--color-white)] text-[var(--color-ink)]",
+    surface: "bg-[var(--color-surface)] text-[var(--color-ink)]",
+    dark: "bg-[var(--color-dark)] text-[var(--color-dark-ink)]",
   };
-
-  const kickerColor: Record<Variant, string> = {
-    noir: "text-[var(--color-acid)]",
-    paper: "text-[var(--color-paper-dim)]",
-    acid: "text-[var(--color-acid-ink)]/70",
-  };
-
   const leadColor: Record<Variant, string> = {
-    noir: "text-[var(--color-ivory-dim)]",
-    paper: "text-[var(--color-paper-dim)]",
-    acid: "text-[var(--color-acid-ink)]/75",
+    white: "text-[var(--color-muted)]",
+    surface: "text-[var(--color-muted)]",
+    dark: "text-[var(--color-dark-muted)]",
   };
-
   const isLeft = align === "left";
 
   return (
-    <section
-      id={id}
-      className={cn("relative overflow-hidden", surface[variant], padding[spacing], className)}
-    >
+    <section id={id} className={cn("relative", surface[variant], padding[spacing], className)}>
       <Container size={containerSize}>
         {(kicker || title || lead) && (
-          <header
-            className={cn(
-              "mb-12 max-w-3xl sm:mb-16",
-              isLeft ? "text-left" : "mx-auto text-center",
-            )}
-          >
-            {kicker && (
-              <p className={cn("kicker flex items-center gap-2", isLeft ? "" : "justify-center", kickerColor[variant])}>
-                {variant === "noir" && (
-                  <span className="h-1.5 w-1.5 bg-[var(--color-acid)]" aria-hidden="true" />
-                )}
-                {kicker}
-              </p>
-            )}
+          <header className={cn("mb-12 max-w-2xl sm:mb-16", isLeft ? "text-left" : "mx-auto text-center")}>
+            {kicker && <p className="label text-[var(--color-blue)]">{kicker}</p>}
             {title && (
-              <h2 className="headline mt-5 text-balance text-[length:var(--text-display-2)]">
-                {title}
-              </h2>
+              <h2 className="headline mt-3 text-balance text-[length:var(--text-headline)]">{title}</h2>
             )}
             {lead && (
-              <p className={cn("mt-5 max-w-2xl text-pretty text-[length:var(--text-lead)] leading-relaxed", isLeft ? "" : "mx-auto", leadColor[variant])}>
+              <p className={cn("mt-4 text-pretty text-[length:var(--text-lead)] leading-relaxed", isLeft ? "" : "mx-auto", leadColor[variant])}>
                 {lead}
               </p>
             )}
