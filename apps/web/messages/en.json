@@ -27,10 +27,13 @@
     },
     "trust": {
       "verified": "Verified",
-      "escrow": "Secure payment",
+      "escrow": "Escrow payment",
+      "insured": "Insured up to €300,000",
       "rating": "4.9 average"
     },
-    "social": "1,200+ households already on the waitlist"
+    "social": "1,200+ households already on the waitlist",
+    "photoAlt": "A bright, tidy interior in Amsterdam",
+    "available": "Available today"
   },
   "howItWorks": {
     "eyebrow": "How it works",
@@ -62,22 +65,22 @@
       {
         "icon": "ShieldCheck",
         "title": "Verified profile",
-        "body": "Identity, KvK if self-employed, and background check. Your cleaner is who the photo shows."
+        "body": "Identity, KvK if self-employed, and a background check. Your cleaner is exactly who the photo shows."
       },
       {
         "icon": "Heart",
         "title": "You choose",
-        "body": "No algorithm assigning anyone. Browse profiles, read reviews, pick the match."
+        "body": "No algorithm assigning anyone. Browse profiles, read real reviews and pick the match that fits you."
       },
       {
         "icon": "Lock",
         "title": "Escrow payment",
-        "body": "We hold funds until after the clean. No money lost on no-shows."
+        "body": "We hold your payment until after a successful clean. No money lost on a no-show."
       },
       {
         "icon": "CalendarX2",
         "title": "Flexible cancellation",
-        "body": "Free up to 24 hours before. After that, only actual prep cost."
+        "body": "Cancel free up to 24 hours before. After that you only pay the actual prep cost."
       }
     ]
   },
@@ -256,5 +259,71 @@
     "back": "Back",
     "optional": "Optional",
     "required": "Required"
+  },
+  "placeholders": {
+    "backHome": "Back home",
+    "contactCta": "Email us",
+    "voorSchoonmakers": {
+      "eyebrow": "Become a cleaner",
+      "title": "Working through cleaners — soon.",
+      "body": "We're building a place where independent cleaners choose their own clients, set their own rate, and get paid securely. No middleman taking your work.",
+      "note": "Cleaner sign-up opens before launch. Want to be among the first to start? Let us know."
+    },
+    "login": {
+      "eyebrow": "Log in",
+      "title": "Accounts are coming.",
+      "body": "Logging in isn't available yet. Once the platform goes live, you'll manage your bookings, cleaners and payments right here.",
+      "note": "On the waitlist? You'll be the first to hear once your account is ready."
+    },
+    "signup": {
+      "eyebrow": "Sign up",
+      "title": "Sign-up is coming soon.",
+      "body": "Registration isn't available yet. We'll open accounts as we go live in your area — no obligations, no surprises.",
+      "note": "Don't want to miss it? Leave your email on the waitlist on the homepage."
+    },
+    "prijzen": {
+      "eyebrow": "Pricing",
+      "title": "Honest and transparent.",
+      "body": "Cleaners set their own hourly rate. On top of that you pay an 18% service fee — covering verification, escrow, customer support and transaction costs. No subscription, no hidden fees.",
+      "note": "Your payment is held safely in escrow and is only released after a successful clean. The full pricing page follows before launch."
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "title": "We'd love to hear from you.",
+      "body": "A question, an idea or a complaint? Send us an email at",
+      "note": "We usually reply within one working day."
+    },
+    "veiligheid": {
+      "eyebrow": "Safety",
+      "title": "Trust is the foundation.",
+      "body": "Every cleaner goes through ID verification and — if self-employed — a KvK check. Your payment stays safely in escrow until after the clean, and every booking is insured up to €300,000.",
+      "note": "The full explanation of verification, insurance and escrow will be published before launch."
+    },
+    "help": {
+      "eyebrow": "Help center",
+      "title": "The help center is coming.",
+      "body": "We're building a comprehensive help center with answers to the most common questions. Until then, we're happy to help you personally.",
+      "note": "A question that can't wait? Get in touch with us."
+    },
+    "voorwaarden": {
+      "eyebrow": "Terms & conditions",
+      "title": "Terms & conditions.",
+      "body": "This text will be published before launch. Questions? Email us."
+    },
+    "privacy": {
+      "eyebrow": "Privacy statement",
+      "title": "Privacy statement.",
+      "body": "This text will be published before launch. Questions? Email us."
+    },
+    "cookies": {
+      "eyebrow": "Cookie policy",
+      "title": "Cookie policy.",
+      "body": "This text will be published before launch. Questions? Email us."
+    },
+    "klachten": {
+      "eyebrow": "Complaints",
+      "title": "Complaints.",
+      "body": "This text will be published before launch. Questions? Email us."
+    }
   }
 }

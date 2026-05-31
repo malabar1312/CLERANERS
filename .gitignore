@@ -31,3 +31,6 @@ npm-debug.log*
 .cache/
 graphify-out/
 .gstack/
+
+# QA screenshots (throwaway)
+docs/design/audit-shots/

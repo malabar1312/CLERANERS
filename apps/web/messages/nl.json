@@ -27,10 +27,13 @@
     },
     "trust": {
       "verified": "Geverifieerd",
-      "escrow": "Veilig betalen",
+      "escrow": "Escrow-betaling",
+      "insured": "Verzekerd tot €300.000",
       "rating": "4,9 gemiddeld"
     },
-    "social": "Al meer dan 1.200 huishoudens op de wachtlijst"
+    "social": "Al meer dan 1.200 huishoudens op de wachtlijst",
+    "photoAlt": "Een licht, opgeruimd interieur in Amsterdam",
+    "available": "Vandaag beschikbaar"
   },
   "howItWorks": {
     "eyebrow": "Hoe het werkt",
@@ -62,22 +65,22 @@
       {
         "icon": "ShieldCheck",
         "title": "Geverifieerd profiel",
-        "body": "Identiteit, KvK indien zelfstandig, en achtergrondcheck. Jouw schoonmaker is wie de foto laat zien."
+        "body": "Identiteit, KvK indien zelfstandig en een achtergrondcheck. Jouw schoonmaker is precies wie de foto laat zien."
       },
       {
         "icon": "Heart",
         "title": "Jij kiest",
-        "body": "Geen algoritme dat iemand toewijst. Bekijk profielen, lees reviews, kies de match."
+        "body": "Geen algoritme dat iemand toewijst. Bekijk profielen, lees echte reviews en kies zelf de match die past."
       },
       {
         "icon": "Lock",
         "title": "Escrow-betaling",
-        "body": "Wij houden het bedrag vast tot na de schoonmaak. Geen geld kwijt bij no-show."
+        "body": "Wij houden je betaling vast tot ná een geslaagde schoonmaak. Geen geld kwijt bij een no-show."
       },
       {
         "icon": "CalendarX2",
         "title": "Flexibel annuleren",
-        "body": "Tot 24 uur vooraf gratis. Daarna alleen het werkelijke voorbereidingsgeld."
+        "body": "Tot 24 uur vooraf kosteloos annuleren. Daarna betaal je alleen het werkelijke voorbereidingsgeld."
       }
     ]
   },
@@ -256,5 +259,71 @@
     "back": "Terug",
     "optional": "Optioneel",
     "required": "Verplicht"
+  },
+  "placeholders": {
+    "backHome": "Terug naar home",
+    "contactCta": "Mail ons",
+    "voorSchoonmakers": {
+      "eyebrow": "Word schoonmaker",
+      "title": "Werken via cleaners — binnenkort.",
+      "body": "We bouwen een plek waar zelfstandige schoonmakers hun eigen klanten kiezen, hun eigen tarief bepalen en veilig uitbetaald krijgen. Geen tussenpersoon die je werk wegneemt.",
+      "note": "Aanmelden voor schoonmakers gaat vóór de lancering open. Wil je als eerste aan de slag? Laat het ons weten."
+    },
+    "login": {
+      "eyebrow": "Inloggen",
+      "title": "Accounts komen eraan.",
+      "body": "Inloggen is nog niet beschikbaar. Zodra het platform live gaat, kun je hier je boekingen, schoonmakers en betalingen beheren.",
+      "note": "Op de wachtlijst staan? Dan krijg je als eerste bericht zodra je account klaarstaat."
+    },
+    "signup": {
+      "eyebrow": "Aanmelden",
+      "title": "Aanmelden kan binnenkort.",
+      "body": "Registreren is nog niet beschikbaar. We openen accounts zodra we live gaan in jouw buurt — zonder verplichtingen, zonder verrassingen.",
+      "note": "Wil je niets missen? Laat je e-mail achter op de wachtlijst op de homepagina."
+    },
+    "prijzen": {
+      "eyebrow": "Prijzen",
+      "title": "Eerlijk en transparant.",
+      "body": "Schoonmakers bepalen zelf hun uurtarief. Daar bovenop reken je 18% servicekosten — die dekken verificatie, escrow, klantsupport en transactiekosten. Geen abonnement, geen verborgen kosten.",
+      "note": "Je betaling staat veilig in escrow en wordt pas vrijgegeven ná een geslaagde schoonmaak. De volledige prijspagina volgt vóór de lancering."
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "title": "We horen graag van je.",
+      "body": "Een vraag, idee of klacht? Stuur ons een e-mail op",
+      "note": "We reageren doorgaans binnen één werkdag."
+    },
+    "veiligheid": {
+      "eyebrow": "Veiligheid",
+      "title": "Vertrouwen is de basis.",
+      "body": "Elke schoonmaker doorloopt een identiteitscheck en — indien zelfstandig — een KvK-controle. Je betaling staat veilig in escrow tot ná de schoonmaak, en elke boeking is verzekerd tot €300.000.",
+      "note": "De volledige uitleg over verificatie, verzekering en escrow publiceren we vóór de lancering."
+    },
+    "help": {
+      "eyebrow": "Helpcentrum",
+      "title": "Het helpcentrum komt eraan.",
+      "body": "We werken aan een uitgebreid helpcentrum met antwoorden op de meestgestelde vragen. Tot die tijd helpen we je graag persoonlijk verder.",
+      "note": "Een vraag die niet kan wachten? Neem contact met ons op."
+    },
+    "voorwaarden": {
+      "eyebrow": "Algemene voorwaarden",
+      "title": "Algemene voorwaarden.",
+      "body": "Deze tekst wordt vóór de lancering gepubliceerd. Vragen? Mail ons."
+    },
+    "privacy": {
+      "eyebrow": "Privacyverklaring",
+      "title": "Privacyverklaring.",
+      "body": "Deze tekst wordt vóór de lancering gepubliceerd. Vragen? Mail ons."
+    },
+    "cookies": {
+      "eyebrow": "Cookiebeleid",
+      "title": "Cookiebeleid.",
+      "body": "Deze tekst wordt vóór de lancering gepubliceerd. Vragen? Mail ons."
+    },
+    "klachten": {
+      "eyebrow": "Klachten",
+      "title": "Klachten.",
+      "body": "Deze tekst wordt vóór de lancering gepubliceerd. Vragen? Mail ons."
+    }
   }
 }

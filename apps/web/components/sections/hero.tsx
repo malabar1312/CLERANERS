@@ -1,117 +1,137 @@
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Star as StarIcon, BadgeCheck, MapPin } from "lucide-react";
+import { Star as StarIcon, BadgeCheck, ShieldCheck, Umbrella, Lock } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { AvatarInitials } from "@/components/ui/avatar-initials";
 import { HeroSearch } from "./hero-search";
 
 /**
- * `<Hero />` — STITCH Quiet-Luxury. Light, titular Geist (display) con `kiest`
- * en azul eléctrico, search glass, y un showcase de schoonmakers destacados
- * (avatares + datos, sin fotos stock). Termina con sentinel para el sticky-CTA.
+ * `<Hero />` — STITCH Quiet-Luxury + calidez (Fase A). Split Airbnb-style:
+ * a la izquierda titular Geist con `kiest` en azul, search, trust-bar
+ * (geverifieerd · verzekerd €300k · escrow) y prueba social; a la derecha
+ * una foto real de interior con una card de schoonmaker flotante.
  */
 export async function Hero() {
   const t = await getTranslations("hero");
   const proofNames = ["Sofia R", "Maria G", "Laura M", "Elena S", "Carmen P"];
-  const featured = [
-    { id: "sofia-r", name: "Sofia Rodríguez", hood: "De Pijp", rating: 4.9, price: 24, tone: 0 },
-    { id: "laura-m", name: "Laura Martinez", hood: "Jordaan", rating: 5.0, price: 28, tone: 2 },
-    { id: "carmen-p", name: "Carmen Pérez", hood: "Zuid", rating: 4.9, price: 26, tone: 5 },
-  ];
 
   return (
     <section className="relative overflow-hidden bg-[var(--color-white)]">
-      {/* faint blue radial accent */}
+      {/* warm whisper wash */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 -z-0 h-[460px]"
-        style={{ background: "radial-gradient(58% 70% at 50% -5%, rgb(0 102 255 / 0.07) 0%, transparent 70%)" }}
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{ background: "radial-gradient(60% 55% at 12% 8%, rgb(224 162 58 / 0.06) 0%, transparent 60%)" }}
       />
 
-      <Container size="wide" className="relative">
-        {/* Headline block */}
-        <div className="mx-auto max-w-3xl pt-[calc(var(--nav-h-sm)+3.5rem)] text-center">
-          <span className="label inline-flex items-center gap-2 rounded-full border border-[var(--color-line)] bg-[var(--color-surface)] px-3.5 py-1.5 text-[var(--color-slate)]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-blue)]" aria-hidden="true" />
-            {t("eyebrow")}
-          </span>
+      <Container size="wide">
+        <div className="grid items-center gap-12 pt-[calc(var(--nav-h-sm)+2.5rem)] pb-[var(--space-section-sm)] lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+          {/* ---------- Left: message + search + trust ---------- */}
+          <div className="max-w-xl">
+            <span className="label inline-flex items-center gap-2 rounded-full border border-[var(--color-line)] bg-[var(--color-cream)] px-3.5 py-1.5 text-[var(--color-slate)]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-blue)]" aria-hidden="true" />
+              {t("eyebrow")}
+            </span>
 
-          <h1 className="display mt-7 text-balance text-[length:var(--text-display)] text-[var(--color-ink)]">
-            {t("titleStart")}
-            <span className="text-[var(--color-blue)]">{t("titleEmphasis")}</span>
-            {t("titleEnd")}
-          </h1>
+            <h1 className="display mt-6 text-balance text-[length:var(--text-display)] text-[var(--color-ink)]">
+              {t("titleStart")}
+              <span className="text-[var(--color-blue)]">{t("titleEmphasis")}</span>
+              {t("titleEnd")}
+            </h1>
 
-          <p className="measure-short mx-auto mt-6 text-pretty text-lg leading-relaxed text-[var(--color-muted)] sm:text-xl">
-            {t("lead")}
-          </p>
+            <p className="mt-5 max-w-lg text-pretty text-lg leading-relaxed text-[var(--color-muted)]">
+              {t("lead")}
+            </p>
 
-          <div className="flex justify-center">
             <HeroSearch />
-          </div>
 
-          <div className="mt-5">
-            <Link
-              href="/voor-schoonmakers"
-              className="text-sm font-medium text-[var(--color-slate)] underline-offset-4 transition hover:text-[var(--color-blue)]"
-            >
-              {t("ctaSecondary")}
-            </Link>
-          </div>
+            {/* Trust-bar — el diferencial sube arriba del fold */}
+            <ul className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2.5">
+              <li className="flex items-center gap-2 text-sm font-medium text-[var(--color-slate)]">
+                <ShieldCheck className="h-[18px] w-[18px] text-[var(--color-blue)]" aria-hidden="true" />
+                {t("trust.verified")}
+              </li>
+              <li className="flex items-center gap-2 text-sm font-medium text-[var(--color-slate)]">
+                <Umbrella className="h-[18px] w-[18px] text-[var(--color-blue)]" aria-hidden="true" />
+                {t("trust.insured")}
+              </li>
+              <li className="flex items-center gap-2 text-sm font-medium text-[var(--color-slate)]">
+                <Lock className="h-[18px] w-[18px] text-[var(--color-blue)]" aria-hidden="true" />
+                {t("trust.escrow")}
+              </li>
+            </ul>
 
-          {/* Trust line */}
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-5">
-            <div className="flex items-center gap-3">
+            {/* Social proof */}
+            <div className="mt-7 flex items-center gap-3">
               <div className="flex -space-x-2.5" aria-hidden="true">
                 {proofNames.map((n, i) => (
                   <AvatarInitials key={n} name={n} size="sm" tone={i} className="ring-2 ring-[var(--color-white)]" />
                 ))}
               </div>
-              <p className="text-sm text-[var(--color-muted)]">{t("social")}</p>
+              <p className="text-sm text-[var(--color-muted)]">
+                <span className="inline-flex items-center gap-1 font-semibold text-[var(--color-ink)]">
+                  <StarIcon className="h-3.5 w-3.5 fill-[var(--color-blue)] text-[var(--color-blue)]" aria-hidden="true" />
+                  4,9
+                </span>{" "}
+                · {t("social")}
+              </p>
             </div>
-            <span className="hidden h-4 w-px bg-[var(--color-line)] sm:block" aria-hidden="true" />
-            <span className="flex items-center gap-1.5 text-sm text-[var(--color-muted)]">
-              <StarIcon className="h-4 w-4 fill-[var(--color-blue)] text-[var(--color-blue)]" aria-hidden="true" />
-              <span className="font-semibold text-[var(--color-ink)]">4,9</span> {t("trust.rating")}
-            </span>
-          </div>
-        </div>
 
-        {/* Showcase — featured cleaners on a soft panel */}
-        <div className="relative mx-auto mt-16 max-w-5xl pb-[var(--space-section-sm)]">
-          <div className="rounded-3xl border border-[var(--color-line)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-ambient)] sm:p-6">
-            <div className="grid gap-4 sm:grid-cols-3">
-              {featured.map((c) => (
-                <Link
-                  key={c.id}
-                  href={`/schoonmakers/${c.id}`}
-                  className="group rounded-2xl border border-[var(--color-line)] bg-[var(--color-white)] p-5 shadow-[var(--shadow-soft)] transition-all duration-[var(--dur-mid)] ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
-                >
-                  <div className="flex items-center gap-3">
-                    <AvatarInitials name={c.name} size="md" tone={c.tone} online />
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-1">
-                        <span className="truncate text-sm font-semibold text-[var(--color-ink)]">{c.name}</span>
-                        <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-[var(--color-blue)]" aria-hidden="true" />
-                      </div>
-                      <span className="flex items-center gap-1 text-xs text-[var(--color-muted)]">
-                        <MapPin className="h-3 w-3" aria-hidden="true" />
-                        {c.hood}
-                      </span>
-                    </div>
+            <div className="mt-6">
+              <Link
+                href="/voor-schoonmakers"
+                className="text-sm font-medium text-[var(--color-slate)] underline-offset-4 transition hover:text-[var(--color-blue)]"
+              >
+                {t("ctaSecondary")} →
+              </Link>
+            </div>
+          </div>
+
+          {/* ---------- Right: real photo + floating cleaner card ---------- */}
+          <div className="relative">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-[var(--color-line)] shadow-[var(--shadow-ambient)] sm:aspect-[5/4] lg:aspect-[4/5]">
+              <Image
+                src="/hero/interior.jpg"
+                alt={t("photoAlt")}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 45vw"
+                className="object-cover"
+              />
+              {/* verified pill on image */}
+              <span className="glass absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold text-[var(--color-ink)] shadow-[var(--shadow-soft)]">
+                <BadgeCheck className="h-4 w-4 text-[var(--color-blue)]" aria-hidden="true" />
+                {t("trust.verified")}
+              </span>
+
+              {/* floating cleaner card */}
+              <Link
+                href="/schoonmakers/sofia-r"
+                className="absolute right-4 bottom-4 left-4 flex items-center gap-3 rounded-2xl border border-[var(--color-line)] bg-[var(--color-white)] p-3 shadow-[var(--shadow-ambient)] transition-transform duration-[var(--dur-mid)] ease-[var(--ease-out)] hover:-translate-y-0.5 sm:left-auto sm:w-72"
+              >
+                <AvatarInitials name="Sofia Rodríguez" size="md" tone={0} online />
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1">
+                    <span className="truncate text-sm font-semibold text-[var(--color-ink)]">Sofia Rodríguez</span>
+                    <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-[var(--color-blue)]" aria-hidden="true" />
                   </div>
-                  <div className="mt-4 flex items-center justify-between border-t border-[var(--color-line)] pt-3.5">
-                    <span className="flex items-center gap-1 text-sm">
-                      <StarIcon className="h-3.5 w-3.5 fill-[var(--color-blue)] text-[var(--color-blue)]" aria-hidden="true" />
-                      <span className="font-semibold text-[var(--color-ink)]">{c.rating.toFixed(1)}</span>
+                  <span className="flex items-center gap-1.5 text-xs text-[var(--color-muted)]">
+                    <span className="inline-flex items-center gap-0.5">
+                      <StarIcon className="h-3 w-3 fill-[var(--color-blue)] text-[var(--color-blue)]" aria-hidden="true" />
+                      4,9
                     </span>
-                    <span className="text-sm text-[var(--color-ink)]">
-                      <span className="font-bold">€{c.price}</span>
-                      <span className="text-[var(--color-muted)]">{t("perHourShort")}</span>
-                    </span>
-                  </div>
-                </Link>
-              ))}
+                    · De Pijp
+                  </span>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-bold text-[var(--color-ink)]">€24<span className="text-xs font-normal text-[var(--color-muted)]">{t("perHourShort")}</span></p>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[var(--color-blue)]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-blue)]" aria-hidden="true" />
+                    {t("available")}
+                  </span>
+                </div>
+              </Link>
             </div>
           </div>
         </div>

@@ -32,6 +32,11 @@
   --color-blue-soft: #eff5ff;  /* tints */
   --color-blue-ink: #ffffff;   /* text on blue */
 
+  /* === Warm signature (whisper — para que no sea solo azul-tech) === */
+  --color-cream: #f7f3ec;      /* superficie cálida alternativa */
+  --color-sand: #ece2d2;       /* borde/acento cálido */
+  --color-amber: #e0a23a;      /* punto cálido muy puntual */
+
   /* === Dark surfaces (profile / booking / dashboard rhythm) === */
   --color-dark: #0e1015;
   --color-dark-2: #161922;     /* cards on dark */
