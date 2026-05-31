@@ -33,7 +33,7 @@ export function StickyMobileCta() {
     <div
       className={cn(
         "fixed inset-x-0 bottom-0 z-30 lg:hidden",
-        "border-t border-[var(--color-border)] bg-white/92 backdrop-blur-lg",
+        "border-t border-[var(--color-line)] bg-[color:rgb(10_10_11/0.9)] backdrop-blur-xl",
         "px-4 pt-3 pb-[calc(0.75rem+var(--safe-area-bottom))]",
         "transition-all duration-[var(--dur-mid)] ease-[var(--ease-out)]",
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0",

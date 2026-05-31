@@ -31,8 +31,8 @@ export function FooterWaitlistForm() {
 
   if (success || (state && !state.ok && state.error === "duplicate")) {
     return (
-      <div className="flex items-center gap-2.5 rounded-xl border border-[var(--color-success)]/30 bg-[var(--color-success-soft)] px-4 py-3.5 text-sm text-[var(--color-ink)]">
-        <CheckCircle2 className="h-5 w-5 shrink-0 text-[var(--color-success)]" aria-hidden="true" />
+      <div className="flex items-center gap-2.5 rounded-lg border border-[var(--color-line)] bg-[var(--color-noir-2)] px-4 py-3.5 text-sm text-[var(--color-ivory)]">
+        <CheckCircle2 className="h-5 w-5 shrink-0 text-[var(--color-acid)]" aria-hidden="true" />
         {t("success")}
       </div>
     );
@@ -63,10 +63,10 @@ export function FooterWaitlistForm() {
             placeholder={t("placeholder")}
             aria-invalid={errorMsg ? true : undefined}
             className={cn(
-              "h-11 w-full rounded-xl border bg-white px-4 text-[15px] text-[var(--color-ink)]",
-              "shadow-[var(--shadow-input)] transition placeholder:text-[var(--color-muted-2)]",
-              "focus:border-[var(--color-primary)] focus:shadow-[var(--shadow-input-focus)] focus:outline-none",
-              errorMsg ? "border-[var(--color-danger)]" : "border-[var(--color-border)]",
+              "h-11 w-full rounded-full border bg-[var(--color-noir-2)] px-4 text-[15px] text-[var(--color-ivory)]",
+              "transition placeholder:text-[var(--color-ivory-dim)]",
+              "focus:border-[var(--color-acid)] focus:outline-none focus:ring-2 focus:ring-[var(--color-acid)]/30",
+              errorMsg ? "border-[var(--color-danger)]" : "border-[var(--color-line)]",
             )}
           />
         </label>

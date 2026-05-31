@@ -11,16 +11,8 @@ import { navLinks } from "./links";
 import { cn } from "@/lib/utils";
 
 /**
- * `<Drawer />` — overlay móvil con navegación principal.
- *
- * - Logueado: pill al usuario + atajo "Mijn dashboard" + Uitloggen.
- * - No-logueado: links + CTAs Inloggen/Aanmelden.
- *
- * Accesibilidad:
- * - Backdrop como `<div>` (no `<button>`) — fuera del AT tree.
- * - Auto-focus al cerrar button al abrir.
- * - Escape cierra. Scroll lock mientras abierto.
- * - Focus trap básico (Tab cycle inside aside).
+ * `<Drawer />` — overlay móvil noir editorial. Focus-trap, Esc, scroll-lock.
+ * Panel casi-negro, texto marfil, hairlines, CTA lima ácida.
  */
 export function Drawer({
   open,
@@ -37,7 +29,6 @@ export function Drawer({
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
   const panelRef = useRef<HTMLElement | null>(null);
 
-  // Scroll lock while open.
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
@@ -47,7 +38,6 @@ export function Drawer({
     };
   }, [open]);
 
-  // Focus management: auto-focus close on open + Esc to close + focus trap.
   useEffect(() => {
     if (!open) return;
     const previouslyFocused = document.activeElement as HTMLElement | null;
@@ -86,18 +76,14 @@ export function Drawer({
   return (
     <div
       id="mobile-drawer"
-      className={cn(
-        "fixed inset-0 z-50 lg:hidden",
-        open ? "pointer-events-auto" : "pointer-events-none",
-      )}
+      className={cn("fixed inset-0 z-50 lg:hidden", open ? "pointer-events-auto" : "pointer-events-none")}
       aria-hidden={!open}
     >
-      {/* Backdrop — div (not button) so AT doesn't announce it. Click closes. */}
       <div
         role="presentation"
         onClick={onClose}
         className={cn(
-          "absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity",
+          "absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity",
           "duration-[var(--dur-mid)] ease-[var(--ease-out)]",
           open ? "opacity-100" : "opacity-0",
         )}
@@ -109,25 +95,20 @@ export function Drawer({
         aria-modal="true"
         aria-labelledby="drawer-title"
         className={cn(
-          "absolute inset-y-0 right-0 flex w-[88%] max-w-sm flex-col bg-white shadow-[var(--shadow-modal)]",
+          "absolute inset-y-0 right-0 flex w-[88%] max-w-sm flex-col",
+          "border-l border-[var(--color-line)] bg-[var(--color-noir)] text-[var(--color-ivory)] shadow-[var(--shadow-modal)]",
           "transition-transform duration-[var(--dur-mid)] ease-[var(--ease-out)]",
           open ? "translate-x-0" : "translate-x-full",
         )}
       >
-        <header className="flex items-center justify-between border-b border-[var(--color-border)] px-5 py-4">
-          <h2 id="drawer-title" className="sr-only">
-            Menu
-          </h2>
-          <Logo size="sm" />
+        <header className="flex items-center justify-between border-b border-[var(--color-line)] px-5 py-4">
+          <h2 id="drawer-title" className="sr-only">Menu</h2>
+          <Logo size="sm" tone="onDark" />
           <button
             ref={closeBtnRef}
             type="button"
             onClick={onClose}
-            className={cn(
-              "rounded-full p-2 text-[var(--color-muted)]",
-              "transition-colors duration-[var(--dur-base)] ease-[var(--ease-out)]",
-              "hover:bg-[var(--color-bg)] hover:text-[var(--color-ink)]",
-            )}
+            className="rounded-full p-2 text-[var(--color-ivory-dim)] transition-colors hover:bg-[var(--color-noir-2)] hover:text-[var(--color-ivory)]"
             aria-label="Menu sluiten"
           >
             <X className="h-5 w-5" />
@@ -136,29 +117,25 @@ export function Drawer({
 
         <div className="flex-1 overflow-y-auto px-5 py-6">
           {user ? (
-            <div className="mb-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-4">
-              <UserPill name={user.name} role={user.role} />
+            <div className="mb-6 rounded-lg border border-[var(--color-line)] bg-[var(--color-noir-2)] p-4">
+              <UserPill name={user.name} role={user.role} tone="onDark" />
               <Link
                 href={user.role === "cleaner" ? "/dashboard/cleaner" : "/dashboard"}
                 onClick={onClose}
-                className="mt-3 block rounded-xl bg-white px-4 py-3 text-sm font-medium text-[var(--color-ink)] shadow-[var(--shadow-sm)] transition hover:text-[var(--color-primary)]"
+                className="mt-3 block rounded-md border border-[var(--color-line)] px-4 py-3 text-sm font-medium text-[var(--color-ivory)] transition hover:border-[var(--color-acid)] hover:text-[var(--color-acid)]"
               >
                 {t("myDashboard")}
               </Link>
             </div>
           ) : null}
 
-          <nav className="flex flex-col gap-1" aria-label="Mobiele navigatie">
+          <nav className="flex flex-col" aria-label="Mobiele navigatie">
             {navLinks.map(({ href, labelKey }) => (
               <Link
                 key={href}
                 href={href}
                 onClick={onClose}
-                className={cn(
-                  "rounded-xl px-3 py-3 text-base font-medium text-[var(--color-ink-2)]",
-                  "transition-colors duration-[var(--dur-base)] ease-[var(--ease-out)]",
-                  "hover:bg-[var(--color-bg)] hover:text-[var(--color-primary)]",
-                )}
+                className="headline border-b border-[var(--color-line)] py-4 text-2xl text-[var(--color-ivory)] transition-colors hover:text-[var(--color-acid)]"
               >
                 {t(labelKey)}
               </Link>
@@ -166,7 +143,7 @@ export function Drawer({
           </nav>
         </div>
 
-        <footer className="border-t border-[var(--color-border)] px-5 py-5">
+        <footer className="border-t border-[var(--color-line)] px-5 py-5">
           {user ? (
             <button
               type="button"
@@ -181,18 +158,10 @@ export function Drawer({
             </button>
           ) : (
             <div className="flex flex-col gap-2.5">
-              <Link
-                href="/login"
-                onClick={onClose}
-                className={buttonStyles({ variant: "secondary", size: "lg", fullWidth: true })}
-              >
+              <Link href="/login" onClick={onClose} className={buttonStyles({ variant: "secondary", size: "lg", fullWidth: true })}>
                 {t("login")}
               </Link>
-              <Link
-                href="/signup"
-                onClick={onClose}
-                className={buttonStyles({ variant: "primary", size: "lg", fullWidth: true })}
-              >
+              <Link href="/signup" onClick={onClose} className={buttonStyles({ variant: "primary", size: "lg", fullWidth: true })}>
                 {t("signup")}
               </Link>
             </div>

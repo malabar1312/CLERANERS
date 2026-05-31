@@ -23,9 +23,9 @@ export async function CleanersGrid() {
   return (
     <Section
       id="schoonmakers"
-      variant="light"
+      variant="noir"
       containerSize="wide"
-      eyebrow={t("eyebrow")}
+      kicker={t("eyebrow")}
       title={t("title")}
       lead={t("lead")}
     >

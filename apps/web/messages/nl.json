@@ -10,11 +10,13 @@
     "logout": "Uitloggen"
   },
   "hero": {
-    "eyebrow": "Vertrouwensplatform · Amsterdam",
+    "eyebrow": "Vertrouwensplatform voor schoonmaak",
+    "eyebrowShort": "Amsterdam",
     "titleStart": "Jij ",
     "titleEmphasis": "kiest",
     "titleEnd": " wie jouw huis binnenkomt.",
     "lead": "Bekijk profielen van geverifieerde schoonmakers. Kies wie jou aanspreekt. Geen tussenpersoon, geen verrassingen.",
+    "scroll": "Scroll",
     "ctaPrimary": "Vind jouw schoonmaker",
     "ctaSecondary": "Word schoonmaker",
     "search": {
@@ -96,6 +98,11 @@
     "title": "Meer dan 1.200 schoonmaken later.",
     "lead": "Echte mensen, echte huizen, echte reviews. Geen Trustpilot-bots.",
     "starsLabel": "{count} van de 5 sterren"
+  },
+  "cta": {
+    "kicker": "Klaar om te beginnen",
+    "title": "Vind vandaag nog wie jouw huis schoonmaakt.",
+    "button": "Schoonmaker vinden"
   },
   "faq": {
     "eyebrow": "Veelgestelde vragen",

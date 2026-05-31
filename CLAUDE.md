@@ -6,6 +6,8 @@
 
 ## v2-nextjs · setup operativo
 
+> 🎨 **DIRECCIÓN DE ARTE v3 = NOIR EDITORIAL** (decisión de Antonio, mayo 2026). El brand azul/Jakarta/Instrument quedó SUPERADO en `v2-nextjs` (sigue vigente solo en `main`/MVP). Paleta nueva: **noir `#0A0A0B`** (canvas) · **marfil `#F5F3EF`** (texto) · **lima ácida `#D4FF3F`** (acento, se usa CON MODERACIÓN — un golpe por pantalla) · **papel `#F2EFE9`** (secciones invertidas). Fonts: **Anton** (display condensada, MAYÚSCULAS, escala brutal) + **Inter** (body/UI). Ritmo de secciones: noir ↔ papel, con UNA banda lima ácida (`<CtaBand>`) de máximo impacto antes del footer. Estética: lujo silencioso, Off-White/SSENSE/Aesop. La estrella del logo ahora es lima ácida. Wordmark "cleaners" SIGUE con `translate="no"` obligatorio. Tokens en `app/globals.css` (@theme noir + utilities `headline`/`kicker`/`bg-grain`/`acid-rule`).
+
 - **Monorepo**: pnpm workspaces + turbo. `apps/web` (Next.js 15) + `packages/db` (Supabase types).
 - **Comandos**: `pnpm dev` · `pnpm build` · `pnpm typecheck` · `pnpm lint` (todos pasan por turbo).
 - **Env**: copiar `apps/web/.env.example` → `apps/web/.env.local` y llenar Supabase URL+anon. Sin esto el dev server arranca pero `lib/supabase/*` tira al primer request.
@@ -17,6 +19,7 @@
 
 ### Próximas fases (después de Foundation)
 - ✅ **Fase 2 · Landing pública** — HECHA. Hero (título editorial `kiest`, search island, trust badges, social proof, dot grid + mesh), HowItWorks (3 pasos), Features (4 garantías), CleanersGrid (8 mock), Reviews (testimonios serif), FAQ (acordeón headless accesible con `inert`), Footer (wachtlijst Server Action + honeypot, KvK/BTW placeholder `····`), StickyCTA móvil. Primitives nuevos: `<Section>`, `<Card>` (barra gradient hover), `<MotionReveal>` (reveal on-scroll, respeta reduced-motion), `<AvatarInitials>`, `<HeroSearch>`. Tokens v2 (easings, sombras, gradientes, type scale clamp, dark-mode placeholder). Button extendido (asChild, loading, hero/outline/link/icon). Favicon de marca en `app/icon.svg`. Verificado typecheck/lint/build + QA visual gstack (desktop 1440 + móvil 390).
+- ✅ **Rediseño v3 · Noir Editorial** — HECHO. Toda la landing re-themed: tokens noir en globals, fonts Anton+Inter, primitives (Star ácida, Logo, Button noir+acid pill MAYÚSCULAS, Section noir/paper/acid, Card hairline + barra ácida hover, AvatarInitials monocromo), Nav/Drawer/UserPill noir, Hero brutal (Anton gigante, `KIEST` ácido, frame lookbook + grano), `<CtaBand>` lima ácida nueva. Verificado typecheck/lint/build + QA gstack (hero/papel/grid/cta-ácida/FAQ/footer/móvil).
 - **Fase 3 · Booking real** — calendar + servicekosten transparente (18%) + Stripe Checkout → webhook → bookings table. 2 sesiones.
 - **Fase 4 · Cleaner journey** — wizard signup + Stripe Connect Express + KYC vía Stripe Identity + dashboard real. 2 sesiones.
 - **Fase 5 · Cliente + admin + polish** — dashboard cliente + admin + emails Resend + polish.

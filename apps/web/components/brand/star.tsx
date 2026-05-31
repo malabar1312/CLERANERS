@@ -29,9 +29,8 @@ export function Star({
       {gradient && (
         <defs>
           <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#1A56DB" />
-            <stop offset="55%" stopColor="#4F46E5" />
-            <stop offset="100%" stopColor="#8B5CF6" />
+            <stop offset="0%" stopColor="#D4FF3F" />
+            <stop offset="100%" stopColor="#C2F02A" />
           </linearGradient>
         </defs>
       )}

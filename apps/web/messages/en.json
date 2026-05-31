@@ -10,11 +10,13 @@
     "logout": "Log out"
   },
   "hero": {
-    "eyebrow": "Trust platform · Amsterdam",
+    "eyebrow": "Trust platform for cleaning",
+    "eyebrowShort": "Amsterdam",
     "titleStart": "You ",
     "titleEmphasis": "choose",
     "titleEnd": " who enters your home.",
     "lead": "Browse profiles of verified cleaners. Pick who you connect with. No middleman, no surprises.",
+    "scroll": "Scroll",
     "ctaPrimary": "Find your cleaner",
     "ctaSecondary": "Become a cleaner",
     "search": {
@@ -96,6 +98,11 @@
     "title": "Over 1,200 cleans later.",
     "lead": "Real people, real homes, real reviews. No Trustpilot bots.",
     "starsLabel": "{count} out of 5 stars"
+  },
+  "cta": {
+    "kicker": "Ready to start",
+    "title": "Find who cleans your home today.",
+    "button": "Find a cleaner"
   },
   "faq": {
     "eyebrow": "Frequently asked",

@@ -1,66 +1,72 @@
 import { cva, type VariantProps } from "class-variance-authority";
 
 /**
- * `buttonStyles` — la fuente única de las clases de botón.
+ * `buttonStyles` — botones Noir Editorial. Voz uniforme: MAYÚSCULAS,
+ * tracking abierto, pill. El acid es la jerarquía máxima (CTA primaria).
  *
- * Vive en un módulo **neutro** (sin `"use client"`) para que tanto Server
- * Components (que renderizan `<Link className={buttonStyles(...)}>`) como
- * Client Components (`<Button>`) puedan invocarla. Mover esto a un módulo
- * cliente rompe el build (no se puede llamar una función de cliente desde
- * el server).
- *
- * NUNCA emojis. Iconos: <Icon className="h-4 w-4" /> de `lucide-react`.
+ * Módulo neutro (sin "use client") → invocable desde Server y Client.
+ * NUNCA emojis. Iconos: lucide-react.
  */
 export const buttonStyles = cva(
   [
-    "inline-flex items-center justify-center gap-2 whitespace-nowrap font-semibold",
-    "rounded-xl select-none transition-all",
+    "inline-flex items-center justify-center gap-2 whitespace-nowrap",
+    "font-semibold uppercase tracking-[0.06em] text-[13px]",
+    "rounded-full select-none transition-all",
     "duration-[var(--dur-base)] ease-[var(--ease-out)]",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2",
-    "disabled:pointer-events-none disabled:opacity-50",
-    "active:scale-[0.98]",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-acid)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-noir)]",
+    "disabled:pointer-events-none disabled:opacity-45",
+    "active:scale-[0.97]",
   ],
   {
     variants: {
       variant: {
+        // The CTA — acid block on noir text. Maximum hierarchy.
         primary: [
-          "bg-[var(--color-primary)] text-white",
-          "hover:bg-[var(--color-primary-hover)] hover:shadow-[var(--shadow-glow)]",
+          "bg-[var(--color-acid)] text-[var(--color-acid-ink)]",
+          "hover:bg-[var(--color-acid-2)] hover:shadow-[var(--shadow-acid)]",
         ],
+        // Same as primary but with a stronger lift — for hero moments.
         hero: [
-          "bg-[var(--color-primary)] text-white",
-          "shadow-[var(--shadow-hero-cta)]",
-          "hover:bg-[var(--color-primary-hover)] hover:-translate-y-px",
+          "bg-[var(--color-acid)] text-[var(--color-acid-ink)]",
+          "shadow-[var(--shadow-acid)] hover:bg-[var(--color-acid-2)] hover:-translate-y-0.5",
         ],
+        // Outline on noir — ivory hairline.
         secondary: [
-          "border border-[var(--color-border)] bg-white text-[var(--color-ink)]",
-          "hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]",
+          "border border-[var(--color-line)] bg-transparent text-[var(--color-ivory)]",
+          "hover:border-[var(--color-ivory)] hover:bg-[var(--color-noir-2)]",
         ],
+        // Invert: ivory fill, noir text (strong secondary on noir).
         outline: [
-          "border border-[var(--color-ink)] bg-transparent text-[var(--color-ink)]",
-          "hover:bg-[var(--color-ink)] hover:text-white",
+          "border border-[var(--color-ivory)] bg-transparent text-[var(--color-ivory)]",
+          "hover:bg-[var(--color-ivory)] hover:text-[var(--color-noir)]",
         ],
-        ghost: ["text-[var(--color-primary)] hover:bg-[var(--color-blue-soft)]"],
+        ghost: [
+          "text-[var(--color-ivory)] hover:bg-[var(--color-noir-2)]",
+        ],
         "ghost-on-dark": [
-          "border border-white/20 bg-white/10 text-white backdrop-blur",
-          "hover:bg-white/15 hover:border-white/30",
+          "border border-[color:rgb(245_243_239/0.18)] bg-[color:rgb(245_243_239/0.06)] text-[var(--color-ivory)] backdrop-blur",
+          "hover:bg-[color:rgb(245_243_239/0.12)]",
+        ],
+        // On paper sections.
+        "on-paper": [
+          "border border-[var(--color-paper-line)] bg-transparent text-[var(--color-paper-ink)]",
+          "hover:bg-[var(--color-paper-ink)] hover:text-[var(--color-paper)]",
         ],
         link: [
-          "text-[var(--color-primary)] underline-offset-4",
-          "hover:underline active:scale-100 px-0",
+          "rounded-none px-0 normal-case tracking-normal text-[15px] font-medium",
+          "text-[var(--color-acid)] acid-rule hover:opacity-80 active:scale-100",
         ],
         danger: [
-          "bg-[var(--color-danger)] text-white",
-          "hover:bg-[var(--color-danger-hover)]",
+          "bg-[var(--color-danger)] text-[var(--color-noir)] hover:bg-[var(--color-danger-2)]",
         ],
       },
       size: {
-        sm: "h-9 px-3.5 text-sm",
-        md: "h-11 px-5 text-[15px]",
-        lg: "h-12 px-6 text-base",
-        xl: "h-14 px-7 text-lg",
-        icon: "h-10 w-10 p-0",
-        "icon-sm": "h-8 w-8 p-0",
+        sm: "h-9 px-4",
+        md: "h-11 px-5",
+        lg: "h-[3.25rem] px-7 text-sm",
+        xl: "h-16 px-9 text-sm",
+        icon: "h-11 w-11 p-0",
+        "icon-sm": "h-9 w-9 p-0",
       },
       fullWidth: {
         true: "w-full",

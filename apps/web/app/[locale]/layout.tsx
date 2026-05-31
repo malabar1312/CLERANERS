@@ -1,25 +1,25 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import { Plus_Jakarta_Sans, Instrument_Serif } from "next/font/google";
+import { Anton, Inter } from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale, getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 
-const jakarta = Plus_Jakarta_Sans({
+// Display — Anton: condensed, heavy, uppercase. The brutal headline voice.
+const anton = Anton({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-jakarta",
-  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-anton",
+  weight: ["400"],
 });
 
-const instrument = Instrument_Serif({
+// Body / UI — Inter variable.
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-instrument",
-  weight: ["400"],
-  style: ["normal", "italic"],
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0c1420",
+  themeColor: "#0a0a0b",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -69,7 +69,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${jakarta.variable} ${instrument.variable}`}
+      className={`${anton.variable} ${inter.variable}`}
       suppressHydrationWarning
     >
       <body>

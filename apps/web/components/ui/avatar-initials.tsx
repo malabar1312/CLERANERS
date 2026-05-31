@@ -11,14 +11,9 @@ const sizeStyles: Record<Size, string> = {
 };
 
 /**
- * `<AvatarInitials />` — avatar circular con iniciales sobre gradiente brand.
- *
- * Estrategia anti-stock: en lugar de fotos AI-flavored, usamos avatares
- * de iniciales tipo Linear/Notion. El gradiente se elige con una variante
- * acotada a la paleta brand para que ninguno se vea ajeno.
- *
- * Si tenemos URL real (Fase 4), una `<AvatarPhoto>` separada renderiza la
- * foto y este componente queda para fallbacks.
+ * `<AvatarInitials />` — Noir Editorial: avatares monocromos (sin fotos stock).
+ * Superficies en escala de grises noir + iniciales marfil. El único color es
+ * el punto "online" en lima ácida. Editorial = contención.
  */
 export function AvatarInitials({
   name,
@@ -29,7 +24,6 @@ export function AvatarInitials({
 }: {
   name: string;
   size?: Size;
-  /** 0-5; un hash del id del cleaner mapea a uno de los 6 gradientes brand. */
   tone?: number;
   online?: boolean;
   className?: string;
@@ -41,23 +35,22 @@ export function AvatarInitials({
     .map((w) => w[0]?.toUpperCase() ?? "")
     .join("");
 
-  // 6 gradientes brand-safe — navy/blue/indigo/violet rotation.
-  // Tupla `as const` (no vacía) → indexar el módulo da `string`, no `string | undefined`.
+  // Monochrome noir surfaces — subtle tonal variety, no hue.
   const tones = [
-    "from-[#1a56db] to-[#4f46e5]",   // blue → indigo
-    "from-[#4f46e5] to-[#8b5cf6]",   // indigo → violet
-    "from-[#1648c0] to-[#4f46e5]",   // deep blue → indigo
-    "from-[#3b6fe6] to-[#8b5cf6]",   // mid blue → violet
-    "from-[#13203a] to-[#1a56db]",   // navy → blue
-    "from-[#6359ec] to-[#a479f8]",   // indigo soft → violet soft
+    "bg-[#1d1d20]",
+    "bg-[#242428]",
+    "bg-[#16161a]",
+    "bg-[#2a2a2f]",
+    "bg-[#1a1a1d]",
+    "bg-[#202024]",
   ] as const;
   const safeTone = tones[Math.abs(tone) % tones.length] ?? tones[0];
 
   return (
     <span
       className={cn(
-        "relative inline-flex select-none items-center justify-center rounded-full bg-gradient-to-br font-semibold text-white",
-        "ring-2 ring-white/70",
+        "relative inline-flex select-none items-center justify-center rounded-full font-semibold text-[var(--color-ivory)]",
+        "ring-1 ring-[var(--color-line)]",
         safeTone,
         sizeStyles[size],
         className,
@@ -67,7 +60,7 @@ export function AvatarInitials({
       <span aria-hidden="true">{initials || "?"}</span>
       {online && (
         <span
-          className="absolute right-0 bottom-0 h-2.5 w-2.5 rounded-full bg-[var(--color-success)] ring-2 ring-white"
+          className="absolute right-0 bottom-0 h-2.5 w-2.5 rounded-full bg-[var(--color-acid)] ring-2 ring-[var(--color-noir)]"
           aria-hidden="true"
         />
       )}

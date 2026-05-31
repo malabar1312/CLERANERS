@@ -5,6 +5,7 @@ import { HowItWorks } from "@/components/sections/how-it-works";
 import { Features } from "@/components/sections/features";
 import { CleanersGrid } from "@/components/sections/cleaners-grid";
 import { Reviews } from "@/components/sections/reviews";
+import { CtaBand } from "@/components/sections/cta-band";
 import { FAQ } from "@/components/sections/faq";
 import { Footer } from "@/components/sections/footer";
 import { StickyMobileCta } from "@/components/sections/sticky-cta";
@@ -26,6 +27,7 @@ export default async function HomePage({
         <Features />
         <CleanersGrid />
         <Reviews />
+        <CtaBand />
         <FAQ />
       </main>
       <Footer />
