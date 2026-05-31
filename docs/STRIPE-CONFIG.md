@@ -31,12 +31,19 @@
 6. **Customer emails** — Settings → Customer emails: activar recibos de pago (opcional).
 7. **BTW / Tax** — cuando la cuenta esté activada.
 
-## 🔜 Webhook (cuando deployemos el endpoint — Fase 3)
-- Developers → Webhooks → Add endpoint:
-  - URL: `https://getcleaners.nl/api/webhook/stripe` (o la Edge Function de Supabase).
-  - Eventos: `checkout.session.completed`, `payment_intent.succeeded`, `charge.refunded`, `account.updated`, `payout.paid`.
-  - Copiar el `whsec_…` → `STRIPE_WEBHOOK_SECRET` en `.env.local` + secrets.
-- Dev local: `stripe listen --forward-to localhost:3000/api/webhook/stripe`.
+## ✅ Webhook (handler YA escrito · verificación de firma probada)
+- Endpoint: **`apps/web/app/api/webhook/stripe/route.ts`** (Node runtime, raw body
+  + `constructEvent`, fail-closed sin secret). Maneja `checkout.session.completed`,
+  `payment_intent.succeeded`, `charge.refunded`, `account.updated`. Es la **fuente
+  de verdad del pago** (no se infiere del redirect del cliente). Verificación de
+  firma testeada: válido acepta, tampered/bad-secret rechazan.
+- **Falta** (necesita Supabase): persistir en `bookings` + dedupe idempotente por
+  `event.id` (seams `TODO(supabase)` marcados en el handler).
+- **Para activarlo:**
+  - Dev local: `stripe listen --forward-to localhost:3000/api/webhook/stripe` →
+    copiar el `whsec_…` → `STRIPE_WEBHOOK_SECRET` en `.env.local`.
+  - Prod: Developers → Webhooks → Add endpoint `https://getcleaners.nl/api/webhook/stripe`
+    con esos eventos → `whsec_…` → secret de Vercel.
 
 ## 🔜 Siguiente (Fase 3 · Booking)
 Cablear `create-checkout` + webhook en la app Next, y smoke test de una reserva en test mode (cae en `bookings.status='paid'`). Pago real (live) solo tras ese smoke test.
