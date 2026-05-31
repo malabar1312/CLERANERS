@@ -16,7 +16,7 @@ export async function CleanersGrid() {
   const labels = {
     verified: t("card.verified"),
     perHour: t("card.perHour"),
-    soon: t("card.soon"),
+    viewProfile: t("card.viewProfile"),
     reviewsWord: t("card.reviewsWord"),
   };
 

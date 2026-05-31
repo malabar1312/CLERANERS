@@ -197,3 +197,52 @@ export function filterCleaners(
   else sorted.sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
   return sorted;
 }
+
+/* ============================================================
+   Perfil enriquecido — Fase 2 (mock). Fase 4: columnas reales en Supabase.
+   La bio queda en holandés (el cleaner la escribe en su idioma; no se
+   traduce con la UI — comportamiento realista de marketplace).
+   ============================================================ */
+
+export type CleanerProfile = CleanerPreview & {
+  bio: string;
+  languages: string[];
+  since: number;
+  responseMins: number;
+};
+
+const cleanerExtra: Record<string, { bio: string; languages: string[]; since: number; responseMins: number }> = {
+  "sofia-r": { bio: "Al acht jaar maak ik huizen in De Pijp en omstreken grondig schoon. Ik werk gestructureerd, let op de details die anderen overslaan, en laat je huis achter zoals ik mijn eigen huis wil zien.", languages: ["Nederlands", "Engels", "Spaans"], since: 2018, responseMins: 12 },
+  "maria-g": { bio: "Ik hou van een fris huis dat naar schoon ruikt, niet naar bleek. Ik werk met eco-producten, ben goed met huisdieren, en kom graag wekelijks langs.", languages: ["Nederlands", "Engels", "Spaans"], since: 2020, responseMins: 20 },
+  "laura-m": { bio: "Detail is mijn handtekening. Plinten, kozijnen, achter de kranen — ik sla niets over. Premium schoonmaak voor wie het verschil ziet.", languages: ["Nederlands", "Engels"], since: 2019, responseMins: 8 },
+  "elena-s": { bio: "Verhuizing, wekelijkse beurt of een grote voorjaarsschoonmaak: ik pak het systematisch aan en lever foto's op bij oplevering.", languages: ["Nederlands", "Engels", "Spaans"], since: 2017, responseMins: 15 },
+  "anna-l": { bio: "Snel, efficiënt en betrouwbaar. Ideaal voor studentenkamers en kleine appartementen die tussendoor een goede beurt nodig hebben.", languages: ["Nederlands", "Engels"], since: 2022, responseMins: 25 },
+  "carmen-p": { bio: "Bijna 200 schoonmaken later weet ik precies hoe ik een huis laat stralen. Ik strijk, doe boodschappen en denk met je mee.", languages: ["Nederlands", "Engels", "Spaans"], since: 2016, responseMins: 10 },
+  "rosa-d": { bio: "Eco-producten, vaste tijden en een vriendelijk gezicht aan de deur. Ik kom graag elke week en spreek Nederlands en Engels.", languages: ["Nederlands", "Engels"], since: 2021, responseMins: 18 },
+  "isabel-h": { bio: "Premium, grondig en oog voor detail. Ik werk voor mensen die hun huis met zorg behandeld willen zien.", languages: ["Nederlands", "Engels", "Spaans"], since: 2020, responseMins: 14 },
+  "nadia-k": { bio: "Vaste klanten, vaste kwaliteit. Ik werk met eco-producten en zorg dat je elke week thuiskomt in een fris huis.", languages: ["Nederlands", "Engels"], since: 2019, responseMins: 16 },
+  "julia-v": { bio: "Ramen die echt helder zijn en hoeken die echt schoon zijn. Premium werk met aandacht voor het detail.", languages: ["Nederlands", "Engels"], since: 2021, responseMins: 22 },
+  "fatima-e": { bio: "Snel en grondig, ook met huisdieren in huis. Ik maak er geen probleem van — ik maak het gewoon schoon.", languages: ["Nederlands", "Engels"], since: 2022, responseMins: 19 },
+  "sophie-d": { bio: "Van verhuisreiniging tot premium wekelijkse beurt. Ik werk tweetalig en lever altijd op zoals afgesproken.", languages: ["Nederlands", "Engels"], since: 2018, responseMins: 9 },
+};
+
+export function getCleanerById(id: string): CleanerPreview | undefined {
+  return featuredCleaners.find((c) => c.id === id);
+}
+
+export function getCleanerProfile(id: string): CleanerProfile | undefined {
+  const base = getCleanerById(id);
+  if (!base) return undefined;
+  const ex =
+    cleanerExtra[id] ?? {
+      bio: "Geverifieerde schoonmaker op het cleaners-platform.",
+      languages: ["Nederlands", "Engels"],
+      since: 2022,
+      responseMins: 20,
+    };
+  return { ...base, ...ex };
+}
+
+export function cleanerIds(): string[] {
+  return featuredCleaners.map((c) => c.id);
+}

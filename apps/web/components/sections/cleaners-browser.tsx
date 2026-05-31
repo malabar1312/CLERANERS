@@ -59,7 +59,7 @@ export function CleanersBrowser() {
   const cardLabels = {
     verified: tc("card.verified"),
     perHour: tc("card.perHour"),
-    soon: tc("card.soon"),
+    viewProfile: tc("card.viewProfile"),
     reviewsWord: tc("card.reviewsWord"),
   };
 

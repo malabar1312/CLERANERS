@@ -93,6 +93,37 @@
     },
     "browseAll": "Browse all cleaners"
   },
+  "cleanerProfile": {
+    "back": "All cleaners",
+    "since": "Active since {year}",
+    "respondsIn": "Responds in ~{mins} min",
+    "reviewsWord": "reviews",
+    "speaks": "Speaks",
+    "aboutTitle": "About me",
+    "specialtiesTitle": "Specialties",
+    "includedTitle": "What's included",
+    "included": [
+      "Own cleaning supplies",
+      "Vacuuming & mopping",
+      "Kitchen & bathroom degreased",
+      "Interior windows",
+      "Making beds",
+      "Trash & recycling"
+    ],
+    "reviewsTitle": "Reviews",
+    "book": {
+      "from": "from",
+      "perHour": "per hour",
+      "cta": "Check availability",
+      "soon": "Booking goes live soon",
+      "feeNote": "18% service fee — transparent at checkout",
+      "guarantees": [
+        "Verified profile",
+        "Secure escrow payment",
+        "Free cancellation up to 24h before"
+      ]
+    }
+  },
   "schoonmakersPage": {
     "kicker": "Verified cleaners",
     "title": "Choose who enters your home.",

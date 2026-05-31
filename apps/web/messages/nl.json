@@ -93,6 +93,37 @@
     },
     "browseAll": "Bekijk alle schoonmakers"
   },
+  "cleanerProfile": {
+    "back": "Alle schoonmakers",
+    "since": "Actief sinds {year}",
+    "respondsIn": "Reageert in ~{mins} min",
+    "reviewsWord": "reviews",
+    "speaks": "Spreekt",
+    "aboutTitle": "Over mij",
+    "specialtiesTitle": "Specialiteiten",
+    "includedTitle": "Wat is inbegrepen",
+    "included": [
+      "Eigen schoonmaakmiddelen",
+      "Stofzuigen & dweilen",
+      "Keuken & badkamer ontvet",
+      "Ramen aan de binnenkant",
+      "Bedden opmaken",
+      "Afval & recycling"
+    ],
+    "reviewsTitle": "Reviews",
+    "book": {
+      "from": "vanaf",
+      "perHour": "per uur",
+      "cta": "Beschikbaarheid bekijken",
+      "soon": "Boeken gaat binnenkort live",
+      "feeNote": "Servicekosten 18% — transparant bij het boeken",
+      "guarantees": [
+        "Geverifieerd profiel",
+        "Veilig betalen via escrow",
+        "Gratis annuleren tot 24 uur vooraf"
+      ]
+    }
+  },
   "schoonmakersPage": {
     "kicker": "Geverifieerde schoonmakers",
     "title": "Kies wie jouw huis binnenkomt.",
