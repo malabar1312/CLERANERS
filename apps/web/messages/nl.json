@@ -93,6 +93,25 @@
     },
     "browseAll": "Bekijk alle schoonmakers"
   },
+  "schoonmakersPage": {
+    "kicker": "Geverifieerde schoonmakers",
+    "title": "Kies wie jouw huis binnenkomt.",
+    "lead": "Bekijk profielen, ervaring en reviews. Jij beslist — geen algoritme, geen toewijzing.",
+    "filters": {
+      "hood": "Buurt",
+      "specialty": "Specialiteit",
+      "sort": "Sorteren",
+      "allHoods": "Alle buurten",
+      "allSpecialties": "Alle specialiteiten",
+      "sortRating": "Best beoordeeld",
+      "sortPriceAsc": "Prijs: laag → hoog",
+      "sortPriceDesc": "Prijs: hoog → laag",
+      "clear": "Wis filters"
+    },
+    "count": "{count} schoonmakers beschikbaar",
+    "empty": "Geen schoonmakers gevonden met deze filters.",
+    "emptyAction": "Wis de filters en probeer opnieuw."
+  },
   "reviews": {
     "eyebrow": "Wat huishoudens zeggen",
     "title": "Meer dan 1.200 schoonmaken later.",

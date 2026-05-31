@@ -119,4 +119,81 @@ export const featuredCleaners: CleanerPreview[] = [
     tone: 2,
     specialties: ["Premium", "Diepe reiniging", "Detail-georiënteerd"],
   },
+  {
+    id: "nadia-k",
+    name: "Nadia Karimi",
+    hood: "Oost",
+    rating: 4.9,
+    reviews: 112,
+    pricePerHour: 24,
+    verified: true,
+    online: true,
+    tone: 1,
+    specialties: ["Wekelijks", "Eco-producten", "Strijken"],
+  },
+  {
+    id: "julia-v",
+    name: "Julia Visser",
+    hood: "Jordaan",
+    rating: 4.8,
+    reviews: 70,
+    pricePerHour: 27,
+    verified: true,
+    online: false,
+    tone: 3,
+    specialties: ["Premium", "Ramen", "Detail-georiënteerd"],
+  },
+  {
+    id: "fatima-e",
+    name: "Fatima El Amrani",
+    hood: "Nieuw-West",
+    rating: 4.7,
+    reviews: 58,
+    pricePerHour: 21,
+    verified: true,
+    online: true,
+    tone: 4,
+    specialties: ["Wekelijks", "Huisdieren OK", "Snel & efficiënt"],
+  },
+  {
+    id: "sophie-d",
+    name: "Sophie de Wit",
+    hood: "Centrum",
+    rating: 5.0,
+    reviews: 95,
+    pricePerHour: 29,
+    verified: true,
+    online: true,
+    tone: 5,
+    specialties: ["Premium", "Verhuisreiniging", "Engels & Nederlands"],
+  },
 ];
+
+/** Barrios únicos presentes en la data (para el filtro). */
+export const cleanerHoods: string[] = Array.from(
+  new Set(featuredCleaners.map((c) => c.hood)),
+).sort();
+
+/** Especialidades únicas (para el filtro). */
+export const cleanerSpecialties: string[] = Array.from(
+  new Set(featuredCleaners.flatMap((c) => c.specialties)),
+).sort();
+
+export type SortKey = "rating" | "price-asc" | "price-desc";
+
+/** Filtra + ordena la data en cliente. Reemplazable por query Supabase en Fase 4. */
+export function filterCleaners(
+  list: CleanerPreview[],
+  opts: { hood?: string; specialty?: string; sort?: SortKey },
+): CleanerPreview[] {
+  const filtered = list.filter(
+    (c) =>
+      (!opts.hood || c.hood === opts.hood) &&
+      (!opts.specialty || c.specialties.includes(opts.specialty)),
+  );
+  const sorted = [...filtered];
+  if (opts.sort === "price-asc") sorted.sort((a, b) => a.pricePerHour - b.pricePerHour);
+  else if (opts.sort === "price-desc") sorted.sort((a, b) => b.pricePerHour - a.pricePerHour);
+  else sorted.sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
+  return sorted;
+}

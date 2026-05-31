@@ -93,6 +93,25 @@
     },
     "browseAll": "Browse all cleaners"
   },
+  "schoonmakersPage": {
+    "kicker": "Verified cleaners",
+    "title": "Choose who enters your home.",
+    "lead": "Browse profiles, experience and reviews. You decide — no algorithm, no assignment.",
+    "filters": {
+      "hood": "Area",
+      "specialty": "Specialty",
+      "sort": "Sort",
+      "allHoods": "All areas",
+      "allSpecialties": "All specialties",
+      "sortRating": "Top rated",
+      "sortPriceAsc": "Price: low → high",
+      "sortPriceDesc": "Price: high → low",
+      "clear": "Clear filters"
+    },
+    "count": "{count} cleaners available",
+    "empty": "No cleaners found with these filters.",
+    "emptyAction": "Clear the filters and try again."
+  },
   "reviews": {
     "eyebrow": "What households say",
     "title": "Over 1,200 cleans later.",
