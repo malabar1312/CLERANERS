@@ -11,14 +11,192 @@
   },
   "hero": {
     "eyebrow": "Trust platform · Amsterdam",
-    "title": "You choose who enters your home.",
-    "lead": "Not a cleaning company. A marketplace of verified cleaners. Browse profiles, pick who you connect with, book safely.",
-    "ctaPrimary": "Find a cleaner",
-    "ctaSecondary": "Become a cleaner"
+    "titleStart": "You ",
+    "titleEmphasis": "choose",
+    "titleEnd": " who enters your home.",
+    "lead": "Browse profiles of verified cleaners. Pick who you connect with. No middleman, no surprises.",
+    "ctaPrimary": "Find your cleaner",
+    "ctaSecondary": "Become a cleaner",
+    "search": {
+      "placeholder": "Postcode or neighborhood in Amsterdam",
+      "label": "Location",
+      "submit": "Search"
+    },
+    "trust": {
+      "verified": "Verified",
+      "escrow": "Secure payment",
+      "rating": "4.9 average"
+    },
+    "social": "1,200+ households already on the waitlist"
+  },
+  "howItWorks": {
+    "eyebrow": "How it works",
+    "title": "Clean in three steps.",
+    "lead": "No email quotes. No waiting for callbacks. Book directly.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Search",
+        "body": "Enter your postcode. We only show cleaners who already know your neighborhood."
+      },
+      {
+        "number": "02",
+        "title": "Choose",
+        "body": "Browse profiles, experience, reviews. You decide who you connect with."
+      },
+      {
+        "number": "03",
+        "title": "Book",
+        "body": "Reserve in under two minutes. Payment is only released after a successful clean."
+      }
+    ]
+  },
+  "features": {
+    "eyebrow": "Why cleaners",
+    "title": "Trust is not marketing.",
+    "lead": "Four guarantees behind every profile on the platform.",
+    "cards": [
+      {
+        "icon": "ShieldCheck",
+        "title": "Verified profile",
+        "body": "Identity, KvK if self-employed, and background check. Your cleaner is who the photo shows."
+      },
+      {
+        "icon": "Heart",
+        "title": "You choose",
+        "body": "No algorithm assigning anyone. Browse profiles, read reviews, pick the match."
+      },
+      {
+        "icon": "Lock",
+        "title": "Escrow payment",
+        "body": "We hold funds until after the clean. No money lost on no-shows."
+      },
+      {
+        "icon": "CalendarX2",
+        "title": "Flexible cancellation",
+        "body": "Free up to 24 hours before. After that, only actual prep cost."
+      }
+    ]
+  },
+  "cleaners": {
+    "eyebrow": "Our cleaners",
+    "title": "People, not profiles.",
+    "lead": "A selection of who's available this week in your area.",
+    "card": {
+      "verified": "Verified",
+      "perHour": "/h",
+      "reviewsWord": "reviews",
+      "viewProfile": "View profile",
+      "soon": "Coming soon"
+    },
+    "browseAll": "Browse all cleaners"
+  },
+  "reviews": {
+    "eyebrow": "What households say",
+    "title": "Over 1,200 cleans later.",
+    "lead": "Real people, real homes, real reviews. No Trustpilot bots.",
+    "starsLabel": "{count} out of 5 stars"
+  },
+  "faq": {
+    "eyebrow": "Frequently asked",
+    "title": "What we hear most.",
+    "lead": "Question not here? Email us — we reply within one working day.",
+    "items": [
+      {
+        "q": "What sets cleaners apart from a cleaning company?",
+        "a": "We don't send anyone. You pick a profile yourself, see who they are, and book directly. We handle payment, verification, and guarantees; the cleaner works independently."
+      },
+      {
+        "q": "How do I know the cleaner is trustworthy?",
+        "a": "Every cleaner goes through ID verification, a KvK check if self-employed, and reference checks. Reviews only come from verified customers."
+      },
+      {
+        "q": "When is the money charged?",
+        "a": "At booking, but we hold it in escrow until 24 hours after a successful clean. On no-show or complaint, we stop the transfer and investigate."
+      },
+      {
+        "q": "What if I'm not satisfied?",
+        "a": "Report within 24 hours. We mediate, arrange a re-clean at our cost if needed, or issue a full refund."
+      },
+      {
+        "q": "Can I book recurring slots (weekly, bi-weekly)?",
+        "a": "Yes. On your first booking you can flag it as recurring. The cleaner confirms the rhythm; on illness we arrange a substitute from your shortlist."
+      },
+      {
+        "q": "Do you operate outside Amsterdam?",
+        "a": "Currently only within the Amsterdam ring + Amstelveen, Diemen, Duivendrecht. We expand based on waitlist demand."
+      },
+      {
+        "q": "How do I become a cleaner on the platform?",
+        "a": "Create a profile, complete verification and KvK linking, and start once approved. We coach on photos, copy and pricing."
+      },
+      {
+        "q": "How much do you take from my rate?",
+        "a": "Service fee is 18% of the hourly rate — transparent and visible at booking. This covers verification, escrow, customer support, and transaction costs."
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "The trust platform for cleaning in Amsterdam.",
+    "columns": {
+      "platform": {
+        "title": "Platform",
+        "links": [
+          { "label": "How it works", "href": "/#hoe-het-werkt" },
+          { "label": "Cleaners", "href": "/schoonmakers" },
+          { "label": "Become a cleaner", "href": "/voor-schoonmakers" },
+          { "label": "Pricing", "href": "/prijzen" }
+        ]
+      },
+      "support": {
+        "title": "Support",
+        "links": [
+          { "label": "FAQ", "href": "/#faq" },
+          { "label": "Contact", "href": "/contact" },
+          { "label": "Safety", "href": "/veiligheid" },
+          { "label": "Help center", "href": "/help" }
+        ]
+      },
+      "legal": {
+        "title": "Legal",
+        "links": [
+          { "label": "Terms", "href": "/voorwaarden" },
+          { "label": "Privacy", "href": "/privacy" },
+          { "label": "Cookies", "href": "/cookies" },
+          { "label": "Complaints", "href": "/klachten" }
+        ]
+      }
+    },
+    "waitlist": {
+      "title": "Join the waitlist",
+      "body": "Leave your email, we'll send one note when your area goes live.",
+      "placeholder": "your@email.com",
+      "submit": "Notify me",
+      "submitting": "Submitting…",
+      "success": "Thanks — we'll keep you posted.",
+      "errorGeneric": "Something went wrong. Try again.",
+      "errorEmail": "Enter a valid email address."
+    },
+    "company": {
+      "kvk": "KvK ····",
+      "btw": "VAT ····",
+      "kvkTooltip": "Visible at official launch.",
+      "copy": "© {year} cleaners B.V."
+    }
+  },
+  "stickyCta": {
+    "label": "Find a cleaner"
   },
   "common": {
     "loading": "Loading…",
     "error": "Something went wrong.",
-    "tryAgain": "Try again"
+    "tryAgain": "Try again",
+    "success": "Done.",
+    "cancel": "Cancel",
+    "save": "Save",
+    "continue": "Continue",
+    "back": "Back",
+    "optional": "Optional",
+    "required": "Required"
   }
 }

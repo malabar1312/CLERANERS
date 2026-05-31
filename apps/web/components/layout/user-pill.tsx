@@ -35,6 +35,7 @@ export function UserPill({
       href={href}
       className={cn(
         "group inline-flex items-center gap-2.5 rounded-full px-2 py-1.5 pr-3 transition",
+        "duration-[var(--dur-base)] ease-[var(--ease-out)]",
         tone === "onDark"
           ? "border border-white/15 bg-white/10 text-white backdrop-blur hover:bg-white/15"
           : "border border-[var(--color-border)] bg-white text-[var(--color-ink)] hover:border-[var(--color-primary)] hover:shadow-[var(--shadow-sm)]",
@@ -49,14 +50,16 @@ export function UserPill({
             ? "bg-white/20 text-white"
             : "bg-[var(--color-blue-soft)] text-[var(--color-primary)]",
         )}
-        aria-hidden
+        aria-hidden="true"
       >
         {initials || <UserRound className="h-3.5 w-3.5" />}
       </span>
-      <span className="max-w-[7rem] truncate text-sm font-medium">{name}</span>
+      <span className="max-w-[6rem] truncate text-sm font-medium sm:max-w-[10rem]">
+        {name}
+      </span>
       <ChevronRight
         className="h-3.5 w-3.5 opacity-50 transition group-hover:translate-x-0.5 group-hover:opacity-90"
-        aria-hidden
+        aria-hidden="true"
       />
     </Link>
   );

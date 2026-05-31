@@ -16,7 +16,7 @@
 - **Vercel**: `vercel.json` actualizado a `framework: "nextjs"` + `buildCommand: pnpm turbo run build --filter=web...` + headers de seguridad preservados.
 
 ### Próximas fases (después de Foundation)
-- **Fase 2 · Landing pública** — hero + cómo funciona + features + grid de cleaners (mock) + reviews + FAQ + footer. 2 sesiones.
+- ✅ **Fase 2 · Landing pública** — HECHA. Hero (título editorial `kiest`, search island, trust badges, social proof, dot grid + mesh), HowItWorks (3 pasos), Features (4 garantías), CleanersGrid (8 mock), Reviews (testimonios serif), FAQ (acordeón headless accesible con `inert`), Footer (wachtlijst Server Action + honeypot, KvK/BTW placeholder `····`), StickyCTA móvil. Primitives nuevos: `<Section>`, `<Card>` (barra gradient hover), `<MotionReveal>` (reveal on-scroll, respeta reduced-motion), `<AvatarInitials>`, `<HeroSearch>`. Tokens v2 (easings, sombras, gradientes, type scale clamp, dark-mode placeholder). Button extendido (asChild, loading, hero/outline/link/icon). Favicon de marca en `app/icon.svg`. Verificado typecheck/lint/build + QA visual gstack (desktop 1440 + móvil 390).
 - **Fase 3 · Booking real** — calendar + servicekosten transparente (18%) + Stripe Checkout → webhook → bookings table. 2 sesiones.
 - **Fase 4 · Cleaner journey** — wizard signup + Stripe Connect Express + KYC vía Stripe Identity + dashboard real. 2 sesiones.
 - **Fase 5 · Cliente + admin + polish** — dashboard cliente + admin + emails Resend + polish.

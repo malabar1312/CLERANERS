@@ -11,14 +11,192 @@
   },
   "hero": {
     "eyebrow": "Vertrouwensplatform · Amsterdam",
-    "title": "Jij kiest wie jouw huis binnenkomt.",
-    "lead": "Geen schoonmaakbedrijf. Een marktplaats van geverifieerde schoonmakers. Bekijk profielen, kies wie jou aanspreekt, boek veilig.",
-    "ctaPrimary": "Schoonmaker vinden",
-    "ctaSecondary": "Word schoonmaker"
+    "titleStart": "Jij ",
+    "titleEmphasis": "kiest",
+    "titleEnd": " wie jouw huis binnenkomt.",
+    "lead": "Bekijk profielen van geverifieerde schoonmakers. Kies wie jou aanspreekt. Geen tussenpersoon, geen verrassingen.",
+    "ctaPrimary": "Vind jouw schoonmaker",
+    "ctaSecondary": "Word schoonmaker",
+    "search": {
+      "placeholder": "Postcode of buurt in Amsterdam",
+      "label": "Locatie",
+      "submit": "Zoeken"
+    },
+    "trust": {
+      "verified": "Geverifieerd",
+      "escrow": "Veilig betalen",
+      "rating": "4,9 gemiddeld"
+    },
+    "social": "Al meer dan 1.200 huishoudens op de wachtlijst"
+  },
+  "howItWorks": {
+    "eyebrow": "Hoe het werkt",
+    "title": "In drie stappen schoon.",
+    "lead": "Geen offertes per e-mail. Geen wachten op terugbel-momenten. Boek direct.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Zoek",
+        "body": "Vul je postcode in. Wij tonen alleen schoonmakers die jouw buurt al kennen."
+      },
+      {
+        "number": "02",
+        "title": "Kies",
+        "body": "Bekijk profielen, ervaring, reviews. Jij beslist wie jou aanspreekt."
+      },
+      {
+        "number": "03",
+        "title": "Boek",
+        "body": "Reserveer in minder dan twee minuten. Betaling pas vrij na een geslaagde schoonmaak."
+      }
+    ]
+  },
+  "features": {
+    "eyebrow": "Waarom cleaners",
+    "title": "Vertrouwen is geen marketing.",
+    "lead": "Vier garanties die elk profiel op het platform onderschrijft.",
+    "cards": [
+      {
+        "icon": "ShieldCheck",
+        "title": "Geverifieerd profiel",
+        "body": "Identiteit, KvK indien zelfstandig, en achtergrondcheck. Jouw schoonmaker is wie de foto laat zien."
+      },
+      {
+        "icon": "Heart",
+        "title": "Jij kiest",
+        "body": "Geen algoritme dat iemand toewijst. Bekijk profielen, lees reviews, kies de match."
+      },
+      {
+        "icon": "Lock",
+        "title": "Escrow-betaling",
+        "body": "Wij houden het bedrag vast tot na de schoonmaak. Geen geld kwijt bij no-show."
+      },
+      {
+        "icon": "CalendarX2",
+        "title": "Flexibel annuleren",
+        "body": "Tot 24 uur vooraf gratis. Daarna alleen het werkelijke voorbereidingsgeld."
+      }
+    ]
+  },
+  "cleaners": {
+    "eyebrow": "Onze schoonmakers",
+    "title": "Mensen, geen profielen.",
+    "lead": "Een selectie van wie deze week beschikbaar is in jouw omgeving.",
+    "card": {
+      "verified": "Geverifieerd",
+      "perHour": "/u",
+      "reviewsWord": "reviews",
+      "viewProfile": "Bekijk profiel",
+      "soon": "Binnenkort beschikbaar"
+    },
+    "browseAll": "Bekijk alle schoonmakers"
+  },
+  "reviews": {
+    "eyebrow": "Wat huishoudens zeggen",
+    "title": "Meer dan 1.200 schoonmaken later.",
+    "lead": "Echte mensen, echte huizen, echte reviews. Geen Trustpilot-bots.",
+    "starsLabel": "{count} van de 5 sterren"
+  },
+  "faq": {
+    "eyebrow": "Veelgestelde vragen",
+    "title": "Wat we vaak gevraagd krijgen.",
+    "lead": "Ontbreekt jouw vraag? Stuur ons een e-mail — we reageren binnen één werkdag.",
+    "items": [
+      {
+        "q": "Wat onderscheidt cleaners van een schoonmaakbedrijf?",
+        "a": "Wij sturen niemand. Jij kiest zelf een profiel uit, ziet wie diegene is, en boekt direct. Wij faciliteren betaling, verificatie en garanties; de schoonmaker werkt zelfstandig."
+      },
+      {
+        "q": "Hoe weet ik dat de schoonmaker betrouwbaar is?",
+        "a": "Iedere schoonmaker doorloopt een identiteitscheck, een KvK-check indien zelfstandig en een referentiecheck. Reviews komen alleen van geverifieerde klanten."
+      },
+      {
+        "q": "Wanneer wordt het geld afgeschreven?",
+        "a": "Bij boeking, maar wij houden het in escrow tot 24 uur na een geslaagde schoonmaak. Bij no-show of klacht stoppen wij de overdracht en onderzoeken we."
+      },
+      {
+        "q": "Wat als ik niet tevreden ben?",
+        "a": "Meld het binnen 24 uur. Wij bemiddelen, regelen indien nodig een nieuwe schoonmaak op onze kosten, of geven volledige restitutie."
+      },
+      {
+        "q": "Kan ik op vaste tijden boeken (wekelijks, om de week)?",
+        "a": "Ja. Bij je eerste boeking kun je aangeven dat het terugkerend is. De schoonmaker bevestigt het ritme; bij ziekte regelen wij een vervanger uit jouw shortlist."
+      },
+      {
+        "q": "Werken jullie ook buiten Amsterdam?",
+        "a": "Op dit moment alleen binnen de Amsterdamse ring + Amstelveen, Diemen, Duivendrecht. Wij breiden uit op basis van wachtlijst-aanvragen."
+      },
+      {
+        "q": "Hoe word ik schoonmaker op het platform?",
+        "a": "Maak een profiel aan, doorloop verificatie en KvK-koppeling, en start zodra je bent goedgekeurd. Wij coachen op profielfoto, copy en tarieven."
+      },
+      {
+        "q": "Hoeveel houden jullie van mijn tarief in?",
+        "a": "Servicekosten zijn 18% van het uurtarief — transparant en zichtbaar bij elke boeking. Dit dekt verificatie, escrow, klantsupport en transactiekosten."
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "Het vertrouwensplatform voor schoonmaak in Amsterdam.",
+    "columns": {
+      "platform": {
+        "title": "Platform",
+        "links": [
+          { "label": "Hoe het werkt", "href": "/#hoe-het-werkt" },
+          { "label": "Schoonmakers", "href": "/schoonmakers" },
+          { "label": "Word schoonmaker", "href": "/voor-schoonmakers" },
+          { "label": "Prijzen", "href": "/prijzen" }
+        ]
+      },
+      "support": {
+        "title": "Hulp",
+        "links": [
+          { "label": "FAQ", "href": "/#faq" },
+          { "label": "Contact", "href": "/contact" },
+          { "label": "Veiligheid", "href": "/veiligheid" },
+          { "label": "Helpcentrum", "href": "/help" }
+        ]
+      },
+      "legal": {
+        "title": "Juridisch",
+        "links": [
+          { "label": "Algemene voorwaarden", "href": "/voorwaarden" },
+          { "label": "Privacyverklaring", "href": "/privacy" },
+          { "label": "Cookies", "href": "/cookies" },
+          { "label": "Klachten", "href": "/klachten" }
+        ]
+      }
+    },
+    "waitlist": {
+      "title": "Op de wachtlijst",
+      "body": "Laat je e-mail achter, we sturen één bericht zodra je buurt live gaat.",
+      "placeholder": "jouw@email.nl",
+      "submit": "Meld mij aan",
+      "submitting": "Bezig…",
+      "success": "Bedankt — we houden je op de hoogte.",
+      "errorGeneric": "Er ging iets mis. Probeer opnieuw.",
+      "errorEmail": "Voer een geldig e-mailadres in."
+    },
+    "company": {
+      "kvk": "KvK ····",
+      "btw": "BTW ····",
+      "kvkTooltip": "Wordt zichtbaar bij officiële lancering.",
+      "copy": "© {year} cleaners B.V."
+    }
+  },
+  "stickyCta": {
+    "label": "Vind een schoonmaker"
   },
   "common": {
     "loading": "Laden…",
     "error": "Er ging iets mis.",
-    "tryAgain": "Probeer opnieuw"
+    "tryAgain": "Probeer opnieuw",
+    "success": "Gelukt.",
+    "cancel": "Annuleren",
+    "save": "Opslaan",
+    "continue": "Doorgaan",
+    "back": "Terug",
+    "optional": "Optioneel",
+    "required": "Verplicht"
   }
 }

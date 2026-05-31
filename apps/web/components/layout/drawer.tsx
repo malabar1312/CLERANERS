@@ -1,21 +1,26 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "@/i18n/navigation";
 import { X, LogOut } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Logo } from "@/components/brand/logo";
 import { UserPill } from "./user-pill";
-import { Button } from "@/components/ui/button";
+import { buttonStyles } from "@/components/ui/button-variants";
+import { navLinks } from "./links";
 import { cn } from "@/lib/utils";
 
 /**
  * `<Drawer />` — overlay móvil con navegación principal.
  *
- * Estado logueado: pill al usuario + "Mijn dashboard" + Uitloggen.
- * Estado no-logueado: links + CTAs Inloggen/Aanmelden.
+ * - Logueado: pill al usuario + atajo "Mijn dashboard" + Uitloggen.
+ * - No-logueado: links + CTAs Inloggen/Aanmelden.
  *
- * Se monta una sola vez en `<Nav />` y vive controlado por `open`/`onClose`.
+ * Accesibilidad:
+ * - Backdrop como `<div>` (no `<button>`) — fuera del AT tree.
+ * - Auto-focus al cerrar button al abrir.
+ * - Escape cierra. Scroll lock mientras abierto.
+ * - Focus trap básico (Tab cycle inside aside).
  */
 export function Drawer({
   open,
@@ -29,8 +34,10 @@ export function Drawer({
   onLogout?: () => void;
 }) {
   const t = useTranslations("nav");
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
+  const panelRef = useRef<HTMLElement | null>(null);
 
-  // Lock scroll cuando el drawer está abierto.
+  // Scroll lock while open.
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
@@ -40,50 +47,88 @@ export function Drawer({
     };
   }, [open]);
 
-  // Cerrar con Escape.
+  // Focus management: auto-focus close on open + Esc to close + focus trap.
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    closeBtnRef.current?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab" || !panelRef.current) return;
+      const focusable = panelRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (!first || !last) return;
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      previouslyFocused?.focus?.();
+    };
   }, [open, onClose]);
 
   return (
     <div
+      id="mobile-drawer"
       className={cn(
         "fixed inset-0 z-50 lg:hidden",
         open ? "pointer-events-auto" : "pointer-events-none",
       )}
       aria-hidden={!open}
     >
-      {/* Backdrop */}
-      <button
-        type="button"
-        aria-label="Sluiten"
+      {/* Backdrop — div (not button) so AT doesn't announce it. Click closes. */}
+      <div
+        role="presentation"
         onClick={onClose}
         className={cn(
-          "absolute inset-0 bg-[var(--color-navy)]/55 backdrop-blur-sm transition-opacity duration-300",
+          "absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity",
+          "duration-[var(--dur-mid)] ease-[var(--ease-out)]",
           open ? "opacity-100" : "opacity-0",
         )}
       />
 
-      {/* Panel */}
       <aside
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Menu"
+        aria-labelledby="drawer-title"
         className={cn(
-          "absolute inset-y-0 right-0 flex w-[88%] max-w-sm flex-col bg-white shadow-2xl transition-transform duration-300 ease-[var(--ease-out)]",
+          "absolute inset-y-0 right-0 flex w-[88%] max-w-sm flex-col bg-white shadow-[var(--shadow-modal)]",
+          "transition-transform duration-[var(--dur-mid)] ease-[var(--ease-out)]",
           open ? "translate-x-0" : "translate-x-full",
         )}
       >
         <header className="flex items-center justify-between border-b border-[var(--color-border)] px-5 py-4">
+          <h2 id="drawer-title" className="sr-only">
+            Menu
+          </h2>
           <Logo size="sm" />
           <button
+            ref={closeBtnRef}
             type="button"
             onClick={onClose}
-            className="rounded-full p-2 text-[var(--color-muted)] hover:bg-[var(--color-bg)] hover:text-[var(--color-ink)]"
-            aria-label="Sluiten"
+            className={cn(
+              "rounded-full p-2 text-[var(--color-muted)]",
+              "transition-colors duration-[var(--dur-base)] ease-[var(--ease-out)]",
+              "hover:bg-[var(--color-bg)] hover:text-[var(--color-ink)]",
+            )}
+            aria-label="Menu sluiten"
           >
             <X className="h-5 w-5" />
           </button>
@@ -103,20 +148,19 @@ export function Drawer({
             </div>
           ) : null}
 
-          <nav className="flex flex-col gap-1">
-            {[
-              { href: "/#hoe-het-werkt", label: t("howItWorks") },
-              { href: "/schoonmakers", label: t("schoonmakers") },
-              { href: "/voor-schoonmakers", label: t("forCleaners") },
-              { href: "/#faq", label: t("faq") },
-            ].map(({ href, label }) => (
+          <nav className="flex flex-col gap-1" aria-label="Mobiele navigatie">
+            {navLinks.map(({ href, labelKey }) => (
               <Link
                 key={href}
                 href={href}
                 onClick={onClose}
-                className="rounded-xl px-3 py-3 text-base font-medium text-[var(--color-ink-2)] transition hover:bg-[var(--color-bg)] hover:text-[var(--color-primary)]"
+                className={cn(
+                  "rounded-xl px-3 py-3 text-base font-medium text-[var(--color-ink-2)]",
+                  "transition-colors duration-[var(--dur-base)] ease-[var(--ease-out)]",
+                  "hover:bg-[var(--color-bg)] hover:text-[var(--color-primary)]",
+                )}
               >
-                {label}
+                {t(labelKey)}
               </Link>
             ))}
           </nav>
@@ -124,10 +168,9 @@ export function Drawer({
 
         <footer className="border-t border-[var(--color-border)] px-5 py-5">
           {user ? (
-            <Button
-              variant="secondary"
-              size="lg"
-              className="w-full"
+            <button
+              type="button"
+              className={buttonStyles({ variant: "secondary", size: "lg", fullWidth: true })}
               onClick={() => {
                 onLogout?.();
                 onClose();
@@ -135,18 +178,22 @@ export function Drawer({
             >
               <LogOut className="h-4 w-4" />
               {t("logout")}
-            </Button>
+            </button>
           ) : (
             <div className="flex flex-col gap-2.5">
-              <Link href="/login" onClick={onClose}>
-                <Button variant="secondary" size="lg" className="w-full">
-                  {t("login")}
-                </Button>
+              <Link
+                href="/login"
+                onClick={onClose}
+                className={buttonStyles({ variant: "secondary", size: "lg", fullWidth: true })}
+              >
+                {t("login")}
               </Link>
-              <Link href="/signup" onClick={onClose}>
-                <Button variant="primary" size="lg" className="w-full">
-                  {t("signup")}
-                </Button>
+              <Link
+                href="/signup"
+                onClick={onClose}
+                className={buttonStyles({ variant: "primary", size: "lg", fullWidth: true })}
+              >
+                {t("signup")}
               </Link>
             </div>
           )}

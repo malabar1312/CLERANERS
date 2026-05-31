@@ -67,7 +67,11 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${jakarta.variable} ${instrument.variable}`}>
+    <html
+      lang={locale}
+      className={`${jakarta.variable} ${instrument.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}

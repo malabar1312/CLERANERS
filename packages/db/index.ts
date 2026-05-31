@@ -1,11 +1,11 @@
 /**
- * `@cleaners/db` — Supabase generated types + shared DB helpers.
+ * `@cleaners/db` — shared Supabase domain types.
  *
- * Once we point at the real Supabase project, regenerate via:
- *   pnpm --filter @cleaners/db gen
- *
- * Until then, this is a thin placeholder so app code can already import
- * the canonical names without a refactor when types land.
+ * Once the real Supabase project is wired, regenerate the `Database` shape via:
+ *   supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > types.ts
+ * and re-export from this file. Until then, the placeholder `Database`
+ * preserves the shape `createServerClient<Database>` expects without
+ * collapsing all table types to `unknown`.
  */
 
 export type Role = "client" | "cleaner" | "admin";
@@ -25,5 +25,23 @@ export type PaymentStatus =
   | "refunded"
   | "failed";
 
-// Real generated types will replace this once supabase gen runs.
-export type Database = Record<string, unknown>;
+/**
+ * Placeholder for the generated Supabase `Database` type.
+ *
+ * Once `supabase gen types` runs, replace this with the real generated shape.
+ * The minimal stub here matches the structure Supabase expects so generics
+ * resolve cleanly.
+ */
+export interface Database {
+  public: {
+    Tables: Record<string, never>;
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: {
+      role: Role;
+      booking_status: BookingStatus;
+      payment_status: PaymentStatus;
+    };
+    CompositeTypes: Record<string, never>;
+  };
+}

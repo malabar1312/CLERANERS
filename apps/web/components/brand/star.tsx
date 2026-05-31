@@ -1,24 +1,27 @@
-import type { SVGProps } from "react";
+"use client";
+
+import { useId, type SVGProps } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * `<Star />` — el logomark de cleaners. Estrella de 4 puntas dibujada como
- * dos rombos cruzados con esquinas suaves. Aceita `className` para tinte
- * vía `text-*` o gradiente custom (el `fill` es `currentColor` por defecto).
- *
- * Para el lockup azul→violeta usar `text-gradient-iris` con un wrapper o
- * pasar `gradient` para inyectar un linearGradient inline.
+ * `<Star />` — el logomark de cleaners. Estrella de 4 puntas con esquinas suaves.
+ * Acepta `className` para tinte vía `text-*` y un flag `gradient` que inyecta
+ * un `<linearGradient>` con id único por instancia (vía `useId`) — soporta
+ * varias estrellas con gradient en la misma página sin colisión SSR/Safari.
  */
 export function Star({
   className,
   gradient = false,
   ...props
 }: SVGProps<SVGSVGElement> & { gradient?: boolean }) {
-  const gradId = "cleaners-star-grad";
+  const reactId = useId();
+  // useId returns ":r0:" style — strip colons for valid SVG ids.
+  const gradId = `star-grad-${reactId.replace(/:/g, "")}`;
+
   return (
     <svg
       viewBox="0 0 24 24"
-      aria-hidden
+      aria-hidden="true"
       className={cn("inline-block", className)}
       fill={gradient ? `url(#${gradId})` : "currentColor"}
       {...props}

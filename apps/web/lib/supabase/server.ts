@@ -1,5 +1,6 @@
-import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { assertPublicSupabaseEnv } from "@/lib/env";
 
 /**
  * Supabase client for **Server Components, Server Actions, and Route Handlers**.
@@ -10,14 +11,7 @@ import { cookies } from "next/headers";
  */
 export async function createSupabaseServerClient() {
   const cookieStore = await cookies();
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!url || !anonKey) {
-    throw new Error(
-      "Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY — set them in apps/web/.env.local",
-    );
-  }
+  const { url, anonKey } = assertPublicSupabaseEnv();
 
   return createServerClient(url, anonKey, {
     cookies: {
@@ -26,12 +20,16 @@ export async function createSupabaseServerClient() {
       },
       setAll(cookiesToSet) {
         try {
-          cookiesToSet.forEach(({ name, value, options }: { name: string; value: string; options: CookieOptions }) =>
+          cookiesToSet.forEach(({ name, value, options }) =>
             cookieStore.set(name, value, options),
           );
-        } catch {
-          // setAll may throw in Server Components; the middleware refreshes
-          // the session, so this is safe to ignore here.
+        } catch (err) {
+          // `cookieStore.set` throws from a Server Component context — the
+          // middleware refreshes the session, so this is safe to swallow.
+          // In dev we still want visibility; in prod we stay silent.
+          if (process.env.NODE_ENV !== "production") {
+            console.warn("[supabase/server] cookie set ignored:", err);
+          }
         }
       },
     },
