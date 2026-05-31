@@ -10,6 +10,28 @@ import { FAQ } from "@/components/sections/faq";
 import { Footer } from "@/components/sections/footer";
 import { StickyMobileCta } from "@/components/sections/sticky-cta";
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://getcleaners.nl/#org",
+      name: "cleaners",
+      url: "https://getcleaners.nl",
+      logo: "https://getcleaners.nl/icon.svg",
+      areaServed: { "@type": "City", name: "Amsterdam" },
+    },
+    {
+      "@type": "Service",
+      serviceType: "Schoonmaak / Cleaning",
+      provider: { "@id": "https://getcleaners.nl/#org" },
+      areaServed: { "@type": "City", name: "Amsterdam" },
+      description:
+        "Vertrouwensplatform voor schoonmaak in Amsterdam. Bekijk profielen van geverifieerde schoonmakers, kies wie jou aanspreekt en boek veilig.",
+    },
+  ],
+};
+
 export default async function HomePage({
   params,
 }: {
@@ -20,6 +42,7 @@ export default async function HomePage({
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Nav />
       <main id="main">
         <Hero />
