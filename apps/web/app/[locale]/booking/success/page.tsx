@@ -9,6 +9,7 @@ import { buttonStyles } from "@/components/ui/button-variants";
 import { getStripe } from "@/lib/stripe/server";
 import { getCleanerById } from "@/lib/mock/cleaners";
 import { formatEur } from "@/lib/booking/pricing";
+import { bookingReference } from "@/lib/booking/reference";
 
 export const metadata: Metadata = { title: "Reservering" };
 export const dynamic = "force-dynamic";
@@ -21,7 +22,7 @@ async function loadSession(sessionId?: string) {
     const meta = s.metadata ?? {};
     const cleaner = meta.cleaner_id ? getCleanerById(meta.cleaner_id) : undefined;
     return {
-      ref: `BK-${(s.payment_intent as string | null ?? s.id).slice(-8).toUpperCase()}`,
+      ref: bookingReference((s.payment_intent as string | null) ?? s.id),
       amount: typeof s.amount_total === "number" ? formatEur(s.amount_total) : null,
       cleanerName: cleaner?.name ?? "je schoonmaker",
       paid: s.payment_status === "paid" || s.status === "complete",

@@ -10,7 +10,7 @@
     "logout": "Log out"
   },
   "hero": {
-    "eyebrow": "Trust platform for cleaning",
+    "eyebrow": "Coming soon to your neighborhood · Amsterdam",
     "eyebrowShort": "Amsterdam",
     "titleStart": "You ",
     "titleEmphasis": "choose",
@@ -33,7 +33,16 @@
     },
     "social": "1,200+ households already on the waitlist",
     "photoAlt": "A bright, tidy interior in Amsterdam",
-    "available": "Available today"
+    "available": "Available today",
+    "waitlist": {
+      "placeholder": "Your email address",
+      "cta": "Reserve my spot",
+      "submitting": "Working…",
+      "success": "You're on the list — we'll send one message when your neighborhood goes live.",
+      "errorEmail": "Enter a valid email address.",
+      "errorGeneric": "Something went wrong. Please try again.",
+      "micro": "No spam — we'll send one message when your neighborhood opens."
+    }
   },
   "howItWorks": {
     "eyebrow": "How it works",
@@ -115,6 +124,22 @@
       "Trash & recycling"
     ],
     "reviewsTitle": "Reviews",
+    "verifiedBooking": "Verified booking",
+    "reviewsVerifiedNote": "Every review comes from a verified booking.",
+    "trust": {
+      "title": "Why it's safe to let {name} in",
+      "lead": "Every cleaner on cleaners passes the same check before being listed. No anonymous profiles.",
+      "items": [
+        { "title": "Identity verified", "proof": "Passport and selfie checked" },
+        { "title": "Background check (VOG)", "proof": "Dutch certificate of conduct reviewed" },
+        { "title": "References checked", "proof": "At least 3 references verified" },
+        { "title": "Insured up to €300,000", "proof": "Liability covered per visit" },
+        { "title": "Secure escrow payment", "proof": "Your money is only released after a successful clean" }
+      ],
+      "guaranteeTitle": "Not happy? We'll fix it.",
+      "guaranteeBody": "Report it within 24 hours of the clean. We'll arrange a new clean at no cost — or give you a full refund.",
+      "seal": "Verified by cleaners"
+    },
     "book": {
       "from": "from",
       "perHour": "per hour",
@@ -143,15 +168,66 @@
       "sortPriceDesc": "Price: high → low",
       "clear": "Clear filters"
     },
-    "count": "{count} cleaners available",
+    "count": "{count} verified cleaners",
+    "priceNote": "Rates are per hour. At checkout an 18% service fee applies — transparent, no hidden costs.",
+    "priceNoteLink": "See pricing",
     "empty": "No cleaners found with these filters.",
     "emptyAction": "Clear the filters and try again."
+  },
+  "pricingPage": {
+    "eyebrow": "Pricing",
+    "title": "Transparent prices. No surprises.",
+    "lead": "You pay your cleaner's hourly rate plus an 18% service fee. That's it — no subscription, no hidden costs.",
+    "how": {
+      "title": "How pricing works",
+      "steps": [
+        { "title": "Choose your cleaner", "body": "Every cleaner sets their own hourly rate, usually between €22 and €30 per hour." },
+        { "title": "Size sets the hours", "body": "The bigger your home, the more hours we estimate. You see the estimate before you book." },
+        { "title": "18% service fee", "body": "At checkout, 18% is added on top of the subtotal — for secure payment, insurance and support." }
+      ]
+    },
+    "table": {
+      "title": "Estimated hours by size",
+      "area": "Size",
+      "hours": "Estimated hours",
+      "rows": [
+        { "area": "Up to 50 m²", "hours": "2 hours" },
+        { "area": "50 – 80 m²", "hours": "3 hours" },
+        { "area": "80 – 120 m²", "hours": "4 hours" },
+        { "area": "More than 120 m²", "hours": "5 hours" }
+      ]
+    },
+    "example": {
+      "title": "Example",
+      "intro": "{m2} m² at a rate of €{rate} per hour:",
+      "hoursLine": "{hours} hours × €{rate}",
+      "fee": "Service fee (18%)",
+      "total": "Total",
+      "note": "You always see this amount before you pay. Your money is only released after a successful clean."
+    },
+    "included": {
+      "title": "What's in the 18%?",
+      "items": [
+        "Secure escrow payment — your money is only released after a successful clean.",
+        "Insured up to €300,000 per visit.",
+        "Verified cleaners only — identity and background checked.",
+        "Support whenever you need it."
+      ]
+    },
+    "reassure": {
+      "title": "No hidden costs",
+      "body": "No sign-up fee, no subscription, no cancellation fees up to 24 hours in advance. What you see is what you pay."
+    },
+    "ctaPrimary": "Browse cleaners",
+    "ctaSecondary": "Back to home"
   },
   "reviews": {
     "eyebrow": "What households say",
     "title": "Over 1,200 cleans later.",
     "lead": "Real people, real homes, real reviews. No Trustpilot bots.",
-    "starsLabel": "{count} out of 5 stars"
+    "starsLabel": "{count} out of 5 stars",
+    "verifiedBooking": "Verified booking",
+    "aggregate": "average from verified bookings"
   },
   "cta": {
     "kicker": "Ready to start",
@@ -184,6 +260,9 @@
     "total": "Total",
     "feeNote": "The service fee covers verification, escrow and support. No hidden costs.",
     "secure": "Secure payment via Stripe — iDEAL, card, Apple Pay",
+    "escrowStrip": "You pay securely — your money is only released after a successful clean.",
+    "cancelNote": "Free cancellation up to 24 hours before the appointment.",
+    "nextStep": "After payment we reserve your spot with {name} and you'll see your confirmation right away.",
     "next": "Next",
     "back": "Back",
     "pay": "Pay securely",

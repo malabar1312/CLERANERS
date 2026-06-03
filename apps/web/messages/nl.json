@@ -10,7 +10,7 @@
     "logout": "Uitloggen"
   },
   "hero": {
-    "eyebrow": "Vertrouwensplatform voor schoonmaak",
+    "eyebrow": "Binnenkort in jouw buurt · Amsterdam",
     "eyebrowShort": "Amsterdam",
     "titleStart": "Jij ",
     "titleEmphasis": "kiest",
@@ -33,7 +33,16 @@
     },
     "social": "Al meer dan 1.200 huishoudens op de wachtlijst",
     "photoAlt": "Een licht, opgeruimd interieur in Amsterdam",
-    "available": "Vandaag beschikbaar"
+    "available": "Vandaag beschikbaar",
+    "waitlist": {
+      "placeholder": "Jouw e-mailadres",
+      "cta": "Reserveer mijn plek",
+      "submitting": "Bezig…",
+      "success": "Top — je staat op de lijst. We sturen één bericht zodra je buurt opengaat.",
+      "errorEmail": "Voer een geldig e-mailadres in.",
+      "errorGeneric": "Er ging iets mis. Probeer het opnieuw.",
+      "micro": "Geen spam — we sturen één bericht zodra je buurt opengaat."
+    }
   },
   "howItWorks": {
     "eyebrow": "Hoe het werkt",
@@ -115,6 +124,22 @@
       "Afval & recycling"
     ],
     "reviewsTitle": "Reviews",
+    "verifiedBooking": "Geverifieerde boeking",
+    "reviewsVerifiedNote": "Alle reviews komen van geverifieerde boekingen.",
+    "trust": {
+      "title": "Waarom je {name} veilig binnenlaat",
+      "lead": "Elke schoonmaker op cleaners doorloopt dezelfde controle vóór plaatsing. Geen anonieme profielen.",
+      "items": [
+        { "title": "Identiteit geverifieerd", "proof": "Paspoort en selfie gecontroleerd" },
+        { "title": "Achtergrondcheck (VOG)", "proof": "Verklaring Omtrent Gedrag nagekeken" },
+        { "title": "Referenties nagekeken", "proof": "Minstens 3 referenties gecheckt" },
+        { "title": "Verzekerd tot €300.000", "proof": "Aansprakelijkheid per bezoek gedekt" },
+        { "title": "Veilig betalen via escrow", "proof": "Je geld komt pas vrij na een geslaagde schoonmaak" }
+      ],
+      "guaranteeTitle": "Niet tevreden? Wij regelen het.",
+      "guaranteeBody": "Meld het binnen 24 uur na de schoonmaak. Wij regelen kosteloos een nieuwe schoonmaak — of je krijgt je geld volledig terug.",
+      "seal": "Geverifieerd door cleaners"
+    },
     "book": {
       "from": "vanaf",
       "perHour": "per uur",
@@ -143,15 +168,66 @@
       "sortPriceDesc": "Prijs: hoog → laag",
       "clear": "Wis filters"
     },
-    "count": "{count} schoonmakers beschikbaar",
+    "count": "{count} geverifieerde schoonmakers",
+    "priceNote": "Tarieven zijn per uur. Bij het boeken komt 18% servicekosten — transparant, geen verborgen kosten.",
+    "priceNoteLink": "Bekijk prijzen",
     "empty": "Geen schoonmakers gevonden met deze filters.",
     "emptyAction": "Wis de filters en probeer opnieuw."
+  },
+  "pricingPage": {
+    "eyebrow": "Prijzen",
+    "title": "Transparante prijzen. Geen verrassingen.",
+    "lead": "Je betaalt het uurtarief van je schoonmaker plus 18% servicekosten. Dat is alles — geen abonnement, geen verborgen kosten.",
+    "how": {
+      "title": "Hoe de prijs werkt",
+      "steps": [
+        { "title": "Kies je schoonmaker", "body": "Elke schoonmaker bepaalt een eigen uurtarief, meestal tussen €22 en €30 per uur." },
+        { "title": "Oppervlakte bepaalt de uren", "body": "Hoe groter je woning, hoe meer uren we inschatten. Je ziet de inschatting vóór je boekt." },
+        { "title": "18% servicekosten", "body": "Bij het boeken komt 18% bovenop het subtotaal — voor veilige betaling, verzekering en support." }
+      ]
+    },
+    "table": {
+      "title": "Geschatte uren per oppervlakte",
+      "area": "Oppervlakte",
+      "hours": "Geschatte uren",
+      "rows": [
+        { "area": "Tot 50 m²", "hours": "2 uur" },
+        { "area": "50 – 80 m²", "hours": "3 uur" },
+        { "area": "80 – 120 m²", "hours": "4 uur" },
+        { "area": "Meer dan 120 m²", "hours": "5 uur" }
+      ]
+    },
+    "example": {
+      "title": "Voorbeeld",
+      "intro": "{m2} m² bij een tarief van €{rate} per uur:",
+      "hoursLine": "{hours} uur × €{rate}",
+      "fee": "Servicekosten (18%)",
+      "total": "Totaal",
+      "note": "Dit bedrag zie je altijd vóór je betaalt. Je geld komt pas vrij na een geslaagde schoonmaak."
+    },
+    "included": {
+      "title": "Wat zit er in de 18%?",
+      "items": [
+        "Veilige escrow-betaling — je geld komt pas vrij na een geslaagde schoonmaak.",
+        "Verzekerd tot €300.000 per bezoek.",
+        "Alleen geverifieerde schoonmakers — identiteit en achtergrond gecheckt.",
+        "Support wanneer je het nodig hebt."
+      ]
+    },
+    "reassure": {
+      "title": "Geen verborgen kosten",
+      "body": "Geen inschrijfgeld, geen abonnement, geen annuleringskosten tot 24 uur vooraf. Wat je ziet, is wat je betaalt."
+    },
+    "ctaPrimary": "Bekijk schoonmakers",
+    "ctaSecondary": "Terug naar home"
   },
   "reviews": {
     "eyebrow": "Wat huishoudens zeggen",
     "title": "Meer dan 1.200 schoonmaken later.",
     "lead": "Echte mensen, echte huizen, echte reviews. Geen Trustpilot-bots.",
-    "starsLabel": "{count} van de 5 sterren"
+    "starsLabel": "{count} van de 5 sterren",
+    "verifiedBooking": "Geverifieerde boeking",
+    "aggregate": "gemiddeld uit geverifieerde boekingen"
   },
   "cta": {
     "kicker": "Klaar om te beginnen",
@@ -184,6 +260,9 @@
     "total": "Totaal",
     "feeNote": "Servicekosten dekken verificatie, escrow en klantsupport. Geen verborgen kosten.",
     "secure": "Veilig betalen via Stripe — iDEAL, kaart, Apple Pay",
+    "escrowStrip": "Je betaalt veilig — je geld komt pas vrij ná een geslaagde schoonmaak.",
+    "cancelNote": "Gratis annuleren tot 24 uur vóór de afspraak.",
+    "nextStep": "Na betaling reserveren we je plek bij {name} en zie je meteen je bevestiging.",
     "next": "Volgende",
     "back": "Terug",
     "pay": "Veilig betalen",

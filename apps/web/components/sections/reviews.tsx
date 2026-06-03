@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { Star as StarIcon } from "lucide-react";
+import { Star as StarIcon, BadgeCheck } from "lucide-react";
 import { Section } from "@/components/ui/section";
 import { Card } from "@/components/ui/card";
 import { MotionReveal } from "@/components/ui/motion-reveal";
@@ -14,6 +14,11 @@ export async function Reviews() {
 
   return (
     <Section variant="surface" kicker={t("eyebrow")} title={t("title")} lead={t("lead")}>
+      <div className="mb-9 inline-flex items-center gap-2 rounded-full border border-[var(--color-line)] bg-[var(--color-white)] px-4 py-2 text-sm shadow-[var(--shadow-soft)]">
+        <StarIcon className="h-4 w-4 fill-[var(--color-blue)] text-[var(--color-blue)]" aria-hidden="true" />
+        <strong className="font-semibold text-[var(--color-ink)]">4,9</strong>
+        <span className="text-[var(--color-muted)]">· {t("aggregate")}</span>
+      </div>
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {featuredReviews.slice(0, 3).map((review, i) => (
           <MotionReveal key={review.id} delay={i * 0.08}>
@@ -25,10 +30,16 @@ export async function Reviews() {
                 &rdquo;
               </span>
 
-              <div className="flex gap-0.5" aria-label={t("starsLabel", { count: review.rating })}>
-                {Array.from({ length: review.rating }).map((_, idx) => (
-                  <StarIcon key={idx} className="h-4 w-4 fill-[var(--color-blue)] text-[var(--color-blue)]" aria-hidden="true" />
-                ))}
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex gap-0.5" aria-label={t("starsLabel", { count: review.rating })}>
+                  {Array.from({ length: review.rating }).map((_, idx) => (
+                    <StarIcon key={idx} className="h-4 w-4 fill-[var(--color-blue)] text-[var(--color-blue)]" aria-hidden="true" />
+                  ))}
+                </div>
+                <span className="inline-flex items-center gap-1 rounded-full bg-[var(--color-blue-soft)] px-2 py-0.5 text-[11px] font-medium text-[var(--color-blue)]">
+                  <BadgeCheck className="h-3 w-3" aria-hidden="true" />
+                  {t("verifiedBooking")}
+                </span>
               </div>
 
               <blockquote className="relative mt-5 flex-1 text-pretty text-[17px] leading-relaxed text-[var(--color-ink)]">

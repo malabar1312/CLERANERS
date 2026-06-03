@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
-import { X, ArrowLeft, ArrowRight, ShieldCheck, Lock, Check } from "lucide-react";
+import { X, ArrowLeft, ArrowRight, ShieldCheck, Lock, Check, CalendarCheck } from "lucide-react";
 import { buttonStyles } from "@/components/ui/button-variants";
 import { computePrice, formatEur, minBookingDate, hoursForArea } from "@/lib/booking/pricing";
 import { createBookingCheckout } from "@/app/[locale]/_actions/booking";
@@ -146,6 +146,12 @@ function BookingModal({ cleaner, onClose }: { cleaner: CleanerLite; onClose: () 
           </button>
         </header>
 
+        {/* Escrow trust strip — persistente en los 3 pasos */}
+        <div className="flex items-center gap-2 border-b border-[var(--color-line)] bg-[var(--color-blue-soft)] px-6 py-2.5 text-xs font-medium text-[var(--color-blue)]">
+          <Lock className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+          {t("escrowStrip")}
+        </div>
+
         {/* Body */}
         <div className="flex-1 overflow-y-auto px-6 py-5">
           {step === 1 && (
@@ -196,6 +202,10 @@ function BookingModal({ cleaner, onClose }: { cleaner: CleanerLite; onClose: () 
               <Field label={t("notes")}>
                 <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={2} className={cn(inputCls, "h-auto py-2.5")} maxLength={500} />
               </Field>
+              <p className="flex items-center gap-2 text-xs text-[var(--color-muted)]">
+                <CalendarCheck className="h-3.5 w-3.5 shrink-0 text-[var(--color-blue)]" aria-hidden="true" />
+                {t("cancelNote")}
+              </p>
             </div>
           )}
 
@@ -219,10 +229,15 @@ function BookingModal({ cleaner, onClose }: { cleaner: CleanerLite; onClose: () 
                   <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls} autoComplete="email" aria-invalid={email !== "" && !emailValid} />
                 </Field>
               </div>
-              <p className="flex items-center gap-2 text-xs text-[var(--color-muted)]">
-                <Lock className="h-3.5 w-3.5 text-[var(--color-blue)]" aria-hidden="true" />
-                {t("secure")}
-              </p>
+              <div className="space-y-1.5">
+                <p className="flex items-center gap-2 text-xs text-[var(--color-muted)]">
+                  <Lock className="h-3.5 w-3.5 shrink-0 text-[var(--color-blue)]" aria-hidden="true" />
+                  {t("secure")}
+                </p>
+                <p className="text-xs leading-relaxed text-[var(--color-muted)]">
+                  {t("nextStep", { name: cleaner.name })}
+                </p>
+              </div>
               {error && <p className="text-sm text-[var(--color-danger)]" role="alert">{t(error)}</p>}
             </div>
           )}
@@ -261,11 +276,22 @@ function BookingModal({ cleaner, onClose }: { cleaner: CleanerLite; onClose: () 
 }
 
 function Stepper({ step, labels }: { step: number; labels: string[] }) {
+  const current = labels[step - 1];
   return (
-    <div className="mt-1 flex items-center gap-1.5">
-      {labels.map((l, i) => (
-        <span key={l} className={cn("h-1 w-6 rounded-full", i + 1 <= step ? "bg-[var(--color-blue)]" : "bg-[var(--color-surface-3)]")} aria-current={i + 1 === step} />
-      ))}
+    <div className="mt-1.5 flex items-center gap-2.5">
+      <div className="flex items-center gap-1.5">
+        {labels.map((l, i) => (
+          <span
+            key={l}
+            className={cn(
+              "h-1 w-6 rounded-full transition-colors duration-[var(--dur-base)]",
+              i + 1 <= step ? "bg-[var(--color-blue)]" : "bg-[var(--color-surface-3)]",
+            )}
+            aria-current={i + 1 === step ? "step" : undefined}
+          />
+        ))}
+      </div>
+      {current && <span className="text-xs font-medium text-[var(--color-muted)]">{current}</span>}
     </div>
   );
 }

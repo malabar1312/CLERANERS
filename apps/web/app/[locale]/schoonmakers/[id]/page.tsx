@@ -12,6 +12,8 @@ import {
   ShieldCheck,
   Lock,
   CalendarX2,
+  Users,
+  Umbrella,
 } from "lucide-react";
 import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/sections/footer";
@@ -39,6 +41,7 @@ export async function generateMetadata({
 }
 
 const guaranteeIcons = [ShieldCheck, Lock, CalendarX2];
+const trustIcons = [BadgeCheck, ShieldCheck, Users, Umbrella, Lock];
 
 export default async function CleanerProfilePage({
   params,
@@ -54,6 +57,7 @@ export default async function CleanerProfilePage({
   const t = await getTranslations("cleanerProfile");
   const included = asArray<string>(t.raw("included"));
   const guarantees = asArray<string>(t.raw("book.guarantees"));
+  const trustItems = asArray<{ title: string; proof: string }>(t.raw("trust.items"));
 
   // Deterministic 3 reviews per cleaner from the shared pool.
   const offset = Math.max(0, cleanerIds().indexOf(id));
@@ -107,6 +111,49 @@ export default async function CleanerProfilePage({
                 </div>
               </div>
 
+              {/* Trust panel — por qué es seguro dejar entrar a esta persona */}
+              <section className="border-b border-[var(--color-dark-line)] py-10">
+                <h2 className="headline text-2xl text-[var(--color-dark-ink)]">
+                  {t("trust.title", { name: profile.name })}
+                </h2>
+                <p className="measure-prose mt-3 text-sm leading-relaxed text-[var(--color-dark-muted)]">
+                  {t("trust.lead")}
+                </p>
+                <ul className="mt-6 grid gap-x-6 gap-y-4 sm:grid-cols-2">
+                  {trustItems.map((item, i) => {
+                    const Icon = trustIcons[i] ?? BadgeCheck;
+                    return (
+                      <li key={item.title} className="flex items-start gap-3">
+                        <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[color:rgb(0_102_255/0.12)]">
+                          <Icon className="h-[18px] w-[18px] text-[var(--color-blue)]" aria-hidden="true" />
+                        </span>
+                        <div className="min-w-0">
+                          <p className="text-[15px] font-semibold text-[var(--color-dark-ink)]">{item.title}</p>
+                          <p className="mt-0.5 text-sm text-[var(--color-dark-muted)]">{item.proof}</p>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+
+                {/* Wat als het misgaat — la red de seguridad */}
+                <div className="mt-7 rounded-2xl border border-[color:rgb(0_102_255/0.25)] bg-[color:rgb(0_102_255/0.07)] p-5">
+                  <p className="flex items-center gap-2 text-[15px] font-semibold text-[var(--color-dark-ink)]">
+                    <ShieldCheck className="h-[18px] w-[18px] shrink-0 text-[var(--color-blue)]" aria-hidden="true" />
+                    {t("trust.guaranteeTitle")}
+                  </p>
+                  <p className="measure-prose mt-2 text-sm leading-relaxed text-[var(--color-dark-muted)]">
+                    {t("trust.guaranteeBody")}
+                  </p>
+                </div>
+
+                {/* Sello */}
+                <p className="label mt-5 inline-flex items-center gap-2 text-[var(--color-dark-muted)]">
+                  <BadgeCheck className="h-4 w-4 text-[var(--color-blue)]" aria-hidden="true" />
+                  {t("trust.seal")}
+                </p>
+              </section>
+
               {/* About */}
               <section className="border-b border-[var(--color-dark-line)] py-10">
                 <h2 className="label text-[var(--color-blue)]">{t("aboutTitle")}</h2>
@@ -153,20 +200,34 @@ export default async function CleanerProfilePage({
 
               {/* Reviews */}
               <section className="py-10">
-                <h2 className="label text-[var(--color-blue)]">{t("reviewsTitle")}</h2>
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <h2 className="label text-[var(--color-blue)]">{t("reviewsTitle")}</h2>
+                  <span className="inline-flex items-center gap-1.5 text-sm text-[var(--color-dark-muted)]">
+                    <StarIcon className="h-4 w-4 fill-[var(--color-blue)] text-[var(--color-blue)]" aria-hidden="true" />
+                    <strong className="font-semibold text-[var(--color-dark-ink)]">{profile.rating.toFixed(1)}</strong>
+                    · {profile.reviews} {t("reviewsWord")}
+                  </span>
+                </div>
+                <p className="mt-2 text-sm text-[var(--color-dark-muted)]">{t("reviewsVerifiedNote")}</p>
                 <div className="mt-5 grid gap-4 sm:grid-cols-2">
                   {reviews.map((review) => (
                     <Card key={review.id} variant="dark" padding="md" className="flex flex-col">
-                      <div className="flex gap-0.5" aria-hidden="true">
-                        {Array.from({ length: review.rating }).map((_, idx) => (
-                          <StarIcon key={idx} className="h-3.5 w-3.5 fill-[var(--color-blue)] text-[var(--color-blue)]" />
-                        ))}
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex gap-0.5" aria-hidden="true">
+                          {Array.from({ length: review.rating }).map((_, idx) => (
+                            <StarIcon key={idx} className="h-3.5 w-3.5 fill-[var(--color-blue)] text-[var(--color-blue)]" />
+                          ))}
+                        </div>
+                        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[var(--color-blue)]">
+                          <BadgeCheck className="h-3 w-3" aria-hidden="true" />
+                          {t("verifiedBooking")}
+                        </span>
                       </div>
                       <blockquote className="mt-3 flex-1 text-pretty text-sm leading-relaxed text-[var(--color-dark-ink)] opacity-90">
                         {review.quote}
                       </blockquote>
                       <p className="mt-4 text-xs text-[var(--color-dark-muted)]">
-                        {review.author} · {review.hood}
+                        {review.author} · {review.hood} · {review.date}
                       </p>
                     </Card>
                   ))}

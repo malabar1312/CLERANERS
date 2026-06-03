@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
+import { Info } from "lucide-react";
 import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/sections/footer";
 import { Container } from "@/components/layout/container";
+import { Link } from "@/i18n/navigation";
 import { CleanersBrowser } from "@/components/sections/cleaners-browser";
 
 export async function generateMetadata({
@@ -40,6 +42,16 @@ export default async function SchoonmakersPage({
             </h1>
             <p className="measure-prose mt-5 text-pretty text-[length:var(--text-lead)] leading-relaxed text-[var(--color-muted)]">
               {t("lead")}
+            </p>
+            <p className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-[var(--color-slate)]">
+              <Info className="h-4 w-4 shrink-0 text-[var(--color-blue)]" aria-hidden="true" />
+              <span>{t("priceNote")}</span>
+              <Link
+                href="/prijzen"
+                className="font-medium text-[var(--color-blue)] underline-offset-4 hover:underline"
+              >
+                {t("priceNoteLink")} →
+              </Link>
             </p>
           </Container>
         </header>

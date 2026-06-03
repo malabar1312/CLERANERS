@@ -4,13 +4,13 @@ import { Link } from "@/i18n/navigation";
 import { Star as StarIcon, BadgeCheck, ShieldCheck, Umbrella, Lock } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { AvatarInitials } from "@/components/ui/avatar-initials";
-import { HeroSearch } from "./hero-search";
+import { HeroWaitlist } from "./hero-waitlist";
 
 /**
- * `<Hero />` — STITCH Quiet-Luxury + calidez (Fase A). Split Airbnb-style:
- * a la izquierda titular Geist con `kiest` en azul, search, trust-bar
- * (geverifieerd · verzekerd €300k · escrow) y prueba social; a la derecha
- * una foto real de interior con una card de schoonmaker flotante.
+ * `<Hero />` — STITCH Quiet-Luxury + calidez. Split Airbnb-style waitlist-first:
+ * a la izquierda titular Geist con `kiest` en azul, captura de wachtlijst
+ * (CTA dominante), trust-bar (geverifieerd · verzekerd €300k · escrow) y prueba
+ * social; a la derecha una foto real de interior con una card de schoonmaker.
  */
 export async function Hero() {
   const t = await getTranslations("hero");
@@ -44,7 +44,7 @@ export async function Hero() {
               {t("lead")}
             </p>
 
-            <HeroSearch />
+            <HeroWaitlist />
 
             {/* Trust-bar — el diferencial sube arriba del fold */}
             <ul className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2.5">
