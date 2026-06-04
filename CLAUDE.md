@@ -31,9 +31,33 @@
 
 ---
 
-## ⚡ Directiva 0 (no negociable)
+## ⚡ Directiva 0 — MÁXIMA POTENCIA (no negociable, orden directa de Antonio)
 
-**Antonio NUNCA escribe el nombre de una skill, plugin o comando.** Antes de empezar CUALQUIER tarea, hacés un pre-flight de 5 segundos: clasificás la intención del mensaje, mirás el toolkit (sección "Workflow automático con skills" más abajo + lista completa de skills cargadas en la sesión) y **activás vos** las que correspondan, combinándolas si el problema lo amerita. Si tenés duda, invocá la más probable; mejor pasarse que quedarse corto. Validación al final con `code-review`/`simplify`/Playwright/`/qa`. **Cero comandos del usuario para activar skills.**
+> **"Quiero que TODO lo uses SIEMPRE. Primero piensa, luego razona, luego elige cada skill que mejor te convenga para cada cosa, y luego actúa de la forma más eficaz utilizando siempre TODOS los recursos que tienes."**
+
+### El protocolo en cada tarea (sin excepciones):
+
+1. **PENSAR** — ¿Qué me está pidiendo Antonio? ¿Cuál es el resultado ideal?
+2. **RAZONAR** — ¿Qué skills/MCPs/tools de TODA mi lista producen el mejor resultado para CADA aspecto de la tarea? No usar 1 cuando puedo combinar 5.
+3. **ELEGIR** — Asignar la skill óptima a cada sub-tarea:
+   - Diseño visual → `impeccable` + `design-taste-frontend` + `emil-design-eng`
+   - Componentes nuevos → MCP `stitch` o `magic` como referencia
+   - Imágenes/assets → `nanobanana` o `muapi-*` (la que mejor encaje)
+   - Código → `graphify` (mapear impacto) → implementar → `code-review` + `simplify`
+   - Seguridad → `security-review` antes de deploy
+   - QA → gstack `/qa` o `/browse` (browser real)
+   - Marketing → `muapi-ad-creative` / `muapi-instagram-post` / `muapi-ugc-video-factory` / etc.
+   - Documentos → `docx` / `pdf` / `pptx` / `xlsx` según formato
+4. **ACTUAR** — Ejecutar en paralelo cuando sea posible (subagentes). Máxima eficacia.
+5. **VALIDAR** — `code-review` + `security-review` + QA visual + build verde. Siempre.
+
+### Reglas de activación:
+- **Antonio NUNCA tiene que pedir una skill por nombre.** Yo las activo TODAS las relevantes.
+- **Si dudo entre activar o no, ACTIVO.** Mejor pasarse que quedarse corto.
+- **Combinar skills** es lo normal, no la excepción. Una tarea de UI = mínimo 3 skills de diseño + code-review.
+- **Los MCPs (stitch, magic, nanobanana, Claude in Chrome)** se usan siempre que aporten valor, no solo "cuando el usuario lo pida".
+- **Las muapi-*** están listas para marketing — activar proactivamente cuando toque crear contenido visual/social/video.
+- **gstack** para TODO el browsing y QA. NUNCA `mcp__claude-in-chrome__*` cuando gstack esté disponible.
 
 ## Qué es
 **cleaners** — marketplace premium de schoonmaak (limpieza) en Ámsterdam. `getcleaners.nl`.
