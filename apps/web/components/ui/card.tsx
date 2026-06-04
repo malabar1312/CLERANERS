@@ -39,6 +39,7 @@ export function Card({
       className={cn(
         "group/card relative isolate rounded-2xl",
         "transition-all duration-[var(--dur-mid)] ease-[var(--ease-out)]",
+        "focus-within:ring-2 focus-within:ring-[var(--color-blue)]/20 focus-within:ring-offset-1",
         surface[variant],
         pads[padding],
         interactive &&

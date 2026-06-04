@@ -14,7 +14,7 @@ type TimeSlot = "morning" | "afternoon" | "evening";
 type Frequency = "once" | "weekly" | "biweekly";
 
 const inputCls =
-  "h-11 w-full rounded-xl border border-[var(--color-line)] bg-[var(--color-white)] px-3.5 text-[15px] text-[var(--color-ink)] placeholder:text-[var(--color-muted)] transition focus:border-[var(--color-blue)] focus:outline-none focus:ring-2 focus:ring-[var(--color-blue)]/25";
+  "h-11 w-full rounded-xl border border-[var(--color-line)] bg-[var(--color-white)] px-3.5 text-[15px] text-[var(--color-ink)] placeholder:text-[var(--color-muted)] transition-all duration-200 focus:border-[var(--color-blue)] focus:outline-none focus:ring-2 focus:ring-[var(--color-blue)]/25 focus:shadow-[0_0_0_4px_rgb(0_102_255/0.08)]";
 
 /** `<BookingButton />` — CTA que abre el flujo de reserva (Server → Client). */
 export function BookingButton({ cleaner, className }: { cleaner: CleanerLite; className?: string }) {

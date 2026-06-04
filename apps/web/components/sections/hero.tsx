@@ -40,22 +40,24 @@ export async function Hero() {
               {t("titleEnd")}
             </h1>
 
-            <p className="mt-5 max-w-lg text-pretty text-lg leading-relaxed text-[var(--color-muted)]">
+            <p className="mt-6 max-w-lg text-pretty text-lg leading-relaxed text-[var(--color-muted)]">
               {t("lead")}
             </p>
 
             <HeroWaitlist />
 
             {/* Trust-bar — el diferencial sube arriba del fold */}
-            <ul className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2.5">
+            <ul className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-2.5">
               <li className="flex items-center gap-2 text-sm font-medium text-[var(--color-slate)]">
                 <ShieldCheck className="h-[18px] w-[18px] text-[var(--color-blue)]" aria-hidden="true" />
                 {t("trust.verified")}
               </li>
+              <li className="text-[var(--color-line)]" aria-hidden="true">·</li>
               <li className="flex items-center gap-2 text-sm font-medium text-[var(--color-slate)]">
                 <Umbrella className="h-[18px] w-[18px] text-[var(--color-blue)]" aria-hidden="true" />
                 {t("trust.insured")}
               </li>
+              <li className="text-[var(--color-line)]" aria-hidden="true">·</li>
               <li className="flex items-center gap-2 text-sm font-medium text-[var(--color-slate)]">
                 <Lock className="h-[18px] w-[18px] text-[var(--color-blue)]" aria-hidden="true" />
                 {t("trust.escrow")}
@@ -96,6 +98,7 @@ export async function Hero() {
                 alt={t("photoAlt")}
                 fill
                 priority
+                quality={85}
                 sizes="(max-width: 1024px) 100vw, 45vw"
                 className="object-cover"
               />
@@ -108,7 +111,7 @@ export async function Hero() {
               {/* floating cleaner card */}
               <Link
                 href="/schoonmakers/sofia-r"
-                className="absolute right-4 bottom-4 left-4 flex items-center gap-3 rounded-2xl border border-[var(--color-line)] bg-[var(--color-white)] p-3 shadow-[var(--shadow-ambient)] transition-transform duration-[var(--dur-mid)] ease-[var(--ease-out)] hover:-translate-y-0.5 sm:left-auto sm:w-72"
+                className="absolute right-4 bottom-4 left-4 flex items-center gap-3 rounded-2xl border border-[var(--color-line)] bg-[var(--color-white)] p-3 shadow-[var(--shadow-ambient)] transition-all duration-[var(--dur-mid)] ease-[var(--ease-out)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-card-hover)] sm:left-auto sm:w-72"
               >
                 <AvatarInitials name="Sofia Rodríguez" size="md" tone={0} online />
                 <div className="min-w-0 flex-1">

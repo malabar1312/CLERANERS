@@ -8,7 +8,7 @@ import { buttonStyles } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
 
 const inputCls =
-  "h-12 w-full rounded-2xl border border-[var(--color-line)] bg-[var(--color-white)] px-4 text-[15px] text-[var(--color-ink)] placeholder:text-[var(--color-muted)] transition focus:border-[var(--color-blue)] focus:outline-none focus:ring-2 focus:ring-[var(--color-blue)]/25";
+  "h-12 w-full rounded-2xl border border-[var(--color-line)] bg-[var(--color-white)] px-4 text-[15px] text-[var(--color-ink)] placeholder:text-[var(--color-muted)] transition-all duration-200 focus:border-[var(--color-blue)] focus:outline-none focus:ring-2 focus:ring-[var(--color-blue)]/25 focus:shadow-[0_0_0_4px_rgb(0_102_255/0.08)]";
 
 export function ContactForm() {
   const t = useTranslations("contactPage.form");
