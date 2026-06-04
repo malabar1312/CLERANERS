@@ -173,7 +173,8 @@
       "insured": "Verzekerd tot €300.000",
       "rating": "4,9 gemiddeld"
     },
-    "social": "Al meer dan 1.200 huishoudens op de wachtlijst",
+    "social": "Op de wachtlijst",
+    "socialCount": "{count}+ huishoudens op de wachtlijst",
     "photoAlt": "Een licht, opgeruimd interieur in Amsterdam",
     "available": "Vandaag beschikbaar",
     "waitlist": {

@@ -173,7 +173,8 @@
       "insured": "Insured up to €300,000",
       "rating": "4.9 average"
     },
-    "social": "1,200+ households already on the waitlist",
+    "social": "On the waitlist",
+    "socialCount": "{count}+ households on the waitlist",
     "photoAlt": "A bright, tidy interior in Amsterdam",
     "available": "Available today",
     "waitlist": {

@@ -1,4 +1,7 @@
 import { setRequestLocale } from "next-intl/server";
+
+/** ISR: regenera cada 60s para que el waitlist count se actualice. */
+export const revalidate = 60;
 import { AuthNav } from "@/components/layout/auth-nav";
 import { Hero } from "@/components/sections/hero";
 import { HowItWorks } from "@/components/sections/how-it-works";

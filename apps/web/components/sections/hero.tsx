@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { Star as StarIcon, BadgeCheck, ShieldCheck, Umbrella, Lock } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { AvatarInitials } from "@/components/ui/avatar-initials";
+import { getWaitlistCount } from "@/lib/data/waitlist-count";
 import { HeroWaitlist } from "./hero-waitlist";
 
 /**
@@ -15,6 +16,9 @@ import { HeroWaitlist } from "./hero-waitlist";
 export async function Hero() {
   const t = await getTranslations("hero");
   const proofNames = ["Sofia R", "Maria G", "Laura M", "Elena S", "Carmen P"];
+  const waitlistCount = await getWaitlistCount();
+  // Muestra el count real si hay >0, sino oculta la línea (honesto: no inventamos números).
+  const showCount = waitlistCount > 0;
 
   return (
     <section className="relative overflow-hidden bg-[var(--color-white)]">
@@ -75,8 +79,10 @@ export async function Hero() {
                 <span className="inline-flex items-center gap-1 font-semibold text-[var(--color-ink)]">
                   <StarIcon className="h-3.5 w-3.5 fill-[var(--color-blue)] text-[var(--color-blue)]" aria-hidden="true" />
                   4,9
-                </span>{" "}
-                · {t("social")}
+                </span>
+                {showCount && (
+                  <>{" · "}{t("socialCount", { count: waitlistCount })}</>
+                )}
               </p>
             </div>
 
