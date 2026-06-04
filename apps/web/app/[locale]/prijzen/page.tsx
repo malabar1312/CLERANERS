@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { ShieldCheck, Umbrella, BadgeCheck, LifeBuoy, Check, ArrowRight } from "lucide-react";
-import { Nav } from "@/components/layout/nav";
+import { AuthNav } from "@/components/layout/auth-nav";
 import { Footer } from "@/components/sections/footer";
 import { Container } from "@/components/layout/container";
 import { Card } from "@/components/ui/card";
@@ -41,7 +41,7 @@ export default async function PrijzenPage({
 
   return (
     <>
-      <Nav />
+      <AuthNav />
       <main className="bg-[var(--color-white)] text-[var(--color-ink)]">
         {/* Header */}
         <header className="border-b border-[var(--color-line)] pt-[calc(var(--nav-h-sm)+3.5rem)] pb-14">

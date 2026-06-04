@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { Link } from "@/i18n/navigation";
 import { X, LogOut } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { signOut } from "@/app/[locale]/_actions/auth";
 import { Logo } from "@/components/brand/logo";
 import { UserPill } from "./user-pill";
 import { buttonStyles } from "@/components/ui/button-variants";
@@ -140,17 +141,15 @@ export function Drawer({
 
         <footer className="border-t border-[var(--color-line)] px-5 py-5">
           {user ? (
-            <button
-              type="button"
-              className={buttonStyles({ variant: "secondary", size: "lg", fullWidth: true })}
-              onClick={() => {
-                onLogout?.();
-                onClose();
-              }}
-            >
-              <LogOut className="h-4 w-4" />
-              {t("logout")}
-            </button>
+            <form action={async () => { onClose(); await signOut(); }}>
+              <button
+                type="submit"
+                className={buttonStyles({ variant: "secondary", size: "lg", fullWidth: true })}
+              >
+                <LogOut className="h-4 w-4" />
+                {t("logout")}
+              </button>
+            </form>
           ) : (
             <div className="flex flex-col gap-2.5">
               <Link href="/login" onClick={onClose} className={buttonStyles({ variant: "secondary", size: "lg", fullWidth: true })}>

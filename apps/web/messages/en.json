@@ -1,4 +1,33 @@
 {
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Log in to your cleaners account.",
+      "email": "Email address",
+      "password": "Password",
+      "submit": "Log in",
+      "loading": "Working…",
+      "errorCredentials": "Incorrect email or password.",
+      "errorInput": "Please check your details.",
+      "errorGeneric": "Something went wrong. Please try again.",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Create one"
+    },
+    "signup": {
+      "title": "Create an account",
+      "subtitle": "Free. No obligations.",
+      "name": "Full name",
+      "email": "Email address",
+      "password": "Password (min. 6 characters)",
+      "submit": "Create account",
+      "loading": "Working…",
+      "errorEmailTaken": "This email is already registered.",
+      "errorInput": "Please check your details.",
+      "errorGeneric": "Something went wrong. Please try again.",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Log in"
+    }
+  },
   "nav": {
     "howItWorks": "How it works",
     "schoonmakers": "Cleaners",

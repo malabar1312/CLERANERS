@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Nav } from "@/components/layout/nav";
+import { AuthNav } from "@/components/layout/auth-nav";
 import { Footer } from "@/components/sections/footer";
 import { Container } from "@/components/layout/container";
 import { Link } from "@/i18n/navigation";
@@ -30,7 +30,7 @@ export function PlaceholderPage({
 }) {
   return (
     <>
-      <Nav />
+      <AuthNav />
       <main className="bg-[var(--color-white)] text-[var(--color-ink)]">
         <Container
           as="section"

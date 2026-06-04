@@ -1,4 +1,33 @@
 {
+  "auth": {
+    "login": {
+      "title": "Welkom terug",
+      "subtitle": "Log in op je cleaners-account.",
+      "email": "E-mailadres",
+      "password": "Wachtwoord",
+      "submit": "Inloggen",
+      "loading": "Bezig…",
+      "errorCredentials": "Onjuist e-mailadres of wachtwoord.",
+      "errorInput": "Controleer je gegevens.",
+      "errorGeneric": "Er ging iets mis. Probeer het opnieuw.",
+      "noAccount": "Nog geen account?",
+      "signupLink": "Maak er een aan"
+    },
+    "signup": {
+      "title": "Account aanmaken",
+      "subtitle": "Gratis. Geen verplichtingen.",
+      "name": "Volledige naam",
+      "email": "E-mailadres",
+      "password": "Wachtwoord (min. 6 tekens)",
+      "submit": "Account aanmaken",
+      "loading": "Bezig…",
+      "errorEmailTaken": "Dit e-mailadres is al geregistreerd.",
+      "errorInput": "Controleer je gegevens.",
+      "errorGeneric": "Er ging iets mis. Probeer het opnieuw.",
+      "hasAccount": "Al een account?",
+      "loginLink": "Inloggen"
+    }
+  },
   "nav": {
     "howItWorks": "Hoe het werkt",
     "schoonmakers": "Schoonmakers",

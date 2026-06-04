@@ -15,7 +15,7 @@ import {
   Users,
   Umbrella,
 } from "lucide-react";
-import { Nav } from "@/components/layout/nav";
+import { AuthNav } from "@/components/layout/auth-nav";
 import { Footer } from "@/components/sections/footer";
 import { Container } from "@/components/layout/container";
 import { Card } from "@/components/ui/card";
@@ -67,7 +67,7 @@ export default async function CleanerProfilePage({
 
   return (
     <>
-      <Nav />
+      <AuthNav />
       <main className="min-h-screen bg-[var(--color-dark)] text-[var(--color-dark-ink)]">
         <Container size="wide" className="pt-[calc(var(--nav-h-sm)+2rem)] pb-[var(--space-section)]">
           <Link

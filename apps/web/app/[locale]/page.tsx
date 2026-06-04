@@ -1,5 +1,5 @@
 import { setRequestLocale } from "next-intl/server";
-import { Nav } from "@/components/layout/nav";
+import { AuthNav } from "@/components/layout/auth-nav";
 import { Hero } from "@/components/sections/hero";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { Features } from "@/components/sections/features";
@@ -43,7 +43,7 @@ export default async function HomePage({
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <Nav />
+      <AuthNav />
       <main id="main">
         <Hero />
         <HowItWorks />

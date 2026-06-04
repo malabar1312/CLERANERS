@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Info } from "lucide-react";
-import { Nav } from "@/components/layout/nav";
+import { AuthNav } from "@/components/layout/auth-nav";
 import { Footer } from "@/components/sections/footer";
 import { Container } from "@/components/layout/container";
 import { Link } from "@/i18n/navigation";
@@ -28,7 +28,7 @@ export default async function SchoonmakersPage({
 
   return (
     <>
-      <Nav />
+      <AuthNav />
       <main className="bg-[var(--color-white)] text-[var(--color-ink)]">
         {/* Page header — clears the fixed nav */}
         <header className="relative overflow-hidden border-b border-[var(--color-line)] pt-[calc(var(--nav-h-sm)+3.5rem)] pb-14">

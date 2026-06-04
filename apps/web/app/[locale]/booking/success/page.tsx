@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { CheckCircle2 } from "lucide-react";
-import { Nav } from "@/components/layout/nav";
+import { AuthNav } from "@/components/layout/auth-nav";
 import { Footer } from "@/components/sections/footer";
 import { Container } from "@/components/layout/container";
 import { Link } from "@/i18n/navigation";
@@ -47,7 +47,7 @@ export default async function BookingSuccessPage({
 
   return (
     <>
-      <Nav />
+      <AuthNav />
       <main className="min-h-screen bg-[var(--color-white)] text-[var(--color-ink)]">
         <Container size="sm" className="flex flex-col items-center pt-[calc(var(--nav-h-sm)+4rem)] pb-[var(--space-section)] text-center">
           {data ? (
