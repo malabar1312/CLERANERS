@@ -590,6 +590,43 @@
         { "id": "escalation", "title": "External dispute resolution", "body": "Can't reach an agreement? You can file a complaint with the European ODR platform (ec.europa.eu/odr) or the Dutch Consumer Disputes Committee (Geschillencommissie Thuiswinkel)." },
         { "id": "contact", "title": "Contact", "body": "cleaners B.V.\nEmail: klachten@getcleaners.nl\nResponse time: 2 business days" }
       ]
+    },
+    "safety": {
+      "eyebrow": "Safety",
+      "title": "How we build trust",
+      "lastUpdated": "Last updated: June 2026",
+      "intro": "cleaners is built as a trust platform. Letting someone into your home is personal — that's why safety isn't a feature, it's the foundation of everything we do.",
+      "sections": [
+        { "id": "verification", "title": "Cleaner verification", "body": "Every cleaner on the platform goes through a three-step verification process:\n\n1. Identity check — passport or ID card, verified with a live selfie.\n2. Background check (VOG) — a Dutch Certificate of Conduct issued by the government.\n3. Reference check — at least three references from previous clients or employers.\n\nOnly after passing all three steps does a profile become visible on the platform." },
+        { "id": "insurance", "title": "Insurance", "body": "Every booking through cleaners is insured up to €300,000 per visit. The insurance covers liability for property damage during the clean.\n\nNeed to report damage? Do so within 24 hours via our complaints procedure. We activate the insurer and guide you through the process." },
+        { "id": "escrow", "title": "Escrow payment", "body": "You pay securely via Stripe (iDEAL, credit card, or Apple Pay). The amount is held in escrow — meaning your money is only released to the cleaner after a successful clean.\n\nThis protects you as a client: if something goes wrong, you always have recourse." },
+        { "id": "guarantee", "title": "Satisfaction guarantee", "body": "Not happy after the clean? Report it within 24 hours:\n\n• We arrange a free reclean, or\n• You receive a full refund.\n\nNo fine print. No arguing about who's right. We take responsibility." },
+        { "id": "privacy", "title": "Privacy and data protection", "body": "We process personal data in accordance with GDPR. Your address is only shared with the booked cleaner, never with third parties. Payment data is processed by Stripe — we never store card numbers.\n\nMore details: see our privacy policy." },
+        { "id": "platform", "title": "Platform security", "body": "All connections are encrypted (TLS). We use Row Level Security in our database: every user only sees their own data. We conduct regular security audits on our code and infrastructure." },
+        { "id": "complaints", "title": "What if something goes wrong", "body": "We take every complaint seriously. Our complaints process:\n\n1. Report your complaint within 24 hours via klachten@getcleaners.nl.\n2. You receive an acknowledgment within 2 business days.\n3. We investigate and offer a resolution within 14 days.\n\nCan't reach an agreement? You can file with the European ODR platform or the Dutch Consumer Disputes Committee." }
+      ]
+    }
+  },
+  "contactPage": {
+    "eyebrow": "Contact",
+    "title": "Get in touch",
+    "lead": "Have a question, comment, or suggestion? We respond within 2 business days.",
+    "info": {
+      "emailLabel": "Email",
+      "locationLabel": "Location",
+      "hoursLabel": "Availability",
+      "hours": "Mon–Fri, 09:00 – 17:00"
+    },
+    "form": {
+      "name": "Your name",
+      "email": "Email address",
+      "subject": "Subject",
+      "message": "Your message",
+      "submit": "Send message",
+      "sending": "Sending…",
+      "success": "Thank you! We received your message and will respond within 2 business days.",
+      "errorInput": "Please check your details.",
+      "errorGeneric": "Something went wrong. Please try again."
     }
   }
 }

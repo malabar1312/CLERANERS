@@ -590,6 +590,43 @@
         { "id": "escalatie", "title": "Externe geschillenbeslechting", "body": "Komen wij er samen niet uit? U kunt een klacht indienen bij het Europees ODR-platform (ec.europa.eu/odr) of de Geschillencommissie Thuiswinkel." },
         { "id": "contact", "title": "Contact", "body": "cleaners B.V.\nE-mail: klachten@getcleaners.nl\nReactietijd: 2 werkdagen" }
       ]
+    },
+    "safety": {
+      "eyebrow": "Veiligheid",
+      "title": "Hoe wij vertrouwen opbouwen",
+      "lastUpdated": "Laatst bijgewerkt: juni 2026",
+      "intro": "cleaners is gebouwd als vertrouwensplatform. Iemand in je huis laten is persoonlijk — daarom is veiligheid geen feature, maar het fundament van alles wat we doen.",
+      "sections": [
+        { "id": "verificatie", "title": "Verificatie van schoonmakers", "body": "Elke schoonmaker die op het platform komt, doorloopt een verificatieproces in drie stappen:\n\n1. Identiteitscontrole — paspoort of ID-kaart, geverifieerd met een live selfie.\n2. Achtergrondcheck (VOG) — een Verklaring Omtrent het Gedrag, afgegeven door de Nederlandse overheid.\n3. Referentiecontrole — minstens drie referenties van eerdere opdrachtgevers of werkgevers.\n\nAlleen na goedkeuring op alle drie de stappen wordt het profiel zichtbaar op het platform." },
+        { "id": "verzekering", "title": "Verzekering", "body": "Elke boeking via cleaners is verzekerd tot €300.000 per bezoek. De verzekering dekt aansprakelijkheid voor schade aan eigendommen tijdens de schoonmaak.\n\nSchade melden? Doe dit binnen 24 uur na de schoonmaak via onze klachtenregeling. Wij schakelen de verzekeraar in en begeleiden het proces." },
+        { "id": "escrow", "title": "Escrow-betaling", "body": "Je betaalt veilig via Stripe (iDEAL, creditcard of Apple Pay). Het bedrag wordt in escrow gehouden — dat betekent dat je geld pas wordt vrijgegeven aan de schoonmaker ná een geslaagde schoonmaak.\n\nDit beschermt je als klant: als er iets misgaat, heb je altijd een verhaalsmogelijkheid." },
+        { "id": "garantie", "title": "Tevredenheidsgarantie", "body": "Niet tevreden na de schoonmaak? Meld het binnen 24 uur:\n\n• Wij regelen kosteloos een nieuwe schoonmaak, of\n• Je ontvangt het volledige bedrag terug.\n\nGeen kleine lettertjes. Geen discussie over wie er gelijk heeft. Wij nemen de verantwoordelijkheid." },
+        { "id": "privacy", "title": "Privacy en gegevensbescherming", "body": "Wij verwerken persoonsgegevens conform de AVG (GDPR). Je adres wordt alleen gedeeld met de geboekte schoonmaker en nooit met derden. Betalingsgegevens worden verwerkt door Stripe — wij slaan nooit kaartnummers op.\n\nMeer details: zie onze privacyverklaring." },
+        { "id": "platform", "title": "Platformveiligheid", "body": "Alle verbindingen zijn versleuteld (TLS). Wij gebruiken Row Level Security in onze database: elke gebruiker ziet alleen zijn eigen gegevens. Wij voeren regelmatig beveiligingsaudits uit op onze code en infrastructuur." },
+        { "id": "klachten", "title": "Wat als het toch misgaat", "body": "Wij nemen elke klacht serieus. Ons klachtenproces:\n\n1. Meld je klacht binnen 24 uur via klachten@getcleaners.nl.\n2. Je ontvangt binnen 2 werkdagen een ontvangstbevestiging.\n3. Wij onderzoeken de klacht en bieden een oplossing binnen 14 dagen.\n\nKom je er niet uit? Je kunt terecht bij het Europees ODR-platform of de Geschillencommissie Thuiswinkel." }
+      ]
+    }
+  },
+  "contactPage": {
+    "eyebrow": "Contact",
+    "title": "Neem contact op",
+    "lead": "Heb je een vraag, opmerking of voorstel? Wij reageren binnen 2 werkdagen.",
+    "info": {
+      "emailLabel": "E-mail",
+      "locationLabel": "Locatie",
+      "hoursLabel": "Bereikbaarheid",
+      "hours": "Ma–vr, 09:00 – 17:00"
+    },
+    "form": {
+      "name": "Je naam",
+      "email": "E-mailadres",
+      "subject": "Onderwerp",
+      "message": "Je bericht",
+      "submit": "Verstuur bericht",
+      "sending": "Bezig…",
+      "success": "Bedankt! We hebben je bericht ontvangen en reageren binnen 2 werkdagen.",
+      "errorInput": "Controleer je gegevens.",
+      "errorGeneric": "Er ging iets mis. Probeer het opnieuw."
     }
   }
 }

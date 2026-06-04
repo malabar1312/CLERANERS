@@ -105,6 +105,27 @@ create table if not exists public.webhook_events (
 alter table public.webhook_events enable row level security;
 -- Sin policies → solo service-role. (RLS activado por seguridad por defecto.)
 
+-- ─────────────────────────────────────────────────────────────────────────
+-- contact_messages — formulario de contacto (/contact)
+-- Insert abierto (anon); lectura solo con service-role.
+-- ─────────────────────────────────────────────────────────────────────────
+create table if not exists public.contact_messages (
+  id         uuid primary key default gen_random_uuid(),
+  name       text not null,
+  email      text not null,
+  subject    text not null,
+  message    text not null,
+  created_at timestamptz not null default now()
+);
+
+alter table public.contact_messages enable row level security;
+
+drop policy if exists "contact_anon_insert" on public.contact_messages;
+create policy "contact_anon_insert"
+  on public.contact_messages for insert
+  to anon, authenticated
+  with check (true);
+
 -- ════════════════════════════════════════════════════════════════════════
--- ✓ Listo. waitlist + bookings + webhook_events creados con RLS.
+-- ✓ Listo. waitlist + bookings + webhook_events + contact_messages con RLS.
 -- ════════════════════════════════════════════════════════════════════════
