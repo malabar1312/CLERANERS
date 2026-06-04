@@ -478,5 +478,69 @@
       "title": "Complaints.",
       "body": "This text will be published before launch. Questions? Email us."
     }
+  },
+  "legal": {
+    "terms": {
+      "eyebrow": "Terms & Conditions",
+      "title": "Terms & Conditions",
+      "lastUpdated": "Last updated: June 2026",
+      "intro": "These terms and conditions apply to all use of the cleaners platform (getcleaners.nl), operated by cleaners B.V., based in Amsterdam.",
+      "sections": [
+        { "id": "definitions", "title": "Definitions", "body": "Platform: the website getcleaners.nl and related services.\nCleaner: the independent professional offering services via the Platform.\nClient: the person booking a cleaner via the Platform.\nBooking: the agreement between Client and Cleaner, facilitated by the Platform." },
+        { "id": "service", "title": "Our service", "body": "cleaners is a matchmaking platform. We are not a cleaning company and not a party to the agreement between Client and Cleaner. We facilitate contact, payment, and quality assurance." },
+        { "id": "bookings", "title": "Bookings and payment", "body": "Payment is processed via Stripe (iDEAL, credit card, or Apple Pay). The amount is held in escrow and only released after a successful clean. On top of the cleaner's hourly rate, we charge an 18% service fee covering verification, insurance, escrow, and customer support." },
+        { "id": "cancellation", "title": "Cancellation", "body": "Clients may cancel free of charge up to 24 hours before the appointment. Late cancellations may be charged the full amount. Cleaners may cancel up to 48 hours in advance; repeated cancellations may result in account suspension." },
+        { "id": "verification", "title": "Cleaner verification", "body": "Every cleaner goes through a verification process: identity check (passport + selfie), background check (VOG), and reference check. We do not guarantee that a cleaner meets all your expectations, but we ensure a thorough screening process." },
+        { "id": "insurance", "title": "Insurance", "body": "Every booking via the Platform is insured up to €300,000 for liability. The insurance covers property damage during the clean. Damage must be reported within 24 hours via our complaints form." },
+        { "id": "liability", "title": "Liability", "body": "cleaners is not liable for the quality of cleaning services. Our liability is limited to the amount of the relevant booking. We make every effort to resolve disputes quickly and fairly through our complaints process." },
+        { "id": "ip", "title": "Intellectual property", "body": "All content on the Platform (text, designs, logos, software) is the property of cleaners B.V. and may not be reproduced without written permission." },
+        { "id": "changes", "title": "Changes", "body": "We reserve the right to modify these terms. Material changes will be communicated by email at least 14 days in advance. Continued use after the effective date constitutes acceptance." },
+        { "id": "contact", "title": "Contact", "body": "cleaners B.V.\nAmsterdam, Netherlands\nKvK: [to be filled upon activation]\nVAT: [to be filled upon activation]\nEmail: info@getcleaners.nl" }
+      ]
+    },
+    "privacy": {
+      "eyebrow": "Privacy Policy",
+      "title": "Privacy Policy",
+      "lastUpdated": "Last updated: June 2026",
+      "intro": "cleaners B.V. respects your privacy. This policy explains what personal data we collect, why, and how we protect it. This policy complies with the General Data Protection Regulation (GDPR).",
+      "sections": [
+        { "id": "controller", "title": "Data controller", "body": "cleaners B.V., based in Amsterdam, is the data controller for personal data processed via getcleaners.nl.\nEmail: privacy@getcleaners.nl" },
+        { "id": "what-data", "title": "What data we collect", "body": "Clients: name, email, address (for the clean), payment details (processed by Stripe — we never store card numbers).\nCleaners: name, email, phone, identity document, VOG, photo, bank details (for payout via Stripe Connect).\nWebsite visitors: IP address, browser type, page visits (via functional cookies)." },
+        { "id": "purpose", "title": "Purpose of processing", "body": "We process data for:\n• Executing bookings and payments\n• Verifying cleaners (KYC)\n• Improving our service\n• Complying with legal obligations\n• Handling complaints and disputes" },
+        { "id": "legal-basis", "title": "Legal basis", "body": "We process data based on:\n• Performance of contract (booking)\n• Legal obligation (tax, Wwft)\n• Legitimate interest (fraud prevention, service improvement)\n• Consent (marketing, where applicable)" },
+        { "id": "retention", "title": "Retention period", "body": "We retain personal data no longer than necessary. Booking data: 7 years (tax obligation). KYC documents: up to 5 years after account closure. Account data: until deletion by the user." },
+        { "id": "sharing", "title": "Sharing with third parties", "body": "We share data with:\n• Stripe (payment processing — US, EU model contract clauses)\n• Supabase (database hosting — EU)\n• Vercel (website hosting — EU/US, DPA)\nWe never sell personal data to third parties." },
+        { "id": "rights", "title": "Your rights", "body": "You have the right to access, rectification, erasure, restriction, portability, and objection. Exercise your rights by emailing privacy@getcleaners.nl. We respond within 30 days." },
+        { "id": "security", "title": "Security", "body": "We take appropriate technical and organizational measures: encrypted connections (TLS), access control (Row Level Security), and regular security audits." },
+        { "id": "dpa", "title": "Data Protection Authority", "body": "If you have a complaint about our data processing, you can contact the Dutch Data Protection Authority (autoriteitpersoonsgegevens.nl)." }
+      ]
+    },
+    "cookies": {
+      "eyebrow": "Cookie Policy",
+      "title": "Cookie Policy",
+      "lastUpdated": "Last updated: June 2026",
+      "intro": "This page explains which cookies getcleaners.nl uses and why.",
+      "sections": [
+        { "id": "what-are-cookies", "title": "What are cookies", "body": "Cookies are small text files stored by your browser when you visit a website. They help the website remember your preferences and improve the service." },
+        { "id": "essential", "title": "Strictly necessary cookies", "body": "These cookies are essential for the website to function. Without them, you cannot log in or make a booking.\n\n• sb-*: Supabase session cookies (authentication)\n• __stripe_*: Stripe payment cookies (checkout)\n• NEXT_LOCALE: language preference (nl/en)" },
+        { "id": "analytics", "title": "Analytics cookies", "body": "We currently do not use third-party analytics cookies (no Google Analytics, no Facebook Pixel). If we add analytics in the future, we will ask for your consent first." },
+        { "id": "marketing", "title": "Marketing cookies", "body": "We do not use marketing or tracking cookies. We do not track you across other websites." },
+        { "id": "manage", "title": "Managing cookies", "body": "You can block or delete cookies in your browser settings. Note: blocking essential cookies may limit website functionality (you won't be able to log in or book)." }
+      ]
+    },
+    "complaints": {
+      "eyebrow": "Complaints procedure",
+      "title": "Complaints procedure",
+      "lastUpdated": "Last updated: June 2026",
+      "intro": "Not satisfied? We take every complaint seriously and aim for a quick, fair resolution.",
+      "sections": [
+        { "id": "how-to-report", "title": "How to file a complaint", "body": "Send an email to klachten@getcleaners.nl with:\n• Your name and email\n• The booking reference (BK-XXXXXXXX)\n• A description of the complaint\n• Any photos or evidence\n\nYou'll receive an acknowledgment within 2 business days." },
+        { "id": "handling", "title": "How we handle complaints", "body": "We investigate every complaint carefully. Depending on the nature:\n• Quality complaint: we offer a free reclean or full refund.\n• Damage: we activate the insurance (covered up to €300,000 per visit).\n• Conduct complaint: we contact the cleaner and take appropriate action." },
+        { "id": "timeline", "title": "Timeline", "body": "We aim to resolve every complaint within 14 days. For complex cases (e.g., damage claims), we'll inform you of the expected processing time." },
+        { "id": "guarantee", "title": "Our guarantee", "body": "If you report a complaint within 24 hours of the clean:\n• We arrange a free reclean, or\n• You receive a full refund.\nThis guarantee applies to every booking via the Platform." },
+        { "id": "escalation", "title": "External dispute resolution", "body": "Can't reach an agreement? You can file a complaint with the European ODR platform (ec.europa.eu/odr) or the Dutch Consumer Disputes Committee (Geschillencommissie Thuiswinkel)." },
+        { "id": "contact", "title": "Contact", "body": "cleaners B.V.\nEmail: klachten@getcleaners.nl\nResponse time: 2 business days" }
+      ]
+    }
   }
 }

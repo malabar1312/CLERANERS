@@ -478,5 +478,69 @@
       "title": "Klachten.",
       "body": "Deze tekst wordt vóór de lancering gepubliceerd. Vragen? Mail ons."
     }
+  },
+  "legal": {
+    "terms": {
+      "eyebrow": "Algemene voorwaarden",
+      "title": "Algemene voorwaarden",
+      "lastUpdated": "Laatst bijgewerkt: juni 2026",
+      "intro": "Deze algemene voorwaarden zijn van toepassing op elk gebruik van het platform cleaners (getcleaners.nl), geëxploiteerd door cleaners B.V., gevestigd te Amsterdam.",
+      "sections": [
+        { "id": "definities", "title": "Definities", "body": "Platform: de website getcleaners.nl en bijbehorende diensten.\nSchoonmaker: de zelfstandige professional die via het Platform diensten aanbiedt.\nKlant: de persoon die via het Platform een schoonmaker boekt.\nBoeking: de overeenkomst tussen Klant en Schoonmaker, tot stand gekomen via het Platform." },
+        { "id": "dienst", "title": "Onze dienst", "body": "cleaners is een bemiddelingsplatform. Wij zijn geen schoonmaakbedrijf en geen partij bij de overeenkomst tussen Klant en Schoonmaker. Wij faciliteren het contact, de betaling en de kwaliteitsborging." },
+        { "id": "boekingen", "title": "Boekingen en betaling", "body": "Betaling vindt plaats via Stripe (iDEAL, creditcard of Apple Pay). Het bedrag wordt in escrow gehouden en pas vrijgegeven na een geslaagde schoonmaak. Bovenop het uurtarief van de schoonmaker brengen wij 18% servicekosten in rekening. Deze dekken verificatie, verzekering, escrow en klantsupport." },
+        { "id": "annulering", "title": "Annulering", "body": "Klanten kunnen kosteloos annuleren tot 24 uur vóór de afspraak. Bij latere annulering kan het volledige bedrag in rekening worden gebracht. De schoonmaker kan tot 48 uur vooraf annuleren; bij herhaalde annulering kan het account worden opgeschort." },
+        { "id": "verificatie", "title": "Verificatie van schoonmakers", "body": "Elke schoonmaker doorloopt een verificatieproces: identiteitscontrole (paspoort + selfie), achtergrondcheck (VOG), en referentiecontrole. Wij garanderen niet dat een schoonmaker aan al uw verwachtingen voldoet, maar wij zorgen voor een zorgvuldig selectieproces." },
+        { "id": "verzekering", "title": "Verzekering", "body": "Elke boeking via het Platform is verzekerd tot €300.000 voor aansprakelijkheid. De verzekering dekt schade aan eigendommen tijdens de schoonmaak. Schade moet binnen 24 uur na de schoonmaak worden gemeld via ons klachtenformulier." },
+        { "id": "aansprakelijkheid", "title": "Aansprakelijkheid", "body": "cleaners is niet aansprakelijk voor de kwaliteit van de schoonmaakdiensten. Onze aansprakelijkheid is beperkt tot het bedrag van de betreffende boeking. Wij spannen ons in om geschillen snel en eerlijk op te lossen via ons klachtenproces." },
+        { "id": "intellectueel-eigendom", "title": "Intellectueel eigendom", "body": "Alle content op het Platform (teksten, ontwerpen, logo's, software) is eigendom van cleaners B.V. en mag niet zonder schriftelijke toestemming worden verveelvoudigd." },
+        { "id": "wijzigingen", "title": "Wijzigingen", "body": "Wij behouden ons het recht voor deze voorwaarden te wijzigen. Belangrijke wijzigingen worden minimaal 14 dagen vooraf per e-mail aangekondigd. Voortgezet gebruik na de wijzigingsdatum geldt als aanvaarding." },
+        { "id": "contact", "title": "Contact", "body": "cleaners B.V.\nAmsterdam, Nederland\nKvK: [wordt ingevuld bij activatie]\nBTW: [wordt ingevuld bij activatie]\nE-mail: info@getcleaners.nl" }
+      ]
+    },
+    "privacy": {
+      "eyebrow": "Privacyverklaring",
+      "title": "Privacyverklaring",
+      "lastUpdated": "Laatst bijgewerkt: juni 2026",
+      "intro": "cleaners B.V. respecteert uw privacy. In deze verklaring leggen wij uit welke persoonsgegevens wij verzamelen, waarom, en hoe wij deze beschermen. Deze verklaring is opgesteld conform de Algemene Verordening Gegevensbescherming (AVG/GDPR).",
+      "sections": [
+        { "id": "verwerkingsverantwoordelijke", "title": "Verwerkingsverantwoordelijke", "body": "cleaners B.V., gevestigd te Amsterdam, is verwerkingsverantwoordelijke voor de persoonsgegevens die via getcleaners.nl worden verwerkt.\nE-mail: privacy@getcleaners.nl" },
+        { "id": "welke-gegevens", "title": "Welke gegevens verzamelen wij", "body": "Klanten: naam, e-mailadres, adres (voor de schoonmaak), betaalgegevens (verwerkt door Stripe, wij slaan geen kaartnummers op).\nSchoonmakers: naam, e-mailadres, telefoonnummer, identiteitsdocument, VOG, foto, bankgegevens (voor uitbetaling via Stripe Connect).\nWebsitebezoekers: IP-adres, browsertype, paginabezoeken (via functionele cookies)." },
+        { "id": "doel", "title": "Doel van de verwerking", "body": "Wij verwerken gegevens voor:\n• Het uitvoeren van boekingen en betalingen\n• Het verifiëren van schoonmakers (KYC)\n• Het verbeteren van onze dienst\n• Het nakomen van wettelijke verplichtingen\n• Het afhandelen van klachten en geschillen" },
+        { "id": "rechtsgrond", "title": "Rechtsgrond", "body": "Wij verwerken gegevens op basis van:\n• Uitvoering van de overeenkomst (boeking)\n• Wettelijke verplichting (fiscaal, Wwft)\n• Gerechtvaardigd belang (fraudepreventie, verbetering dienst)\n• Toestemming (marketing, indien van toepassing)" },
+        { "id": "bewaartermijn", "title": "Bewaartermijn", "body": "Wij bewaren persoonsgegevens niet langer dan noodzakelijk. Boekingsgegevens: 7 jaar (fiscale bewaarplicht). KYC-documenten: tot 5 jaar na beëindiging account. Accountgegevens: tot verwijdering door de gebruiker." },
+        { "id": "delen", "title": "Delen met derden", "body": "Wij delen gegevens met:\n• Stripe (betalingsverwerking — VS, EU-modelcontractclausules)\n• Supabase (hosting database — EU)\n• Vercel (hosting website — EU/VS, DPA)\nWij verkopen nooit persoonsgegevens aan derden." },
+        { "id": "rechten", "title": "Uw rechten", "body": "U heeft recht op inzage, rectificatie, verwijdering, beperking, overdraagbaarheid en bezwaar. U kunt uw rechten uitoefenen door een e-mail te sturen naar privacy@getcleaners.nl. Wij reageren binnen 30 dagen." },
+        { "id": "beveiliging", "title": "Beveiliging", "body": "Wij nemen passende technische en organisatorische maatregelen: versleutelde verbindingen (TLS), toegangscontrole (Row Level Security), en regelmatige beveiligingsaudits." },
+        { "id": "ap", "title": "Autoriteit Persoonsgegevens", "body": "Als u een klacht heeft over onze verwerking van persoonsgegevens, kunt u contact opnemen met de Autoriteit Persoonsgegevens (autoriteitpersoonsgegevens.nl)." }
+      ]
+    },
+    "cookies": {
+      "eyebrow": "Cookiebeleid",
+      "title": "Cookiebeleid",
+      "lastUpdated": "Laatst bijgewerkt: juni 2026",
+      "intro": "Deze pagina legt uit welke cookies getcleaners.nl gebruikt en waarom.",
+      "sections": [
+        { "id": "wat-zijn-cookies", "title": "Wat zijn cookies", "body": "Cookies zijn kleine tekstbestandjes die uw browser opslaat wanneer u een website bezoekt. Ze helpen de website om uw voorkeuren te onthouden en de dienst te verbeteren." },
+        { "id": "noodzakelijke-cookies", "title": "Strikt noodzakelijke cookies", "body": "Deze cookies zijn essentieel voor het functioneren van de website. Zonder deze cookies kunt u niet inloggen of een boeking plaatsen.\n\n• sb-*: Supabase sessiecookies (authenticatie)\n• __stripe_*: Stripe betalingscookies (checkout)\n• NEXT_LOCALE: taalvoorkeur (nl/en)" },
+        { "id": "analytische-cookies", "title": "Analytische cookies", "body": "Wij gebruiken momenteel geen analytische cookies van derden (geen Google Analytics, geen Facebook Pixel). Als wij in de toekomst analytics toevoegen, zullen wij eerst uw toestemming vragen." },
+        { "id": "marketing-cookies", "title": "Marketing cookies", "body": "Wij gebruiken geen marketing- of trackingcookies. Wij volgen u niet op andere websites." },
+        { "id": "beheer", "title": "Cookies beheren", "body": "U kunt cookies blokkeren of verwijderen via uw browserinstellingen. Let op: het blokkeren van noodzakelijke cookies kan de werking van de website beperken (u kunt dan niet inloggen of boeken)." }
+      ]
+    },
+    "complaints": {
+      "eyebrow": "Klachtenregeling",
+      "title": "Klachtenregeling",
+      "lastUpdated": "Laatst bijgewerkt: juni 2026",
+      "intro": "Niet tevreden? Wij nemen elke klacht serieus en streven naar een snelle, eerlijke oplossing.",
+      "sections": [
+        { "id": "hoe-melden", "title": "Hoe meld ik een klacht", "body": "Stuur een e-mail naar klachten@getcleaners.nl met:\n• Uw naam en e-mailadres\n• Het boekingsnummer (BK-XXXXXXXX)\n• Een beschrijving van de klacht\n• Eventueel foto's of bewijs\n\nU ontvangt binnen 2 werkdagen een ontvangstbevestiging." },
+        { "id": "behandeling", "title": "Behandeling", "body": "Wij onderzoeken elke klacht zorgvuldig. Afhankelijk van de aard:\n• Kwaliteitsklacht: wij bieden een gratis nieuwe schoonmaak of volledige restitutie.\n• Schade: wij schakelen de verzekering in (gedekt tot €300.000 per bezoek).\n• Gedragsklacht: wij nemen contact op met de schoonmaker en nemen passende maatregelen." },
+        { "id": "termijn", "title": "Termijn", "body": "Wij streven ernaar elke klacht binnen 14 dagen af te handelen. Bij complexe gevallen (bijv. schadeclaim) informeren wij u over de verwachte doorlooptijd." },
+        { "id": "garantie", "title": "Onze garantie", "body": "Als u binnen 24 uur na de schoonmaak een klacht meldt:\n• Wij regelen kosteloos een nieuwe schoonmaak, of\n• U ontvangt het volledige bedrag terug.\nDeze garantie geldt voor elke boeking via het Platform." },
+        { "id": "escalatie", "title": "Externe geschillenbeslechting", "body": "Komen wij er samen niet uit? U kunt een klacht indienen bij het Europees ODR-platform (ec.europa.eu/odr) of de Geschillencommissie Thuiswinkel." },
+        { "id": "contact", "title": "Contact", "body": "cleaners B.V.\nE-mail: klachten@getcleaners.nl\nReactietijd: 2 werkdagen" }
+      ]
+    }
   }
 }

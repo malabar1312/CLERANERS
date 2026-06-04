@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { PlaceholderPage } from "@/components/sections/placeholder-page";
+import { LegalPage } from "@/components/sections/legal-page";
+import { asArray } from "@/lib/utils";
 
 export async function generateMetadata({
   params,
@@ -8,8 +9,8 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "placeholders" });
-  return { title: t("voorwaarden.title") };
+  const t = await getTranslations({ locale, namespace: "legal.terms" });
+  return { title: t("title") };
 }
 
 export default async function VoorwaardenPage({
@@ -19,15 +20,16 @@ export default async function VoorwaardenPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("placeholders");
+  const t = await getTranslations("legal.terms");
+  const sections = asArray<{ id: string; title: string; body: string }>(t.raw("sections"));
 
   return (
-    <PlaceholderPage
-      eyebrow={t("voorwaarden.eyebrow")}
-      title={t("voorwaarden.title")}
-      body={t("voorwaarden.body")}
-      backHomeLabel={t("backHome")}
-      secondaryCta={{ label: t("contactCta"), href: "/contact" }}
+    <LegalPage
+      eyebrow={t("eyebrow")}
+      title={t("title")}
+      lastUpdated={t("lastUpdated")}
+      intro={t("intro")}
+      sections={sections}
     />
   );
 }
