@@ -1,4 +1,10 @@
 {
+  "error": {
+    "title": "Something went wrong",
+    "body": "We're sorry — an unexpected error occurred. Please try reloading the page.",
+    "retry": "Try again",
+    "home": "Back to home"
+  },
   "landlords": {
     "meta": {
       "title": "For landlords — turnover cleaning for Airbnb and vacation rentals",
@@ -249,8 +255,9 @@
     "count": "{count} verified cleaners",
     "priceNote": "Rates are per hour. At checkout an 18% service fee applies — transparent, no hidden costs.",
     "priceNoteLink": "See pricing",
-    "empty": "No cleaners found with these filters.",
-    "emptyAction": "Clear the filters and try again."
+    "empty": "No cleaners found",
+    "emptyBody": "No cleaners match these filters. Try a different neighborhood or specialty.",
+    "emptyAction": "Clear filters"
   },
   "pricingPage": {
     "eyebrow": "Pricing",

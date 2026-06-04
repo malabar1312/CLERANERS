@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { ChevronDown, X } from "lucide-react";
 import { CleanerCard } from "@/components/domain/cleaner-card";
 import { MotionReveal } from "@/components/ui/motion-reveal";
+import { EmptyState } from "@/components/ui/empty-state";
 import { Container } from "@/components/layout/container";
 import {
   featuredCleaners,
@@ -124,15 +125,20 @@ export function CleanersBrowser() {
             ))}
           </div>
         ) : (
-          <div className="mt-16 flex flex-col items-center gap-4 py-16 text-center">
-            <p className="headline text-2xl text-[var(--color-ink)]">{tf("empty")}</p>
-            <button
-              type="button"
-              onClick={reset}
-              className="text-sm font-medium text-[var(--color-blue)] underline-offset-4 hover:underline"
-            >
-              {tf("emptyAction")}
-            </button>
+          <div className="mt-8">
+            <EmptyState
+              title={tf("empty")}
+              body={tf("emptyBody")}
+              action={
+                <button
+                  type="button"
+                  onClick={reset}
+                  className="text-sm font-medium text-[var(--color-blue)] underline-offset-4 hover:underline"
+                >
+                  {tf("emptyAction")}
+                </button>
+              }
+            />
           </div>
         )}
       </Container>

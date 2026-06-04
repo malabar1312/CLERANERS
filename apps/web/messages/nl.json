@@ -1,4 +1,10 @@
 {
+  "error": {
+    "title": "Er ging iets mis",
+    "body": "Onze excuses — er is een onverwachte fout opgetreden. Probeer de pagina opnieuw te laden.",
+    "retry": "Opnieuw proberen",
+    "home": "Terug naar home"
+  },
   "landlords": {
     "meta": {
       "title": "Voor verhuurders — turnover cleaning voor Airbnb en vakantieverhuur",
@@ -249,8 +255,9 @@
     "count": "{count} geverifieerde schoonmakers",
     "priceNote": "Tarieven zijn per uur. Bij het boeken komt 18% servicekosten — transparant, geen verborgen kosten.",
     "priceNoteLink": "Bekijk prijzen",
-    "empty": "Geen schoonmakers gevonden met deze filters.",
-    "emptyAction": "Wis de filters en probeer opnieuw."
+    "empty": "Geen schoonmakers gevonden",
+    "emptyBody": "Er zijn geen schoonmakers die aan deze filters voldoen. Probeer een andere buurt of specialiteit.",
+    "emptyAction": "Wis de filters"
   },
   "pricingPage": {
     "eyebrow": "Prijzen",
