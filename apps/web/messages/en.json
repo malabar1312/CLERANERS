@@ -1,4 +1,62 @@
 {
+  "forCleaners": {
+    "meta": {
+      "title": "Become a cleaner on cleaners",
+      "description": "Earn €22–€30 per hour as a verified cleaner on cleaners. Set your own rate, choose your clients, we handle the rest."
+    },
+    "hero": {
+      "eyebrow": "Become a cleaner",
+      "title": "Work on your terms. Earn what you're worth.",
+      "lead": "Set your own hourly rate, choose your clients, work when you want. We handle payment, insurance, and finding clients.",
+      "cta": "Sign up",
+      "ctaSecondary": "See rates",
+      "stat1": "4.9 average rating",
+      "stat2": "Paid every Monday",
+      "stat3": "Insured up to €300,000"
+    },
+    "benefits": {
+      "kicker": "Why cleaners choose cleaners",
+      "title": "Built for independent professionals.",
+      "lead": "No boss. No agency. You decide.",
+      "items": [
+        { "title": "Fair rate, you decide", "body": "Set your own hourly rate (average €22–€30). No commission surprises — you see exactly what you keep." },
+        { "title": "Flexible scheduling", "body": "Choose your own days and times. Work weekly with regular clients or take one-off bookings." },
+        { "title": "Verified and insured", "body": "After verification (passport + background check) you're insured up to €300,000 per visit. We take on the risk." },
+        { "title": "Weekly payouts", "body": "Your earnings in your account every Monday via Stripe. No waiting, no hassle." }
+      ]
+    },
+    "howItWorks": {
+      "kicker": "How it works",
+      "title": "Get started in three steps.",
+      "steps": [
+        { "title": "Create your profile", "body": "Tell us about yourself, your experience, and your specialties. Upload your photo and set your rate." },
+        { "title": "Complete verification", "body": "We check your identity (passport + selfie), request a background check, and verify your references. Takes 2–3 business days on average." },
+        { "title": "Start working", "body": "Once verified, you're visible to clients in your area. Accept bookings and get to work." }
+      ]
+    },
+    "cta": {
+      "title": "Ready to get started?",
+      "lead": "Signing up is free. No contracts, no obligations. You can stop at any time.",
+      "button": "Sign up"
+    }
+  },
+  "helpPage": {
+    "eyebrow": "Help center",
+    "title": "Help center",
+    "lastUpdated": "Last updated: June 2026",
+    "intro": "Answers to the most common questions. Can't find yours? Contact us at info@getcleaners.nl.",
+    "sections": [
+      { "id": "what-is-cleaners", "title": "What is cleaners?", "body": "cleaners is a trust platform that connects you with verified cleaners in Amsterdam. We're not a cleaning company — you choose who enters your home." },
+      { "id": "how-to-book", "title": "How do I book a clean?", "body": "1. Browse profiles at /schoonmakers.\n2. Pick a cleaner you like.\n3. Click 'Book now' and fill in the details (size, date, address).\n4. Pay securely via iDEAL, credit card, or Apple Pay.\n5. Done — you'll receive a confirmation." },
+      { "id": "pricing", "title": "How much does it cost?", "body": "You pay the cleaner's hourly rate (average €22–€30/h) plus 18% service fee. The fee covers verification, insurance (€300,000), escrow payment, and support. See /prijzen for a detailed breakdown." },
+      { "id": "cancellation", "title": "Can I cancel?", "body": "Yes. Free cancellation up to 24 hours before the appointment. Late cancellations may be charged the full amount." },
+      { "id": "payment", "title": "How does payment work?", "body": "You pay via Stripe (iDEAL, credit card, Apple Pay). The amount is held in escrow and only released after a successful clean. You're always protected." },
+      { "id": "not-happy", "title": "What if I'm not happy?", "body": "Report it within 24 hours via klachten@getcleaners.nl. We arrange a free reclean or give you a full refund. More details at /klachten." },
+      { "id": "insurance", "title": "Is the clean insured?", "body": "Yes. Every booking through cleaners is insured up to €300,000 per visit for liability. Report damage within 24 hours." },
+      { "id": "become-cleaner", "title": "How do I become a cleaner?", "body": "Go to /voor-schoonmakers and sign up. After verification (passport + background check + references) you become visible on the platform. Signing up is free." },
+      { "id": "contact", "title": "Contact", "body": "Email: info@getcleaners.nl\nResponse time: 2 business days\nOr use the contact form at /contact." }
+    ]
+  },
   "error": {
     "title": "Something went wrong",
     "body": "We're sorry — an unexpected error occurred. Please try reloading the page.",

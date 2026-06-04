@@ -20,16 +20,22 @@ export function FooterWaitlistForm() {
     null,
   );
 
-  const success = state?.ok === true;
+  const isDev = process.env.NODE_ENV !== "production";
+  const softSuccess =
+    state != null &&
+    !state.ok &&
+    (state.error === "duplicate" || (state.error === "config_missing" && isDev));
+  const success = state?.ok === true || softSuccess;
 
   const errorMsg = (() => {
     if (!state || state.ok) return null;
+    if (state.error === "duplicate") return null;
+    if (state.error === "config_missing" && isDev) return null;
     if (state.error === "invalid_email") return t("errorEmail");
-    if (state.error === "duplicate") return t("success"); // ya está → tratamos como éxito suave
     return t("errorGeneric");
   })();
 
-  if (success || (state && !state.ok && state.error === "duplicate")) {
+  if (success) {
     return (
       <div className="flex items-center gap-2.5 rounded-lg border border-[var(--color-dark-line)] bg-[color:rgb(255_255_255/0.06)] px-4 py-3.5 text-sm text-[var(--color-dark-ink)]">
         <CheckCircle2 className="h-5 w-5 shrink-0 text-[var(--color-blue)]" aria-hidden="true" />

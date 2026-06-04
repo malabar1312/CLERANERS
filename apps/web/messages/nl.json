@@ -1,4 +1,62 @@
 {
+  "forCleaners": {
+    "meta": {
+      "title": "Word schoonmaker bij cleaners",
+      "description": "Verdien €22–€30 per uur als geverifieerde schoonmaker op cleaners. Bepaal je eigen tarief, kies je eigen klanten, wij regelen de rest."
+    },
+    "hero": {
+      "eyebrow": "Word schoonmaker",
+      "title": "Werk op jouw voorwaarden. Verdien wat je waard bent.",
+      "lead": "Bepaal je eigen uurtarief, kies je eigen klanten, werk wanneer jij wilt. Wij regelen de betaling, de verzekering en de klanten.",
+      "cta": "Meld je aan",
+      "ctaSecondary": "Bekijk tarieven",
+      "stat1": "4,9 gemiddelde beoordeling",
+      "stat2": "Uitbetaling elke maandag",
+      "stat3": "Verzekerd tot €300.000"
+    },
+    "benefits": {
+      "kicker": "Waarom schoonmakers kiezen voor cleaners",
+      "title": "Gebouwd voor zelfstandige professionals.",
+      "lead": "Geen baas. Geen uitzendbureau. Jij bepaalt.",
+      "items": [
+        { "title": "Eerlijk tarief, jij bepaalt", "body": "Stel je eigen uurtarief in (gemiddeld €22–€30). Geen commissie-verrassingen — je ziet precies wat je overhoudt." },
+        { "title": "Flexibel plannen", "body": "Kies je eigen dagen en tijden. Werk wekelijks bij vaste klanten of neem incidentele boekingen aan." },
+        { "title": "Geverifieerd en verzekerd", "body": "Na verificatie (paspoort + VOG) ben je verzekerd tot €300.000 per bezoek. Wij nemen het risico over." },
+        { "title": "Wekelijkse uitbetaling", "body": "Elke maandag je verdiensten op je rekening via Stripe. Geen wachten, geen gedoe." }
+      ]
+    },
+    "howItWorks": {
+      "kicker": "Hoe het werkt",
+      "title": "In drie stappen aan de slag.",
+      "steps": [
+        { "title": "Maak een profiel aan", "body": "Vertel over jezelf, je ervaring en je specialiteiten. Upload je foto en stel je uurtarief in." },
+        { "title": "Doorloop de verificatie", "body": "We controleren je identiteit (paspoort + selfie), vragen een VOG op en checken je referenties. Duurt gemiddeld 2–3 werkdagen." },
+        { "title": "Begin met werken", "body": "Zodra je geverifieerd bent, word je zichtbaar voor klanten in jouw buurt. Accepteer boekingen en ga aan de slag." }
+      ]
+    },
+    "cta": {
+      "title": "Klaar om te beginnen?",
+      "lead": "Aanmelden is gratis. Geen contracten, geen verplichtingen. Je kunt op elk moment stoppen.",
+      "button": "Meld je aan"
+    }
+  },
+  "helpPage": {
+    "eyebrow": "Helpcentrum",
+    "title": "Helpcentrum",
+    "lastUpdated": "Laatst bijgewerkt: juni 2026",
+    "intro": "Antwoorden op de meestgestelde vragen. Staat je vraag er niet bij? Neem contact met ons op via info@getcleaners.nl.",
+    "sections": [
+      { "id": "wat-is-cleaners", "title": "Wat is cleaners?", "body": "cleaners is een vertrouwensplatform dat je koppelt aan geverifieerde schoonmakers in Amsterdam. Wij zijn geen schoonmaakbedrijf — jij kiest zelf wie jouw huis binnenkomt." },
+      { "id": "hoe-boek-ik", "title": "Hoe boek ik een schoonmaak?", "body": "1. Bekijk de profielen op /schoonmakers.\n2. Kies een schoonmaker die je aanspreekt.\n3. Klik op 'Boek nu' en vul de details in (oppervlakte, datum, adres).\n4. Betaal veilig via iDEAL, creditcard of Apple Pay.\n5. Klaar — je ontvangt een bevestiging." },
+      { "id": "wat-kost-het", "title": "Wat kost het?", "body": "Je betaalt het uurtarief van je schoonmaker (gemiddeld €22–€30/u) plus 18% servicekosten. De servicekosten dekken verificatie, verzekering (€300.000), escrow-betaling en klantsupport. Bekijk /prijzen voor een gedetailleerd overzicht." },
+      { "id": "annuleren", "title": "Kan ik annuleren?", "body": "Ja. Kosteloos annuleren tot 24 uur vóór de afspraak. Bij latere annulering kan het volledige bedrag in rekening worden gebracht." },
+      { "id": "betaling", "title": "Hoe werkt de betaling?", "body": "Je betaalt via Stripe (iDEAL, creditcard, Apple Pay). Het bedrag wordt in escrow gehouden en pas vrijgegeven na een geslaagde schoonmaak. Zo ben je altijd beschermd." },
+      { "id": "niet-tevreden", "title": "Wat als ik niet tevreden ben?", "body": "Meld het binnen 24 uur via klachten@getcleaners.nl. Wij regelen kosteloos een nieuwe schoonmaak of je ontvangt je geld terug. Meer details op /klachten." },
+      { "id": "verzekering", "title": "Is de schoonmaak verzekerd?", "body": "Ja. Elke boeking via cleaners is verzekerd tot €300.000 per bezoek voor aansprakelijkheid. Schade melden? Doe dit binnen 24 uur." },
+      { "id": "schoonmaker-worden", "title": "Hoe word ik schoonmaker?", "body": "Ga naar /voor-schoonmakers en meld je aan. Na verificatie (paspoort + VOG + referenties) word je zichtbaar op het platform. Aanmelden is gratis." },
+      { "id": "contact", "title": "Contact", "body": "E-mail: info@getcleaners.nl\nReactietijd: 2 werkdagen\nOf gebruik het contactformulier op /contact." }
+    ]
+  },
   "error": {
     "title": "Er ging iets mis",
     "body": "Onze excuses — er is een onverwachte fout opgetreden. Probeer de pagina opnieuw te laden.",
