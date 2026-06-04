@@ -37,18 +37,24 @@ const fullSchema = publicSchema.merge(serverSchema);
 
 type FullEnv = z.infer<typeof fullSchema>;
 
+/** Trim + treat empty/whitespace-only as undefined (defensive against deploy envs). */
+function clean(v: string | undefined): string | undefined {
+  const t = v?.trim();
+  return t && t.length > 0 ? t : undefined;
+}
+
 function parse(): FullEnv {
   const parsed = fullSchema.safeParse({
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
-    NEXT_PUBLIC_MAPBOX_TOKEN: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
-    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-    SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
-    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
-    STRIPE_RESTRICTED_KEY: process.env.STRIPE_RESTRICTED_KEY,
-    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
-    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    NEXT_PUBLIC_SUPABASE_URL: clean(process.env.NEXT_PUBLIC_SUPABASE_URL),
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: clean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
+    NEXT_PUBLIC_SITE_URL: clean(process.env.NEXT_PUBLIC_SITE_URL),
+    NEXT_PUBLIC_MAPBOX_TOKEN: clean(process.env.NEXT_PUBLIC_MAPBOX_TOKEN),
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: clean(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY),
+    SUPABASE_SERVICE_ROLE_KEY: clean(process.env.SUPABASE_SERVICE_ROLE_KEY),
+    STRIPE_SECRET_KEY: clean(process.env.STRIPE_SECRET_KEY),
+    STRIPE_RESTRICTED_KEY: clean(process.env.STRIPE_RESTRICTED_KEY),
+    STRIPE_WEBHOOK_SECRET: clean(process.env.STRIPE_WEBHOOK_SECRET),
+    RESEND_API_KEY: clean(process.env.RESEND_API_KEY),
     NODE_ENV: process.env.NODE_ENV,
   });
 
