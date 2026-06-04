@@ -24,6 +24,7 @@ import { BookingButton } from "@/components/domain/booking-flow";
 import { Link } from "@/i18n/navigation";
 import { asArray } from "@/lib/utils";
 import { getCleanerProfile, cleanerIds } from "@/lib/mock/cleaners";
+import { TrackCleanerView } from "@/components/analytics/track-view";
 import { featuredReviews } from "@/lib/mock/reviews";
 
 export function generateStaticParams() {
@@ -68,6 +69,7 @@ export default async function CleanerProfilePage({
   return (
     <>
       <AuthNav />
+      <TrackCleanerView cleanerId={profile.id} />
       <main className="min-h-screen bg-[var(--color-dark)] text-[var(--color-dark-ink)]">
         <Container size="wide" className="pt-[calc(var(--nav-h-sm)+2rem)] pb-[var(--space-section)]">
           <Link

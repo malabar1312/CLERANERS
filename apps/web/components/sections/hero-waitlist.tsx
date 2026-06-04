@@ -1,10 +1,11 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { submitWaitlist, type WaitlistResult } from "@/app/[locale]/_actions/waitlist";
 import { buttonStyles } from "@/components/ui/button-variants";
+import { trackWaitlistSignup } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 /**
@@ -33,6 +34,13 @@ export function HeroWaitlist() {
     !state.ok &&
     (state.error === "duplicate" || (state.error === "config_missing" && isDev));
   const success = state?.ok === true || softSuccess;
+  const tracked = useRef(false);
+  useEffect(() => {
+    if (success && !tracked.current) {
+      tracked.current = true;
+      trackWaitlistSignup("hero");
+    }
+  }, [success]);
 
   const errorMsg = (() => {
     if (!state || state.ok) return null;

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Mail, Lock, ArrowRight, AlertCircle } from "lucide-react";
 import { signIn, type AuthResult } from "@/app/[locale]/_actions/auth";
 import { buttonStyles } from "@/components/ui/button-variants";
+import { trackLogin } from "@/lib/analytics";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
@@ -13,7 +14,14 @@ const inputCls =
 
 export function LoginForm() {
   const t = useTranslations("auth.login");
-  const [state, formAction, pending] = useActionState<AuthResult | null, FormData>(signIn, null);
+  const [state, formAction, pending] = useActionState<AuthResult | null, FormData>(
+    async (prev, data) => {
+      const result = await signIn(prev, data);
+      if (result.ok) trackLogin();
+      return result;
+    },
+    null,
+  );
 
   const errorMsg = (() => {
     if (!state || state.ok) return null;

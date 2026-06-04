@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { X, ArrowLeft, ArrowRight, ShieldCheck, Lock, Check, CalendarCheck } from "lucide-react";
 import { buttonStyles } from "@/components/ui/button-variants";
+import { trackBookingStart, trackBookingPay } from "@/lib/analytics";
 import { computePrice, formatEur, minBookingDate, hoursForArea } from "@/lib/booking/pricing";
 import { createBookingCheckout } from "@/app/[locale]/_actions/booking";
 import { cn } from "@/lib/utils";
@@ -23,7 +24,7 @@ export function BookingButton({ cleaner, className }: { cleaner: CleanerLite; cl
     <>
       <button
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={() => { setOpen(true); trackBookingStart(cleaner.id); }}
         className={cn(buttonStyles({ variant: "accent", size: "lg", fullWidth: true }), className)}
       >
         {t("open")}
@@ -105,6 +106,7 @@ function BookingModal({ cleaner, onClose }: { cleaner: CleanerLite; onClose: () 
       return;
     }
     setPending(true);
+    trackBookingPay(cleaner.id, price.totalCents);
     const res = await createBookingCheckout({
       cleanerId: cleaner.id,
       m2,
