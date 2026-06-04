@@ -1,4 +1,52 @@
 {
+  "landlords": {
+    "meta": {
+      "title": "For landlords — turnover cleaning for Airbnb and vacation rentals",
+      "description": "Verified cleaners for your vacation rental. Check-out cleaning after every guest, on schedule, insured up to €300,000."
+    },
+    "hero": {
+      "eyebrow": "For Airbnb & vacation rentals",
+      "title": "Turnover cleaning, worry-free.",
+      "lead": "A verified cleaner after every guest, on a fixed schedule. No phone calls, no no-shows, no surprises at the next check-in.",
+      "cta": "Find your cleaner",
+      "ctaSecondary": "See pricing"
+    },
+    "benefits": {
+      "kicker": "Why landlords choose cleaners",
+      "title": "Built for landlords.",
+      "lead": "Turnover cleaning is not regular household cleaning. We get that.",
+      "items": [
+        { "title": "Fixed times, every time", "body": "Schedule your clean around check-out and check-in. The cleaner knows your property and exactly what's needed." },
+        { "title": "Verified and insured", "body": "Every cleaner is verified (passport + background check) and insured up to €300,000. Hand over your keys with confidence." },
+        { "title": "Weekly or on-demand", "body": "Fixed weekly schedule for peak season, or book per clean when you need flexibility." },
+        { "title": "Check-in ready", "body": "Beds made, towels folded, welcome pack placed. Your guests walk into a spotless home." }
+      ]
+    },
+    "howItWorks": {
+      "kicker": "How it works",
+      "title": "Operational in three steps.",
+      "steps": [
+        { "title": "Choose your cleaner", "body": "Browse profiles of cleaners experienced with vacation rentals. Pick who fits your property." },
+        { "title": "Schedule your first clean", "body": "Book around your check-out time. The cleaner knows exactly what Airbnb guests leave behind." },
+        { "title": "Run on autopilot", "body": "After the first clean, you know your cleaner. Schedule weekly or per booking — payment, insurance, and support run through us." }
+      ]
+    },
+    "social": {
+      "kicker": "What landlords say",
+      "title": "Trusted by hosts in Amsterdam.",
+      "verified": "Verified booking",
+      "items": [
+        { "quote": "I rent three apartments in De Pijp. Since I started booking through cleaners, I've had zero guest complaints about cleanliness. Zero.", "author": "Martijn V.", "detail": "3 properties · De Pijp" },
+        { "quote": "My previous cleaner no-showed twice before a check-in. With cleaners, I don't have that risk anymore — insured and reliable.", "author": "Lieke B.", "detail": "1 property · Centre" },
+        { "quote": "The escrow system is clever. I only pay once the clean is done. And if something goes wrong, they handle it.", "author": "Thomas K.", "detail": "2 properties · East" }
+      ]
+    },
+    "cta": {
+      "title": "Ready to streamline your turnover?",
+      "lead": "No subscription, no minimum. One verified cleaner who knows your property — payment only after the clean.",
+      "button": "Find your cleaner"
+    }
+  },
   "auth": {
     "login": {
       "title": "Welcome back",
@@ -31,6 +79,7 @@
   "nav": {
     "howItWorks": "How it works",
     "schoonmakers": "Cleaners",
+    "forLandlords": "For landlords",
     "forCleaners": "For cleaners",
     "faq": "FAQ",
     "login": "Log in",

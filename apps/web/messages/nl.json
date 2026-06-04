@@ -1,4 +1,52 @@
 {
+  "landlords": {
+    "meta": {
+      "title": "Voor verhuurders — turnover cleaning voor Airbnb en vakantieverhuur",
+      "description": "Geverifieerde schoonmakers voor je vakantieverhuur. Check-out cleaning na elke gast, op vaste tijden, verzekerd tot €300.000."
+    },
+    "hero": {
+      "eyebrow": "Voor Airbnb & vakantieverhuur",
+      "title": "Turnover cleaning zonder zorgen.",
+      "lead": "Na elke gast een geverifieerde schoonmaker op vaste tijden. Geen telefoontjes, geen no-shows, geen verrassing bij de volgende check-in.",
+      "cta": "Vind je schoonmaker",
+      "ctaSecondary": "Bekijk prijzen"
+    },
+    "benefits": {
+      "kicker": "Waarom verhuurders kiezen voor cleaners",
+      "title": "Gebouwd voor verhuurders.",
+      "lead": "Turnover cleaning is niet hetzelfde als gewone huishoudelijke schoonmaak. Wij snappen dat.",
+      "items": [
+        { "title": "Vaste tijden, elke keer", "body": "Plan je schoonmaak rond check-out en check-in. De schoonmaker kent je woning en weet precies wat er nodig is." },
+        { "title": "Geverifieerd en verzekerd", "body": "Elke schoonmaker is geverifieerd (paspoort + VOG) en verzekerd tot €300.000. Je geeft je sleutel met een gerust hart af." },
+        { "title": "Wekelijks of op afroep", "body": "Vaste wekelijkse planning voor seizoenspieken, of boek per keer als je flexibiliteit nodig hebt." },
+        { "title": "Check-in ready", "body": "Bedden opgemaakt, handdoeken gevouwen, welkomstpakket geplaatst. Je gasten lopen een schoon huis binnen." }
+      ]
+    },
+    "howItWorks": {
+      "kicker": "Hoe het werkt",
+      "title": "In drie stappen operationeel.",
+      "steps": [
+        { "title": "Kies je schoonmaker", "body": "Bekijk profielen van schoonmakers met ervaring in vakantieverhuur. Kies wie bij je woning past." },
+        { "title": "Plan je eerste schoonmaak", "body": "Boek rond je check-out tijdstip. De schoonmaker weet precies wat Airbnb-gasten achterlaten." },
+        { "title": "Draai op automatisch", "body": "Na de eerste keer ken je je schoonmaker. Plan wekelijks of per boeking — betaling, verzekering en support lopen via ons." }
+      ]
+    },
+    "social": {
+      "kicker": "Wat verhuurders zeggen",
+      "title": "Vertrouwd door hosts in Amsterdam.",
+      "verified": "Geverifieerde boeking",
+      "items": [
+        { "quote": "Ik verhuur drie appartementen in De Pijp. Sinds ik via cleaners boek heb ik nul klachten van gasten over schoonmaak. Zero.", "author": "Martijn V.", "detail": "3 woningen · De Pijp" },
+        { "quote": "Mijn vorige schoonmaker kwam twee keer niet opdagen vóór een check-in. Via cleaners heb ik dat risico niet meer — verzekerd en betrouwbaar.", "author": "Lieke B.", "detail": "1 woning · Centrum" },
+        { "quote": "Het escrow-systeem is slim. Ik betaal pas als de schoonmaak gedaan is. En als er iets misgaat, regelen zij het.", "author": "Thomas K.", "detail": "2 woningen · Oost" }
+      ]
+    },
+    "cta": {
+      "title": "Klaar om je turnover te stroomlijnen?",
+      "lead": "Geen abonnement, geen minimum. Eén geverifieerde schoonmaker die jouw woning kent — betaling pas na de schoonmaak.",
+      "button": "Vind je schoonmaker"
+    }
+  },
   "auth": {
     "login": {
       "title": "Welkom terug",
@@ -31,6 +79,7 @@
   "nav": {
     "howItWorks": "Hoe het werkt",
     "schoonmakers": "Schoonmakers",
+    "forLandlords": "Voor verhuurders",
     "forCleaners": "Voor schoonmakers",
     "faq": "FAQ",
     "login": "Inloggen",

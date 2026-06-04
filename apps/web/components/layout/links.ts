@@ -7,6 +7,7 @@ export type NavLink = { href: string; labelKey: string };
 export const navLinks: NavLink[] = [
   { href: "/#hoe-het-werkt", labelKey: "howItWorks" },
   { href: "/schoonmakers", labelKey: "schoonmakers" },
+  { href: "/voor-verhuurders", labelKey: "forLandlords" },
   { href: "/voor-schoonmakers", labelKey: "forCleaners" },
   { href: "/#faq", labelKey: "faq" },
 ];

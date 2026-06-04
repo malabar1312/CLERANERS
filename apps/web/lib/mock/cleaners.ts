@@ -33,7 +33,7 @@ export const featuredCleaners: CleanerPreview[] = [
     verified: true,
     online: true,
     tone: 0,
-    specialties: ["Diepe reiniging", "Strijken", "Ramen"],
+    specialties: ["Diepe reiniging", "Vakantieverhuur", "Ramen"],
   },
   {
     id: "maria-g",
@@ -69,7 +69,7 @@ export const featuredCleaners: CleanerPreview[] = [
     verified: true,
     online: true,
     tone: 3,
-    specialties: ["Verhuisreiniging", "Strijken", "Wekelijks"],
+    specialties: ["Verhuisreiniging", "Vakantieverhuur", "Wekelijks"],
   },
   {
     id: "anna-l",
@@ -93,7 +93,7 @@ export const featuredCleaners: CleanerPreview[] = [
     verified: true,
     online: true,
     tone: 5,
-    specialties: ["Premium", "Strijken", "Boodschappen"],
+    specialties: ["Premium", "Vakantieverhuur", "Boodschappen"],
   },
   {
     id: "rosa-d",

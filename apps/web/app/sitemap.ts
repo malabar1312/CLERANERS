@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPaths = [
     "",
     "/schoonmakers",
+    "/voor-verhuurders",
     "/voor-schoonmakers",
     "/prijzen",
     "/contact",
