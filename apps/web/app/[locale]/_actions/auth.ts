@@ -20,6 +20,8 @@ export type AuthResult =
   | { ok: true }
   | { ok: false; error: "invalid_input" | "invalid_credentials" | "email_taken" | "unknown" };
 
+export type ResetResult = { ok: true } | { ok: false; error: "unknown" };
+
 /**
  * Server Action — login con email + password.
  * Usa `signInWithPassword` de Supabase Auth. La sesión se escribe
@@ -98,6 +100,34 @@ export async function signUp(
 
   revalidatePath("/", "layout");
   redirect("/");
+}
+
+/**
+ * Server Action — solicitar reset de contraseña. Supabase envía un email
+ * con un link mágico. Siempre devuelve ok (no revela si el email existe).
+ */
+export async function requestPasswordReset(
+  _prev: ResetResult | null,
+  formData: FormData,
+): Promise<ResetResult> {
+  const hdrs = await headers();
+  if (!rateLimit("reset", getIdentifier(hdrs), { limit: 3, windowMs: 300_000 })) {
+    return { ok: false, error: "unknown" };
+  }
+
+  const email = z.string().trim().email().safeParse(formData.get("email"));
+  if (!email.success) return { ok: true }; // Don't reveal invalid = no account.
+
+  try {
+    const supabase = await createSupabaseServerClient();
+    await supabase.auth.resetPasswordForEmail(email.data, {
+      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}/auth/callback?next=/`,
+    });
+  } catch {
+    // Swallow — never reveal whether the email exists.
+  }
+
+  return { ok: true };
 }
 
 /**

@@ -82,12 +82,19 @@ export function LoginForm() {
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-[var(--color-muted)]">
-        {t("noAccount")}{" "}
-        <Link href="/signup" className="font-medium text-[var(--color-blue)] underline-offset-4 hover:underline">
-          {t("signupLink")}
-        </Link>
-      </p>
+      <div className="mt-6 space-y-2 text-center text-sm text-[var(--color-muted)]">
+        <p>
+          <Link href="/login/forgot" className="font-medium text-[var(--color-blue)] underline-offset-4 hover:underline">
+            {t("forgotLink")}
+          </Link>
+        </p>
+        <p>
+          {t("noAccount")}{" "}
+          <Link href="/signup" className="font-medium text-[var(--color-blue)] underline-offset-4 hover:underline">
+            {t("signupLink")}
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

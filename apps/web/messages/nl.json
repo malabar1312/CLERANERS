@@ -123,7 +123,19 @@
       "errorInput": "Controleer je gegevens.",
       "errorGeneric": "Er ging iets mis. Probeer het opnieuw.",
       "noAccount": "Nog geen account?",
-      "signupLink": "Maak er een aan"
+      "signupLink": "Maak er een aan",
+      "forgotLink": "Wachtwoord vergeten?"
+    },
+    "forgotPassword": {
+      "title": "Wachtwoord vergeten",
+      "subtitle": "Vul je e-mailadres in en we sturen een link om je wachtwoord te resetten.",
+      "email": "E-mailadres",
+      "submit": "Verstuur resetlink",
+      "loading": "Bezig…",
+      "errorGeneric": "Er ging iets mis. Probeer het opnieuw.",
+      "sentTitle": "E-mail verstuurd",
+      "sentBody": "Als er een account bestaat met dit e-mailadres, ontvang je een link om je wachtwoord te resetten.",
+      "backToLogin": "Terug naar inloggen"
     },
     "signup": {
       "title": "Account aanmaken",

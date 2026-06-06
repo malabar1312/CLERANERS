@@ -123,7 +123,19 @@
       "errorInput": "Please check your details.",
       "errorGeneric": "Something went wrong. Please try again.",
       "noAccount": "Don't have an account?",
-      "signupLink": "Create one"
+      "signupLink": "Create one",
+      "forgotLink": "Forgot your password?"
+    },
+    "forgotPassword": {
+      "title": "Forgot password",
+      "subtitle": "Enter your email and we'll send a link to reset your password.",
+      "email": "Email address",
+      "submit": "Send reset link",
+      "loading": "Sending…",
+      "errorGeneric": "Something went wrong. Please try again.",
+      "sentTitle": "Email sent",
+      "sentBody": "If an account exists with this email, you'll receive a link to reset your password.",
+      "backToLogin": "Back to login"
     },
     "signup": {
       "title": "Create an account",
