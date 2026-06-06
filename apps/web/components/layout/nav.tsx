@@ -9,6 +9,7 @@ import { Container } from "./container";
 import { buttonStyles } from "@/components/ui/button-variants";
 import { Drawer } from "./drawer";
 import { UserPill } from "./user-pill";
+import { LocaleSwitcher } from "./locale-switcher";
 import { navLinks } from "./links";
 import { cn } from "@/lib/utils";
 
@@ -76,6 +77,7 @@ export function Nav({ initialUser = null }: { initialUser?: CurrentUser }) {
             </nav>
 
             <div className="hidden items-center gap-2 lg:flex">
+              <LocaleSwitcher />
               {user ? (
                 <UserPill name={user.name} role={user.role} />
               ) : (

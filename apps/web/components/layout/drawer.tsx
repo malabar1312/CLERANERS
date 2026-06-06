@@ -8,6 +8,7 @@ import { signOut } from "@/app/[locale]/_actions/auth";
 import { Logo } from "@/components/brand/logo";
 import { UserPill } from "./user-pill";
 import { buttonStyles } from "@/components/ui/button-variants";
+import { LocaleSwitcher } from "./locale-switcher";
 import { navLinks } from "./links";
 import { cn } from "@/lib/utils";
 
@@ -137,6 +138,10 @@ export function Drawer({
               </Link>
             ))}
           </nav>
+
+          <div className="mt-6 flex justify-center">
+            <LocaleSwitcher />
+          </div>
         </div>
 
         <footer className="border-t border-[var(--color-line)] px-5 py-5">

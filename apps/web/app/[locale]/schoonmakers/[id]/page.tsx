@@ -74,6 +74,8 @@ export default async function CleanerProfilePage({
     <>
       <AuthNav />
       <TrackCleanerView cleanerId={profile.id} />
+      {/* L4: gradiente suave light→dark para que la transición no sea abrupta */}
+      <div aria-hidden="true" className="h-16 bg-gradient-to-b from-[var(--color-white)] to-[var(--color-dark)]" />
       <main className="min-h-screen bg-[var(--color-dark)] text-[var(--color-dark-ink)]">
         <Container size="wide" className="pt-[calc(var(--nav-h-sm)+2rem)] pb-[var(--space-section)]">
           <Link
