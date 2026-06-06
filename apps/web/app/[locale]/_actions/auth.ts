@@ -3,7 +3,9 @@
 import { z } from "zod";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { rateLimit, getIdentifier } from "@/lib/rate-limit";
 
 const loginSchema = z.object({
   email: z.string().trim().email(),
@@ -27,6 +29,12 @@ export async function signIn(
   _prev: AuthResult | null,
   formData: FormData,
 ): Promise<AuthResult> {
+  // Rate limit: 10 attempts per IP per 5 minutes (brute-force protection).
+  const hdrs = await headers();
+  if (!rateLimit("signin", getIdentifier(hdrs), { limit: 10, windowMs: 300_000 })) {
+    return { ok: false, error: "unknown" };
+  }
+
   const parsed = loginSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
@@ -59,6 +67,12 @@ export async function signUp(
   _prev: AuthResult | null,
   formData: FormData,
 ): Promise<AuthResult> {
+  // Rate limit: 3 signups per IP per 10 minutes (registration abuse).
+  const hdrs = await headers();
+  if (!rateLimit("signup", getIdentifier(hdrs), { limit: 3, windowMs: 600_000 })) {
+    return { ok: false, error: "unknown" };
+  }
+
   const parsed = signupSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),

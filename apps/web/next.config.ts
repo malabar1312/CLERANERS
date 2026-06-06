@@ -15,6 +15,36 @@ const supabaseHost = (() => {
   }
 })();
 
+/** Security headers — applied to all routes. */
+const securityHeaders = [
+  { key: "X-DNS-Prefetch-Control", value: "on" },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "X-Frame-Options", value: "SAMEORIGIN" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+  {
+    key: "Strict-Transport-Security",
+    value: "max-age=63072000; includeSubDomains; preload",
+  },
+  {
+    // CSP: tightened from report-only to enforced.
+    // stripe.com + js.stripe.com needed for Stripe Checkout.
+    // supabase.co for auth/storage.
+    // vercel-insights for analytics.
+    key: "Content-Security-Policy",
+    value: [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' js.stripe.com vercel-insights.vercel.app va.vercel-scripts.com",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: blob: *.supabase.co",
+      "font-src 'self'",
+      "connect-src 'self' *.supabase.co api.stripe.com va.vercel-scripts.com vercel-insights.vercel.app",
+      "frame-src js.stripe.com hooks.stripe.com",
+      "frame-ancestors 'none'",
+    ].join("; "),
+  },
+];
+
 const config: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
@@ -40,4 +70,16 @@ const config: NextConfig = {
   },
 };
 
-export default withNextIntl(config);
+const configWithHeaders: NextConfig = {
+  ...config,
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: securityHeaders,
+      },
+    ];
+  },
+};
+
+export default withNextIntl(configWithHeaders);

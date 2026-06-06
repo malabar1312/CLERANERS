@@ -21,9 +21,11 @@ import { Container } from "@/components/layout/container";
 import { Card } from "@/components/ui/card";
 import { AvatarInitials } from "@/components/ui/avatar-initials";
 import { BookingButton } from "@/components/domain/booking-flow";
+import { FavoriteButton } from "@/components/domain/favorite-button";
 import { Link } from "@/i18n/navigation";
 import { asArray } from "@/lib/utils";
 import { getCleanerProfile, cleanerIds } from "@/lib/mock/cleaners";
+import { getFavoriteIds } from "@/lib/data/favorites";
 import { TrackCleanerView } from "@/components/analytics/track-view";
 import { featuredReviews } from "@/lib/mock/reviews";
 
@@ -59,6 +61,8 @@ export default async function CleanerProfilePage({
   const included = asArray<string>(t.raw("included"));
   const guarantees = asArray<string>(t.raw("book.guarantees"));
   const trustItems = asArray<{ title: string; proof: string }>(t.raw("trust.items"));
+  const favoriteIds = await getFavoriteIds();
+  const isFavorited = favoriteIds.includes(profile.id);
 
   // Deterministic 3 reviews per cleaner from the shared pool.
   const offset = Math.max(0, cleanerIds().indexOf(id));
@@ -91,6 +95,7 @@ export default async function CleanerProfilePage({
                     <h1 className="headline text-[length:var(--text-headline)] text-[var(--color-dark-ink)]">
                       {profile.name}
                     </h1>
+                    <FavoriteButton cleanerId={profile.id} initialFavorited={isFavorited} />
                     {profile.verified && (
                       <BadgeCheck className="h-6 w-6 shrink-0 text-[var(--color-blue)]" aria-label="Geverifieerd" />
                     )}

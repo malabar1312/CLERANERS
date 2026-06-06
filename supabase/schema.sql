@@ -126,6 +126,40 @@ create policy "contact_anon_insert"
   to anon, authenticated
   with check (true);
 
+-- ─────────────────────────────────────────────────────────────────────────
+-- favorites — cleaners favoritos del cliente (M4)
+-- Cada usuario autenticado puede CRUD sus propios favoritos.
+-- ─────────────────────────────────────────────────────────────────────────
+create table if not exists public.favorites (
+  id              uuid primary key default gen_random_uuid(),
+  client_user_id  uuid not null,
+  cleaner_id      text not null,
+  created_at      timestamptz not null default now(),
+  unique (client_user_id, cleaner_id)
+);
+
+create index if not exists favorites_user_idx on public.favorites (client_user_id);
+
+alter table public.favorites enable row level security;
+
+drop policy if exists "favorites_own_select" on public.favorites;
+create policy "favorites_own_select"
+  on public.favorites for select
+  to authenticated
+  using (auth.uid() = client_user_id);
+
+drop policy if exists "favorites_own_insert" on public.favorites;
+create policy "favorites_own_insert"
+  on public.favorites for insert
+  to authenticated
+  with check (auth.uid() = client_user_id);
+
+drop policy if exists "favorites_own_delete" on public.favorites;
+create policy "favorites_own_delete"
+  on public.favorites for delete
+  to authenticated
+  using (auth.uid() = client_user_id);
+
 -- ════════════════════════════════════════════════════════════════════════
--- ✓ Listo. waitlist + bookings + webhook_events + contact_messages con RLS.
+-- ✓ Listo. waitlist + bookings + webhook_events + contact_messages + favorites.
 -- ════════════════════════════════════════════════════════════════════════

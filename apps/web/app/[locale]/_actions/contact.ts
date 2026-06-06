@@ -1,7 +1,9 @@
 "use server";
 
 import { z } from "zod";
+import { headers } from "next/headers";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { rateLimit, getIdentifier } from "@/lib/rate-limit";
 import { env } from "@/lib/env";
 
 const schema = z.object({
@@ -23,6 +25,12 @@ export async function submitContact(
   _prev: ContactResult | null,
   formData: FormData,
 ): Promise<ContactResult> {
+  // Rate limit: 3 messages per IP per 5 minutes.
+  const hdrs = await headers();
+  if (!rateLimit("contact", getIdentifier(hdrs), { limit: 3, windowMs: 300_000 })) {
+    return { ok: false, error: "unknown" };
+  }
+
   const parsed = schema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),

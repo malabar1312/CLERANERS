@@ -1,7 +1,9 @@
 "use server";
 
 import { z } from "zod";
+import { headers } from "next/headers";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { rateLimit, getIdentifier } from "@/lib/rate-limit";
 import { env } from "@/lib/env";
 
 const schema = z.object({
@@ -27,6 +29,12 @@ export async function submitWaitlist(
   prevState: WaitlistResult | null,
   formData: FormData,
 ): Promise<WaitlistResult> {
+  // Rate limit: 5 signups per IP per minute.
+  const hdrs = await headers();
+  if (!rateLimit("waitlist", getIdentifier(hdrs), { limit: 5, windowMs: 60_000 })) {
+    return { ok: false, error: "unknown" };
+  }
+
   if (!env.NEXT_PUBLIC_SUPABASE_URL || !env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
     return { ok: false, error: "config_missing" };
   }
