@@ -1,12 +1,12 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { submitWaitlist, type WaitlistResult } from "@/app/[locale]/_actions/waitlist";
 import { buttonStyles } from "@/components/ui/button-variants";
-import { trackWaitlistSignup } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { MagneticWrapper } from "@/components/ui/magnetic-wrapper";
 
 /**
  * `<HeroWaitlist />` — captura de demanda en el hero (waitlist-first).
@@ -17,7 +17,13 @@ import { cn } from "@/lib/utils";
  * perfiles. Honeypot anti-spam heredado del action. Sin JS pesado: un único
  * island cliente, igual de liviano que el `<HeroSearch>` que reemplaza.
  */
-export function HeroWaitlist() {
+export function HeroWaitlist({
+  onFocus,
+  onBlur,
+}: {
+  onFocus?: () => void;
+  onBlur?: () => void;
+} = {}) {
   const t = useTranslations("hero.waitlist");
   const locale = useLocale();
   const [state, formAction, pending] = useActionState<WaitlistResult | null, FormData>(
@@ -34,13 +40,6 @@ export function HeroWaitlist() {
     !state.ok &&
     (state.error === "duplicate" || (state.error === "config_missing" && isDev));
   const success = state?.ok === true || softSuccess;
-  const tracked = useRef(false);
-  useEffect(() => {
-    if (success && !tracked.current) {
-      tracked.current = true;
-      trackWaitlistSignup("hero");
-    }
-  }, [success]);
 
   const errorMsg = (() => {
     if (!state || state.ok) return null;
@@ -86,17 +85,21 @@ export function HeroWaitlist() {
             autoComplete="email"
             placeholder={t("placeholder")}
             aria-invalid={errorMsg ? true : undefined}
+            onFocus={onFocus}
+            onBlur={onBlur}
             className="w-full bg-transparent py-2.5 text-[15px] text-[var(--color-ink)] placeholder:text-[var(--color-muted)] focus:outline-none"
           />
         </label>
-        <button
-          type="submit"
-          disabled={pending}
-          className={buttonStyles({ variant: "accent", size: "md", className: "w-full shrink-0 sm:w-auto" })}
-        >
-          {pending ? t("submitting") : t("cta")}
-          {!pending && <ArrowRight className="h-4 w-4" aria-hidden="true" />}
-        </button>
+        <MagneticWrapper>
+          <button
+            type="submit"
+            disabled={pending}
+            className={buttonStyles({ variant: "accent", size: "md", className: "w-full shrink-0 sm:w-auto" })}
+          >
+            {pending ? t("submitting") : t("cta")}
+            {!pending && <ArrowRight className="h-4 w-4" aria-hidden="true" />}
+          </button>
+        </MagneticWrapper>
       </form>
 
       <p className={cn("mt-2.5 px-1 text-sm", errorMsg ? "text-[var(--color-danger)]" : "text-[var(--color-muted)]")} role={errorMsg ? "alert" : undefined}>

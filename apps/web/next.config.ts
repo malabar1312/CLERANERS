@@ -36,7 +36,7 @@ const securityHeaders = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' js.stripe.com vercel-insights.vercel.app va.vercel-scripts.com",
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob: *.supabase.co",
+      "img-src 'self' data: blob: *.supabase.co images.unsplash.com",
       "font-src 'self'",
       "connect-src 'self' *.supabase.co api.stripe.com va.vercel-scripts.com vercel-insights.vercel.app",
       "frame-src js.stripe.com hooks.stripe.com",

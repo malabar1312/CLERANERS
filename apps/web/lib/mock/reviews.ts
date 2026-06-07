@@ -11,6 +11,7 @@ export type ReviewPreview = {
   hood: string;
   date: string;
   tone: number;
+  image?: string;
 };
 
 export const featuredReviews: ReviewPreview[] = [
@@ -23,6 +24,7 @@ export const featuredReviews: ReviewPreview[] = [
     hood: "De Pijp",
     date: "12 mei 2026",
     tone: 0,
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200",
   },
   {
     id: "r2",
@@ -33,6 +35,7 @@ export const featuredReviews: ReviewPreview[] = [
     hood: "Oud-West",
     date: "8 mei 2026",
     tone: 1,
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
   },
   {
     id: "r3",
@@ -43,6 +46,7 @@ export const featuredReviews: ReviewPreview[] = [
     hood: "Noord",
     date: "3 mei 2026",
     tone: 4,
+    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200",
   },
   {
     id: "r4",
@@ -53,6 +57,7 @@ export const featuredReviews: ReviewPreview[] = [
     hood: "Oost",
     date: "29 april 2026",
     tone: 3,
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200",
   },
   {
     id: "r5",
@@ -63,5 +68,6 @@ export const featuredReviews: ReviewPreview[] = [
     hood: "Zuid",
     date: "21 april 2026",
     tone: 5,
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
   },
 ];

@@ -1,0 +1,303 @@
+"use client";
+
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { MapPin, Calendar, Clock, Search, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const LOCATIONS = [
+  "Amsterdam Centrum",
+  "Amsterdam Zuid",
+  "Amsterdam West",
+  "Amsterdam Oost",
+  "Amsterdam Noord",
+  "De Pijp",
+  "Jordaan",
+];
+
+const TIMES = [
+  "Flexibel",
+  "Ochtend (08:00 - 12:00)",
+  "Middag (12:00 - 17:00)",
+  "Avond (17:00 - 20:00)",
+];
+
+export function SearchBar() {
+  const [activeTab, setActiveTab] = useState<"location" | "date" | "time" | null>(null);
+  
+  // States
+  const [location, setLocation] = useState("");
+  const [date, setDate] = useState<Date | null>(null);
+  const [time, setTime] = useState("Flexibel");
+
+  const [currentMonth, setCurrentMonth] = useState<Date | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+    setCurrentMonth(new Date());
+  }, []);
+
+  // Click outside to close active tab
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setActiveTab(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const filteredLocations = LOCATIONS.filter((loc) =>
+    loc.toLowerCase().includes(location.toLowerCase())
+  );
+
+  // Calendar logic
+  const getDaysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
+  const getFirstDayOfMonth = (year: number, month: number) => {
+    const day = new Date(year, month, 1).getDay();
+    return day === 0 ? 6 : day - 1; // Convert to Monday=0, Sunday=6
+  };
+
+  const daysInMonth = currentMonth ? getDaysInMonth(currentMonth.getFullYear(), currentMonth.getMonth()) : 0;
+  const firstDay = currentMonth ? getFirstDayOfMonth(currentMonth.getFullYear(), currentMonth.getMonth()) : 0;
+  const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+  const blankDays = Array.from({ length: firstDay }, (_, i) => i);
+  const weekDays = ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"];
+
+  const nextMonth = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (currentMonth) {
+      setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
+    }
+  };
+  
+  const prevMonth = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (currentMonth) {
+      setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
+    }
+  };
+
+  return (
+    <div className="mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-8" ref={containerRef}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+        className="relative z-20 flex flex-col sm:flex-row items-center justify-between rounded-3xl sm:rounded-full border border-white/20 bg-white/70 p-2 shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl transition-all duration-300 hover:shadow-[0_12px_48px_rgba(0,0,0,0.12)] sm:h-20"
+      >
+        {/* Separators (desktop only) */}
+        <div className="absolute inset-y-4 left-[38%] hidden w-px bg-black/10 sm:block" />
+        <div className="absolute inset-y-4 left-[68%] hidden w-px bg-black/10 sm:block" />
+
+        {/* --- Location --- */}
+        <div
+          className={cn(
+            "group relative flex w-full flex-1 cursor-text items-center gap-3 rounded-full px-6 py-3 transition-colors hover:bg-white/50 sm:h-full sm:py-0",
+            activeTab === "location" && "bg-white shadow-md ring-1 ring-black/5"
+          )}
+          onClick={() => setActiveTab("location")}
+        >
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black/5 text-[var(--color-blue)] transition-colors group-hover:bg-black/10">
+            <MapPin className="h-5 w-5" />
+          </div>
+          <div className="flex w-full flex-col text-left">
+            <label htmlFor="location-input" className="text-xs font-bold tracking-wider text-black/90 uppercase cursor-text">Waar</label>
+            <input
+              id="location-input"
+              type="text"
+              placeholder="Amsterdam Centrum"
+              className="w-full bg-transparent p-0 text-sm font-medium text-black outline-none placeholder:text-black/30"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              onFocus={() => setActiveTab("location")}
+            />
+          </div>
+
+          {/* Location Dropdown */}
+          <AnimatePresence>
+            {activeTab === "location" && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                className="absolute left-0 top-[110%] w-full sm:w-[320px] rounded-2xl border border-black/5 bg-white p-2 shadow-2xl z-50"
+              >
+                <div className="max-h-60 overflow-y-auto">
+                  {filteredLocations.length > 0 ? (
+                    filteredLocations.map((loc) => (
+                      <button
+                        key={loc}
+                        type="button"
+                        onClick={() => {
+                          setLocation(loc);
+                          setActiveTab("date"); // auto advance
+                        }}
+                        className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-colors hover:bg-black/5"
+                      >
+                        <MapPin className="h-4 w-4 text-black/40" />
+                        <span className="text-sm font-medium text-black/80">{loc}</span>
+                      </button>
+                    ))
+                  ) : (
+                    <div className="px-4 py-3 text-sm text-black/40">Geen resultaten gevonden</div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        <div className="h-px w-full bg-black/5 sm:hidden" />
+
+        {/* --- Date --- */}
+        <div
+          className={cn(
+            "group relative flex w-full flex-1 cursor-pointer items-center gap-3 rounded-full px-6 py-3 transition-colors hover:bg-white/50 sm:h-full sm:py-0",
+            activeTab === "date" && "bg-white shadow-md ring-1 ring-black/5"
+          )}
+          onClick={() => setActiveTab("date")}
+        >
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black/5 text-[var(--color-blue)] transition-colors group-hover:bg-black/10">
+            <Calendar className="h-5 w-5" />
+          </div>
+          <div className="flex w-full flex-col text-left">
+            <span className="text-xs font-bold tracking-wider text-black/90 uppercase">Wanneer</span>
+            <div className={cn("text-sm font-medium", date ? "text-black" : "text-black/30")}>
+              {mounted && date ? date.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' }) : "Kies datum"}
+            </div>
+          </div>
+
+          {/* Custom Date Picker Dropdown */}
+          <AnimatePresence>
+            {mounted && currentMonth && activeTab === "date" && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                className="absolute left-1/2 top-[110%] w-[340px] -translate-x-1/2 rounded-3xl border border-black/5 bg-white/95 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.12)] backdrop-blur-xl z-50 sm:left-0 sm:translate-x-0"
+              >
+                {/* Header */}
+                <div className="mb-4 flex items-center justify-between">
+                  <button onClick={prevMonth} type="button" className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-black/5">
+                    <ChevronLeft className="h-4 w-4 text-black/70" />
+                  </button>
+                  <span className="text-sm font-bold text-black/90 capitalize">
+                    {currentMonth.toLocaleDateString('nl-NL', { month: 'long', year: 'numeric' })}
+                  </span>
+                  <button onClick={nextMonth} type="button" className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-black/5">
+                    <ChevronRight className="h-4 w-4 text-black/70" />
+                  </button>
+                </div>
+
+                {/* Weekdays */}
+                <div className="grid grid-cols-7 gap-1 mb-2">
+                  {weekDays.map(day => (
+                    <div key={day} className="text-center text-xs font-bold text-black/40">
+                      {day}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Days Grid */}
+                <div className="grid grid-cols-7 gap-1">
+                  {blankDays.map(blank => (
+                    <div key={`blank-${blank}`} className="h-10 w-10" />
+                  ))}
+                  {daysArray.map(day => {
+                    const isSelected = date?.getDate() === day && date?.getMonth() === currentMonth.getMonth() && date?.getFullYear() === currentMonth.getFullYear();
+                    const isPast = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day) < new Date(new Date().setHours(0,0,0,0));
+                    
+                    return (
+                      <button
+                        key={day}
+                        disabled={isPast}
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setDate(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day));
+                          setActiveTab("time"); // auto advance
+                        }}
+                        className={cn(
+                          "flex h-10 w-10 items-center justify-center rounded-full text-sm font-medium transition-all",
+                          isPast ? "text-black/20 cursor-not-allowed" : "cursor-pointer hover:bg-black/5 text-black/80",
+                          isSelected && "bg-[var(--color-blue)] text-white font-bold shadow-md hover:bg-[var(--color-blue-2)]"
+                        )}
+                      >
+                        {day}
+                      </button>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        <div className="h-px w-full bg-black/5 sm:hidden" />
+
+        {/* --- Time --- */}
+        <div
+          className={cn(
+            "group relative flex w-[140px] flex-none sm:w-[160px] cursor-pointer items-center gap-3 rounded-full px-6 py-3 transition-colors hover:bg-white/50 sm:h-full sm:py-0",
+            activeTab === "time" && "bg-white shadow-md ring-1 ring-black/5"
+          )}
+          onClick={() => setActiveTab("time")}
+        >
+          <div className="flex w-full flex-col text-left">
+            <span className="text-xs font-bold tracking-wider text-black/90 uppercase">Hoe laat</span>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-black truncate">{time}</span>
+              <ChevronDown className="h-3 w-3 text-black/40" />
+            </div>
+          </div>
+
+          {/* Time Dropdown */}
+          <AnimatePresence>
+            {activeTab === "time" && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                className="absolute right-0 top-[110%] w-[240px] rounded-2xl border border-black/5 bg-white p-2 shadow-2xl z-50"
+              >
+                {TIMES.map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setTime(t);
+                      setActiveTab(null);
+                    }}
+                    className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-left transition-colors hover:bg-black/5"
+                  >
+                    <span className={cn("text-sm font-medium", time === t ? "text-[var(--color-blue)]" : "text-black/80")}>
+                      {t}
+                    </span>
+                    {time === t && <Clock className="h-4 w-4 text-[var(--color-blue)]" />}
+                  </button>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* --- Search Button --- */}
+        <div className="mt-2 w-full sm:mt-0 sm:w-auto sm:pl-2">
+          <button
+            type="button"
+            className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-[var(--color-blue)] px-8 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-[var(--color-blue-2)] hover:shadow-xl sm:h-16"
+          >
+            <Search className="h-5 w-5" />
+            <span className="sm:hidden">Zoeken</span>
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}

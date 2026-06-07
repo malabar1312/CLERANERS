@@ -23,8 +23,8 @@ export function FAQ() {
   const baseId = useId();
 
   return (
-    <Section id="faq" variant="white" containerSize="sm" kicker={t("eyebrow")} title={t("title")} lead={t("lead")}>
-      <ul className="mx-auto max-w-2xl divide-y divide-[var(--color-line)] border-y border-[var(--color-line)]">
+    <Section id="faq" variant="surface" containerSize="md" kicker={t("eyebrow")} title={t("title")} lead={t("lead")}>
+      <ul className="mx-auto mt-12 max-w-3xl divide-y divide-black/10 border-y border-black/10">
         {items.map((item, i) => {
           const isOpen = open === i;
           const btnId = `${baseId}-q-${i}`;
@@ -38,14 +38,14 @@ export function FAQ() {
                   aria-expanded={isOpen}
                   aria-controls={panelId}
                   onClick={() => setOpen(isOpen ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors hover:text-[var(--color-blue)]"
+                  className="flex w-full items-center justify-between gap-6 py-6 text-left transition-colors hover:text-[var(--color-blue)]"
                 >
-                  <span className="text-[17px] font-semibold tracking-tight text-[var(--color-ink)]">
+                  <span className="text-lg font-bold tracking-tight text-black transition-colors group-hover:text-[var(--color-blue)]">
                     {item.q}
                   </span>
                   <ChevronDown
                     className={cn(
-                      "h-5 w-5 shrink-0 text-[var(--color-muted)] transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)]",
+                      "h-5 w-5 shrink-0 text-black/40 transition-transform duration-300 ease-[var(--ease-out)]",
                       isOpen && "rotate-180 text-[var(--color-blue)]",
                     )}
                     aria-hidden="true"
@@ -68,9 +68,11 @@ export function FAQ() {
                 className="overflow-hidden"
                 hidden={reduce ? !isOpen : undefined}
               >
-                <p className="pb-5 text-[15px] leading-relaxed text-[var(--color-muted)]">
-                  {item.a}
-                </p>
+                <div className="pb-6 pr-12">
+                  <p className="text-base leading-relaxed text-black/60">
+                    {item.a}
+                  </p>
+                </div>
               </motion.div>
             </li>
           );

@@ -3,7 +3,6 @@ import { Link } from "@/i18n/navigation";
 import { ArrowRight } from "lucide-react";
 import { Section } from "@/components/ui/section";
 import { MotionReveal } from "@/components/ui/motion-reveal";
-import { buttonStyles } from "@/components/ui/button-variants";
 
 /**
  * `<CtaBand />` — bloque OSCURO de cierre. El golpe de máximo impacto antes del
@@ -22,7 +21,7 @@ export async function CtaBand() {
         </h2>
         <Link
           href="/schoonmakers"
-          className={buttonStyles({ variant: "accent", size: "xl", className: "mt-10" })}
+          className="mt-10 inline-flex h-14 items-center justify-center gap-2 rounded-full bg-[var(--color-blue)] px-8 font-display font-medium text-[var(--color-blue-ink)] transition-all duration-[var(--dur-base)] ease-[var(--ease-out)] hover:bg-[var(--color-blue-2)] active:scale-[0.97]"
         >
           {t("button")}
           <ArrowRight className="h-4 w-4" aria-hidden="true" />

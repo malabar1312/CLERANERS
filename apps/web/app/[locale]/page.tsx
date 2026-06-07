@@ -4,6 +4,7 @@ import { setRequestLocale } from "next-intl/server";
 export const revalidate = 60;
 import { AuthNav } from "@/components/layout/auth-nav";
 import { Hero } from "@/components/sections/hero";
+import { SearchBar } from "@/components/ui/search-bar";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { Features } from "@/components/sections/features";
 import { CleanersGrid } from "@/components/sections/cleaners-grid";
@@ -49,6 +50,12 @@ export default async function HomePage({
       <AuthNav />
       <main id="main">
         <Hero />
+
+        {/* Floating Search Bar (overlap sobre el hero) */}
+        <div className="relative z-30 -mt-16 w-full px-4 pb-16 sm:-mt-24 sm:px-6 lg:px-8">
+          <SearchBar />
+        </div>
+
         <HowItWorks />
         <Features />
         <CleanersGrid />

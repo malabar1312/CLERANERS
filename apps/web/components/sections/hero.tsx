@@ -1,152 +1,274 @@
-import Image from "next/image";
-import { getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
-import { Star as StarIcon, BadgeCheck, ShieldCheck, Umbrella, Lock } from "lucide-react";
+"use client";
+
+import { useState, useRef, useCallback, useEffect } from "react";
+import { useTranslations } from "next-intl";
+import { Star as StarIcon, ShieldCheck, Umbrella, Lock } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { AvatarInitials } from "@/components/ui/avatar-initials";
-import { getWaitlistCount } from "@/lib/data/waitlist-count";
 import { HeroWaitlist } from "./hero-waitlist";
+import { MagneticWrapper } from "@/components/ui/magnetic-wrapper";
+import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from "motion/react";
+import { cn } from "@/lib/utils";
 
-/**
- * `<Hero />` — STITCH Quiet-Luxury + calidez. Split Airbnb-style waitlist-first:
- * a la izquierda titular Geist con `kiest` en azul, captura de wachtlijst
- * (CTA dominante), trust-bar (geverifieerd · verzekerd €300k · escrow) y prueba
- * social; a la derecha una foto real de interior con una card de schoonmaker.
- */
-export async function Hero() {
-  const t = await getTranslations("hero");
+/* ─────────────────────────────────────────────────────────
+ * `<Hero />` — STITCH Quiet-Luxury + Scroll-triggered Video
+ *
+ * Performance optimizations:
+ * 1. H.264 MP4 all-keyframe → hardware-decoded seeking on all devices
+ * 2. requestAnimationFrame-gated seeking → max 1 seek per paint frame
+ * 3. 135vh scroll container → less travel for 8s video = higher fidelity
+ * 4. useSpring for smooth visual interpolation
+ * ────────────────────────────────────────────────────────── */
+export function Hero() {
+  const t = useTranslations("hero");
   const proofNames = ["Sofia R", "Maria G", "Laura M", "Elena S", "Carmen P"];
-  const waitlistCount = await getWaitlistCount();
-  // Muestra el count real si hay >0, sino oculta la línea (honesto: no inventamos números).
-  const showCount = waitlistCount > 0;
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const rafRef = useRef<number>(0);
+  const [isFocused, setIsFocused] = useState(false);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  /* ── Parallax layers ─────────────────────────────────── */
+  const textY = useTransform(scrollYProgress, [0, 0.8], [0, -100]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const textBlur = useTransform(scrollYProgress, [0, 0.45], ["blur(0px)", "blur(8px)"]);
+  const badgesY = useTransform(scrollYProgress, [0, 0.45], [0, -30]);
+
+  /* ── SVG progress ring ───────────────────────────────── */
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 400, damping: 90 });
+  const ringOffset = useTransform(smoothProgress, [0, 1], [100.53, 0]);
+
+  /* ── RAF-gated video seeking ─────────────────────────── */
+  const seekVideo = useCallback((progress: number) => {
+    cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      const v = videoRef.current;
+      if (v && v.duration && Number.isFinite(v.duration)) {
+        const target = progress * v.duration;
+        // Only seek if distance is meaningful (avoids micro-stutters)
+        if (Math.abs(v.currentTime - target) > 0.02) {
+          v.currentTime = target;
+        }
+      }
+    });
+  }, []);
+
+  useMotionValueEvent(scrollYProgress, "change", seekVideo);
+
+  // Initial video load stabilization
+  useEffect(() => {
+    const unsub = scrollYProgress.on("change", seekVideo);
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0.01;
+    }
+    return () => {
+      unsub();
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, [scrollYProgress, seekVideo]);
 
   return (
-    <section className="relative overflow-hidden bg-[var(--color-white)]">
-      {/* warm whisper wash */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{ background: "radial-gradient(60% 55% at 12% 8%, rgb(224 162 58 / 0.06) 0%, transparent 60%)" }}
-      />
+    <section ref={containerRef} className="relative h-[135vh] bg-[var(--color-dark)]">
 
-      <Container size="wide">
-        <div className="grid items-center gap-12 pt-[calc(var(--nav-h-sm)+2.5rem)] pb-[var(--space-section-sm)] lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-          {/* ---------- Left: message + search + trust ---------- */}
-          <div className="max-w-xl">
-            <span className="label inline-flex items-center gap-2 rounded-full border border-[var(--color-line)] bg-[var(--color-cream)] px-3.5 py-1.5 text-[var(--color-slate)]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-blue)]" aria-hidden="true" />
-              {t("eyebrow")}
-            </span>
+      {/* ── Sticky viewport ─────────────────────────────── */}
+      <div className="sticky top-0 flex h-screen w-full items-center overflow-hidden">
 
-            <h1 className="display mt-6 text-balance text-[length:var(--text-display)] text-[var(--color-ink)]">
-              {t("titleStart")}
-              <span className="text-[var(--color-blue)]">{t("titleEmphasis")}</span>
-              {t("titleEnd")}
-            </h1>
+        {/* Video — H.264 MP4 primary (hw-decoded) */}
+        <video
+          ref={videoRef}
+          preload="auto"
+          muted
+          playsInline
+          className={cn(
+            "absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-out",
+            isFocused ? "blur-xl brightness-50 scale-[1.03]" : "blur-0 brightness-100 scale-100",
+          )}
+        >
+          <source src="/hero/before-after.mp4" type="video/mp4" />
+        </video>
 
-            <p className="mt-6 max-w-lg text-pretty text-lg leading-relaxed text-[var(--color-muted)]">
-              {t("lead")}
-            </p>
+        {/* Film Grain — editorial texture (muy sutil) */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-10 opacity-[0.02] mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+          }}
+        />
 
-            <HeroWaitlist />
+        {/* ── Content ───────────────────────────────────── */}
+        <Container size="wide" className="relative z-20 w-full pt-[calc(var(--nav-h-sm)+2.5rem)]">
+          <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.95fr] lg:gap-16">
 
-            {/* Trust-bar — el diferencial sube arriba del fold */}
-            <ul className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-2.5">
-              <li className="flex items-center gap-2 text-sm font-medium text-[var(--color-slate)]">
-                <ShieldCheck className="h-[18px] w-[18px] text-[var(--color-blue)]" aria-hidden="true" />
-                {t("trust.verified")}
-              </li>
-              <li className="text-[var(--color-line)]" aria-hidden="true">·</li>
-              <li className="flex items-center gap-2 text-sm font-medium text-[var(--color-slate)]">
-                <Umbrella className="h-[18px] w-[18px] text-[var(--color-blue)]" aria-hidden="true" />
-                {t("trust.insured")}
-              </li>
-              <li className="text-[var(--color-line)]" aria-hidden="true">·</li>
-              <li className="flex items-center gap-2 text-sm font-medium text-[var(--color-slate)]">
-                <Lock className="h-[18px] w-[18px] text-[var(--color-blue)]" aria-hidden="true" />
-                {t("trust.escrow")}
-              </li>
-            </ul>
+            {/* ── Left column ────────────────────────────── */}
+            <div className="max-w-xl">
 
-            {/* Social proof */}
-            <div className="mt-7 flex items-center gap-3">
-              <div className="flex -space-x-2.5" aria-hidden="true">
-                {proofNames.map((n, i) => (
-                  <AvatarInitials key={n} name={n} size="sm" tone={i} className="ring-2 ring-[var(--color-white)]" />
-                ))}
-              </div>
-              <p className="text-sm text-[var(--color-muted)]">
-                <span className="inline-flex items-center gap-1 font-semibold text-[var(--color-ink)]">
-                  <StarIcon className="h-3.5 w-3.5 fill-[var(--color-blue)] text-[var(--color-blue)]" aria-hidden="true" />
-                  4,9
-                </span>
-                {showCount && (
-                  <>{" · "}{t("socialCount", { count: waitlistCount })}</>
-                )}
-              </p>
-            </div>
-
-            <div className="mt-6">
-              <Link
-                href="/voor-schoonmakers"
-                className="text-sm font-medium text-[var(--color-slate)] underline-offset-4 transition hover:text-[var(--color-blue)]"
+              {/* Headline block — parallax + cinematic blur */}
+              <motion.div
+                style={{ opacity: textOpacity, y: textY, filter: textBlur }}
+                className={cn("transition-opacity duration-500", isFocused ? "opacity-30" : "opacity-100")}
               >
-                {t("ctaSecondary")} →
-              </Link>
-            </div>
-          </div>
+                <motion.span
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className="label inline-flex items-center gap-2 rounded-full border border-white/30 bg-black/40 px-3.5 py-1.5 text-white backdrop-blur-md shadow-lg"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-blue)]" aria-hidden />
+                  {t("eyebrow")}
+                </motion.span>
 
-          {/* ---------- Right: real photo + floating cleaner card ---------- */}
-          <div className="relative">
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-[var(--color-line)] shadow-[var(--shadow-ambient)] sm:aspect-[5/4] lg:aspect-[4/5]">
-              <Image
-                src="/hero/interior.jpg"
-                alt={t("photoAlt")}
-                fill
-                priority
-                quality={85}
-                sizes="(max-width: 1024px) 100vw, 45vw"
-                className="object-cover"
-              />
-              {/* verified pill on image */}
-              <span className="glass absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold text-[var(--color-ink)] shadow-[var(--shadow-soft)]">
-                <BadgeCheck className="h-4 w-4 text-[var(--color-blue)]" aria-hidden="true" />
-                {t("trust.verified")}
-              </span>
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+                  className="display mt-6 text-balance text-[length:var(--text-display)] text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
+                >
+                  {t("titleStart")}
+                  <span className="text-[var(--color-blue)] drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">{t("titleEmphasis")}</span>
+                  <br className="hidden sm:block" />
+                  {t("titleEnd")}
+                </motion.h1>
 
-              {/* floating cleaner card */}
-              <Link
-                href="/schoonmakers/sofia-r"
-                className="absolute right-4 bottom-4 left-4 flex items-center gap-3 rounded-2xl border border-[var(--color-line)] bg-[var(--color-white)] p-3 shadow-[var(--shadow-ambient)] transition-all duration-[var(--dur-mid)] ease-[var(--ease-out)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-card-hover)] sm:left-auto sm:w-72"
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+                  className="mt-5 max-w-lg text-pretty text-lg leading-relaxed text-white/95 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-medium"
+                >
+                  {t("lead")}
+                </motion.p>
+              </motion.div>
+
+              {/* Waitlist form — stays above focus blur */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+                className="relative z-30 mt-8"
               >
-                <AvatarInitials name="Sofia Rodríguez" size="md" tone={0} online />
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-1">
-                    <span className="truncate text-sm font-semibold text-[var(--color-ink)]">Sofia Rodríguez</span>
-                    <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-[var(--color-blue)]" aria-hidden="true" />
+                <motion.div style={{ opacity: textOpacity, y: badgesY }}>
+                  <HeroWaitlist
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                  />
+                </motion.div>
+              </motion.div>
+
+              {/* Trust bar — magnetic badges */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+              >
+                <motion.ul
+                  style={{ opacity: textOpacity, y: badgesY }}
+                  className={cn(
+                    "mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 transition-opacity duration-500",
+                    isFocused ? "opacity-30" : "opacity-100",
+                  )}
+                >
+                  <MagneticWrapper>
+                    <li className="flex items-center gap-2 rounded-md px-2 py-1 text-sm font-semibold text-white transition-colors hover:bg-black/20 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] backdrop-blur-sm">
+                      <ShieldCheck className="h-5 w-5 text-[var(--color-blue)]" aria-hidden />
+                      {t("trust.verified")}
+                    </li>
+                  </MagneticWrapper>
+                  <MagneticWrapper>
+                    <li className="flex items-center gap-2 rounded-md px-2 py-1 text-sm font-semibold text-white transition-colors hover:bg-black/20 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] backdrop-blur-sm">
+                      <Umbrella className="h-5 w-5 text-[var(--color-blue)]" aria-hidden />
+                      {t("trust.insured")}
+                    </li>
+                  </MagneticWrapper>
+                  <MagneticWrapper>
+                    <li className="flex items-center gap-2 rounded-md px-2 py-1 text-sm font-semibold text-white transition-colors hover:bg-black/20 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] backdrop-blur-sm">
+                      <Lock className="h-5 w-5 text-[var(--color-blue)]" aria-hidden />
+                      {t("trust.escrow")}
+                    </li>
+                  </MagneticWrapper>
+                </motion.ul>
+              </motion.div>
+
+              {/* Social proof */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+              >
+                <motion.div
+                  style={{ opacity: textOpacity, y: badgesY }}
+                  className={cn(
+                    "mt-8 flex items-center gap-3 transition-opacity duration-500 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]",
+                    isFocused ? "opacity-30" : "opacity-100",
+                  )}
+                >
+                  <div className="flex -space-x-2.5" aria-hidden>
+                    {proofNames.map((n, i) => (
+                      <AvatarInitials key={n} name={n} size="sm" tone={i} className="ring-2 ring-black" />
+                    ))}
                   </div>
-                  <span className="flex items-center gap-1.5 text-xs text-[var(--color-muted)]">
-                    <span className="inline-flex items-center gap-0.5">
-                      <StarIcon className="h-3 w-3 fill-[var(--color-blue)] text-[var(--color-blue)]" aria-hidden="true" />
+                  <p className="text-sm font-medium text-white/90">
+                    <span className="inline-flex items-center gap-1 font-bold text-white">
+                      <StarIcon className="h-3.5 w-3.5 fill-[var(--color-blue)] text-[var(--color-blue)]" aria-hidden />
                       4,9
-                    </span>
-                    · De Pijp
-                  </span>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-bold text-[var(--color-ink)]">€24<span className="text-xs font-normal text-[var(--color-muted)]">{t("perHourShort")}</span></p>
-                  <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[var(--color-blue)]">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-blue)]" aria-hidden="true" />
-                    {t("available")}
-                  </span>
-                </div>
-              </Link>
+                    </span>{" "}
+                    · {t("social")}
+                  </p>
+                </motion.div>
+              </motion.div>
             </div>
-          </div>
-        </div>
-      </Container>
 
-      <div id="hero-end-sentinel" aria-hidden="true" className="h-px w-full" />
+            {/* ── Right column: scroll CTA + progress ring ─ */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+              className="hidden lg:flex"
+            >
+              <motion.div
+                style={{ opacity: textOpacity, y: badgesY }}
+                className={cn(
+                  "flex flex-col items-end justify-center transition-opacity duration-500",
+                  isFocused ? "opacity-0" : "opacity-100",
+                )}
+              >
+              <div className="flex items-center gap-4 rounded-2xl border border-white/20 bg-black/40 p-4 shadow-[0_8px_32px_rgba(0,0,0,0.6)] backdrop-blur-xl">
+                {/* Progress ring */}
+                <div className="relative flex h-10 w-10 items-center justify-center">
+                  <svg className="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 36 36">
+                    <circle cx="18" cy="18" r="16" fill="none" className="stroke-white/10" strokeWidth="2" />
+                    <motion.circle
+                      cx="18" cy="18" r="16" fill="none"
+                      className="stroke-[var(--color-blue)]"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeDasharray="100.53"
+                      style={{ strokeDashoffset: ringOffset }}
+                    />
+                  </svg>
+                  <motion.div
+                    animate={{ y: [0, 4, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                    className="h-1 w-1 rounded-full bg-white"
+                  />
+                </div>
+                <p className="text-sm font-medium text-white/80">
+                  Scroll para ver la<br />
+                  <span className="font-bold text-white">transformación</span>
+                </p>
+              </div>
+              </motion.div>
+            </motion.div>
+
+          </div>
+        </Container>
+      </div>
     </section>
   );
 }
