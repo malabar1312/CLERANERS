@@ -21,8 +21,14 @@ async function loadSession(sessionId?: string) {
     const s = await stripe.checkout.sessions.retrieve(sessionId);
     const meta = s.metadata ?? {};
     const cleaner = meta.cleaner_id ? getCleanerById(meta.cleaner_id) : undefined;
+    // Reference deriva del `booking_id` cuando existe (consistente con DB);
+    // fallback al PI/session para bookings legacy sin booking_id en metadata.
+    const refSeed =
+      (typeof meta.booking_id === "string" && meta.booking_id) ||
+      (s.payment_intent as string | null) ||
+      s.id;
     return {
-      ref: bookingReference((s.payment_intent as string | null) ?? s.id),
+      ref: bookingReference(refSeed),
       amount: typeof s.amount_total === "number" ? formatEur(s.amount_total) : null,
       cleanerName: cleaner?.name ?? "je schoonmaker",
       paid: s.payment_status === "paid" || s.status === "complete",

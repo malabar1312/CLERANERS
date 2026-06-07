@@ -17,11 +17,15 @@ export async function generateMetadata({
 
 export default async function SignupPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ role?: string }>;
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const { role: roleParam } = await searchParams;
+  const initialRole = roleParam === "cleaner" ? "cleaner" : "customer";
 
   return (
     <>
@@ -31,7 +35,7 @@ export default async function SignupPage({
           size="sm"
           className="flex flex-col items-center pt-[calc(var(--nav-h-sm)+4rem)] pb-28"
         >
-          <SignupForm />
+          <SignupForm initialRole={initialRole} />
         </Container>
       </main>
       <Footer />

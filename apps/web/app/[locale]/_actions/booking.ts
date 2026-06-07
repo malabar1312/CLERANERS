@@ -6,7 +6,10 @@ import { headers } from "next/headers";
 import { getStripe } from "@/lib/stripe/server";
 import { getCleanerById } from "@/lib/mock/cleaners";
 import { computePrice, type PriceBreakdown } from "@/lib/booking/pricing";
+import { bookingReference } from "@/lib/booking/reference";
 import { env } from "@/lib/env";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 /**
  * Rechaza caracteres de control (C0 < 0x20 y DEL 0x7F) sin usar un regex con
@@ -19,6 +22,25 @@ function noControlChars(s: string): boolean {
     if (code < 0x20 || code === 0x7f) return false;
   }
   return true;
+}
+
+/**
+ * Construye un UUID v4 determinista a partir de un hash sha256 (hex). Mismo
+ * payload de booking → mismo UUID → misma fila pending. No usamos `randomUUID`
+ * porque queremos que el re-submit del mismo booking apunte a la misma fila
+ * (defensa-en-profundidad sobre la idempotencia de Stripe).
+ */
+function uuidFromHash(hashHex: string): string {
+  // Tomamos los primeros 32 hex chars y damos formato UUID v4 RFC 4122.
+  const h = hashHex.slice(0, 32);
+  const variant = ((parseInt(h[16] ?? "8", 16) & 0x3) | 0x8).toString(16);
+  return [
+    h.slice(0, 8),
+    h.slice(8, 12),
+    "4" + h.slice(13, 16), // version 4
+    variant + h.slice(17, 20),
+    h.slice(20, 32),
+  ].join("-");
 }
 
 const safeStr = (min: number, max: number) =>
@@ -41,9 +63,16 @@ const schema = z.object({
 export type BookingInput = z.infer<typeof schema>;
 export type BookingCheckoutResult = { ok: true; url: string } | { ok: false; error: string };
 
-// Metadata SIN PII (la dirección se persiste en Supabase vía webhook en Fase 4).
-function bookingMeta(cleanerId: string, d: BookingInput, p: PriceBreakdown): Record<string, string> {
+// Metadata SIN PII (la dirección vive en `bookings`, no en Stripe).
+// `booking_id` linkea la session de Stripe con la fila pending pre-creada.
+function bookingMeta(
+  cleanerId: string,
+  d: BookingInput,
+  p: PriceBreakdown,
+  bookingId: string,
+): Record<string, string> {
   return {
+    booking_id: bookingId,
     cleaner_id: cleanerId,
     m2: String(d.m2),
     hours: String(p.hours),
@@ -54,6 +83,48 @@ function bookingMeta(cleanerId: string, d: BookingInput, p: PriceBreakdown): Rec
     fee_cents: String(p.feeCents),
     total_cents: String(p.totalCents),
   };
+}
+
+/**
+ * Pre-Stripe: persiste la reserva como `pending` con TODA la data
+ * (incluyendo address, que no entra en Stripe metadata por privacidad).
+ * Degrada con gracia si Supabase no está configurado — el flow sigue.
+ * Retorna el `booking_id` que se pasa a Stripe en metadata.
+ */
+async function persistPendingBooking(
+  bookingId: string,
+  data: BookingInput,
+  price: PriceBreakdown,
+  cleanerId: string,
+  clientUserId: string | null,
+): Promise<void> {
+  const db = createSupabaseAdminClient();
+  if (!db) return; // dev local sin Supabase — el booking no se persiste, ok.
+  const { error } = await db.from("bookings").insert({
+    id: bookingId,
+    reference: bookingReference(bookingId),
+    cleaner_id: cleanerId,
+    client_email: data.email,
+    client_name: data.name,
+    client_user_id: clientUserId,
+    scheduled_date: data.date,
+    scheduled_time: data.time,
+    frequency: data.frequency,
+    m2: data.m2,
+    hours: price.hours,
+    subtotal_cents: price.subtotalCents,
+    fee_cents: price.feeCents,
+    total_cents: price.totalCents,
+    currency: "eur",
+    status: "pending",
+    street: data.street,
+    postcode: data.postcode,
+    city: data.city,
+    notes: data.notes ?? null,
+  });
+  if (error && process.env.NODE_ENV !== "production") {
+    console.warn("[booking] pending insert failed:", error.message);
+  }
 }
 
 /** Origin canónico: SIEMPRE de la config (no del header `host`, manipulable). */
@@ -85,13 +156,30 @@ export async function createBookingCheckout(raw: unknown): Promise<BookingChecko
   if (!cleaner) return { ok: false, error: "cleaner_not_found" };
 
   const price = computePrice(cleaner.pricePerHour, data.m2);
-  const meta = bookingMeta(cleaner.id, data, price);
   const origin = await canonicalOrigin();
 
   // Idempotency: hash estable del payload → reintentos/doble-click no duplican.
   const idempotencyKey = createHash("sha256")
     .update(`${cleaner.id}|${data.date}|${data.time}|${data.email}|${price.totalCents}`)
     .digest("hex");
+
+  // Derivamos el booking_id del idempotencyKey: el mismo payload → mismo UUID →
+  // misma fila pending → re-submit no duplica (anti doble-insert defensa-en-profundidad).
+  const bookingId = uuidFromHash(idempotencyKey);
+  const meta = bookingMeta(cleaner.id, data, price, bookingId);
+
+  // Auth opcional: si el usuario está logueado, lincamos su user.id. Si no, NULL
+  // (el flujo permite checkout anónimo — el match posterior será por email).
+  let clientUserId: string | null = null;
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    clientUserId = user?.id ?? null;
+  } catch {
+    // Supabase no configurado en dev — clientUserId queda null.
+  }
+
+  await persistPendingBooking(bookingId, data, price, cleaner.id, clientUserId);
 
   try {
     const stripe = getStripe();

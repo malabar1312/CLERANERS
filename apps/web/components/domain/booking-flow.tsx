@@ -7,6 +7,7 @@ import { buttonStyles } from "@/components/ui/button-variants";
 import { trackBookingStart, trackBookingPay } from "@/lib/analytics";
 import { computePrice, formatEur, minBookingDate, hoursForArea } from "@/lib/booking/pricing";
 import { createBookingCheckout } from "@/app/[locale]/_actions/booking";
+import { useDraftPersist, useDraftInitial, clearDraft } from "@/lib/booking/use-draft";
 import { cn } from "@/lib/utils";
 
 type CleanerLite = { id: string; name: string; pricePerHour: number; hood: string; tone: number };
@@ -41,17 +42,36 @@ function BookingModal({ cleaner, onClose }: { cleaner: CleanerLite; onClose: () 
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Draft restore (AUTO-CYCLE 7): si hay draft <24h, hidratamos el state inicial.
+  const [initial, draftRestored] = useDraftInitial(cleaner.id, {
+    m2: 70,
+    frequency: "once" as Frequency,
+    date: "",
+    time: "" as TimeSlot | "",
+    street: "",
+    postcode: "",
+    city: "Amsterdam",
+    notes: "",
+    name: "",
+    email: "",
+  });
+
   // form state
-  const [m2, setM2] = useState(70);
-  const [frequency, setFrequency] = useState<Frequency>("once");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState<TimeSlot | "">("");
-  const [street, setStreet] = useState("");
-  const [postcode, setPostcode] = useState("");
-  const [city, setCity] = useState("Amsterdam");
-  const [notes, setNotes] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [m2, setM2] = useState(initial.m2);
+  const [frequency, setFrequency] = useState<Frequency>(initial.frequency);
+  const [date, setDate] = useState(initial.date);
+  const [time, setTime] = useState<TimeSlot | "">(initial.time);
+  const [street, setStreet] = useState(initial.street);
+  const [postcode, setPostcode] = useState(initial.postcode);
+  const [city, setCity] = useState(initial.city);
+  const [notes, setNotes] = useState(initial.notes);
+  const [name, setName] = useState(initial.name);
+  const [email, setEmail] = useState(initial.email);
+
+  // Persist en cada cambio (debounced 400ms).
+  useDraftPersist(cleaner.id, {
+    m2, frequency, date, time, street, postcode, city, notes, name, email,
+  });
 
   const price = computePrice(cleaner.pricePerHour, m2);
 
@@ -121,6 +141,8 @@ function BookingModal({ cleaner, onClose }: { cleaner: CleanerLite; onClose: () 
       name,
     });
     if (res.ok) {
+      // Draft consumed → limpiamos antes de redirigir a Stripe.
+      clearDraft(cleaner.id);
       window.location.href = res.url;
     } else {
       setPending(false);
@@ -153,6 +175,17 @@ function BookingModal({ cleaner, onClose }: { cleaner: CleanerLite; onClose: () 
           <Lock className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
           {t("escrowStrip")}
         </div>
+
+        {/* Draft restored notice — sutil, dismissible on next step */}
+        {draftRestored && step === 1 && (
+          <div
+            role="status"
+            className="flex items-center gap-2 border-b border-[var(--color-line)] bg-[var(--color-surface)] px-6 py-2 text-xs text-[var(--color-slate)]"
+          >
+            <CalendarCheck className="h-3.5 w-3.5 shrink-0 text-[var(--color-blue)]" aria-hidden="true" />
+            {t("draftRestored")}
+          </div>
+        )}
 
         {/* Body */}
         <div className="flex-1 overflow-y-auto px-6 py-5">

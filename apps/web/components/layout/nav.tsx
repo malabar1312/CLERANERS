@@ -13,7 +13,7 @@ import { LocaleSwitcher } from "./locale-switcher";
 import { navLinks } from "./links";
 import { cn } from "@/lib/utils";
 
-type CurrentUser = { name: string; role: "client" | "cleaner" } | null;
+type CurrentUser = { name: string; role: "customer" | "cleaner" } | null;
 
 /**
  * `<Nav />` — Stitch: barra superior flotante glassmorphic, persistente.
@@ -79,7 +79,7 @@ export function Nav({ initialUser = null }: { initialUser?: CurrentUser }) {
             <div className="hidden items-center gap-2 lg:flex">
               <LocaleSwitcher />
               {user ? (
-                <UserPill name={user.name} role={user.role} />
+                <UserPill name={user.name} />
               ) : (
                 <>
                   <Link href="/login" className={buttonStyles({ variant: "ghost", size: "sm" })}>
@@ -94,7 +94,7 @@ export function Nav({ initialUser = null }: { initialUser?: CurrentUser }) {
 
             <div className="flex items-center gap-2 lg:hidden">
               {user ? (
-                <UserPill name={user.name} role={user.role} />
+                <UserPill name={user.name} />
               ) : (
                 <Link href="/login" className={buttonStyles({ variant: "ghost", size: "sm", className: "px-3" })}>
                   {t("login")}

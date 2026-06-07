@@ -19,6 +19,7 @@
     "@vercel/speed-insights": "^2.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.4.0",
     "geist": "^1.7.1",
     "lucide-react": "^0.468.0",
     "motion": "^11.18.0",
@@ -27,6 +28,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.0",
+    "recharts": "^3.8.1",
     "stripe": "^22.2.0",
     "tailwind-merge": "^2.6.0",
     "zod": "^3.24.1"

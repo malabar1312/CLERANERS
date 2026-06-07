@@ -110,10 +110,22 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ received: true });
 }
 
-/** Persiste (o actualiza) la reserva pagada. Idempotente por `stripe_session_id`. */
+/**
+ * Persiste (o actualiza) la reserva pagada. Idempotente.
+ *
+ * Estrategia (AUTO-CYCLE 1 — data integrity):
+ *  1. Si `metadata.booking_id` existe → la Server Action ya pre-creó una fila
+ *     `pending` con dirección + datos completos. Solo actualizamos los campos
+ *     del pago (status, payment_intent_id, stripe_session_id, total real,
+ *     identidad confirmada por Stripe). NO sobreescribimos address ni input
+ *     original (preserva la integridad de lo capturado).
+ *  2. Si no hay `booking_id` (bookings legacy o checkouts directos) → upsert
+ *     por stripe_session_id como antes (sin address — ese registro va sin ella).
+ */
 async function persistPaidBooking(db: SupabaseClient | null, s: Stripe.Checkout.Session) {
   const m = s.metadata ?? {};
   const pi = typeof s.payment_intent === "string" ? s.payment_intent : null;
+  const bookingId = typeof m.booking_id === "string" && m.booking_id.length > 0 ? m.booking_id : null;
 
   if (!db) {
     logBooking("paid (not persisted — no Supabase)", s.id, s.amount_total, m);
@@ -121,9 +133,46 @@ async function persistPaidBooking(db: SupabaseClient | null, s: Stripe.Checkout.
   }
 
   const num = (v: string | undefined) => (v != null && v !== "" ? Number(v) : null);
+  // Reference: si hay booking_id, derivar de él → consistente con la pending
+  // creada por la Server Action y con el success page. Sin booking_id (legacy),
+  // fallback a PI/session.
+  const reference = bookingReference(bookingId ?? pi ?? s.id);
+  const totalFromMeta = num(m.total_cents);
+  const total = totalFromMeta ?? (typeof s.amount_total === "number" ? s.amount_total : null);
 
+  if (bookingId) {
+    // UPSERT por `id`: self-healing si la fila pending no se creó
+    // (Supabase no configurado durante Server Action, error transitorio).
+    // Address fields (street, postcode, city, notes) NO van en el payload →
+    // se preservan en UPDATE path; quedan NULL en INSERT path (no se podían
+    // recuperar de Stripe metadata por privacidad).
+    const row = {
+      id: bookingId,
+      reference,
+      stripe_session_id: s.id,
+      payment_intent_id: pi,
+      cleaner_id: m.cleaner_id ?? "unknown",
+      client_email: s.customer_details?.email ?? s.customer_email ?? null,
+      client_name: s.customer_details?.name ?? null,
+      scheduled_date: m.date ?? null,
+      scheduled_time: m.time ?? null,
+      frequency: m.frequency ?? null,
+      m2: num(m.m2),
+      hours: num(m.hours),
+      subtotal_cents: num(m.subtotal_cents),
+      fee_cents: num(m.fee_cents),
+      total_cents: total,
+      currency: s.currency ?? "eur",
+      status: "paid" as const,
+    };
+    const { error } = await db.from("bookings").upsert(row, { onConflict: "id" });
+    if (error) throw new Error(`booking upsert by id: ${error.message}`);
+    return;
+  }
+
+  // Fallback legacy: sin booking_id en metadata → upsert por session_id, sin address.
   const row = {
-    reference: bookingReference(pi ?? s.id),
+    reference,
     stripe_session_id: s.id,
     payment_intent_id: pi,
     cleaner_id: m.cleaner_id ?? "unknown",
@@ -136,16 +185,12 @@ async function persistPaidBooking(db: SupabaseClient | null, s: Stripe.Checkout.
     hours: num(m.hours),
     subtotal_cents: num(m.subtotal_cents),
     fee_cents: num(m.fee_cents),
-    total_cents: num(m.total_cents) ?? (typeof s.amount_total === "number" ? s.amount_total : null),
+    total_cents: total,
     currency: s.currency ?? "eur",
     status: "paid" as const,
   };
-
   const { error } = await db.from("bookings").upsert(row, { onConflict: "stripe_session_id" });
-  if (error) {
-    // Lanzamos para devolver 500 → Stripe reintenta.
-    throw new Error(`booking upsert: ${error.message}`);
-  }
+  if (error) throw new Error(`booking upsert: ${error.message}`);
 }
 
 /** Marca una reserva como reembolsada por su payment_intent. */

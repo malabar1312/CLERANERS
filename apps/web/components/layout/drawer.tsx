@@ -20,12 +20,10 @@ export function Drawer({
   open,
   onClose,
   user,
-  onLogout,
 }: {
   open: boolean;
   onClose: () => void;
-  user?: { name: string; role: "client" | "cleaner" } | null;
-  onLogout?: () => void;
+  user?: { name: string; role: "customer" | "cleaner" } | null;
 }) {
   const t = useTranslations("nav");
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
@@ -115,9 +113,9 @@ export function Drawer({
         <div className="flex-1 overflow-y-auto px-5 py-6">
           {user ? (
             <div className="mb-6 rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-4">
-              <UserPill name={user.name} role={user.role} />
+              <UserPill name={user.name} />
               <Link
-                href={user.role === "cleaner" ? "/dashboard/cleaner" : "/dashboard"}
+                href="/dashboard"
                 onClick={onClose}
                 className="mt-3 block rounded-xl border border-[var(--color-line)] px-4 py-3 text-sm font-medium text-[var(--color-ink)] transition hover:border-[var(--color-blue)] hover:text-[var(--color-blue)]"
               >

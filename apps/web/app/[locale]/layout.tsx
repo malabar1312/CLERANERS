@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { routing } from "@/i18n/routing";
+import { CookieBanner } from "@/components/domain/cookie-banner";
 import "../globals.css";
 
 // Body / UI — Inter variable. Display/headings — Geist (var: --font-geist-sans).
@@ -70,6 +71,7 @@ export default async function LocaleLayout({
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
+          <CookieBanner />
         </NextIntlClientProvider>
         <Analytics />
         <SpeedInsights />

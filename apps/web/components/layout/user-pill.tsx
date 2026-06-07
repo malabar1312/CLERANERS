@@ -10,16 +10,16 @@ import { cn } from "@/lib/utils";
  */
 export function UserPill({
   name,
-  role,
   tone = "onLight",
   className,
 }: {
   name: string;
-  role: "client" | "cleaner";
   tone?: "onLight" | "onDark";
   className?: string;
 }) {
-  const href = role === "cleaner" ? "/dashboard/cleaner" : "/dashboard";
+  // Ambos roles van a /dashboard — page.tsx hace la discriminación role→view.
+  // (Si en el futuro hace falta UI distinta por role, restaurar el prop `role`.)
+  const href = "/dashboard";
   const initials = name
     .split(" ")
     .filter(Boolean)

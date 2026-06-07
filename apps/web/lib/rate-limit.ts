@@ -1,12 +1,23 @@
 /**
  * Simple in-memory rate limiter for Server Actions.
  *
- * Uses a sliding window per key (IP + action). Works in Node.js runtime
- * (Server Actions run on Node, not Edge). For multi-instance prod, swap
- * the Map for a Redis/Upstash store — interface stays the same.
+ * Uses a sliding window per key. Works in Node.js runtime (Server Actions run
+ * on Node, not Edge).
+ *
+ * ⚠️ LIMITACIÓN MULTI-INSTANCE (AUTO-CYCLE 4 doc):
+ *   En Vercel multi-instance / cold-start, cada lambda tiene su propio `Map`.
+ *   Un atacante puede repartir requests entre instancias y exceder el límite
+ *   real. Hoy es una capa anti-abuse OPORTUNISTA, no un security boundary.
+ *
+ *   TODO(BLOQUE 2): reemplazar `Map` por Upstash Redis (`@upstash/ratelimit`)
+ *   conservando esta misma interfaz. Tier free 10k req/día alcanza para BETA.
+ *
+ * Mejora aplicada en AUTO-CYCLE 4: la key incluye un hash del User-Agent
+ * además del IP, encareciendo el bypass con rotación de IP (botnet usa UA
+ * coherente; rotación de IPs requiere también variar UA).
  *
  * Usage:
- *   const ok = rateLimit("waitlist", ip, { limit: 5, windowMs: 60_000 });
+ *   const ok = rateLimit("waitlist", getIdentifier(headers), { limit: 5, windowMs: 60_000 });
  *   if (!ok) return { ok: false, error: "rate_limited" };
  */
 
@@ -38,13 +49,20 @@ export function rateLimit(
 
 /**
  * Extract a best-effort identifier from request headers.
- * Prefers x-forwarded-for (set by Vercel/proxies), falls back to "unknown".
- * Never use this as a security boundary — only as abuse mitigation.
+ * Prefers x-forwarded-for (set by Vercel/proxies), incluye un hash del UA
+ * para encarecer IP rotation. Never use as security boundary — abuse mitigation.
  */
 export function getIdentifier(headers: Headers): string {
-  return (
+  const ip =
     headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
     headers.get("x-real-ip") ??
-    "unknown"
-  );
+    "unknown";
+  const ua = headers.get("user-agent") ?? "";
+  // Hash 32-bit barato del UA (no crypto, solo dispersión). Mantenemos la key
+  // legible para debug: `ip:uaHash`.
+  let h = 0;
+  for (let i = 0; i < ua.length; i++) {
+    h = ((h << 5) - h + ua.charCodeAt(i)) | 0;
+  }
+  return `${ip}:${(h >>> 0).toString(36)}`;
 }

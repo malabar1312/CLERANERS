@@ -2,23 +2,61 @@
 
 import { z } from "zod";
 import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
+import { getPathname } from "@/i18n/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { rateLimit, getIdentifier } from "@/lib/rate-limit";
 
+// Login mantiene min(6) por compat con usuarios pre-cycle-4 que registraron
+// con 6 chars. Solo el signup endurece la política para nuevos usuarios.
 const loginSchema = z.object({
   email: z.string().trim().email(),
   password: z.string().min(6).max(200),
 });
 
-const signupSchema = loginSchema.extend({
+/** Patrones triviales más comunes en NL/EN. Blocklist conservadora. */
+const WEAK_PASSWORD_PATTERNS = [
+  /^(.)\1+$/,                 // todos los chars iguales: "aaaaaa"
+  /^123456/,                  // empieza con secuencia trivial
+  /^password/i,
+  /^welkom/i,
+  /^qwerty/i,
+  /^abc123/i,
+  /^letmein/i,
+];
+
+function isStrongEnough(pw: string): boolean {
+  if (pw.length < 10) return false;
+  for (const re of WEAK_PASSWORD_PATTERNS) if (re.test(pw)) return false;
+  return true;
+}
+
+const signupSchema = z.object({
+  email: z.string().trim().email(),
+  // Política endurecida AUTO-CYCLE 4: ≥10 chars + no patterns triviales.
+  password: z.string().min(10).max(200).refine(isStrongEnough, "weak_password"),
   name: z.string().trim().min(2).max(120),
+  // Role discrimination — el trigger DB valida + sanea, pero validamos también
+  // acá para fallar temprano y dar mejor mensaje. `admin` nunca por signup.
+  role: z.enum(["customer", "cleaner"]).optional(),
+  // Honeypot: campo invisible para humanos; bots lo rellenan. Si tiene valor,
+  // tratamos el signup como abuso (200 OK silencioso, NO creamos cuenta).
+  website: z.string().max(0).optional(),
 });
 
 export type AuthResult =
   | { ok: true }
-  | { ok: false; error: "invalid_input" | "invalid_credentials" | "email_taken" | "unknown" };
+  | {
+      ok: false;
+      error:
+        | "invalid_input"
+        | "invalid_credentials"
+        | "email_taken"
+        | "weak_password"
+        | "unknown";
+    };
 
 export type ResetResult = { ok: true } | { ok: false; error: "unknown" };
 
@@ -57,7 +95,8 @@ export async function signIn(
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+  const locale = await getLocale();
+  redirect(getPathname({ href: "/", locale }));
 }
 
 /**
@@ -75,19 +114,39 @@ export async function signUp(
     return { ok: false, error: "unknown" };
   }
 
+  // Honeypot check ANTES de Zod: si el campo `website` viene con valor, es bot.
+  // Devolvemos 200 OK silencioso (no revelamos detección al atacante; no
+  // gastamos llamada a Supabase).
+  if (typeof formData.get("website") === "string" && (formData.get("website") as string).length > 0) {
+    return { ok: true };
+  }
+
   const parsed = signupSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
+    role: formData.get("role") ?? undefined,
+    website: formData.get("website") ?? undefined,
   });
-  if (!parsed.success) return { ok: false, error: "invalid_input" };
+  if (!parsed.success) {
+    // Detectamos si el motivo es weak_password para dar mensaje específico.
+    const isWeak = parsed.error.issues.some(
+      (i) => i.path[0] === "password" && (i.message === "weak_password" || i.code === "too_small"),
+    );
+    return { ok: false, error: isWeak ? "weak_password" : "invalid_input" };
+  }
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.auth.signUp({
     email: parsed.data.email,
     password: parsed.data.password,
     options: {
-      data: { full_name: parsed.data.name },
+      // `full_name` + `role` van a raw_user_meta_data; el trigger
+      // `handle_new_user` los lee para crear la fila de `profiles`.
+      data: {
+        full_name: parsed.data.name,
+        role: parsed.data.role ?? "customer",
+      },
     },
   });
 
@@ -99,7 +158,8 @@ export async function signUp(
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+  const locale = await getLocale();
+  redirect(getPathname({ href: "/", locale }));
 }
 
 /**
@@ -137,5 +197,6 @@ export async function signOut(): Promise<never> {
   const supabase = await createSupabaseServerClient();
   await supabase.auth.signOut();
   revalidatePath("/", "layout");
-  redirect("/");
+  const locale = await getLocale();
+  redirect(getPathname({ href: "/", locale }));
 }
