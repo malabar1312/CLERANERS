@@ -65,7 +65,7 @@ export default async function VoorSchoonmakersPage({
                 {t("hero.lead")}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link href="/signup?role=cleaner" className={buttonStyles({ variant: "accent", size: "lg" })}>
+                <Link href="/aanmelden/schoonmaker" className={buttonStyles({ variant: "accent", size: "lg" })}>
                   {t("hero.cta")}
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
@@ -132,7 +132,7 @@ export default async function VoorSchoonmakersPage({
             <p className="mx-auto mt-4 max-w-lg text-pretty text-lg leading-relaxed text-[var(--color-dark-muted)]">
               {t("cta.lead")}
             </p>
-            <Link href="/signup?role=cleaner" className={buttonStyles({ variant: "on-dark", size: "lg", className: "mt-8" })}>
+            <Link href="/aanmelden/schoonmaker" className={buttonStyles({ variant: "on-dark", size: "lg", className: "mt-8" })}>
               {t("cta.button")}
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>

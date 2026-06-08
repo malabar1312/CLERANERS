@@ -159,7 +159,14 @@ export async function signUp(
 
   revalidatePath("/", "layout");
   const locale = await getLocale();
-  redirect(getPathname({ href: "/", locale }));
+
+  // Cleaners → onboarding wizard to create their public profile.
+  // Customers → home (they can browse and book immediately).
+  const destination = (parsed.data.role ?? "customer") === "cleaner"
+    ? "/onboarding/schoonmaker"
+    : "/";
+
+  redirect(getPathname({ href: destination, locale }));
 }
 
 /**

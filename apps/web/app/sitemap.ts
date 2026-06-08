@@ -10,6 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/schoonmakers",
     "/voor-verhuurders",
     "/voor-schoonmakers",
+    "/aanmelden/schoonmaker",
     "/prijzen",
     "/contact",
     "/veiligheid",
