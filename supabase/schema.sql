@@ -132,6 +132,95 @@ create trigger on_auth_user_created
   for each row execute function public.handle_new_user();
 
 -- ─────────────────────────────────────────────────────────────────────────
+-- cleaner_profiles — perfil público del schoonmaker (1:1 con profiles).
+-- Fuente de verdad del catálogo cuando existe ≥1 fila (sino: mock fallback).
+-- `slug` = id público SEO ("sofia-r"). El cleaner edita el suyo; público lee
+-- los visibles. La capa lib/data/cleaners.ts hace el switch mock↔real.
+-- ─────────────────────────────────────────────────────────────────────────
+create table if not exists public.cleaner_profiles (
+  profile_id                 uuid primary key references public.profiles (id) on delete cascade,
+  slug                       text unique not null,
+  name                       text not null,
+  hood                       text,
+  price_per_hour             numeric(6,2) not null default 24,
+  bio                        text,
+  languages                  text[] not null default '{}',
+  specialties                text[] not null default '{}',
+  image                      text,
+  tone                       integer not null default 0,
+  rating                     numeric(2,1) not null default 0,
+  reviews_count              integer not null default 0,
+  response_mins              integer not null default 20,
+  since                      integer,
+  online                     boolean not null default false,
+  verified                   boolean not null default false,
+  accepts_bookings           boolean not null default true,
+  visible                    boolean not null default true,
+  verified_kvk               boolean not null default false,
+  verified_vog               boolean not null default false,
+  verified_id                boolean not null default false,
+  stripe_connect_account_id  text,
+  created_at                 timestamptz not null default now(),
+  updated_at                 timestamptz not null default now()
+);
+
+create index if not exists cleaner_profiles_visible_idx on public.cleaner_profiles (visible);
+create index if not exists cleaner_profiles_hood_idx    on public.cleaner_profiles (hood);
+
+drop trigger if exists cleaner_profiles_set_updated_at on public.cleaner_profiles;
+create trigger cleaner_profiles_set_updated_at
+  before update on public.cleaner_profiles
+  for each row execute function public.set_updated_at();
+
+alter table public.cleaner_profiles enable row level security;
+
+-- Público (anon + authenticated) ve los cleaners visibles.
+drop policy if exists "cleaner_profiles_public_select" on public.cleaner_profiles;
+create policy "cleaner_profiles_public_select"
+  on public.cleaner_profiles for select
+  to anon, authenticated
+  using (visible = true);
+
+-- El cleaner crea/edita SU propio perfil (no puede cambiar verified flags —
+-- eso lo hace service-role/admin; protegido por un trigger más abajo).
+drop policy if exists "cleaner_profiles_own_insert" on public.cleaner_profiles;
+create policy "cleaner_profiles_own_insert"
+  on public.cleaner_profiles for insert
+  to authenticated
+  with check (auth.uid() = profile_id);
+
+drop policy if exists "cleaner_profiles_own_update" on public.cleaner_profiles;
+create policy "cleaner_profiles_own_update"
+  on public.cleaner_profiles for update
+  to authenticated
+  using (auth.uid() = profile_id)
+  with check (auth.uid() = profile_id);
+
+-- Los flags de verificación (KYC) son inmutables desde el cliente: solo
+-- service-role/admin los cambia. Igual patrón que profiles.role.
+create or replace function public.cleaner_verification_immutable()
+returns trigger
+language plpgsql
+as $$
+begin
+  if (new.verified is distinct from old.verified
+      or new.verified_kvk is distinct from old.verified_kvk
+      or new.verified_vog is distinct from old.verified_vog
+      or new.verified_id is distinct from old.verified_id)
+     and current_setting('request.jwt.claim.role', true) is distinct from 'service_role'
+     and (auth.jwt() ->> 'role') is distinct from 'service_role' then
+    raise exception 'verification flags are admin-only' using errcode = '42501';
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists cleaner_verification_immutable on public.cleaner_profiles;
+create trigger cleaner_verification_immutable
+  before update on public.cleaner_profiles
+  for each row execute function public.cleaner_verification_immutable();
+
+-- ─────────────────────────────────────────────────────────────────────────
 -- waitlist — captura de leads (hero waitlist-first, P1)
 -- El Server Action inserta { email, locale, source } con la ANON key.
 -- ─────────────────────────────────────────────────────────────────────────

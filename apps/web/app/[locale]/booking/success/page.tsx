@@ -7,7 +7,7 @@ import { Container } from "@/components/layout/container";
 import { Link } from "@/i18n/navigation";
 import { buttonStyles } from "@/components/ui/button-variants";
 import { getStripe } from "@/lib/stripe/server";
-import { getCleanerById } from "@/lib/mock/cleaners";
+import { getCleanerProfileById } from "@/lib/data/cleaners";
 import { formatEur } from "@/lib/booking/pricing";
 import { bookingReference } from "@/lib/booking/reference";
 
@@ -20,7 +20,7 @@ async function loadSession(sessionId?: string) {
     const stripe = getStripe();
     const s = await stripe.checkout.sessions.retrieve(sessionId);
     const meta = s.metadata ?? {};
-    const cleaner = meta.cleaner_id ? getCleanerById(meta.cleaner_id) : undefined;
+    const cleaner = meta.cleaner_id ? await getCleanerProfileById(meta.cleaner_id) : null;
     // Reference deriva del `booking_id` cuando existe (consistente con DB);
     // fallback al PI/session para bookings legacy sin booking_id en metadata.
     const refSeed =

@@ -8,11 +8,9 @@ import { MotionReveal } from "@/components/ui/motion-reveal";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Container } from "@/components/layout/container";
 import {
-  featuredCleaners,
   filterCleaners,
-  cleanerHoods,
-  cleanerSpecialties,
   type SortKey,
+  type CleanerPreview,
 } from "@/lib/mock/cleaners";
 import { cn } from "@/lib/utils";
 
@@ -50,7 +48,7 @@ function Select({
  * `<CleanersBrowser />` — listado filtrable de schoonmakers (mock en Fase 2,
  * Supabase en Fase 4). Filtros barrio / especialidad / orden, client-side.
  */
-export function CleanersBrowser() {
+export function CleanersBrowser({ cleaners }: { cleaners: CleanerPreview[] }) {
   const tf = useTranslations("schoonmakersPage");
   const tc = useTranslations("cleaners");
   const [hood, setHood] = useState("");
@@ -64,9 +62,19 @@ export function CleanersBrowser() {
     reviewsWord: tc("card.reviewsWord"),
   };
 
+  // Filtros derivados del catálogo recibido (real o mock).
+  const cleanerHoods = useMemo(
+    () => Array.from(new Set(cleaners.map((c) => c.hood))).sort(),
+    [cleaners],
+  );
+  const cleanerSpecialties = useMemo(
+    () => Array.from(new Set(cleaners.flatMap((c) => c.specialties))).sort(),
+    [cleaners],
+  );
+
   const results = useMemo(
-    () => filterCleaners(featuredCleaners, { hood: hood || undefined, specialty: specialty || undefined, sort }),
-    [hood, specialty, sort],
+    () => filterCleaners(cleaners, { hood: hood || undefined, specialty: specialty || undefined, sort }),
+    [cleaners, hood, specialty, sort],
   );
 
   const hasFilters = hood !== "" || specialty !== "" || sort !== "rating";

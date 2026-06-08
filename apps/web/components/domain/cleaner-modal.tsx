@@ -5,12 +5,13 @@ import { motion, AnimatePresence } from "motion/react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { X, Star, MapPin, Heart, ShieldCheck, ArrowRight } from "lucide-react";
-import { getCleanerProfile, type CleanerProfile } from "@/lib/mock/cleaners";
+import type { CleanerProfile } from "@/lib/mock/cleaners";
 import { useRouter as useIntlRouter, Link } from "@/i18n/navigation";
 import {
   toggleFavoriteAction,
   getFavoriteIdsAction,
 } from "@/app/[locale]/_actions/favorite";
+import { getCleanerProfileAction } from "@/app/[locale]/_actions/cleaners";
 
 /**
  * `<CleanerModal />` — quick-view URL-driven (`?cleanerId=`). Adaptado de
@@ -37,8 +38,12 @@ function CleanerModalInner() {
 
   useEffect(() => {
     if (cleanerId) {
-      const profile = getCleanerProfile(cleanerId);
-      if (profile) setCleaner(profile);
+      // Perfil vía capa híbrida (real/mock) — Server Action.
+      getCleanerProfileAction(cleanerId)
+        .then((profile) => {
+          if (profile) setCleaner(profile);
+        })
+        .catch(() => {});
       // Estado inicial del corazón desde Supabase (RLS-scoped). Degrada a [].
       getFavoriteIdsAction()
         .then((ids) => setIsFavorite(ids.includes(cleanerId)))

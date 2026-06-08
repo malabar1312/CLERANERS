@@ -7,7 +7,7 @@ import {
   CustomerDashboard,
   type LatestBooking,
 } from "@/components/domain/dashboard/customer/overview";
-import { getCleanerById } from "@/lib/mock/cleaners";
+import { getCleanerProfileById } from "@/lib/data/cleaners";
 
 /**
  * Dashboard page — routes to CleanerDashboard or CustomerDashboard
@@ -66,7 +66,7 @@ export default async function DashboardPage({
       .maybeSingle();
 
     if (bookingRow) {
-      const cleaner = getCleanerById(bookingRow.cleaner_id);
+      const cleaner = await getCleanerProfileById(bookingRow.cleaner_id);
       latestBooking = {
         reference: bookingRow.reference,
         cleanerId: bookingRow.cleaner_id,

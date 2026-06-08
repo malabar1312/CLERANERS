@@ -4,7 +4,7 @@ import { createHash } from "node:crypto";
 import { z } from "zod";
 import { headers } from "next/headers";
 import { getStripe } from "@/lib/stripe/server";
-import { getCleanerById } from "@/lib/mock/cleaners";
+import { getCleanerProfileById } from "@/lib/data/cleaners";
 import { computePrice, type PriceBreakdown } from "@/lib/booking/pricing";
 import { bookingReference } from "@/lib/booking/reference";
 import { env } from "@/lib/env";
@@ -152,7 +152,7 @@ export async function createBookingCheckout(raw: unknown): Promise<BookingChecko
   if (!parsed.success) return { ok: false, error: "invalid_input" };
   const data = parsed.data;
 
-  const cleaner = getCleanerById(data.cleanerId);
+  const cleaner = await getCleanerProfileById(data.cleanerId);
   if (!cleaner) return { ok: false, error: "cleaner_not_found" };
 
   const price = computePrice(cleaner.pricePerHour, data.m2);

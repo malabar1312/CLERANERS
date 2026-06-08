@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
-import { cleanerIds } from "@/lib/mock/cleaners";
+import { getCleanerIds } from "@/lib/data/cleaners";
 
 const BASE = "https://getcleaners.nl";
 
 /** Rutas públicas (nl canónico + alternate en). `en` lleva prefijo, `nl` no. */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPaths = [
     "",
     "/schoonmakers",
@@ -19,7 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/cookies",
     "/klachten",
   ];
-  const cleanerPaths = cleanerIds().map((id) => `/schoonmakers/${id}`);
+  const cleanerPaths = (await getCleanerIds()).map((id) => `/schoonmakers/${id}`);
   const all = [...staticPaths, ...cleanerPaths];
 
   return all.map((p) => ({

@@ -24,12 +24,17 @@ import { FavoriteButton } from "@/components/domain/favorite-button";
 import { TrackCleanerView } from "@/components/analytics/track-view";
 import { Link } from "@/i18n/navigation";
 import { asArray } from "@/lib/utils";
-import { getCleanerProfile, cleanerIds } from "@/lib/mock/cleaners";
+import { getCleanerProfileById, getCleanerIds } from "@/lib/data/cleaners";
 import { getFavoriteIds } from "@/lib/data/favorites";
 import { featuredReviews } from "@/lib/mock/reviews";
 
-export function generateStaticParams() {
-  return cleanerIds().map((id) => ({ id }));
+// ISR: refleja cleaners reales añadidos a Supabase sin rebuild completo.
+export const revalidate = 60;
+// Permite slugs de cleaners reales que no estaban en el build inicial.
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  return (await getCleanerIds()).map((id) => ({ id }));
 }
 
 export async function generateMetadata({
@@ -38,7 +43,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string; id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const profile = getCleanerProfile(id);
+  const profile = await getCleanerProfileById(id);
   return { title: profile ? profile.name : "Schoonmaker" };
 }
 
@@ -53,7 +58,7 @@ export default async function CleanerProfilePage({
   const { locale, id } = await params;
   setRequestLocale(locale);
 
-  const profile = getCleanerProfile(id);
+  const profile = await getCleanerProfileById(id);
   if (!profile) notFound();
 
   const t = await getTranslations("cleanerProfile");
@@ -64,7 +69,7 @@ export default async function CleanerProfilePage({
   const isFavorited = favoriteIds.includes(profile.id);
 
   // Deterministic 3 reviews per cleaner from the shared pool.
-  const offset = Math.max(0, cleanerIds().indexOf(id));
+  const offset = Math.max(0, (await getCleanerIds()).indexOf(id));
   const reviews = [0, 1, 2]
     .map((k) => featuredReviews[(offset + k) % featuredReviews.length])
     .filter((r): r is (typeof featuredReviews)[number] => Boolean(r));

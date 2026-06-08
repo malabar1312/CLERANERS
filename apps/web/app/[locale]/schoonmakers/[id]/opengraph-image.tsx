@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { getCleanerProfile } from "@/lib/mock/cleaners";
+import { getCleanerProfileById } from "@/lib/data/cleaners";
 
 export const alt = "Cleaner profile";
 export const size = { width: 1200, height: 630 };
@@ -11,7 +11,7 @@ export default async function CleanerOG({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const profile = getCleanerProfile(id);
+  const profile = await getCleanerProfileById(id);
   if (!profile) {
     return new ImageResponse(
       <div style={{ width: "100%", height: "100%", display: "flex", background: "#0a0a0a", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 40 }}>

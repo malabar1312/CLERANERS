@@ -5,14 +5,15 @@ import { Section } from "@/components/ui/section";
 import { MotionReveal } from "@/components/ui/motion-reveal";
 import { CleanerCard } from "@/components/domain/cleaner-card";
 import { buttonStyles } from "@/components/ui/button-variants";
-import { featuredCleaners } from "@/lib/mock/cleaners";
+import { getCleaners } from "@/lib/data/cleaners";
 
 /**
- * `<CleanersGrid />` — grid de schoonmakers destacados (mock en Fase 2,
- * Supabase en Fase 4). 1/2/3 columnas responsive.
+ * `<CleanersGrid />` — grid de schoonmakers destacados. Datos vía capa híbrida
+ * (reales de Supabase si existen, mock si no). Muestra los primeros 8.
  */
 export async function CleanersGrid() {
   const t = await getTranslations("cleaners");
+  const cleaners = (await getCleaners()).slice(0, 8);
   const labels = {
     verified: t("card.verified"),
     perHour: t("card.perHour"),
@@ -30,7 +31,7 @@ export async function CleanersGrid() {
       lead={t("lead")}
     >
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {featuredCleaners.map((cleaner, i) => (
+        {cleaners.map((cleaner, i) => (
           <MotionReveal key={cleaner.id} delay={(i % 4) * 0.06}>
             <CleanerCard cleaner={cleaner} labels={labels} />
           </MotionReveal>

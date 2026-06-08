@@ -139,31 +139,28 @@ CHECK constraint actual (AUTO-CYCLE 6) permite: `pending`, `paid`, `accepted`, `
 
 ---
 
+## `cleaner_profiles` — IMPLEMENTADA ✅ (capa híbrida, roadmap #1)
+
+Tabla real del catálogo (1:1 con `profiles`). `lib/data/cleaners.ts` auto-detecta:
+≥1 fila visible → fuente de verdad; vacía → mock fallback (demo intacta).
+
+Columnas: `profile_id` (PK FK profiles), `slug` (SEO unique), `name`, `hood`,
+`price_per_hour` (editable), `bio`, `languages[]`, `specialties[]`, `image`,
+`tone`, `rating`, `reviews_count`, `response_mins`, `since`, `online`,
+`verified`, `accepts_bookings`, `visible`, `verified_kvk/vog/id`,
+`stripe_connect_account_id`, timestamps.
+
+RLS: público lee `visible=true`; el cleaner edita el suyo; flags de
+verificación (KYC) inmutables desde cliente (trigger, solo service-role).
+
+Consumidores migrados (mock → data): landing grid, listado+browser, quick-view
+modal (vía Server Action), perfil completo, booking action, booking success,
+dashboard, sitemap, OG image. SSG del perfil → ISR (revalidate 60) + dynamicParams.
+
+Seed demo: `supabase/seed-cleaners.sql`. Producción: onboarding (#2).
+`bookings.cleaner_id` (text slug) → futura FK a `cleaner_profiles.slug`.
+
 ## Futuras tablas (NO implementadas — gating cycles posteriores)
-
-### `cleaner_profiles` (1:1 con `profiles` where role='cleaner')
-
-```sql
-create table cleaner_profiles (
-  profile_id      uuid primary key references profiles(id) on delete cascade,
-  slug            text unique not null,          -- SEO URL (ej. "sofia-r")
-  price_per_hour  numeric(5,2) not null,         -- cleaner libre
-  bio             text,
-  languages       text[],
-  specialties     text[],
-  hood            text,                          -- barrio principal Amsterdam
-  response_time_minutes integer,
-  accepts_bookings boolean default true,
-  photo_url       text,
-  verified_kvk    boolean default false,
-  verified_vog    boolean default false,
-  verified_id     boolean default false,
-  stripe_connect_account_id text,                -- Stripe Connect Express
-  created_at, updated_at
-);
-```
-
-Cuando exista, el `cleaner_id text` de `bookings` migrará a `cleaner_slug text references cleaner_profiles(slug)`.
 
 ### `reviews`
 

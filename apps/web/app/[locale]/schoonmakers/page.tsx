@@ -6,6 +6,10 @@ import { Footer } from "@/components/sections/footer";
 import { Container } from "@/components/layout/container";
 import { Link } from "@/i18n/navigation";
 import { CleanersBrowser } from "@/components/sections/cleaners-browser";
+import { getCleaners } from "@/lib/data/cleaners";
+
+// ISR: refleja cleaners reales añadidos a Supabase sin rebuild completo.
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
@@ -25,6 +29,7 @@ export default async function SchoonmakersPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("schoonmakersPage");
+  const cleaners = await getCleaners();
 
   return (
     <>
@@ -56,7 +61,7 @@ export default async function SchoonmakersPage({
           </Container>
         </header>
 
-        <CleanersBrowser />
+        <CleanersBrowser cleaners={cleaners} />
       </main>
       <Footer />
     </>
