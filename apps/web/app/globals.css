@@ -32,6 +32,9 @@
   --color-blue-soft: #eff5ff;  /* tints */
   --color-blue-ink: #ffffff;   /* text on blue */
 
+  /* Canvas base alias (Antigravity: cards/perfil sobre off-white) */
+  --bg: var(--color-surface);
+
   /* === Warm signature (whisper — para que no sea solo azul-tech) === */
   --color-cream: #f7f3ec;      /* superficie cálida alternativa */
   --color-sand: #ece2d2;       /* borde/acento cálido */

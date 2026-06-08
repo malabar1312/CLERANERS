@@ -13,9 +13,12 @@ import { cn } from "@/lib/utils";
 export function FavoriteButton({
   cleanerId,
   initialFavorited = false,
+  variant = "dark",
 }: {
   cleanerId: string;
   initialFavorited?: boolean;
+  /** `dark` para fondos oscuros, `light` para el perfil blanco. */
+  variant?: "light" | "dark";
 }) {
   const [favorited, setFavorited] = useState(initialFavorited);
   const [isPending, startTransition] = useTransition();
@@ -34,6 +37,11 @@ export function FavoriteButton({
     });
   }
 
+  const idle =
+    variant === "light"
+      ? "border-[var(--color-line)] bg-[var(--color-white)] text-[var(--color-muted)] hover:border-red-200 hover:bg-red-50 hover:text-red-400 shadow-sm"
+      : "border-[var(--color-dark-line)] bg-[color:rgb(255_255_255/0.06)] text-[var(--color-dark-muted)] hover:border-red-200 hover:bg-red-50/10 hover:text-red-400";
+
   return (
     <button
       type="button"
@@ -46,9 +54,7 @@ export function FavoriteButton({
         "duration-[var(--dur-base)] ease-[var(--ease-out)]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-blue)] focus-visible:ring-offset-2",
         "disabled:opacity-50",
-        favorited
-          ? "border-red-200 bg-red-50 text-red-500 hover:bg-red-100"
-          : "border-[var(--color-dark-line)] bg-[color:rgb(255_255_255/0.06)] text-[var(--color-dark-muted)] hover:border-red-200 hover:bg-red-50/10 hover:text-red-400",
+        favorited ? "border-red-200 bg-red-50 text-red-500 hover:bg-red-100" : idle,
       )}
     >
       <Heart
