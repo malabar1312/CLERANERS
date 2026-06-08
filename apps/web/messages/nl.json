@@ -537,6 +537,16 @@
     "accept": "Accepteren",
     "decline": "Weigeren"
   },
+  "cleanerModal": {
+    "verified": "Geverifieerd",
+    "reviews": "reviews",
+    "perHour": "/uur",
+    "viewFullProfile": "Bekijk volledig profiel",
+    "bookNow": "Direct boeken",
+    "addFavorite": "Voeg toe aan favorieten",
+    "removeFavorite": "Verwijder uit favorieten",
+    "close": "Sluiten"
+  },
   "dashboard": {
     "sidebar": {
       "title": "Dashboard",

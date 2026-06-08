@@ -537,6 +537,16 @@
     "accept": "Accept",
     "decline": "Decline"
   },
+  "cleanerModal": {
+    "verified": "Verified",
+    "reviews": "reviews",
+    "perHour": "/hour",
+    "viewFullProfile": "View full profile",
+    "bookNow": "Book now",
+    "addFavorite": "Add to favorites",
+    "removeFavorite": "Remove from favorites",
+    "close": "Close"
+  },
   "dashboard": {
     "sidebar": {
       "title": "Dashboard",

@@ -1,12 +1,17 @@
+"use client";
+
 import { Star as StarIcon, BadgeCheck, MapPin, ArrowRight } from "lucide-react";
-import { Link } from "@/i18n/navigation";
+import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { AvatarInitials } from "@/components/ui/avatar-initials";
 import type { CleanerPreview } from "@/lib/mock/cleaners";
 
 /**
- * `<CleanerCard />` — tarjeta de schoonmaker, Stitch Quiet-Luxury (blanca). La
- * tarjeta entera es un link al perfil (`/schoonmakers/[id]`).
+ * `<CleanerCard />` — tarjeta de schoonmaker. Al hacer clic abre el quick-view
+ * modal (`?cleanerId=`) preservando el pathname actual (funciona en la landing
+ * y en el listado). El modal ofrece "Bekijk volledig profiel" → /schoonmakers/[id].
+ *
+ * Client component: necesita router para el quick-view sin perder scroll.
  */
 export function CleanerCard({
   cleaner,
@@ -15,11 +20,36 @@ export function CleanerCard({
   cleaner: CleanerPreview;
   labels: { verified: string; perHour: string; reviewsWord: string; viewProfile: string };
 }) {
+  const router = useRouter();
+
+  // Leemos query/pathname desde `window` en el handler (runtime, client-only)
+  // para preservar params existentes SIN el hook useSearchParams — que forzaría
+  // un Suspense boundary y rompería el prerender estático de la landing.
+  const openQuickView = () => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("cleanerId", cleaner.id);
+    router.push(`${window.location.pathname}?${params.toString()}`, { scroll: false });
+  };
+
   return (
-    <Link href={`/schoonmakers/${cleaner.id}`} className="block focus:outline-none" aria-label={cleaner.name}>
+    <button
+      type="button"
+      onClick={openQuickView}
+      className="block w-full rounded-2xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-blue)] focus-visible:ring-offset-2"
+      aria-label={cleaner.name}
+    >
       <Card as="article" variant="white" padding="md" interactive className="flex h-full flex-col">
         <div className="flex items-start gap-3.5">
-          <AvatarInitials name={cleaner.name} size="lg" tone={cleaner.tone} online={cleaner.online} />
+          {cleaner.image ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={cleaner.image}
+              alt={cleaner.name}
+              className="h-14 w-14 shrink-0 rounded-full object-cover shadow-sm ring-1 ring-black/5"
+            />
+          ) : (
+            <AvatarInitials name={cleaner.name} size="lg" tone={cleaner.tone} online={cleaner.online} />
+          )}
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5">
               <h3 className="truncate text-base font-semibold text-[var(--color-ink)]">{cleaner.name}</h3>
@@ -62,6 +92,6 @@ export function CleanerCard({
           </span>
         </div>
       </Card>
-    </Link>
+    </button>
   );
 }

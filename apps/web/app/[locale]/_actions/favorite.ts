@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { toggleFavorite } from "@/lib/data/favorites";
+import { toggleFavorite, getFavoriteIds } from "@/lib/data/favorites";
 export type { FavoriteResult } from "@/lib/data/favorites";
 
 /**
@@ -14,4 +14,13 @@ export async function toggleFavoriteAction(cleanerId: string) {
     revalidatePath(`/schoonmakers/${cleanerId}`);
   }
   return result;
+}
+
+/**
+ * Server Action — lee los IDs favoritos del usuario actual. Usado por el
+ * quick-view modal (client) para hidratar el estado inicial del corazón.
+ * Degrada a [] si no hay sesión (RLS-scoped).
+ */
+export async function getFavoriteIdsAction(): Promise<string[]> {
+  return getFavoriteIds();
 }

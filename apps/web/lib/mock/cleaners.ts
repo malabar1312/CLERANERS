@@ -20,6 +20,7 @@ export type CleanerPreview = {
   /** 0-5 — indexa el gradiente brand del AvatarInitials. */
   tone: number;
   specialties: string[];
+  image?: string;
 };
 
 export const featuredCleaners: CleanerPreview[] = [
@@ -33,7 +34,8 @@ export const featuredCleaners: CleanerPreview[] = [
     verified: true,
     online: true,
     tone: 0,
-    specialties: ["Diepe reiniging", "Vakantieverhuur", "Ramen"],
+    specialties: ["Diepe reiniging", "Strijken", "Ramen"],
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800",
   },
   {
     id: "maria-g",
@@ -46,6 +48,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: true,
     tone: 1,
     specialties: ["Wekelijks", "Huisdieren OK", "Eco-producten"],
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=800",
   },
   {
     id: "laura-m",
@@ -58,6 +61,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: false,
     tone: 2,
     specialties: ["Premium", "Detail-georiënteerd", "Engels & Nederlands"],
+    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=800",
   },
   {
     id: "elena-s",
@@ -69,7 +73,8 @@ export const featuredCleaners: CleanerPreview[] = [
     verified: true,
     online: true,
     tone: 3,
-    specialties: ["Verhuisreiniging", "Vakantieverhuur", "Wekelijks"],
+    specialties: ["Verhuisreiniging", "Strijken", "Wekelijks"],
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=800",
   },
   {
     id: "anna-l",
@@ -82,6 +87,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: false,
     tone: 4,
     specialties: ["Studentenkamers", "Snel & efficiënt"],
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
   },
   {
     id: "carmen-p",
@@ -93,7 +99,8 @@ export const featuredCleaners: CleanerPreview[] = [
     verified: true,
     online: true,
     tone: 5,
-    specialties: ["Premium", "Vakantieverhuur", "Boodschappen"],
+    specialties: ["Premium", "Strijken", "Boodschappen"],
+    image: "https://images.unsplash.com/photo-1531123897727-8f129e1bf366?auto=format&fit=crop&q=80&w=800",
   },
   {
     id: "rosa-d",
@@ -106,6 +113,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: true,
     tone: 0,
     specialties: ["Wekelijks", "Eco-producten", "Engels"],
+    image: "https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&q=80&w=800",
   },
   {
     id: "isabel-h",
@@ -118,6 +126,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: false,
     tone: 2,
     specialties: ["Premium", "Diepe reiniging", "Detail-georiënteerd"],
+    image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&q=80&w=800",
   },
   {
     id: "nadia-k",
@@ -130,6 +139,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: true,
     tone: 1,
     specialties: ["Wekelijks", "Eco-producten", "Strijken"],
+    image: "https://images.unsplash.com/photo-1619895862022-09114b41f16f?auto=format&fit=crop&q=80&w=800",
   },
   {
     id: "julia-v",
@@ -142,6 +152,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: false,
     tone: 3,
     specialties: ["Premium", "Ramen", "Detail-georiënteerd"],
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=800", // Man
   },
   {
     id: "fatima-e",
@@ -154,6 +165,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: true,
     tone: 4,
     specialties: ["Wekelijks", "Huisdieren OK", "Snel & efficiënt"],
+    image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=800", // Woman
   },
   {
     id: "sophie-d",
@@ -166,6 +178,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: true,
     tone: 5,
     specialties: ["Premium", "Verhuisreiniging", "Engels & Nederlands"],
+    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800", // Man
   },
 ];
 

@@ -49,6 +49,7 @@ export async function Reviews() {
 
               <figcaption className="mt-8 flex items-center gap-4">
                 {review.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img src={review.image} alt={review.author} className="h-12 w-12 rounded-full object-cover shadow-sm ring-1 ring-black/5" />
                 ) : (
                   <span className="flex h-12 w-12 items-center justify-center rounded-full bg-black/10 text-sm font-semibold text-black" aria-hidden="true">
