@@ -34,3 +34,5 @@ graphify-out/
 
 # QA screenshots (throwaway)
 docs/design/audit-shots/
+
+.vercel

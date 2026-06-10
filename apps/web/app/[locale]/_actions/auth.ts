@@ -8,6 +8,7 @@ import { headers } from "next/headers";
 import { getPathname } from "@/i18n/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { rateLimit, getIdentifier } from "@/lib/rate-limit";
+import { getSiteUrl } from "@/lib/url";
 
 // Login mantiene min(6) por compat con usuarios pre-cycle-4 que registraron
 // con 6 chars. Solo el signup endurece la política para nuevos usuarios.
@@ -137,6 +138,13 @@ export async function signUp(
   }
 
   const supabase = await createSupabaseServerClient();
+  const siteUrl = getSiteUrl();
+  const role = parsed.data.role ?? "customer";
+
+  // After email verification, Supabase redirects to /auth/callback.
+  // The callback route reads the user's role and redirects accordingly:
+  //   cleaner → /onboarding/schoonmaker
+  //   customer → /
   const { error } = await supabase.auth.signUp({
     email: parsed.data.email,
     password: parsed.data.password,
@@ -145,8 +153,9 @@ export async function signUp(
       // `handle_new_user` los lee para crear la fila de `profiles`.
       data: {
         full_name: parsed.data.name,
-        role: parsed.data.role ?? "customer",
+        role,
       },
+      emailRedirectTo: `${siteUrl}/auth/callback?type=signup`,
     },
   });
 
@@ -160,13 +169,10 @@ export async function signUp(
   revalidatePath("/", "layout");
   const locale = await getLocale();
 
-  // Cleaners → onboarding wizard to create their public profile.
-  // Customers → home (they can browse and book immediately).
-  const destination = (parsed.data.role ?? "customer") === "cleaner"
-    ? "/onboarding/schoonmaker"
-    : "/";
-
-  redirect(getPathname({ href: destination, locale }));
+  // Redirect to "check your email" page instead of the final destination.
+  // The actual destination routing happens in /auth/callback after
+  // the user clicks the confirmation link.
+  redirect(getPathname({ href: "/signup/verify", locale }));
 }
 
 /**
@@ -188,7 +194,7 @@ export async function requestPasswordReset(
   try {
     const supabase = await createSupabaseServerClient();
     await supabase.auth.resetPasswordForEmail(email.data, {
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}/auth/callback?next=/`,
+      redirectTo: `${getSiteUrl()}/auth/callback?type=recovery`,
     });
   } catch {
     // Swallow — never reveal whether the email exists.

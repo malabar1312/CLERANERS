@@ -23,10 +23,11 @@ export const config = {
   /**
    * Match everything except:
    *  - `api/` and `trpc/` (server routes — handle their own auth)
+   *  - `auth/` (Supabase callback/confirm routes — no locale negotiation)
    *  - `_next/` and `_vercel/` (Next/Vercel internals)
    *  - Files with an extension (assets like /sitemap.xml, /robots.txt, /og-image.png).
    *    We DO still want middleware on the locale-prefixed asset paths but the
    *    static asset pipeline serves these directly without a middleware roundtrip.
    */
-  matcher: ["/((?!api|trpc|_next|_vercel|.*\\..*).*)"],
+  matcher: ["/((?!api|auth|trpc|_next|_vercel|.*\\..*).*)"],
 };

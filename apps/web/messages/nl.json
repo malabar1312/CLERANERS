@@ -156,6 +156,15 @@
       "errorGeneric": "Er ging iets mis. Probeer het opnieuw.",
       "hasAccount": "Al een account?",
       "loginLink": "Inloggen"
+    },
+    "verify": {
+      "title": "Controleer je inbox",
+      "body": "We hebben een bevestigingslink naar je e-mailadres gestuurd. Klik op de link om je account te activeren.",
+      "tipsTitle": "Geen e-mail ontvangen?",
+      "tip1": "Controleer je spam- of ongewenste-mailmap.",
+      "tip2": "Het kan tot 5 minuten duren voordat de e-mail aankomt.",
+      "tip3": "Controleer of je e-mailadres correct was.",
+      "backToLogin": "Terug naar inloggen"
     }
   },
   "nav": {
