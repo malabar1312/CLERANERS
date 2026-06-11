@@ -7,17 +7,22 @@
 - ✅ Roadmap repriorizado → ver `ROADMAP_STATUS.md`.
 - ✅ Sprint "Real Data v1" definido → ver `CURRENT_SPRINT.md`.
 
-## ▶️ SIGUIENTE ACCIÓN (Sprint tarea #1)
-**Cablear la búsqueda del hero a `/schoonmakers`.**
+## ✅ Sprint tarea #1 — HECHA (2026-06-11)
+Search del hero cableada a `/schoonmakers?hood=&date=&time=` (commit `8049d6b`).
+Verificado en prod: `getcleaners.nl/schoonmakers?hood=De+Pijp` → filtro aplicado SSR.
 
-1. `apps/web/components/ui/search-bar.tsx`: el botón `Zoeken` construye `/schoonmakers?hood=<location>&date=<iso>&time=<slot>` con `useRouter` de `@/i18n/navigation` (respeta locale).
-2. `apps/web/app/[locale]/schoonmakers/page.tsx` + `<CleanersBrowser>`: leer `searchParams`, inicializar filtro `hood` (mapear location→hood si coincide), mostrar chip de fecha/hora seleccionada (aunque el filtro real de fecha llegue con data real).
-3. Enter en el input de location = submit.
-4. QA: desktop+móvil, typecheck, lint → commit → deploy.
+## ▶️ SIGUIENTE ACCIÓN (Sprint tarea #2)
+**Supabase schema v1 + RLS + types.**
+
+1. Confirmar estado del proyecto Supabase: `supabase/` existe en el repo y `apps/web/.env.local` existe (verificado 2026-06-11). Revisar si `supabase link` está hecho y si hay migraciones previas en `supabase/migrations/`.
+2. Migración SQL: `profiles` (extiende auth.users, role customer|cleaner), `cleaner_profiles` (hood, price, specialties, bio, languages, since), `bookings` (user_id, cleaner_id, date, time_slot, m2, hours, amount_cents, fee_cents, status, stripe_session_id UNIQUE), `reviews`.
+3. RLS: owner-read/write en bookings; cleaner lee sus asignadas; perfiles cleaner públicos read-only.
+4. `supabase gen types` → `packages/db`.
+5. NO tocar el switch mock→real todavía (eso es 1 PR por superficie, después del webhook).
 
 ## Después (en orden)
-- Sprint #2: Supabase schema v1 + RLS + gen types (la migración vive en `supabase/migrations/`; revisar `docs/STRIPE-CONFIG.md` y `backend/` legacy como referencia de campos).
-- Sprint #3: webhook Stripe → bookings.
+- Sprint #3: webhook Stripe `checkout.session.completed` → upsert `bookings` (idempotente por `stripe_session_id`).
+- Sprint #4: auth en booking action.
 
 ## Recordatorios duros
 - Idioma con Antonio: **español**. UI: **holandés**. Wordmark `cleaners` siempre `translate="no"`.

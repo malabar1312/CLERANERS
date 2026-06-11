@@ -7,7 +7,7 @@
 
 | # | Tarea | Team | Depende de | Entregable |
 |---|---|---|---|---|
-| 1 | **Cablear search del hero** → `Zoeken` navega a `/schoonmakers?hood=&date=&time=`; el listado lee los params e inicializa filtros | A | — | Hero cumple su promesa de búsqueda |
+| 1 | ✅ **HECHA** (2026-06-11, commit `8049d6b`, en prod) — Cablear search del hero → `Zoeken` navega a `/schoonmakers?hood=&date=&time=`; el listado valida hood server-side, inicializa filtros y muestra chip fecha/hora | A | — | Hero cumple su promesa de búsqueda |
 | 2 | **Supabase schema v1**: `profiles`, `cleaner_profiles`, `bookings`, `reviews` + RLS + `supabase gen types` → `packages/db` | C | — | Migración SQL + types tipados |
 | 3 | **Webhook Stripe** `checkout.session.completed` → upsert `bookings` (firma verificada, idempotente por session id) | D | 2 | Pago = fila en DB, siempre |
 | 4 | **Auth en booking**: server action exige sesión (o captura guest email); `user_id` en booking | B | 2 | Reserva atribuida a usuario |
