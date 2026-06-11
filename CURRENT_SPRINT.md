@@ -8,10 +8,10 @@
 | # | Tarea | Team | Depende de | Entregable |
 |---|---|---|---|---|
 | 1 | ✅ **HECHA** (2026-06-11, commit `8049d6b`, en prod) — Cablear search del hero → `Zoeken` navega a `/schoonmakers?hood=&date=&time=`; el listado valida hood server-side, inicializa filtros y muestra chip fecha/hora | A | — | Hero cumple su promesa de búsqueda |
-| 2 | 🔶 **BLOQUEADA-MANUAL** — El schema YA EXISTE (`supabase/schema.sql`, idempotente) pero el remoto solo tiene 4/7 tablas: faltan `profiles`, `cleaner_profiles`, `favorites`. **Acción de Antonio (2 min): Supabase → SQL Editor → pegar schema.sql → Run.** Verificar después con `node scripts/verify-supabase.mjs` | C | Antonio | Script go/no-go ya en repo |
+| 2 | ✅ **HECHA** (2026-06-11) — Antonio aplicó schema.sql; `node scripts/verify-supabase.mjs` = TODO VERDE (7/7 tablas + service key válida) | C | — | Infra verificada |
 | 3 | ✅ **YA EXISTÍA** — `app/api/webhook/stripe/route.ts` completo: firma fail-closed, dedupe por `webhook_events`, upsert por booking_id/session_id, refunds. Pendiente solo confirmar `STRIPE_WEBHOOK_SECRET` en Vercel prod | D | — | Hecho (verificar env en Vercel) |
 | 4 | ✅ **YA EXISTÍA** — `_actions/booking.ts` linkea `client_user_id` si hay sesión; checkout anónimo permitido by design (match posterior por email vía RLS) | B | — | Hecho |
-| 5 | 🟡 **PARCIAL** — `/dashboard` ya lee profile+última booking real (RLS) con fallback beta. Falta: lista COMPLETA de reservas + cancelación >24h | A+D | tarea 2 | Vista "mijn boekingen" completa |
+| 5 | ✅ **HECHA** (2026-06-11, commit `3ddc451`, en prod) — Vista "Mijn boekingen" (lista RLS completa, badges de estado, empty state) + action `cancelBooking` (regla >24h, guard de carrera, rate-limit). E2E verificada con usuario QA real: render, regla 24h, cancelación → `canceled` en DB. Script QA reutilizable: `scripts/qa-dashboard-seed.mjs` | A+D | — | En producción |
 | 6 | **Resend transaccional**: email booking-confirmed (cliente) + nueva-aanvraag (cleaner). `lib/email/templates.ts` ya existe — falta el envío desde el webhook | D | — | Envío cableado en webhook |
 | 7 | 🟡 **PARCIAL** — wizard `/onboarding/schoonmaker` + action `cleaner-profile.ts` (zod+rate-limit+slug) ya existen; necesitan la tabla `cleaner_profiles` (tarea 2) para funcionar e2e | B | tarea 2 | Alta cleaner verificada e2e |
 | 8 | **Dashboard cleaner: aanvragen reales**: lista bookings asignadas + aceptar/rechazar → estado | A+D | 3,7 | Loop booking completo en test |
