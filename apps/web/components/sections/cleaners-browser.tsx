@@ -48,12 +48,34 @@ function Select({
  * `<CleanersBrowser />` — listado filtrable de schoonmakers (mock en Fase 2,
  * Supabase en Fase 4). Filtros barrio / especialidad / orden, client-side.
  */
-export function CleanersBrowser({ cleaners }: { cleaners: CleanerPreview[] }) {
+export function CleanersBrowser({
+  cleaners,
+  initialHood,
+  searchDate,
+  searchTime,
+}: {
+  cleaners: CleanerPreview[];
+  /** Barrio ya validado contra el catálogo (viene de la búsqueda del hero). */
+  initialHood?: string;
+  /** Contexto de búsqueda (ISO yyyy-mm-dd) — chip informativo hasta que el filtro real exista. */
+  searchDate?: string;
+  searchTime?: string;
+}) {
   const tf = useTranslations("schoonmakersPage");
   const tc = useTranslations("cleaners");
-  const [hood, setHood] = useState("");
+  const [hood, setHood] = useState(initialHood ?? "");
   const [specialty, setSpecialty] = useState("");
   const [sort, setSort] = useState<SortKey>("rating");
+  const [showContext, setShowContext] = useState(Boolean(searchDate || searchTime));
+
+  const contextLabel = [
+    searchDate
+      ? new Date(`${searchDate}T00:00:00`).toLocaleDateString("nl-NL", { day: "numeric", month: "short" })
+      : null,
+    searchTime ?? null,
+  ]
+    .filter(Boolean)
+    .join(" · ");
 
   const cardLabels = {
     verified: tc("card.verified"),
@@ -107,6 +129,19 @@ export function CleanersBrowser({ cleaners }: { cleaners: CleanerPreview[] }) {
               <option value="price-asc">{tf("filters.sortPriceAsc")}</option>
               <option value="price-desc">{tf("filters.sortPriceDesc")}</option>
             </Select>
+            {showContext && contextLabel && (
+              <span className="inline-flex h-11 items-center gap-2 rounded-full border border-[var(--color-blue)]/30 bg-[var(--color-blue)]/5 px-4 text-sm font-medium text-[var(--color-blue)]">
+                {contextLabel}
+                <button
+                  type="button"
+                  onClick={() => setShowContext(false)}
+                  aria-label={tf("filters.clear")}
+                  className="-mr-1 rounded-full p-0.5 transition-colors hover:bg-[var(--color-blue)]/10"
+                >
+                  <X className="h-3.5 w-3.5" aria-hidden="true" />
+                </button>
+              </span>
+            )}
             {hasFilters && (
               <button
                 type="button"

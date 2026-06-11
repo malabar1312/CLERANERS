@@ -23,13 +23,23 @@ export async function generateMetadata({
 
 export default async function SchoonmakersPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ hood?: string; date?: string; time?: string }>;
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("schoonmakersPage");
   const cleaners = await getCleaners();
+
+  // Contexto de búsqueda del hero — el hood solo se aplica si existe en el catálogo.
+  const sp = await searchParams;
+  const requestedHood = sp.hood?.trim();
+  const initialHood =
+    requestedHood && cleaners.some((c) => c.hood.toLowerCase() === requestedHood.toLowerCase())
+      ? cleaners.find((c) => c.hood.toLowerCase() === requestedHood.toLowerCase())!.hood
+      : undefined;
 
   return (
     <>
@@ -61,7 +71,12 @@ export default async function SchoonmakersPage({
           </Container>
         </header>
 
-        <CleanersBrowser cleaners={cleaners} />
+        <CleanersBrowser
+          cleaners={cleaners}
+          initialHood={initialHood}
+          searchDate={sp.date}
+          searchTime={sp.time}
+        />
       </main>
       <Footer />
     </>

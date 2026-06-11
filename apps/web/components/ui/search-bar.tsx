@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { MapPin, Calendar, Clock, Search, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 const LOCATIONS = [
@@ -23,6 +24,7 @@ const TIMES = [
 ];
 
 export function SearchBar() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<"location" | "date" | "time" | null>(null);
   
   // States
@@ -83,6 +85,22 @@ export function SearchBar() {
   const blankDays = Array.from({ length: firstDay }, (_, i) => i);
   const weekDays = ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"];
 
+  /* La búsqueda navega al listado con el contexto en la URL.
+     "Amsterdam X" → hood "X" (los hoods del catálogo no llevan prefijo);
+     el listado valida contra el catálogo real antes de aplicar el filtro. */
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    const hood = location.trim().replace(/^amsterdam\s+/i, "");
+    if (hood) params.set("hood", hood);
+    if (date) {
+      const iso = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+      params.set("date", iso);
+    }
+    if (time && time !== "Flexibel") params.set("time", time);
+    const qs = params.toString();
+    router.push(`/schoonmakers${qs ? `?${qs}` : ""}`);
+  };
+
   const nextMonth = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (currentMonth) {
@@ -130,6 +148,12 @@ export function SearchBar() {
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               onFocus={() => setActiveTab("location")}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleSearch();
+                }
+              }}
             />
           </div>
 
@@ -317,6 +341,7 @@ export function SearchBar() {
           <button
             type="button"
             aria-label="Zoeken"
+            onClick={handleSearch}
             className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-[var(--color-blue)] px-8 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-[var(--color-blue-2)] hover:shadow-xl sm:h-16"
           >
             <Search className="h-5 w-5" aria-hidden />
