@@ -11,18 +11,28 @@
 Search del hero cableada a `/schoonmakers?hood=&date=&time=` (commit `8049d6b`).
 Verificado en prod: `getcleaners.nl/schoonmakers?hood=De+Pijp` → filtro aplicado SSR.
 
-## ▶️ SIGUIENTE ACCIÓN (Sprint tarea #2)
-**Supabase schema v1 + RLS + types.**
+## 🔍 Auditoría de infraestructura 2026-06-11 (Sprint #2) — RESULTADO
+La plataforma está MÁS construida de lo que decía CLAUDE.md. Verificado contra el Supabase live:
+- ✅ Tablas vivas: `waitlist`, `bookings`, `webhook_events`, `contact_messages`
+- ❌ Tablas FALTANTES: `profiles`, `cleaner_profiles`, `favorites` (el schema.sql del repo las define; el remoto tiene una versión vieja)
+- ✅ `SUPABASE_SERVICE_ROLE_KEY` local VÁLIDA (formato nuevo `sb_secret_`; usar header `apikey` solo, sin `Bearer`)
+- ✅ Webhook Stripe completo en código (`app/api/webhook/stripe/route.ts`)
+- ✅ Booking action con auth opcional (`client_user_id`)
+- ✅ Dashboard lee profile + última booking con fallback beta
+- ✅ Wizard onboarding cleaner + action listos (esperan la tabla)
 
-1. Confirmar estado del proyecto Supabase: `supabase/` existe en el repo y `apps/web/.env.local` existe (verificado 2026-06-11). Revisar si `supabase link` está hecho y si hay migraciones previas en `supabase/migrations/`.
-2. Migración SQL: `profiles` (extiende auth.users, role customer|cleaner), `cleaner_profiles` (hood, price, specialties, bio, languages, since), `bookings` (user_id, cleaner_id, date, time_slot, m2, hours, amount_cents, fee_cents, status, stripe_session_id UNIQUE), `reviews`.
-3. RLS: owner-read/write en bookings; cleaner lee sus asignadas; perfiles cleaner públicos read-only.
-4. `supabase gen types` → `packages/db`.
-5. NO tocar el switch mock→real todavía (eso es 1 PR por superficie, después del webhook).
+## ▶️ SIGUIENTE ACCIÓN — 1 paso manual de Antonio (2 minutos)
+**Aplicar el schema completo:** Supabase Dashboard → SQL Editor → New query → pegar TODO `supabase/schema.sql` → Run. Es **idempotente** (re-ejecutable sin riesgo; solo añade lo que falta).
+- Opcional: ejecutar también `supabase/seed-cleaners.sql` si se quiere catálogo real en vez de mock (el mock es deliberado en beta — decisión de Antonio).
+- Confirmar `STRIPE_WEBHOOK_SECRET` configurado en Vercel (production) para que el webhook persista pagos.
 
-## Después (en orden)
-- Sprint #3: webhook Stripe `checkout.session.completed` → upsert `bookings` (idempotente por `stripe_session_id`).
-- Sprint #4: auth en booking action.
+**Verificación (1 comando):** `node scripts/verify-supabase.mjs` → debe salir TODO VERDE.
+
+## Después (en orden, ya desbloqueado)
+- Sprint #5: vista completa "mijn boekingen" en dashboard cliente + cancelación >24h.
+- Sprint #6: envío Resend desde el webhook (templates ya existen en `lib/email/templates.ts`).
+- Sprint #7: validar e2e el wizard cleaner (signup → cleaner_profiles → aparece en catálogo).
+- Sprint #8: aanvragen del cleaner (aceptar/rechazar).
 
 ## Recordatorios duros
 - Idioma con Antonio: **español**. UI: **holandés**. Wordmark `cleaners` siempre `translate="no"`.

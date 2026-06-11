@@ -26,9 +26,9 @@
 ## 🔢 Prioridades recalculadas (Impacto × Riesgo × Dependencias × Tiempo)
 
 ### P0 — Bloqueantes críticos (sin esto no hay producto real)
-1. **Supabase schema v1 + RLS + types** (`profiles`, `cleaner_profiles`, `bookings`, `reviews`) — TODO lo demás depende de esto. ~1 sesión.
-2. **Webhook Stripe → persistencia bookings** (fuente de verdad del pago; hoy el checkout es fire-and-forget). Depende de 1. ~0.5 sesión.
-3. **Search del hero cableada** a `/schoonmakers?hood=&date=&time=` — el hero ahora PROMETE búsqueda; el botón Zoeken no navega. Sin dependencias. ~0.25 sesión. (Bajo esfuerzo, impacto directo en la promesa del hero → va primero en sprint.)
+1. 🔶 **Aplicar schema.sql al remoto** — el schema YA EXISTE en repo (idempotente) y el código ya lo consume; al remoto le faltan `profiles`, `cleaner_profiles`, `favorites` (verificado 2026-06-11 con `scripts/verify-supabase.mjs`). **Paso manual de Antonio: SQL Editor → Run.**
+2. ✅ **Webhook Stripe → bookings** — YA EXISTÍA completo (`app/api/webhook/stripe/route.ts`: firma fail-closed, dedupe `webhook_events`, upsert idempotente, refunds). Solo confirmar `STRIPE_WEBHOOK_SECRET` en Vercel prod.
+3. ✅ **Search del hero cableada** — HECHA 2026-06-11 (commit `8049d6b`, en prod).
 
 ### P1 — Imprescindibles para MVP real
 4. Auth ↔ booking (sesión en server action; decisión: login obligatorio vs guest email).
@@ -48,7 +48,9 @@
 14. Admin panel real · KYC Stripe Identity · payouts semanales automáticos · Sentry/monitoring · rate limiting global · EN locale completo · tests e2e CI.
 
 ## ⚠️ Riesgos vivos
-- **Webhook sin implementar**: si un pago test se completa, no queda registro en DB (P0-2 lo mata).
+- **3 tablas faltantes en remoto** (`profiles`, `cleaner_profiles`, `favorites`): gatean rol en dashboard, onboarding cleaner y favoritos. Fix = re-ejecutar schema.sql (manual Antonio, idempotente).
+- **`STRIPE_WEBHOOK_SECRET` en Vercel prod sin confirmar**: si falta, el webhook responde 503 y los pagos test no persisten.
 - **KvK**: Connect real bloqueado por coste; mantener TODO en Stripe test mode hasta decisión.
-- **Mocks vs real**: `lib/mock/cleaners.ts` alimenta landing/listado/perfil — el switch a Supabase debe ser 1 PR por superficie (interfaz `CleanerPreview` ya lo permite).
+- **Mocks vs real**: el switch ya es AUTOMÁTICO (`lib/data/cleaners.ts`: ≥1 fila visible en `cleaner_profiles` → real; si no → mock). Seed opcional en `supabase/seed-cleaners.sql`.
+- **Keys Supabase formato nuevo** (`sb_secret_`/`sb_publishable_`): usar header `apikey` solo — `Authorization: Bearer` da 401 engañoso.
 - **`next lint` deprecado** (Next 16 lo elimina): migrar a ESLint CLI cuando toque, no urgente.

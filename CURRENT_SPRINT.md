@@ -8,12 +8,12 @@
 | # | Tarea | Team | Depende de | Entregable |
 |---|---|---|---|---|
 | 1 | ✅ **HECHA** (2026-06-11, commit `8049d6b`, en prod) — Cablear search del hero → `Zoeken` navega a `/schoonmakers?hood=&date=&time=`; el listado valida hood server-side, inicializa filtros y muestra chip fecha/hora | A | — | Hero cumple su promesa de búsqueda |
-| 2 | **Supabase schema v1**: `profiles`, `cleaner_profiles`, `bookings`, `reviews` + RLS + `supabase gen types` → `packages/db` | C | — | Migración SQL + types tipados |
-| 3 | **Webhook Stripe** `checkout.session.completed` → upsert `bookings` (firma verificada, idempotente por session id) | D | 2 | Pago = fila en DB, siempre |
-| 4 | **Auth en booking**: server action exige sesión (o captura guest email); `user_id` en booking | B | 2 | Reserva atribuida a usuario |
-| 5 | **Dashboard cliente real**: `/dashboard` lista bookings propias (estado, fecha, cleaner, cancelar si >24h) | A+D | 3,4 | Página servida desde DB |
-| 6 | **Resend transaccional**: email booking-confirmed (cliente) + nueva-aanvraag (cleaner) | D | 3 | 2 templates + envío en webhook |
-| 7 | **Cleaner signup wizard real**: pasos existentes → `cleaner_profiles` draft (sin Connect, sin KvK) | B | 2 | Alta de cleaner persistida |
+| 2 | 🔶 **BLOQUEADA-MANUAL** — El schema YA EXISTE (`supabase/schema.sql`, idempotente) pero el remoto solo tiene 4/7 tablas: faltan `profiles`, `cleaner_profiles`, `favorites`. **Acción de Antonio (2 min): Supabase → SQL Editor → pegar schema.sql → Run.** Verificar después con `node scripts/verify-supabase.mjs` | C | Antonio | Script go/no-go ya en repo |
+| 3 | ✅ **YA EXISTÍA** — `app/api/webhook/stripe/route.ts` completo: firma fail-closed, dedupe por `webhook_events`, upsert por booking_id/session_id, refunds. Pendiente solo confirmar `STRIPE_WEBHOOK_SECRET` en Vercel prod | D | — | Hecho (verificar env en Vercel) |
+| 4 | ✅ **YA EXISTÍA** — `_actions/booking.ts` linkea `client_user_id` si hay sesión; checkout anónimo permitido by design (match posterior por email vía RLS) | B | — | Hecho |
+| 5 | 🟡 **PARCIAL** — `/dashboard` ya lee profile+última booking real (RLS) con fallback beta. Falta: lista COMPLETA de reservas + cancelación >24h | A+D | tarea 2 | Vista "mijn boekingen" completa |
+| 6 | **Resend transaccional**: email booking-confirmed (cliente) + nueva-aanvraag (cleaner). `lib/email/templates.ts` ya existe — falta el envío desde el webhook | D | — | Envío cableado en webhook |
+| 7 | 🟡 **PARCIAL** — wizard `/onboarding/schoonmaker` + action `cleaner-profile.ts` (zod+rate-limit+slug) ya existen; necesitan la tabla `cleaner_profiles` (tarea 2) para funcionar e2e | B | tarea 2 | Alta cleaner verificada e2e |
 | 8 | **Dashboard cleaner: aanvragen reales**: lista bookings asignadas + aceptar/rechazar → estado | A+D | 3,7 | Loop booking completo en test |
 | 9 | **Hardening**: rate limit (waitlist + checkout actions), zod en todo input público, `security-review` del diff del sprint | E | 1-8 | Reporte + fixes aplicados |
 | 10 | **SEO base**: `sitemap.xml`, metadata por barrio (`/schoonmakers?hood=X` → title/desc), OG image | F | 1 | Indexable + compartible |
