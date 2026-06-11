@@ -145,13 +145,18 @@
   }
 
   html {
+    /* relative: Motion (useScroll target) mide offsets contra el scroll root y
+       exige posición no estática; en html es inocuo y limpia el warning dev. */
+    position: relative;
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background: var(--color-white);
-    overflow-x: hidden;
+    /* clip (not hidden): kills horizontal overflow WITHOUT creating a scroll
+       container — `hidden` here silently breaks every position:sticky child. */
+    overflow-x: clip;
   }
 
   body {
@@ -159,7 +164,7 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     line-height: 1.55;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   ::selection {

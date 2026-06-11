@@ -40,16 +40,31 @@ export function SearchBar() {
     setCurrentMonth(new Date());
   }, []);
 
-  // Click outside to close active tab
+  // Click outside / Escape to close active tab
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setActiveTab(null);
       }
     }
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") setActiveTab(null);
+    }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
   }, []);
+
+  /* Teclado: Enter/Space abren el panel del campo (los campos fecha/hora no son inputs) */
+  const fieldKeyDown = (tab: "date" | "time") => (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      setActiveTab(tab);
+    }
+  };
 
   const filteredLocations = LOCATIONS.filter((loc) =>
     loc.toLowerCase().includes(location.toLowerCase())
@@ -83,12 +98,12 @@ export function SearchBar() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-8" ref={containerRef}>
+    <div className="w-full" ref={containerRef}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-        className="relative z-20 flex flex-col sm:flex-row items-center justify-between rounded-3xl sm:rounded-full border border-white/20 bg-white/70 p-2 shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl transition-all duration-300 hover:shadow-[0_12px_48px_rgba(0,0,0,0.12)] sm:h-20"
+        transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
+        className="relative z-20 flex flex-col sm:flex-row items-center justify-between rounded-3xl sm:rounded-full border border-white/25 bg-white/85 p-2 shadow-[0_16px_48px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-all duration-300 hover:shadow-[0_20px_64px_rgba(0,0,0,0.45)] sm:h-20"
       >
         {/* Separators (desktop only) */}
         <div className="absolute inset-y-4 left-[38%] hidden w-px bg-black/10 sm:block" />
@@ -156,11 +171,16 @@ export function SearchBar() {
 
         {/* --- Date --- */}
         <div
+          role="button"
+          tabIndex={0}
+          aria-haspopup="dialog"
+          aria-expanded={activeTab === "date"}
           className={cn(
             "group relative flex w-full flex-1 cursor-pointer items-center gap-3 rounded-full px-6 py-3 transition-colors hover:bg-white/50 sm:h-full sm:py-0",
             activeTab === "date" && "bg-white shadow-md ring-1 ring-black/5"
           )}
           onClick={() => setActiveTab("date")}
+          onKeyDown={fieldKeyDown("date")}
         >
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black/5 text-[var(--color-blue)] transition-colors group-hover:bg-black/10">
             <Calendar className="h-5 w-5" />
@@ -242,11 +262,16 @@ export function SearchBar() {
 
         {/* --- Time --- */}
         <div
+          role="button"
+          tabIndex={0}
+          aria-haspopup="listbox"
+          aria-expanded={activeTab === "time"}
           className={cn(
             "group relative flex w-[140px] flex-none sm:w-[160px] cursor-pointer items-center gap-3 rounded-full px-6 py-3 transition-colors hover:bg-white/50 sm:h-full sm:py-0",
             activeTab === "time" && "bg-white shadow-md ring-1 ring-black/5"
           )}
           onClick={() => setActiveTab("time")}
+          onKeyDown={fieldKeyDown("time")}
         >
           <div className="flex w-full flex-col text-left">
             <span className="text-xs font-bold tracking-wider text-black/90 uppercase">Hoe laat</span>
@@ -291,9 +316,10 @@ export function SearchBar() {
         <div className="mt-2 w-full sm:mt-0 sm:w-auto sm:pl-2">
           <button
             type="button"
+            aria-label="Zoeken"
             className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-[var(--color-blue)] px-8 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-[var(--color-blue-2)] hover:shadow-xl sm:h-16"
           >
-            <Search className="h-5 w-5" />
+            <Search className="h-5 w-5" aria-hidden />
             <span className="sm:hidden">Zoeken</span>
           </button>
         </div>

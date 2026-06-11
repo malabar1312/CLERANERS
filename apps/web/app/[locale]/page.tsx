@@ -4,7 +4,6 @@ import { setRequestLocale } from "next-intl/server";
 export const revalidate = 60;
 import { AuthNav } from "@/components/layout/auth-nav";
 import { Hero } from "@/components/sections/hero";
-import { SearchBar } from "@/components/ui/search-bar";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { Features } from "@/components/sections/features";
 import { CleanersShowcase } from "@/components/sections/cleaners-showcase";
@@ -51,17 +50,15 @@ export default async function HomePage({
       <main id="main">
         <Hero />
 
-        {/* Floating Search Bar (overlap sobre el hero) */}
-        <div className="relative z-30 -mt-16 w-full px-4 pb-16 sm:-mt-24 sm:px-6 lg:px-8">
-          <SearchBar />
+        {/* White sheet — rises over the hero video with rounded corners (visual continuity) */}
+        <div className="relative z-30 -mt-6 overflow-hidden rounded-t-[2rem] bg-white shadow-[0_-24px_80px_rgba(10,10,10,0.35)] lg:-mt-[14vh] lg:rounded-t-[3rem]">
+          <CleanersShowcase />
+          <HowItWorks />
+          <Features />
+          <Reviews />
+          <CtaBand />
+          <FAQ />
         </div>
-
-        <CleanersShowcase />
-        <HowItWorks />
-        <Features />
-        <Reviews />
-        <CtaBand />
-        <FAQ />
       </main>
       <Footer />
       <StickyMobileCta />

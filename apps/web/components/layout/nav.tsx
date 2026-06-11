@@ -21,15 +21,17 @@ type CurrentUser = { name: string; role: "customer" | "cleaner" } | null;
  */
 export function Nav({ initialUser = null }: { initialUser?: CurrentUser }) {
   const t = useTranslations("nav");
-  const [scrolled, setScrolled] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.scrollY > 10;
-  });
+  /* Siempre false en el primer render (= SSR) para no romper la hidratación;
+     el valor real se sincroniza en el effect de abajo antes del primer paint útil. */
+  const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [user] = useState<CurrentUser>(initialUser);
   const rafId = useRef<number | null>(null);
 
   useEffect(() => {
+    // La restauración de scroll del navegador ocurre antes de hidratar:
+    // sincroniza el estado real al montar.
+    setScrolled(window.scrollY > 10);
     const onScroll = () => {
       if (rafId.current !== null) return;
       rafId.current = window.requestAnimationFrame(() => {
