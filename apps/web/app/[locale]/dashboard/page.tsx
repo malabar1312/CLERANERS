@@ -7,7 +7,20 @@ import {
   CustomerDashboard,
   type LatestBooking,
 } from "@/components/domain/dashboard/customer/overview";
+import type { BookingListItem } from "@/components/domain/dashboard/customer/bookings-view";
 import { getCleanerProfileById } from "@/lib/data/cleaners";
+
+/** Regla de cancelación (>24h antes del inicio de la franja) — espejo de
+ * `_actions/booking-manage.ts`, que la re-valida server-side al ejecutar. */
+const CANCELLABLE_STATUSES = new Set(["pending", "paid", "accepted"]);
+const SLOT_START_HOUR: Record<string, number> = { morning: 8, afternoon: 12, evening: 17 };
+
+function isCancellable(status: string, date: string | null, slot: string | null): boolean {
+  if (!CANCELLABLE_STATUSES.has(status) || !date) return false;
+  const hour = SLOT_START_HOUR[slot ?? ""] ?? 8;
+  const start = new Date(`${date}T${String(hour).padStart(2, "0")}:00:00`);
+  return !Number.isNaN(start.getTime()) && start.getTime() - Date.now() > 24 * 60 * 60 * 1000;
+}
 
 /**
  * Dashboard page — routes to CleanerDashboard or CustomerDashboard
@@ -28,6 +41,7 @@ export default async function DashboardPage({
     first_name: "Gebruiker",
   };
   let latestBooking: LatestBooking | null = null;
+  let bookings: BookingListItem[] = [];
 
   try {
     const supabase = await createSupabaseServerClient();
@@ -54,34 +68,59 @@ export default async function DashboardPage({
       };
     }
 
-    // Latest booking — RLS policy "bookings_own_select" matches by user_id OR
-    // email. Limited to 1, ordered by created_at desc.
-    const { data: bookingRow } = await supabase
+    // Bookings del usuario — RLS "bookings_own_select" matchea por user_id O
+    // email. Lista completa (cap 50) para la vista "mijn boekingen"; la
+    // primera fila alimenta la card de "active booking" de la overview.
+    const { data: bookingRows } = await supabase
       .from("bookings")
       .select(
-        "reference, cleaner_id, scheduled_date, scheduled_time, m2, hours, total_cents, status, street, city",
+        "id, reference, cleaner_id, scheduled_date, scheduled_time, m2, hours, total_cents, status, street, city",
       )
       .order("created_at", { ascending: false })
-      .limit(1)
-      .maybeSingle();
+      .limit(50);
 
-    if (bookingRow) {
-      const cleaner = await getCleanerProfileById(bookingRow.cleaner_id);
-      latestBooking = {
-        reference: bookingRow.reference,
-        cleanerId: bookingRow.cleaner_id,
-        cleanerName: cleaner?.name ?? "Je schoonmaker",
-        cleanerTone: cleaner?.tone ?? 0,
-        cleanerHood: cleaner?.hood ?? bookingRow.city ?? null,
-        rating: cleaner?.rating ?? null,
-        scheduledDate: bookingRow.scheduled_date,
-        scheduledTime: bookingRow.scheduled_time,
-        m2: bookingRow.m2,
-        hours: bookingRow.hours,
-        totalCents: bookingRow.total_cents,
-        status: bookingRow.status,
-        street: bookingRow.street,
-      };
+    if (bookingRows && bookingRows.length > 0) {
+      // Resolver nombres de cleaner una sola vez por id único.
+      const uniqueIds = [...new Set(bookingRows.map((r) => r.cleaner_id))];
+      const cleanerById = new Map(
+        await Promise.all(
+          uniqueIds.map(async (cid) => [cid, await getCleanerProfileById(cid)] as const),
+        ),
+      );
+
+      bookings = bookingRows.map((r) => ({
+        id: r.id,
+        reference: r.reference,
+        cleanerName: cleanerById.get(r.cleaner_id)?.name ?? "Je schoonmaker",
+        scheduledDate: r.scheduled_date,
+        scheduledTime: r.scheduled_time,
+        hours: r.hours,
+        m2: r.m2,
+        totalCents: r.total_cents,
+        status: r.status,
+        city: r.city,
+        cancellable: isCancellable(r.status, r.scheduled_date, r.scheduled_time),
+      }));
+
+      const first = bookingRows[0];
+      if (first) {
+        const cleaner = cleanerById.get(first.cleaner_id);
+        latestBooking = {
+          reference: first.reference,
+          cleanerId: first.cleaner_id,
+          cleanerName: cleaner?.name ?? "Je schoonmaker",
+          cleanerTone: cleaner?.tone ?? 0,
+          cleanerHood: cleaner?.hood ?? first.city ?? null,
+          rating: cleaner?.rating ?? null,
+          scheduledDate: first.scheduled_date,
+          scheduledTime: first.scheduled_time,
+          m2: first.m2,
+          hours: first.hours,
+          totalCents: first.total_cents,
+          status: first.status,
+          street: first.street,
+        };
+      }
     }
   } catch (err) {
     // Re-throw Next.js redirect/notFound errors — they use special throw signals
@@ -97,7 +136,11 @@ export default async function DashboardPage({
       {profile.role === "cleaner" ? (
         <CleanerDashboard profile={profile} />
       ) : (
-        <CustomerDashboard profile={profile} latestBooking={latestBooking} />
+        <CustomerDashboard
+          profile={profile}
+          latestBooking={latestBooking}
+          bookings={bookings}
+        />
       )}
     </div>
   );

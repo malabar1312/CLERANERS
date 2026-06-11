@@ -560,6 +560,7 @@
     "sidebar": {
       "title": "Dashboard",
       "overview": "Overzicht",
+      "bookings": "Mijn Boekingen",
       "calendar": "Agenda",
       "earnings": "Betalingen",
       "messages": "Berichten",
@@ -676,7 +677,33 @@
       "paymentHistory": "Betalingsgeschiedenis",
       "monthlySpending": "Maandelijkse Uitgaven",
       "yearlyTotal": "Jaarlijks Totaal",
-      "downloadInvoices": "Facturen Downloaden"
+      "downloadInvoices": "Facturen Downloaden",
+      "myBookings": "Mijn Boekingen",
+      "cancelPolicy": "Gratis annuleren tot 24 uur voor aanvang.",
+      "bookingsEmpty": "Nog geen boekingen",
+      "bookingsEmptyBody": "Boek je eerste schoonmaak en je ziet hem hier terug — inclusief status en betaling.",
+      "bookFirst": "Vind een schoonmaker",
+      "cancelAction": "Annuleren",
+      "confirmCancel": "Bevestig annulering",
+      "cancelling": "Bezig met annuleren…",
+      "keepBooking": "Boeking behouden",
+      "cancelFailed": "Annuleren is niet gelukt. Annuleren kan tot 24 uur van tevoren.",
+      "slots": {
+        "morning": "Ochtend",
+        "afternoon": "Middag",
+        "evening": "Avond"
+      },
+      "status": {
+        "pending": "In afwachting",
+        "paid": "Betaald",
+        "accepted": "Bevestigd",
+        "rejected": "Geweigerd",
+        "in_progress": "Bezig",
+        "completed": "Afgerond",
+        "reviewed": "Beoordeeld",
+        "refunded": "Terugbetaald",
+        "canceled": "Geannuleerd"
+      }
     }
   },
   "stickyCta": {

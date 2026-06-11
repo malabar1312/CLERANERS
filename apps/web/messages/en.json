@@ -560,6 +560,7 @@
     "sidebar": {
       "title": "Dashboard",
       "overview": "Overview",
+      "bookings": "My Bookings",
       "calendar": "Calendar",
       "earnings": "Payments",
       "messages": "Messages",
@@ -676,7 +677,33 @@
       "paymentHistory": "Payment History",
       "monthlySpending": "Monthly Spending",
       "yearlyTotal": "Yearly Total",
-      "downloadInvoices": "Download Invoices"
+      "downloadInvoices": "Download Invoices",
+      "myBookings": "My Bookings",
+      "cancelPolicy": "Free cancellation up to 24 hours before the start.",
+      "bookingsEmpty": "No bookings yet",
+      "bookingsEmptyBody": "Book your first cleaning and it will show up here — including status and payment.",
+      "bookFirst": "Find a cleaner",
+      "cancelAction": "Cancel",
+      "confirmCancel": "Confirm cancellation",
+      "cancelling": "Cancelling…",
+      "keepBooking": "Keep booking",
+      "cancelFailed": "Cancellation failed. You can cancel up to 24 hours in advance.",
+      "slots": {
+        "morning": "Morning",
+        "afternoon": "Afternoon",
+        "evening": "Evening"
+      },
+      "status": {
+        "pending": "Pending",
+        "paid": "Paid",
+        "accepted": "Confirmed",
+        "rejected": "Declined",
+        "in_progress": "In progress",
+        "completed": "Completed",
+        "reviewed": "Reviewed",
+        "refunded": "Refunded",
+        "canceled": "Cancelled"
+      }
     }
   },
   "stickyCta": {

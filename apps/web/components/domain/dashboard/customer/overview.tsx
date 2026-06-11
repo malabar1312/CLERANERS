@@ -17,6 +17,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { formatEur } from "@/lib/booking/pricing";
+import { BookingsView, type BookingListItem } from "./bookings-view";
 
 /**
  * Shape of the customer's most recent booking — read in `dashboard/page.tsx`
@@ -56,9 +57,11 @@ const fadeUp = {
 export function CustomerDashboard({
   profile,
   latestBooking = null,
+  bookings = [],
 }: {
   profile: { first_name: string; role?: string };
   latestBooking?: LatestBooking | null;
+  bookings?: BookingListItem[];
 }) {
   const t = useTranslations("dashboard.customer");
   const router = useRouter();
@@ -249,7 +252,10 @@ export function CustomerDashboard({
                   <MessageCircle className="h-3.5 w-3.5" />
                   {t("contact")}
                 </button>
-                <button className="flex h-9 items-center gap-1.5 rounded-full px-4 text-xs font-semibold text-[var(--color-danger)] transition-all hover:bg-[var(--color-danger-soft)]">
+                <button
+                  onClick={() => navigateTo("bookings")}
+                  className="flex h-9 items-center gap-1.5 rounded-full px-4 text-xs font-semibold text-[var(--color-danger)] transition-all hover:bg-[var(--color-danger-soft)]"
+                >
                   {t("cancel")}
                 </button>
               </div>
@@ -268,24 +274,25 @@ export function CustomerDashboard({
                 {
                   icon: Sparkles,
                   label: t("newBooking"),
-                  href: "/schoonmakers",
+                  onClick: () => router.push("/schoonmakers"),
                   accent: true,
                 },
                 {
-                  icon: Star,
-                  label: t("myProfessionals"),
-                  href: "#",
+                  icon: Calendar,
+                  label: t("myBookings"),
+                  onClick: () => navigateTo("bookings"),
                   accent: false,
                 },
                 {
                   icon: CreditCard,
                   label: t("paymentMethods"),
-                  href: "#",
+                  onClick: () => navigateTo("payments"),
                   accent: false,
                 },
               ].map((item, i) => (
                 <button
                   key={i}
+                  onClick={item.onClick}
                   className={`group flex items-center gap-3 rounded-xl p-3 text-left transition-all ${
                     item.accent
                       ? "bg-[var(--color-blue-soft)] hover:bg-[var(--color-blue)] hover:text-white"
@@ -429,6 +436,7 @@ export function CustomerDashboard({
   return (
     <AnimatePresence mode="wait">
       {view === "overview" && renderOverview()}
+      {view === "bookings" && <BookingsView key="bookings" bookings={bookings} />}
       {view === "calendar" && renderCalendar()}
       {view === "payments" && renderPayments()}
     </AnimatePresence>

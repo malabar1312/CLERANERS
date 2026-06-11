@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { Logo } from "@/components/brand/logo";
 import {
   LayoutDashboard,
+  CalendarCheck,
   Calendar,
   Wallet,
   MessageSquare,
@@ -25,6 +26,7 @@ export function DashboardSidebar() {
 
   const links = [
     { id: "overview", label: t("overview"), icon: LayoutDashboard },
+    { id: "bookings", label: t("bookings"), icon: CalendarCheck },
     { id: "calendar", label: t("calendar"), icon: Calendar },
     { id: "earnings", label: t("earnings"), icon: Wallet },
     { id: "messages", label: t("messages"), icon: MessageSquare },
