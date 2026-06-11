@@ -36,7 +36,7 @@ const securityHeaders = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' js.stripe.com vercel-insights.vercel.app va.vercel-scripts.com",
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob: *.supabase.co images.unsplash.com",
+      "img-src 'self' data: blob: *.supabase.co images.unsplash.com i.pravatar.cc",
       "font-src 'self'",
       "connect-src 'self' *.supabase.co api.stripe.com va.vercel-scripts.com vercel-insights.vercel.app",
       "frame-src js.stripe.com hooks.stripe.com",
@@ -63,10 +63,14 @@ const config: NextConfig = {
   },
   images: {
     formats: ["image/avif", "image/webp"],
-    remotePatterns: supabaseHost
-      ? [{ protocol: "https", hostname: supabaseHost, pathname: "/storage/v1/object/public/**" }]
-      : // Fallback during local dev / CI without a real Supabase URL set.
-        [{ protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/**" }],
+    remotePatterns: [
+      // Supabase Storage — profile photos, uploads, etc.
+      supabaseHost
+        ? { protocol: "https" as const, hostname: supabaseHost, pathname: "/storage/v1/object/public/**" }
+        : { protocol: "https" as const, hostname: "*.supabase.co", pathname: "/storage/v1/object/public/**" },
+      // Unsplash — mock cleaner photos (dev/staging)
+      { protocol: "https" as const, hostname: "images.unsplash.com" },
+    ],
   },
 };
 

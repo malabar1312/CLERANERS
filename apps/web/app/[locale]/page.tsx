@@ -7,7 +7,7 @@ import { Hero } from "@/components/sections/hero";
 import { SearchBar } from "@/components/ui/search-bar";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { Features } from "@/components/sections/features";
-import { CleanersGrid } from "@/components/sections/cleaners-grid";
+import { CleanersShowcase } from "@/components/sections/cleaners-showcase";
 import { Reviews } from "@/components/sections/reviews";
 import { CtaBand } from "@/components/sections/cta-band";
 import { FAQ } from "@/components/sections/faq";
@@ -56,9 +56,9 @@ export default async function HomePage({
           <SearchBar />
         </div>
 
+        <CleanersShowcase />
         <HowItWorks />
         <Features />
-        <CleanersGrid />
         <Reviews />
         <CtaBand />
         <FAQ />

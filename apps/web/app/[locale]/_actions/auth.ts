@@ -97,7 +97,9 @@ export async function signIn(
 
   revalidatePath("/", "layout");
   const locale = await getLocale();
-  redirect(getPathname({ href: "/", locale }));
+
+  // After login, route user to their dashboard
+  redirect(getPathname({ href: "/dashboard", locale }));
 }
 
 /**
@@ -169,10 +171,10 @@ export async function signUp(
   revalidatePath("/", "layout");
   const locale = await getLocale();
 
-  // Redirect to "check your email" page instead of the final destination.
-  // The actual destination routing happens in /auth/callback after
-  // the user clicks the confirmation link.
-  redirect(getPathname({ href: "/signup/verify", locale }));
+  // Email confirmation is disabled — user is immediately logged in.
+  // Redirect based on role: cleaners go to onboarding, customers to home.
+  const destination = role === "cleaner" ? "/onboarding/schoonmaker" : "/";
+  redirect(getPathname({ href: destination, locale }));
 }
 
 /**

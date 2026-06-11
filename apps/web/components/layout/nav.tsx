@@ -96,9 +96,14 @@ export function Nav({ initialUser = null }: { initialUser?: CurrentUser }) {
               {user ? (
                 <UserPill name={user.name} />
               ) : (
-                <Link href="/login" className={buttonStyles({ variant: "ghost", size: "sm", className: "px-3" })}>
-                  {t("login")}
-                </Link>
+                <>
+                  <Link href="/login" className={buttonStyles({ variant: "ghost", size: "sm", className: "px-3 text-xs sm:text-sm" })}>
+                    {t("login")}
+                  </Link>
+                  <Link href="/signup" className={buttonStyles({ variant: "primary", size: "sm", className: "px-3 text-xs sm:text-sm" })}>
+                    {t("signup")}
+                  </Link>
+                </>
               )}
               <button
                 type="button"

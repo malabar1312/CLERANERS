@@ -34,9 +34,10 @@ export function Section({
   className?: string;
   align?: "center" | "left";
 }) {
+  /* Mobile-compact: reduced vertical padding on small screens */
   const padding: Record<Spacing, string> = {
-    sm: "py-[var(--space-section-sm)]",
-    md: "py-[var(--space-section)]",
+    sm: "py-10 sm:py-[var(--space-section-sm)]",
+    md: "py-12 sm:py-[var(--space-section)]",
   };
   const surface: Record<Variant, string> = {
     white: "bg-[var(--color-white)] text-[var(--color-ink)]",
@@ -54,7 +55,7 @@ export function Section({
     <section id={id} className={cn("relative", surface[variant], padding[spacing], className)}>
       <Container size={containerSize}>
         {(kicker || title || lead) && (
-          <header className={cn("mb-12 max-w-2xl sm:mb-16", isLeft ? "text-left" : "mx-auto text-center")}>
+          <header className={cn("mb-8 max-w-2xl sm:mb-14", isLeft ? "text-left" : "mx-auto text-center")}>
             {kicker && <p className="label text-[var(--color-blue)]">{kicker}</p>}
             {title && (
               <h2 className="headline mt-3 text-balance text-[length:var(--text-headline)]">{title}</h2>

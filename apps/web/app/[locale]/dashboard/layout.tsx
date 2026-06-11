@@ -51,7 +51,9 @@ export default async function DashboardLayout({
         first_name: data.first_name ?? "Gebruiker",
       };
     }
-  } catch {
+  } catch (err) {
+    // Re-throw Next.js redirect/notFound errors — they use special throw signals
+    if (err && typeof err === "object" && "digest" in err) throw err;
     // If Supabase is not configured, show dashboard with defaults for dev
     if (process.env.NODE_ENV === "production") {
       redirect(getPathname({ href: "/login", locale }));

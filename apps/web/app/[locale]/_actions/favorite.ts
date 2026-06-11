@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 import { toggleFavorite, getFavoriteIds } from "@/lib/data/favorites";
-export type { FavoriteResult } from "@/lib/data/favorites";
 
 /**
  * Server Action — toggle favorite y revalida el perfil para que el botón

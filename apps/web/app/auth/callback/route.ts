@@ -81,7 +81,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(`${origin}/login/forgot?reset=true`);
   }
 
-  // Default: redirect to the requested destination
-  const destination = next.startsWith("/") ? `${origin}${next}` : `${origin}/`;
+  // Default: redirect to dashboard (authenticated users land there)
+  const finalDest = next === "/" ? "/dashboard" : next;
+  const destination = finalDest.startsWith("/") ? `${origin}${finalDest}` : `${origin}/dashboard`;
   return NextResponse.redirect(destination);
 }

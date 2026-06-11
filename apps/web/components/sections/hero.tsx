@@ -27,6 +27,16 @@ export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const rafRef = useRef<number>(0);
   const [isFocused, setIsFocused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  /* Detect mobile — video scroll-seeking doesn't work well on mobile */
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -43,25 +53,37 @@ export function Hero() {
   const smoothProgress = useSpring(scrollYProgress, { stiffness: 400, damping: 90 });
   const ringOffset = useTransform(smoothProgress, [0, 1], [100.53, 0]);
 
-  /* ── RAF-gated video seeking ─────────────────────────── */
-  const seekVideo = useCallback((progress: number) => {
-    cancelAnimationFrame(rafRef.current);
-    rafRef.current = requestAnimationFrame(() => {
-      const v = videoRef.current;
-      if (v && v.duration && Number.isFinite(v.duration)) {
-        const target = progress * v.duration;
-        // Only seek if distance is meaningful (avoids micro-stutters)
-        if (Math.abs(v.currentTime - target) > 0.02) {
-          v.currentTime = target;
+  /* ── RAF-gated video seeking (desktop only) ──────────── */
+  const seekVideo = useCallback(
+    (progress: number) => {
+      if (isMobile) return; // mobile uses autoplay loop
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => {
+        const v = videoRef.current;
+        if (v && v.duration && Number.isFinite(v.duration)) {
+          const target = progress * v.duration;
+          if (Math.abs(v.currentTime - target) > 0.02) {
+            v.currentTime = target;
+          }
         }
-      }
-    });
-  }, []);
+      });
+    },
+    [isMobile],
+  );
 
   useMotionValueEvent(scrollYProgress, "change", seekVideo);
 
-  // Initial video load stabilization
+  // Desktop: initial video load stabilization
+  // Mobile: ensure autoplay starts
   useEffect(() => {
+    if (isMobile) {
+      // Mobile: kick autoplay (some browsers need explicit play() after load)
+      const v = videoRef.current;
+      if (v) {
+        v.play().catch(() => {/* autoplay blocked — poster shows */});
+      }
+      return;
+    }
     const unsub = scrollYProgress.on("change", seekVideo);
     if (videoRef.current) {
       videoRef.current.currentTime = 0.01;
@@ -70,20 +92,24 @@ export function Hero() {
       unsub();
       cancelAnimationFrame(rafRef.current);
     };
-  }, [scrollYProgress, seekVideo]);
+  }, [isMobile, scrollYProgress, seekVideo]);
 
   return (
-    <section ref={containerRef} className="relative h-[135vh] bg-[var(--color-dark)]">
+    <section ref={containerRef} className={cn("relative bg-[var(--color-dark)]", isMobile ? "h-auto min-h-screen" : "h-[135vh]")}>
 
-      {/* ── Sticky viewport ─────────────────────────────── */}
-      <div className="sticky top-0 flex h-screen w-full items-center overflow-hidden">
+      {/* ── Sticky viewport (desktop) / static viewport (mobile) ── */}
+      <div className={cn("flex w-full items-center overflow-hidden", isMobile ? "relative min-h-screen" : "sticky top-0 h-screen")}>
 
-        {/* Video — H.264 MP4 primary (hw-decoded) */}
+        {/* Video background — autoplay loop on mobile, scroll-seek on desktop */}
         <video
           ref={videoRef}
           preload="auto"
           muted
           playsInline
+          autoPlay={isMobile}
+          loop={isMobile}
+          poster="/hero/after.png"
+
           className={cn(
             "absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-out",
             isFocused ? "blur-xl brightness-50 scale-[1.03]" : "blur-0 brightness-100 scale-100",
@@ -91,6 +117,9 @@ export function Hero() {
         >
           <source src="/hero/before-after.mp4" type="video/mp4" />
         </video>
+
+        {/* Dark overlay for text legibility */}
+        <div className="pointer-events-none absolute inset-0 bg-black/30" />
 
         {/* Film Grain — editorial texture (muy sutil) */}
         <div

@@ -83,7 +83,9 @@ export default async function DashboardPage({
         street: bookingRow.street,
       };
     }
-  } catch {
+  } catch (err) {
+    // Re-throw Next.js redirect/notFound errors — they use special throw signals
+    if (err && typeof err === "object" && "digest" in err) throw err;
     // Dev fallback when Supabase is not configured
     if (process.env.NODE_ENV === "production") {
       redirect(getPathname({ href: "/login", locale }));

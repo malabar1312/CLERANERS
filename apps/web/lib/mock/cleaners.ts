@@ -35,7 +35,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: true,
     tone: 0,
     specialties: ["Diepe reiniging", "Strijken", "Ramen"],
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800",
+    image: "https://i.pravatar.cc/600?img=1",
   },
   {
     id: "maria-g",
@@ -48,7 +48,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: true,
     tone: 1,
     specialties: ["Wekelijks", "Huisdieren OK", "Eco-producten"],
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=800",
+    image: "https://i.pravatar.cc/600?img=2",
   },
   {
     id: "laura-m",
@@ -61,7 +61,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: false,
     tone: 2,
     specialties: ["Premium", "Detail-georiënteerd", "Engels & Nederlands"],
-    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=800",
+    image: "https://i.pravatar.cc/600?img=3",
   },
   {
     id: "elena-s",
@@ -74,7 +74,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: true,
     tone: 3,
     specialties: ["Verhuisreiniging", "Strijken", "Wekelijks"],
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=800",
+    image: "https://i.pravatar.cc/600?img=4",
   },
   {
     id: "anna-l",
@@ -87,7 +87,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: false,
     tone: 4,
     specialties: ["Studentenkamers", "Snel & efficiënt"],
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
+    image: "https://i.pravatar.cc/600?img=5",
   },
   {
     id: "carmen-p",
@@ -100,7 +100,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: true,
     tone: 5,
     specialties: ["Premium", "Strijken", "Boodschappen"],
-    image: "https://images.unsplash.com/photo-1531123897727-8f129e1bf366?auto=format&fit=crop&q=80&w=800",
+    image: "https://i.pravatar.cc/600?img=6",
   },
   {
     id: "rosa-d",
@@ -113,7 +113,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: true,
     tone: 0,
     specialties: ["Wekelijks", "Eco-producten", "Engels"],
-    image: "https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&q=80&w=800",
+    image: "https://i.pravatar.cc/600?img=7",
   },
   {
     id: "isabel-h",
@@ -126,7 +126,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: false,
     tone: 2,
     specialties: ["Premium", "Diepe reiniging", "Detail-georiënteerd"],
-    image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&q=80&w=800",
+    image: "https://i.pravatar.cc/600?img=8",
   },
   {
     id: "nadia-k",
@@ -139,7 +139,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: true,
     tone: 1,
     specialties: ["Wekelijks", "Eco-producten", "Strijken"],
-    image: "https://images.unsplash.com/photo-1619895862022-09114b41f16f?auto=format&fit=crop&q=80&w=800",
+    image: "https://i.pravatar.cc/600?img=9",
   },
   {
     id: "julia-v",
@@ -152,7 +152,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: false,
     tone: 3,
     specialties: ["Premium", "Ramen", "Detail-georiënteerd"],
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=800", // Man
+    image: "https://i.pravatar.cc/600?img=10",
   },
   {
     id: "fatima-e",
@@ -165,7 +165,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: true,
     tone: 4,
     specialties: ["Wekelijks", "Huisdieren OK", "Snel & efficiënt"],
-    image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=800", // Woman
+    image: "https://i.pravatar.cc/600?img=11",
   },
   {
     id: "sophie-d",
@@ -178,7 +178,7 @@ export const featuredCleaners: CleanerPreview[] = [
     online: true,
     tone: 5,
     specialties: ["Premium", "Verhuisreiniging", "Engels & Nederlands"],
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800", // Man
+    image: "https://i.pravatar.cc/600?img=12",
   },
 ];
 
@@ -228,32 +228,27 @@ const cleanerExtra: Record<string, { bio: string; languages: string[]; since: nu
   "sofia-r": { bio: "Al acht jaar maak ik huizen in De Pijp en omstreken grondig schoon. Ik werk gestructureerd, let op de details die anderen overslaan, en laat je huis achter zoals ik mijn eigen huis wil zien.", languages: ["Nederlands", "Engels", "Spaans"], since: 2018, responseMins: 12 },
   "maria-g": { bio: "Ik hou van een fris huis dat naar schoon ruikt, niet naar bleek. Ik werk met eco-producten, ben goed met huisdieren, en kom graag wekelijks langs.", languages: ["Nederlands", "Engels", "Spaans"], since: 2020, responseMins: 20 },
   "laura-m": { bio: "Detail is mijn handtekening. Plinten, kozijnen, achter de kranen — ik sla niets over. Premium schoonmaak voor wie het verschil ziet.", languages: ["Nederlands", "Engels"], since: 2019, responseMins: 8 },
-  "elena-s": { bio: "Verhuizing, wekelijkse beurt of een grote voorjaarsschoonmaak: ik pak het systematisch aan en lever foto's op bij oplevering.", languages: ["Nederlands", "Engels", "Spaans"], since: 2017, responseMins: 15 },
-  "anna-l": { bio: "Snel, efficiënt en betrouwbaar. Ideaal voor studentenkamers en kleine appartementen die tussendoor een goede beurt nodig hebben.", languages: ["Nederlands", "Engels"], since: 2022, responseMins: 25 },
-  "carmen-p": { bio: "Bijna 200 schoonmaken later weet ik precies hoe ik een huis laat stralen. Ik strijk, doe boodschappen en denk met je mee.", languages: ["Nederlands", "Engels", "Spaans"], since: 2016, responseMins: 10 },
-  "rosa-d": { bio: "Eco-producten, vaste tijden en een vriendelijk gezicht aan de deur. Ik kom graag elke week en spreek Nederlands en Engels.", languages: ["Nederlands", "Engels"], since: 2021, responseMins: 18 },
-  "isabel-h": { bio: "Premium, grondig en oog voor detail. Ik werk voor mensen die hun huis met zorg behandeld willen zien.", languages: ["Nederlands", "Engels", "Spaans"], since: 2020, responseMins: 14 },
-  "nadia-k": { bio: "Vaste klanten, vaste kwaliteit. Ik werk met eco-producten en zorg dat je elke week thuiskomt in een fris huis.", languages: ["Nederlands", "Engels"], since: 2019, responseMins: 16 },
-  "julia-v": { bio: "Ramen die echt helder zijn en hoeken die echt schoon zijn. Premium werk met aandacht voor het detail.", languages: ["Nederlands", "Engels"], since: 2021, responseMins: 22 },
-  "fatima-e": { bio: "Snel en grondig, ook met huisdieren in huis. Ik maak er geen probleem van — ik maak het gewoon schoon.", languages: ["Nederlands", "Engels"], since: 2022, responseMins: 19 },
-  "sophie-d": { bio: "Van verhuisreiniging tot premium wekelijkse beurt. Ik werk tweetalig en lever altijd op zoals afgesproken.", languages: ["Nederlands", "Engels"], since: 2018, responseMins: 9 },
+  "elena-s": { bio: "Verhuizen kan vermoeiend zijn. Ik zorg dat je nieuwe plek er meteen perfect uitziet. Ook voor regelmatige schoonmaak kom ik graag terug.", languages: ["Nederlands", "Engels", "Catalaans"], since: 2017, responseMins: 15 },
+  "anna-l": { bio: "Studentenhuis? Geen probleem. Ik werk snel en efficiënt, en je kamer ziet er meteen uit als nieuw.", languages: ["Nederlands", "Engels", "Pools"], since: 2021, responseMins: 25 },
+  "carmen-p": { bio: "Luxe is mijn standaard. Ik werk met premium producten, ben voorzichtig met je spullen, en kijk altijd net iets verder dan nodig.", languages: ["Nederlands", "Engels", "Spaans"], since: 2016, responseMins: 10 },
+  "rosa-d": { bio: "Ecologisch schoonmaken is mijn passie. Zelfde resultaat, gezonder voor je gezin en voor het milieu.", languages: ["Nederlands", "Engels", "Duits"], since: 2019, responseMins: 18 },
+  "isabel-h": { bio: "Premium details in elke hoek. Ramen, spiegels, bronzen, edelstaal — alles glinster als nieuw.", languages: ["Nederlands", "Engels", "Frans"], since: 2018, responseMins: 9 },
+  "nadia-k": { bio: "Wekelijks terugkomen betekent continuïteit. Je huis voelt schoon, rustig en welkom met mij in het team.", languages: ["Nederlands", "Engels", "Persisch"], since: 2020, responseMins: 22 },
+  "julia-v": { bio: "Ramen en kozijnen zijn mijn specialiteit. Geen strepen, geen sporen — puur helder en schoon.", languages: ["Nederlands", "Engels", "Duits"], since: 2019, responseMins: 11 },
+  "fatima-e": { bio: "Snel, efficiënt, betrouwbaar. Ik kom graag wekelijks langs en je huis voelt altijd fris.", languages: ["Nederlands", "Engels", "Frans", "Arabisch"], since: 2021, responseMins: 30 },
+  "sophie-d": { bio: "Verhuizen naar Amsterdam? Ik zorg dat je nieuwe huis er zo uit ziet alsof je er al maanden woont.", languages: ["Nederlands", "Engels"], since: 2015, responseMins: 7 },
 };
 
-export function getCleanerById(id: string): CleanerPreview | undefined {
-  return featuredCleaners.find((c) => c.id === id);
-}
+export function getCleanerProfile(id: string): CleanerProfile | null {
+  const cleaner = featuredCleaners.find((c) => c.id === id);
+  if (!cleaner) return null;
 
-export function getCleanerProfile(id: string): CleanerProfile | undefined {
-  const base = getCleanerById(id);
-  if (!base) return undefined;
-  const ex =
-    cleanerExtra[id] ?? {
-      bio: "Geverifieerde schoonmaker op het cleaners-platform.",
-      languages: ["Nederlands", "Engels"],
-      since: 2022,
-      responseMins: 20,
-    };
-  return { ...base, ...ex };
+  const extra = cleanerExtra[id] || { bio: "", languages: ["Nederlands", "Engels"], since: new Date().getFullYear() - 2, responseMins: 15 };
+
+  return {
+    ...cleaner,
+    ...extra,
+  };
 }
 
 export function cleanerIds(): string[] {
