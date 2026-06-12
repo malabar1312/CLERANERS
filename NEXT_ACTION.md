@@ -41,8 +41,16 @@ La plataforma está MÁS construida de lo que decía CLAUDE.md. Verificado contr
 1. **Re-ejecutar `supabase/schema.sql`** en SQL Editor (idempotente) — añade la policy `cleaner_profiles_own_select` (el cleaner ve su propio borrador). Verificar: `node scripts/verify-supabase.mjs`.
 2. **Opcional (emails a clientes reales):** verificar `getcleaners.nl` en resend.com → Domains (añadir los DNS records que indica) y luego en Vercel setear `EMAIL_FROM=cleaners <noreply@getcleaners.nl>`. Hasta entonces los emails solo llegan a tu propio gmail (sandbox).
 
-## ▶️ SIGUIENTE SPRINT (#8 — aanvragen del cleaner)
-Dashboard cleaner: lista de bookings asignadas (`cleaner_id` = su slug) + aceptar/rechazar → estado `accepted`/`rejected`. Reusar patrón de `bookings-view.tsx` + action con guard de carrera como `cancelBooking`. Después: #9 hardening/security-review, #10 SEO.
+## ✅ 2026-06-12 (tarde) — Schema re-aplicado por Antonio + Sprint #8 SHIPPED
+- Policy `cleaner_profiles_own_select` viva (verify-supabase TODO VERDE).
+- Sprint #8 en prod: `AanvragenView` + `respondToBooking` (paid → accepted/rejected). E2E real con QA cleaner: aceptar ✓, rechazar (2 pasos) ✓, estados confirmados en DB, datos limpiados.
+- El marketplace tiene el loop completo: cliente boekt → paga → cleaner acepta/rechaza → cliente lo ve en su dashboard.
+
+## ▶️ SIGUIENTE SPRINT (#9 — Hardening + security review)
+1. SQL batch único para Antonio (UNA sola ejecución): policy SELECT de bookings para cleaners (`cleaner_id` = slug propio vía join a cleaner_profiles) — hoy se suple con admin client server-side.
+2. `security-review` del diff acumulado del sprint (actions nuevas: cancelBooking, respondToBooking, createCleanerProfileAction; email; webhook).
+3. Rate-limit audit en todas las actions públicas.
+4. Después: #10 SEO (sitemap, metadata por barrio, OG image).
 
 ## Después (en orden)
 - Sprint #7: e2e wizard cleaner — ⚠️ insertar SIEMPRE con `visible=false` en pruebas: 1 fila visible en `cleaner_profiles` cambia el catálogo público de getcleaners.nl de mock a real (auto-switch). Activar visible solo con decisión de Antonio.
