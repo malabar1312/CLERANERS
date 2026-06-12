@@ -17,6 +17,7 @@ import { CalendarView } from "./calendar-view";
 import { EarningsView } from "./earnings-view";
 import { SettingsView } from "./settings-view";
 import { ServiceModal } from "./service-modal";
+import { AanvragenView, type CleanerAanvraag } from "./aanvragen-view";
 import {
   getMockServicesForCleaner,
   type CleanerService,
@@ -39,10 +40,13 @@ const fadeUp = {
 export function CleanerDashboard({
   profile,
   services,
+  aanvragen = [],
 }: {
   profile: { first_name: string; role?: string };
   /** Real services del cleaner. Si no se pasa o llega vacío, usa mock BETA. */
   services?: CleanerService[];
+  /** Bookings reales asignadas al cleaner (vista "Mijn Boekingen"). */
+  aanvragen?: CleanerAanvraag[];
 }) {
   const t = useTranslations("dashboard.cleaner");
   const router = useRouter();
@@ -305,6 +309,9 @@ export function CleanerDashboard({
     <>
       <AnimatePresence mode="wait">
         {view === "overview" && renderOverview()}
+        {view === "bookings" && (
+          <AanvragenView key="aanvragen" aanvragen={aanvragen} />
+        )}
         {view === "calendar" && (
           <CalendarView
             services={allServices}

@@ -650,6 +650,35 @@
         "openGPS": "Open in GPS",
         "taskChecklist": "Takenlijst",
         "startWork": "Begin Werk"
+      },
+      "aanvragen": {
+        "title": "Mijn Boekingen",
+        "subtitle": "Nieuwe aanvragen verschijnen hier zodra een klant betaalt.",
+        "openCount": "{count} {count, plural, one {nieuwe aanvraag wacht} other {nieuwe aanvragen wachten}} op je reactie.",
+        "empty": "Nog geen aanvragen",
+        "emptyBody": "Zodra een klant je boekt en betaalt, zie je de aanvraag hier en kun je accepteren of weigeren.",
+        "accept": "Accepteren",
+        "reject": "Weigeren",
+        "confirmReject": "Bevestig weigeren",
+        "back": "Terug",
+        "working": "Bezig…",
+        "failed": "Er ging iets mis. Probeer het opnieuw.",
+        "slots": {
+          "morning": "Ochtend",
+          "afternoon": "Middag",
+          "evening": "Avond"
+        },
+        "status": {
+          "pending": "In afwachting",
+          "paid": "Nieuw — reageer",
+          "accepted": "Geaccepteerd",
+          "rejected": "Geweigerd",
+          "in_progress": "Bezig",
+          "completed": "Afgerond",
+          "reviewed": "Beoordeeld",
+          "refunded": "Terugbetaald",
+          "canceled": "Geannuleerd"
+        }
       }
     },
     "customer": {

@@ -650,6 +650,35 @@
         "openGPS": "Open in GPS",
         "taskChecklist": "Task Checklist",
         "startWork": "Start Work"
+      },
+      "aanvragen": {
+        "title": "My Bookings",
+        "subtitle": "New requests appear here as soon as a customer pays.",
+        "openCount": "{count} {count, plural, one {new request is waiting} other {new requests are waiting}} for your response.",
+        "empty": "No requests yet",
+        "emptyBody": "As soon as a customer books and pays, the request shows up here and you can accept or decline.",
+        "accept": "Accept",
+        "reject": "Decline",
+        "confirmReject": "Confirm decline",
+        "back": "Back",
+        "working": "Working…",
+        "failed": "Something went wrong. Please try again.",
+        "slots": {
+          "morning": "Morning",
+          "afternoon": "Afternoon",
+          "evening": "Evening"
+        },
+        "status": {
+          "pending": "Pending",
+          "paid": "New — respond",
+          "accepted": "Accepted",
+          "rejected": "Declined",
+          "in_progress": "In progress",
+          "completed": "Completed",
+          "reviewed": "Reviewed",
+          "refunded": "Refunded",
+          "canceled": "Cancelled"
+        }
       }
     },
     "customer": {
