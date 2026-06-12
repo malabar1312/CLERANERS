@@ -10,6 +10,7 @@ import { bookingReference } from "@/lib/booking/reference";
 import { env } from "@/lib/env";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { rateLimit, getIdentifier } from "@/lib/rate-limit";
 
 /**
  * Rechaza caracteres de control (C0 < 0x20 y DEL 0x7F) sin usar un regex con
@@ -148,6 +149,14 @@ async function canonicalOrigin(): Promise<string> {
  * verificación real del pago las hace el webhook (Fase 4).
  */
 export async function createBookingCheckout(raw: unknown): Promise<BookingCheckoutResult> {
+  // Rate limit: la idempotencia cubre re-submits del MISMO payload, pero sin
+  // límite un atacante variando payloads crea sesiones Stripe + filas pending
+  // sin tope. 5 checkouts / 5 min por IP sobra para un usuario real.
+  const hdrs = await headers();
+  if (!rateLimit("checkout", getIdentifier(hdrs), { limit: 5, windowMs: 300_000 })) {
+    return { ok: false, error: "rate_limited" };
+  }
+
   const parsed = schema.safeParse(raw);
   if (!parsed.success) return { ok: false, error: "invalid_input" };
   const data = parsed.data;

@@ -329,6 +329,19 @@ create policy "bookings_own_select"
     auth.uid() = client_user_id
     or auth.email() = client_email
   );
+
+-- El CLEANER lee las bookings asignadas a SU slug (dashboard aanvragen).
+-- Hoy el server las lee con admin client tras verificar el slug; esta policy
+-- permite migrar esa lectura al user client (menos superficie service-role).
+drop policy if exists "bookings_cleaner_select" on public.bookings;
+create policy "bookings_cleaner_select"
+  on public.bookings for select
+  to authenticated
+  using (
+    cleaner_id in (
+      select slug from public.cleaner_profiles where profile_id = auth.uid()
+    )
+  );
 -- INSERT/UPDATE/DELETE siguen sin policy → solo service-role (webhook + Server Action admin).
 
 -- CHECK constraint del status (AUTO-CYCLE 6): idempotente vía drop+add.

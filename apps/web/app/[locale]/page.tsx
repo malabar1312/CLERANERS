@@ -12,6 +12,7 @@ import { CtaBand } from "@/components/sections/cta-band";
 import { FAQ } from "@/components/sections/faq";
 import { Footer } from "@/components/sections/footer";
 import { StickyMobileCta } from "@/components/sections/sticky-cta";
+import { StickySearch } from "@/components/sections/sticky-search";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -62,6 +63,7 @@ export default async function HomePage({
       </main>
       <Footer />
       <StickyMobileCta />
+      <StickySearch />
     </>
   );
 }

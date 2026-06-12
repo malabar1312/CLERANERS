@@ -23,7 +23,7 @@ const TIMES = [
   "Avond (17:00 - 20:00)",
 ];
 
-export function SearchBar() {
+export function SearchBar({ compact = false }: { compact?: boolean }) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"location" | "date" | "time" | null>(null);
   
@@ -118,30 +118,39 @@ export function SearchBar() {
   return (
     <div className="w-full" ref={containerRef}>
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={compact ? false : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
-        className="relative z-20 flex flex-col sm:flex-row items-center justify-between rounded-3xl sm:rounded-full border border-white/25 bg-white/85 p-2 shadow-[0_16px_48px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-all duration-300 hover:shadow-[0_20px_64px_rgba(0,0,0,0.45)] sm:h-20"
+        className={cn(
+          "relative z-20 flex flex-col items-center justify-between backdrop-blur-xl transition-all duration-300 sm:flex-row",
+          compact
+            ? "h-14 flex-row rounded-full border border-black/10 bg-white p-1.5 shadow-[0_8px_28px_rgba(10,10,10,0.14)] hover:shadow-[0_10px_36px_rgba(10,10,10,0.2)]"
+            : "rounded-3xl border border-white/25 bg-white/85 p-2 shadow-[0_16px_48px_rgba(0,0,0,0.35)] hover:shadow-[0_20px_64px_rgba(0,0,0,0.45)] sm:h-20 sm:rounded-full",
+        )}
       >
         {/* Separators (desktop only) */}
-        <div className="absolute inset-y-4 left-[38%] hidden w-px bg-black/10 sm:block" />
-        <div className="absolute inset-y-4 left-[68%] hidden w-px bg-black/10 sm:block" />
+        <div className={cn("absolute left-[38%] hidden w-px bg-black/10 sm:block", compact ? "inset-y-3" : "inset-y-4")} />
+        <div className={cn("absolute left-[68%] hidden w-px bg-black/10 sm:block", compact ? "inset-y-3" : "inset-y-4")} />
 
         {/* --- Location --- */}
         <div
           className={cn(
-            "group relative flex w-full flex-1 cursor-text items-center gap-3 rounded-full px-6 py-3 transition-colors hover:bg-white/50 sm:h-full sm:py-0",
+            "group relative flex w-full flex-1 cursor-text items-center rounded-full transition-colors hover:bg-white/50 sm:h-full",
+            compact ? "h-full gap-2 px-4 py-0 hover:bg-black/[0.04]" : "gap-3 px-6 py-3 sm:py-0",
             activeTab === "location" && "bg-white shadow-md ring-1 ring-black/5"
           )}
           onClick={() => setActiveTab("location")}
         >
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black/5 text-[var(--color-blue)] transition-colors group-hover:bg-black/10">
-            <MapPin className="h-5 w-5" />
+          <div className={cn(
+            "flex shrink-0 items-center justify-center rounded-full bg-black/5 text-[var(--color-blue)] transition-colors group-hover:bg-black/10",
+            compact ? "h-8 w-8" : "h-10 w-10",
+          )}>
+            <MapPin className={compact ? "h-4 w-4" : "h-5 w-5"} />
           </div>
           <div className="flex w-full flex-col text-left">
-            <label htmlFor="location-input" className="text-xs font-bold tracking-wider text-black/90 uppercase cursor-text">Waar</label>
+            <label htmlFor={compact ? "location-input-compact" : "location-input"} className={cn("text-xs font-bold tracking-wider text-black/90 uppercase cursor-text", compact && "sr-only")}>Waar</label>
             <input
-              id="location-input"
+              id={compact ? "location-input-compact" : "location-input"}
               type="text"
               placeholder="Amsterdam Centrum"
               className="w-full bg-transparent p-0 text-sm font-medium text-black outline-none placeholder:text-black/30"
@@ -191,7 +200,7 @@ export function SearchBar() {
           </AnimatePresence>
         </div>
 
-        <div className="h-px w-full bg-black/5 sm:hidden" />
+        <div className={cn("h-px w-full bg-black/5 sm:hidden", compact && "hidden")} />
 
         {/* --- Date --- */}
         <div
@@ -200,17 +209,21 @@ export function SearchBar() {
           aria-haspopup="dialog"
           aria-expanded={activeTab === "date"}
           className={cn(
-            "group relative flex w-full flex-1 cursor-pointer items-center gap-3 rounded-full px-6 py-3 transition-colors hover:bg-white/50 sm:h-full sm:py-0",
+            "group relative flex w-full flex-1 cursor-pointer items-center rounded-full transition-colors hover:bg-white/50 sm:h-full",
+            compact ? "h-full gap-2 px-4 py-0 hover:bg-black/[0.04]" : "gap-3 px-6 py-3 sm:py-0",
             activeTab === "date" && "bg-white shadow-md ring-1 ring-black/5"
           )}
           onClick={() => setActiveTab("date")}
           onKeyDown={fieldKeyDown("date")}
         >
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black/5 text-[var(--color-blue)] transition-colors group-hover:bg-black/10">
-            <Calendar className="h-5 w-5" />
+          <div className={cn(
+            "flex shrink-0 items-center justify-center rounded-full bg-black/5 text-[var(--color-blue)] transition-colors group-hover:bg-black/10",
+            compact ? "h-8 w-8" : "h-10 w-10",
+          )}>
+            <Calendar className={compact ? "h-4 w-4" : "h-5 w-5"} />
           </div>
           <div className="flex w-full flex-col text-left">
-            <span className="text-xs font-bold tracking-wider text-black/90 uppercase">Wanneer</span>
+            <span className={cn("text-xs font-bold tracking-wider text-black/90 uppercase", compact && "sr-only")}>Wanneer</span>
             <div className={cn("text-sm font-medium", date ? "text-black" : "text-black/30")}>
               {mounted && date ? date.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' }) : "Kies datum"}
             </div>
@@ -282,7 +295,7 @@ export function SearchBar() {
           </AnimatePresence>
         </div>
 
-        <div className="h-px w-full bg-black/5 sm:hidden" />
+        <div className={cn("h-px w-full bg-black/5 sm:hidden", compact && "hidden")} />
 
         {/* --- Time --- */}
         <div
@@ -291,14 +304,17 @@ export function SearchBar() {
           aria-haspopup="listbox"
           aria-expanded={activeTab === "time"}
           className={cn(
-            "group relative flex w-[140px] flex-none sm:w-[160px] cursor-pointer items-center gap-3 rounded-full px-6 py-3 transition-colors hover:bg-white/50 sm:h-full sm:py-0",
+            "group relative flex cursor-pointer items-center rounded-full transition-colors hover:bg-white/50 sm:h-full",
+            compact
+              ? "hidden h-full w-[140px] flex-none gap-2 px-4 py-0 hover:bg-black/[0.04] md:flex"
+              : "w-[140px] flex-none gap-3 px-6 py-3 sm:w-[160px] sm:py-0",
             activeTab === "time" && "bg-white shadow-md ring-1 ring-black/5"
           )}
           onClick={() => setActiveTab("time")}
           onKeyDown={fieldKeyDown("time")}
         >
           <div className="flex w-full flex-col text-left">
-            <span className="text-xs font-bold tracking-wider text-black/90 uppercase">Hoe laat</span>
+            <span className={cn("text-xs font-bold tracking-wider text-black/90 uppercase", compact && "sr-only")}>Hoe laat</span>
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-black truncate">{time}</span>
               <ChevronDown className="h-3 w-3 text-black/40" />
@@ -337,15 +353,18 @@ export function SearchBar() {
         </div>
 
         {/* --- Search Button --- */}
-        <div className="mt-2 w-full sm:mt-0 sm:w-auto sm:pl-2">
+        <div className={cn("w-full sm:w-auto", compact ? "mt-0 w-auto pl-1.5" : "mt-2 sm:mt-0 sm:pl-2")}>
           <button
             type="button"
             aria-label="Zoeken"
             onClick={handleSearch}
-            className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-[var(--color-blue)] px-8 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-[var(--color-blue-2)] hover:shadow-xl sm:h-16"
+            className={cn(
+              "flex items-center justify-center gap-2 rounded-full bg-[var(--color-blue)] font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-[var(--color-blue-2)] hover:shadow-xl",
+              compact ? "h-11 w-11 px-0" : "h-14 w-full px-8 sm:h-16",
+            )}
           >
             <Search className="h-5 w-5" aria-hidden />
-            <span className="sm:hidden">Zoeken</span>
+            {!compact && <span className="sm:hidden">Zoeken</span>}
           </button>
         </div>
       </motion.div>

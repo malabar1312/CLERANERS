@@ -137,8 +137,10 @@ export function Hero() {
             </motion.p>
           </motion.div>
 
-          {/* Search — the centerpiece, INSIDE the hero experience */}
+          {/* Search — the centerpiece, INSIDE the hero experience.
+              id="hero-search" = sentinel del StickySearch (aparece cuando esto sale). */}
           <motion.div
+            id="hero-search"
             style={{ opacity: searchOpacity, y: searchY }}
             className="mt-8 max-w-4xl max-lg:opacity-100! max-lg:transform-none! lg:mt-9"
           >

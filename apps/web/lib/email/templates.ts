@@ -184,6 +184,17 @@ export const emailChangeEmail = emailShell(`
   ${smallText("Als je dit niet hebt aangevraagd, neem dan direct contact met ons op.")}
 `);
 
+/** Escape para interpolar valores dinámicos en HTML de email (anti-injection:
+ * client_name viene del checkout de Stripe = controlado por el cliente). */
+function esc(s: string): string {
+  return s
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
 // ─────────────────────────────────────────────────────────────────────────
 // Template: Booking Confirmation
 // ─────────────────────────────────────────────────────────────────────────
@@ -207,7 +218,7 @@ export function bookingConfirmedEmail(opts: {
       Je boeking is bevestigd!
     </h1>
     <p style="margin:16px 0 0;font-size:15px;line-height:1.7;color:${BRAND.muted};">
-      Goed nieuws — je betaling is ontvangen. Je huis wordt schoongemaakt door <strong>${opts.cleanerName}</strong>.
+      Goed nieuws — je betaling is ontvangen. Je huis wordt schoongemaakt door <strong>${esc(opts.cleanerName)}</strong>.
     </p>
 
     <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:32px 0;">
@@ -216,12 +227,12 @@ export function bookingConfirmedEmail(opts: {
           <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
             <tr>
               <td style="padding:0 0 12px;font-size:12px;font-weight:600;color:${BRAND.muted};text-transform:uppercase;letter-spacing:0.05em;">
-                Boeking #${opts.reference}
+                Boeking #${esc(opts.reference)}
               </td>
             </tr>
             <tr>
               <td style="padding:12px 0;border-bottom:1px solid ${BRAND.line};font-size:14px;color:${BRAND.muted};">
-                <strong style="color:${BRAND.ink};">Datum:</strong> ${opts.date}
+                <strong style="color:${BRAND.ink};">Datum:</strong> ${esc(opts.date)}
               </td>
             </tr>
             <tr>
@@ -236,7 +247,7 @@ export function bookingConfirmedEmail(opts: {
             </tr>
             <tr>
               <td style="padding:12px 0;font-size:14px;color:${BRAND.muted};">
-                <strong style="color:${BRAND.ink};font-size:16px;">${opts.price}</strong>
+                <strong style="color:${BRAND.ink};font-size:16px;">${esc(opts.price)}</strong>
               </td>
             </tr>
           </table>

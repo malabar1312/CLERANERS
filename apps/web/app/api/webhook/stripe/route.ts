@@ -5,6 +5,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { getStripe } from "@/lib/stripe/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { bookingReference } from "@/lib/booking/reference";
+import { getCleanerProfileById } from "@/lib/data/cleaners";
 import { sendBookingConfirmedEmail } from "@/lib/email/booking";
 import { env } from "@/lib/env";
 
@@ -172,10 +173,12 @@ async function persistPaidBooking(db: SupabaseClient | null, s: Stripe.Checkout.
     const { error } = await db.from("bookings").upsert(row, { onConflict: "id" });
     if (error) throw new Error(`booking upsert by id: ${error.message}`);
 
-    // Enviar email (best-effort — nunca rompe).
+    // Enviar email (best-effort — nunca rompe). Nombre del CLEANER resuelto
+    // del catálogo (no confundir con client_name, que es el cliente).
+    const cleaner = await getCleanerProfileById(row.cleaner_id);
     await sendBookingConfirmedEmail({
       clientEmail: row.client_email,
-      cleanerName: row.client_name ?? `Cleaner ${row.cleaner_id}`,
+      cleanerName: cleaner?.name ?? "je schoonmaker",
       reference: row.reference,
       scheduledDate: row.scheduled_date,
       scheduledTime: row.scheduled_time,
@@ -207,10 +210,11 @@ async function persistPaidBooking(db: SupabaseClient | null, s: Stripe.Checkout.
   const { error } = await db.from("bookings").upsert(row, { onConflict: "stripe_session_id" });
   if (error) throw new Error(`booking upsert: ${error.message}`);
 
-  // Enviar email (best-effort).
+  // Enviar email (best-effort). Nombre del CLEANER, no del cliente.
+  const cleaner = await getCleanerProfileById(row.cleaner_id);
   await sendBookingConfirmedEmail({
     clientEmail: row.client_email,
-    cleanerName: row.client_name ?? `Cleaner ${row.cleaner_id}`,
+    cleanerName: cleaner?.name ?? "je schoonmaker",
     reference: row.reference,
     scheduledDate: row.scheduled_date,
     scheduledTime: row.scheduled_time,
