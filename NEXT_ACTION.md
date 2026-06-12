@@ -46,11 +46,17 @@ La plataforma está MÁS construida de lo que decía CLAUDE.md. Verificado contr
 - Sprint #8 en prod: `AanvragenView` + `respondToBooking` (paid → accepted/rejected). E2E real con QA cleaner: aceptar ✓, rechazar (2 pasos) ✓, estados confirmados en DB, datos limpiados.
 - El marketplace tiene el loop completo: cliente boekt → paga → cleaner acepta/rechaza → cliente lo ve en su dashboard.
 
-## ▶️ SIGUIENTE SPRINT (#9 — Hardening + security review)
-1. SQL batch único para Antonio (UNA sola ejecución): policy SELECT de bookings para cleaners (`cleaner_id` = slug propio vía join a cleaner_profiles) — hoy se suple con admin client server-side.
-2. `security-review` del diff acumulado del sprint (actions nuevas: cancelBooking, respondToBooking, createCleanerProfileAction; email; webhook).
-3. Rate-limit audit en todas las actions públicas.
-4. Después: #10 SEO (sitemap, metadata por barrio, OG image).
+## ✅ 2026-06-12 (noche) — Sticky search + Sprint #9 SHIPPED
+- **Sticky search** (pedido de Antonio): barra compacta bajo el nav, visible desde que la search del hero se desvanece hasta llegar al carrusel de cleaners; oculta de ahí hacia abajo y en móvil (ya existe StickyMobileCta). Lógica por scroll-handler (rAF y IntersectionObserver no sirven con el hero cinematic).
+- **Hardening (#9)**: rate-limit en checkout (era el único action sin límite), escape HTML en emails, bug del nombre del cleaner en email corregido, policy `bookings_cleaner_select` en schema.sql.
+- Tests 24/24, typecheck/lint verdes, deploy Ready, getcleaners.nl 200.
+
+## ▶️ Pendiente manual de Antonio (no urgente, no bloquea)
+- Re-ejecutar `supabase/schema.sql` cuando quieras (idempotente) — añade `bookings_cleaner_select`. El dashboard cleaner funciona igual sin ella (lee con admin client tras verificar slug).
+- Verificar dominio getcleaners.nl en Resend (DNS) para emails a clientes reales.
+
+## ▶️ SIGUIENTE SPRINT (#10 — SEO, última del sprint)
+`sitemap.xml`, metadata por barrio (`/schoonmakers?hood=X` → title/desc únicos), OG image. Después: e2e Playwright del loop completo (transversal Team G) y cierre del sprint "Real Data v1".
 
 ## Después (en orden)
 - Sprint #7: e2e wizard cleaner — ⚠️ insertar SIEMPRE con `visible=false` en pruebas: 1 fila visible en `cleaner_profiles` cambia el catálogo público de getcleaners.nl de mock a real (auto-switch). Activar visible solo con decisión de Antonio.
