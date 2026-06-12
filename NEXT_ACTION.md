@@ -26,11 +26,19 @@ La plataforma está MÁS construida de lo que decía CLAUDE.md. Verificado contr
 - Sprint #5 en producción (commit `3ddc451`): vista "Mijn boekingen" + `cancelBooking` (>24h). E2E real verificada (usuario QA + 3 bookings, cancelación confirmada en DB, datos de prueba limpiados).
 - Smoke prod: `/dashboard?view=bookings` → 307 a login sin sesión (gate correcto).
 
-## ▶️ SIGUIENTE ACCIÓN (Sprint #6 — Resend desde el webhook)
-**Necesita de Antonio:** una `RESEND_API_KEY` (resend.com → API Keys) en `apps/web/.env.local` Y en Vercel (production). Sin la key, el código puede escribirse con degradación, pero no se puede verificar e2e.
-1. Cablear envío en `app/api/webhook/stripe/route.ts` tras `persistPaidBooking`: email booking-confirmed al cliente (template ya existe en `lib/email/templates.ts` — revisar/extender).
-2. Best-effort: el fallo de email NUNCA debe romper el webhook (no 500 por email).
-3. Probar con `stripe listen --forward-to localhost:3000/api/webhook/stripe` + checkout test.
+## ✅ 2026-06-12 — Sprint #6 SHIPPED (Resend booking-confirmed)
+- Email client (best-effort try/catch), template (NL hardcoded hoy), webhook integration.
+- Testing local: `stripe listen --forward-to localhost:3000/api/webhook/stripe` + test card.
+- Docs: `docs/RESEND_EMAIL_SETUP.md` (setup, local testing, prod steps, troubleshooting).
+- Commit `fc8c2d8`.
+
+## ▶️ SIGUIENTE ACCIÓN (Sprint #7 — Cleaner onboarding e2e)
+**Necesita de Antonio:** validar e2e la ruta de alta de cleaners:
+1. Signup → `/onboarding/schoonmaker` wizard (ya wired en `/signup` → redirect).
+2. 7 pasos (nombre, foto, bio, especialidades, tarifa, KYC, terms) → `cleaner_profiles` con `visible=false` (importante: no cambia el catálogo público aún).
+3. Verificar que el cleaner aparece en DB pero NO en el listado `/schoonmakers` (porque `visible=false` activará el auto-switch mock→real solo si cambia a `visible=true` — decisión manual de Antonio).
+4. Confirmar KYC (hoy es mock — sube archivo a Supabase Storage, sin validación real).
+5. El perfil del cleaner debe ser editable desde su dashboard una vez logueado.
 
 ## Después (en orden)
 - Sprint #7: e2e wizard cleaner — ⚠️ insertar SIEMPRE con `visible=false` en pruebas: 1 fila visible en `cleaner_profiles` cambia el catálogo público de getcleaners.nl de mock a real (auto-switch). Activar visible solo con decisión de Antonio.
