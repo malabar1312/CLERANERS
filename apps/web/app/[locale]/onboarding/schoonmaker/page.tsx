@@ -3,6 +3,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { getLocale } from "next-intl/server";
 import { getPathname } from "@/i18n/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { AuthNav } from "@/components/layout/auth-nav";
 import { Container } from "@/components/layout/container";
 import { CleanerWizard } from "@/components/domain/onboarding/cleaner-wizard";
@@ -56,20 +57,20 @@ export default async function CleanerOnboardingPage({
     redirect(getPathname({ href: "/dashboard", locale: currentLocale }));
   }
 
-  // Already has cleaner_profiles → their profile page
-  const { data: existing } = await supabase
+  // Already has cleaner_profiles → dashboard. (No al perfil público: si el
+  // perfil aún está visible=false, /schoonmakers/[slug] filtra y daría 404.)
+  // Check con admin client: el alta queda visible=false y la RLS pública solo
+  // deja leer visible=true — con el user client el borrador sería invisible
+  // hasta que se aplique la policy cleaner_profiles_own_select.
+  const adminDb = createSupabaseAdminClient();
+  const { data: existing } = await (adminDb ?? supabase)
     .from("cleaner_profiles")
     .select("slug")
     .eq("profile_id", user.id)
     .maybeSingle();
 
   if (existing) {
-    redirect(
-      getPathname({
-        href: `/schoonmakers/${existing.slug}`,
-        locale: currentLocale,
-      }),
-    );
+    redirect(getPathname({ href: "/dashboard", locale: currentLocale }));
   }
 
   const t = await getTranslations("onboarding.cleaner");

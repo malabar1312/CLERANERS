@@ -18,6 +18,14 @@ export interface SendEmailOptions {
 }
 
 /**
+ * Sender por defecto: sandbox de Resend (funciona sin dominio verificado,
+ * pero SOLO entrega al email del dueño de la cuenta — suficiente en test).
+ * Cuando getcleaners.nl esté verificado en Resend (DNS), setear
+ * EMAIL_FROM="cleaners <noreply@getcleaners.nl>" en Vercel y listo.
+ */
+const DEFAULT_FROM = "cleaners <onboarding@resend.dev>";
+
+/**
  * Envía un email vía Resend. Retorna true si se envió, false si fallo.
  * NUNCA tira excepción — loguea y continúa.
  */
@@ -37,7 +45,7 @@ export async function sendEmail(opts: SendEmailOptions): Promise<boolean> {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "cleaners <noreply@cleaners.nl>",
+        from: env.EMAIL_FROM ?? DEFAULT_FROM,
         to: opts.to,
         subject: opts.subject,
         html: opts.html,

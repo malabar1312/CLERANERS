@@ -4,59 +4,8 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { rateLimit, getIdentifier } from "@/lib/rate-limit";
-
-// ─── Amsterdam hoods (canonical list) ────────────────────────────────────────
-export const AMSTERDAM_HOODS = [
-  "Centrum",
-  "De Pijp",
-  "Jordaan",
-  "Oud-West",
-  "Oud-Zuid",
-  "Zuid",
-  "Oost",
-  "West",
-  "Noord",
-  "Nieuw-West",
-  "Zuidoost",
-  "IJburg",
-  "Westerpark",
-  "Rivierenbuurt",
-  "Buitenveldert",
-  "Watergraafsmeer",
-  "Amstelveen",
-] as const;
-
-// ─── Specialties (NL, matches mock catalog) ──────────────────────────────────
-export const CLEANER_SPECIALTIES = [
-  "Wekelijks",
-  "Diepe reiniging",
-  "Ramen",
-  "Strijken",
-  "Verhuisreiniging",
-  "Premium",
-  "Eco-producten",
-  "Huisdieren OK",
-  "Detail-georiënteerd",
-  "Studentenkamers",
-  "Snel & efficiënt",
-  "Boodschappen",
-  "Kantoren",
-  "Airbnb / vakantieverhuur",
-] as const;
-
-// ─── Languages ───────────────────────────────────────────────────────────────
-export const CLEANER_LANGUAGES = [
-  "Nederlands",
-  "Engels",
-  "Spaans",
-  "Portugees",
-  "Pools",
-  "Turks",
-  "Arabisch",
-  "Frans",
-  "Duits",
-] as const;
 
 // ─── Zod schema ──────────────────────────────────────────────────────────────
 const createCleanerProfileSchema = z.object({
@@ -123,8 +72,12 @@ export async function createCleanerProfileAction(
     return { ok: false, error: "not_cleaner" };
   }
 
-  // Check if already has a cleaner_profiles row
-  const { data: existing } = await supabase
+  // Check if already has a cleaner_profiles row.
+  // Admin client: los borradores (visible=false) son invisibles para la RLS
+  // pública — sin esto el re-submit pasaría el check y moriría en el 23505.
+  const adminDb = createSupabaseAdminClient();
+  const readDb = adminDb ?? supabase;
+  const { data: existing } = await readDb
     .from("cleaner_profiles")
     .select("slug")
     .eq("profile_id", user.id)
@@ -160,9 +113,10 @@ export async function createCleanerProfileAction(
   let slug = baseSlug;
   let attempt = 0;
 
-  // Deduplicate slug (check for existing slugs)
+  // Deduplicate slug (check for existing slugs — admin client: también debe
+  // chocar contra slugs de perfiles invisibles).
   while (attempt < 10) {
-    const { data: slugCheck } = await supabase
+    const { data: slugCheck } = await readDb
       .from("cleaner_profiles")
       .select("slug")
       .eq("slug", slug)
@@ -179,7 +133,10 @@ export async function createCleanerProfileAction(
     slug = `${baseSlug}-${user.id.slice(0, 6)}`;
   }
 
-  // Insert into cleaner_profiles
+  // Insert into cleaner_profiles.
+  // visible=false SIEMPRE en el alta: el catálogo público auto-switchea de
+  // mock a real con la PRIMERA fila visible (lib/data/cleaners.ts) — activar
+  // un perfil es decisión manual de admin (Antonio), no del signup.
   const { error: insertError } = await supabase.from("cleaner_profiles").insert({
     profile_id: user.id,
     slug,
@@ -192,7 +149,7 @@ export async function createCleanerProfileAction(
     tone: Math.floor(Math.random() * 6), // random avatar gradient
     since: new Date().getFullYear(),
     online: true,
-    visible: true,
+    visible: false,
     accepts_bookings: true,
   });
 

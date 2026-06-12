@@ -17,12 +17,12 @@ import {
   Globe,
   AlertCircle,
 } from "lucide-react";
+import { createCleanerProfileAction } from "@/app/[locale]/_actions/cleaner-profile";
 import {
   AMSTERDAM_HOODS,
   CLEANER_SPECIALTIES,
   CLEANER_LANGUAGES,
-  createCleanerProfileAction,
-} from "@/app/[locale]/_actions/cleaner-profile";
+} from "@/lib/data/cleaner-options";
 import { cn } from "@/lib/utils";
 
 const STEPS = ["profile", "details", "pricing"] as const;
@@ -127,8 +127,10 @@ export function CleanerWizard({
       const result = await createCleanerProfileAction(formData);
 
       if (result.ok) {
-        // Success → redirect to profile or dashboard
-        router.push(`/schoonmakers/${result.slug}`);
+        // Success → dashboard. NO al perfil público: el alta queda con
+        // visible=false (pendiente de activación admin) y /schoonmakers/[slug]
+        // filtra visible=true → daría 404.
+        router.push("/dashboard");
       } else {
         switch (result.error) {
           case "already_exists":

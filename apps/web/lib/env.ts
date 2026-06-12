@@ -30,6 +30,7 @@ const serverSchema = z.object({
   STRIPE_RESTRICTED_KEY: z.string().startsWith("rk_").optional(),
   STRIPE_WEBHOOK_SECRET: z.string().startsWith("whsec_").optional(),
   RESEND_API_KEY: z.string().startsWith("re_").optional(),
+  EMAIL_FROM: z.string().min(3).optional(),
   NODE_ENV: z.enum(["development", "production", "test"]).optional(),
 });
 
@@ -55,6 +56,7 @@ function parse(): FullEnv {
     STRIPE_RESTRICTED_KEY: clean(process.env.STRIPE_RESTRICTED_KEY),
     STRIPE_WEBHOOK_SECRET: clean(process.env.STRIPE_WEBHOOK_SECRET),
     RESEND_API_KEY: clean(process.env.RESEND_API_KEY),
+    EMAIL_FROM: clean(process.env.EMAIL_FROM),
     NODE_ENV: process.env.NODE_ENV,
   });
 

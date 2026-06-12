@@ -181,6 +181,15 @@ create policy "cleaner_profiles_public_select"
   to anon, authenticated
   using (visible = true);
 
+-- El cleaner SIEMPRE ve su propio perfil, también en borrador (visible=false).
+-- Sin esto, el alta con visible=false deja al cleaner ciego a su propia fila:
+-- el wizard no detecta que ya existe y el dashboard no puede mostrarla.
+drop policy if exists "cleaner_profiles_own_select" on public.cleaner_profiles;
+create policy "cleaner_profiles_own_select"
+  on public.cleaner_profiles for select
+  to authenticated
+  using (auth.uid() = profile_id);
+
 -- El cleaner crea/edita SU propio perfil (no puede cambiar verified flags —
 -- eso lo hace service-role/admin; protegido por un trigger más abajo).
 drop policy if exists "cleaner_profiles_own_insert" on public.cleaner_profiles;
