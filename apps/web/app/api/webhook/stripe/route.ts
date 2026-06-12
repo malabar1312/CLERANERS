@@ -5,6 +5,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { getStripe } from "@/lib/stripe/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { bookingReference } from "@/lib/booking/reference";
+import { sendBookingConfirmedEmail } from "@/lib/email/booking";
 import { env } from "@/lib/env";
 
 // Node runtime: necesitamos el raw body + crypto para verificar la firma.
@@ -121,6 +122,9 @@ export async function POST(req: NextRequest) {
  *     original (preserva la integridad de lo capturado).
  *  2. Si no hay `booking_id` (bookings legacy o checkouts directos) → upsert
  *     por stripe_session_id como antes (sin address — ese registro va sin ella).
+ *
+ * Email: después de persistir, envía booking-confirmed al cliente (best-effort).
+ * Si falla el email, no rompe el webhook — la reserva queda persistida igual.
  */
 async function persistPaidBooking(db: SupabaseClient | null, s: Stripe.Checkout.Session) {
   const m = s.metadata ?? {};
@@ -167,6 +171,17 @@ async function persistPaidBooking(db: SupabaseClient | null, s: Stripe.Checkout.
     };
     const { error } = await db.from("bookings").upsert(row, { onConflict: "id" });
     if (error) throw new Error(`booking upsert by id: ${error.message}`);
+
+    // Enviar email (best-effort — nunca rompe).
+    await sendBookingConfirmedEmail({
+      clientEmail: row.client_email,
+      cleanerName: row.client_name ?? `Cleaner ${row.cleaner_id}`,
+      reference: row.reference,
+      scheduledDate: row.scheduled_date,
+      scheduledTime: row.scheduled_time,
+      hours: row.hours,
+      totalCents: row.total_cents,
+    });
     return;
   }
 
@@ -191,6 +206,17 @@ async function persistPaidBooking(db: SupabaseClient | null, s: Stripe.Checkout.
   };
   const { error } = await db.from("bookings").upsert(row, { onConflict: "stripe_session_id" });
   if (error) throw new Error(`booking upsert: ${error.message}`);
+
+  // Enviar email (best-effort).
+  await sendBookingConfirmedEmail({
+    clientEmail: row.client_email,
+    cleanerName: row.client_name ?? `Cleaner ${row.cleaner_id}`,
+    reference: row.reference,
+    scheduledDate: row.scheduled_date,
+    scheduledTime: row.scheduled_time,
+    hours: row.hours,
+    totalCents: row.total_cents,
+  });
 }
 
 /** Marca una reserva como reembolsada por su payment_intent. */

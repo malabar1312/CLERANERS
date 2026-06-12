@@ -183,3 +183,69 @@ export const emailChangeEmail = emailShell(`
   ${ctaButton("{{ .ConfirmationURL }}", "Nieuw e-mailadres bevestigen &rarr;")}
   ${smallText("Als je dit niet hebt aangevraagd, neem dan direct contact met ons op.")}
 `);
+
+// ─────────────────────────────────────────────────────────────────────────
+// Template: Booking Confirmation
+// ─────────────────────────────────────────────────────────────────────────
+export function bookingConfirmedEmail(opts: {
+  cleanerName: string;
+  date: string;
+  time: string;
+  hours: number;
+  price: string;
+  reference: string;
+  dashboardUrl: string;
+}): string {
+  const slotLabel =
+    opts.time === "morning"
+      ? "Ochtend (08:00)"
+      : opts.time === "afternoon"
+        ? "Middag (12:00)"
+        : "Avond (17:00)";
+  return emailShell(`
+    <h1 style="margin:0;font-size:24px;font-weight:700;color:${BRAND.ink};letter-spacing:-0.02em;line-height:1.3;">
+      Je boeking is bevestigd!
+    </h1>
+    <p style="margin:16px 0 0;font-size:15px;line-height:1.7;color:${BRAND.muted};">
+      Goed nieuws — je betaling is ontvangen. Je huis wordt schoongemaakt door <strong>${opts.cleanerName}</strong>.
+    </p>
+
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:32px 0;">
+      <tr>
+        <td style="background-color:${BRAND.surface};border-radius:12px;padding:20px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+              <td style="padding:0 0 12px;font-size:12px;font-weight:600;color:${BRAND.muted};text-transform:uppercase;letter-spacing:0.05em;">
+                Boeking #${opts.reference}
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:12px 0;border-bottom:1px solid ${BRAND.line};font-size:14px;color:${BRAND.muted};">
+                <strong style="color:${BRAND.ink};">Datum:</strong> ${opts.date}
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:12px 0;border-bottom:1px solid ${BRAND.line};font-size:14px;color:${BRAND.muted};">
+                <strong style="color:${BRAND.ink};">Tijdstip:</strong> ${slotLabel}
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:12px 0;border-bottom:1px solid ${BRAND.line};font-size:14px;color:${BRAND.muted};">
+                <strong style="color:${BRAND.ink};">Duur:</strong> ${opts.hours} uur
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:12px 0;font-size:14px;color:${BRAND.muted};">
+                <strong style="color:${BRAND.ink};font-size:16px;">${opts.price}</strong>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    ${ctaButton(opts.dashboardUrl, "Bekijk je boeking →")}
+
+    ${smallText("Je kunt je boeking tot 24 uur van tevoren gratis annuleren. Heb je vragen? <a href=\"mailto:help@cleaners.nl\" style=\"color:${BRAND.color};text-decoration:none;\">Neem contact op</a>.")}
+  `);
+}
