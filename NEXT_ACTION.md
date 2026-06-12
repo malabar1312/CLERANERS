@@ -32,13 +32,17 @@ La plataforma está MÁS construida de lo que decía CLAUDE.md. Verificado contr
 - Docs: `docs/RESEND_EMAIL_SETUP.md` (setup, local testing, prod steps, troubleshooting).
 - Commit `fc8c2d8`.
 
-## ▶️ SIGUIENTE ACCIÓN (Sprint #7 — Cleaner onboarding e2e)
-**Necesita de Antonio:** validar e2e la ruta de alta de cleaners:
-1. Signup → `/onboarding/schoonmaker` wizard (ya wired en `/signup` → redirect).
-2. 7 pasos (nombre, foto, bio, especialidades, tarifa, KYC, terms) → `cleaner_profiles` con `visible=false` (importante: no cambia el catálogo público aún).
-3. Verificar que el cleaner aparece en DB pero NO en el listado `/schoonmakers` (porque `visible=false` activará el auto-switch mock→real solo si cambia a `visible=true` — decisión manual de Antonio).
-4. Confirmar KYC (hoy es mock — sube archivo a Supabase Storage, sin validación real).
-5. El perfil del cleaner debe ser editable desde su dashboard una vez logueado.
+## ✅ 2026-06-12 — Sprints #6 + #7 SHIPPED + webhook prod CERRADO
+- **#6 Resend:** key probada en vivo (email enviado, id `b9e637b0`). Sender = sandbox `onboarding@resend.dev` (solo entrega a mrsalgado94@gmail.com hasta verificar dominio). `EMAIL_FROM` configurable por env. `RESEND_API_KEY` en Vercel prod.
+- **#7 Onboarding cleaner e2e:** wizard verificado con usuario QA real. Se arregló un crash pre-existente ("use server" exportaba constantes — el wizard NUNCA había funcionado), alta ahora con `visible=false`, redirects correctos, catálogo sigue mock, sin fuga del borrador. Script: `scripts/qa-cleaner-seed.mjs`.
+- **Webhook Stripe prod:** endpoint creado vía API (`we_1ThXOPDuW0ZKWM5b14W9M30e` → getcleaners.nl) + `STRIPE_WEBHOOK_SECRET` en Vercel. Smoke: 400 missing_signature ✓ (antes 503). **El loop checkout→webhook→booking→email está VIVO en prod (test mode).**
+
+## ▶️ ACCIONES MANUALES DE ANTONIO (5 min total)
+1. **Re-ejecutar `supabase/schema.sql`** en SQL Editor (idempotente) — añade la policy `cleaner_profiles_own_select` (el cleaner ve su propio borrador). Verificar: `node scripts/verify-supabase.mjs`.
+2. **Opcional (emails a clientes reales):** verificar `getcleaners.nl` en resend.com → Domains (añadir los DNS records que indica) y luego en Vercel setear `EMAIL_FROM=cleaners <noreply@getcleaners.nl>`. Hasta entonces los emails solo llegan a tu propio gmail (sandbox).
+
+## ▶️ SIGUIENTE SPRINT (#8 — aanvragen del cleaner)
+Dashboard cleaner: lista de bookings asignadas (`cleaner_id` = su slug) + aceptar/rechazar → estado `accepted`/`rejected`. Reusar patrón de `bookings-view.tsx` + action con guard de carrera como `cancelBooking`. Después: #9 hardening/security-review, #10 SEO.
 
 ## Después (en orden)
 - Sprint #7: e2e wizard cleaner — ⚠️ insertar SIEMPRE con `visible=false` en pruebas: 1 fila visible en `cleaner_profiles` cambia el catálogo público de getcleaners.nl de mock a real (auto-switch). Activar visible solo con decisión de Antonio.
