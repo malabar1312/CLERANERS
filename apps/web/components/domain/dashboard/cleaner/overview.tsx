@@ -10,6 +10,7 @@ import {
   TrendingUp,
   ArrowRight,
   MapPin,
+  MessageCircle,
 } from "lucide-react";
 import { isSameDay } from "date-fns";
 
@@ -18,10 +19,18 @@ import { EarningsView } from "./earnings-view";
 import { SettingsView } from "./settings-view";
 import { ServiceModal } from "./service-modal";
 import { AanvragenView, type CleanerAanvraag } from "./aanvragen-view";
-import {
-  getMockServicesForCleaner,
-  type CleanerService,
-} from "@/lib/data/cleaner-services";
+import { aanvragenToServices, type CleanerService } from "@/lib/data/cleaner-services";
+import { formatEur } from "@/lib/booking/pricing";
+
+/** KPIs del cleaner, derivados server-side de SUS aanvragen + perfil reales. */
+export type CleanerStats = {
+  revenueMonthCents: number;
+  acceptedUpcoming: number;
+  completedCount: number;
+  /** Rating real del perfil; null = sin reviews aún ("Nieuw"). */
+  rating: number | null;
+  reviewCount: number;
+};
 
 const staggerContainer = {
   hidden: { opacity: 0 },
@@ -39,14 +48,14 @@ const fadeUp = {
 
 export function CleanerDashboard({
   profile,
-  services,
   aanvragen = [],
+  stats = { revenueMonthCents: 0, acceptedUpcoming: 0, completedCount: 0, rating: null, reviewCount: 0 },
 }: {
   profile: { first_name: string; role?: string };
-  /** Real services del cleaner. Si no se pasa o llega vacío, usa mock BETA. */
-  services?: CleanerService[];
   /** Bookings reales asignadas al cleaner (vista "Mijn Boekingen"). */
   aanvragen?: CleanerAanvraag[];
+  /** KPIs derivados server-side. Todo 0/null si el cleaner es nuevo. */
+  stats?: CleanerStats;
 }) {
   const t = useTranslations("dashboard.cleaner");
   const router = useRouter();
@@ -64,16 +73,18 @@ export function CleanerDashboard({
     router.push(`${pathname}?${params.toString()}`);
   };
 
-  // BETA fallback: si no llegan services reales (o llegan vacíos), usar mock.
-  // Cuando cleaner_profiles + linking exista, page.tsx pasará el array real.
+  // Agenda real del cleaner — derivada de SUS aanvragen. Sin aanvragen → vacía.
   const allServices = useMemo<CleanerService[]>(
-    () => (services && services.length > 0 ? services : getMockServicesForCleaner()),
-    [services],
+    () => aanvragenToServices(aanvragen),
+    [aanvragen],
   );
 
   const todayServices = allServices.filter((s) =>
     isSameDay(s.date, new Date()),
   );
+  const nextService = allServices
+    .filter((s) => s.date.getTime() >= new Date().setHours(0, 0, 0, 0))
+    .sort((a, b) => a.date.getTime() - b.date.getTime())[0];
 
   const renderOverview = () => (
     <motion.div
@@ -123,63 +134,84 @@ export function CleanerDashboard({
           </p>
           <div className="flex items-baseline gap-2">
             <h3 className="font-display text-2xl font-bold leading-none text-[var(--color-ink)] sm:text-3xl">
-              €1.240
+              {formatEur(stats.revenueMonthCents)}
             </h3>
-            <TrendingUp className="h-4 w-4 text-[var(--color-success)]" />
+            {stats.revenueMonthCents > 0 && (
+              <TrendingUp className="h-4 w-4 text-[var(--color-success)]" />
+            )}
           </div>
           <p className="mt-1.5 text-xs text-[var(--color-slate)] sm:mt-2">
-            {t("vsLastMonth", { pct: "12" })}
+            {t("thisMonth")}
           </p>
         </button>
 
         <button
-          onClick={() =>
-            todayServices[0] && setSelectedService(todayServices[0])
-          }
+          onClick={() => nextService && setSelectedService(nextService)}
           className="group relative overflow-hidden rounded-2xl border border-[var(--color-line)] bg-white p-4 text-left shadow-[var(--shadow-soft)] transition-all hover:border-[var(--color-blue)] hover:shadow-[var(--shadow-ambient)] sm:p-6"
         >
           <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[var(--color-blue)]/5 blur-3xl transition-all group-hover:bg-[var(--color-blue)]/10" />
           <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-[var(--color-muted)] sm:mb-3 sm:text-[11px]">
             {t("nextService")}
           </p>
-          <h3 className="font-display text-xl font-bold leading-none text-[var(--color-ink)] sm:text-2xl">
-            14:00
-          </h3>
-          <p className="mt-1.5 text-xs text-[var(--color-slate)] sm:mt-2">
-            {t("deepClean", { hours: "4" })}
-          </p>
+          {nextService ? (
+            <>
+              <h3 className="font-display text-xl font-bold leading-none text-[var(--color-ink)] sm:text-2xl">
+                {nextService.time.split(" ")[0]}
+              </h3>
+              <p className="mt-1.5 text-xs text-[var(--color-slate)] sm:mt-2">
+                {nextService.type}
+              </p>
+            </>
+          ) : (
+            <>
+              <h3 className="font-display text-xl font-bold leading-none text-[var(--color-muted)] sm:text-2xl">
+                —
+              </h3>
+              <p className="mt-1.5 text-xs text-[var(--color-slate)] sm:mt-2">
+                {t("noServicesScheduled")}
+              </p>
+            </>
+          )}
         </button>
 
         <div className="group relative overflow-hidden rounded-2xl border border-[var(--color-line)] bg-white p-4 shadow-[var(--shadow-soft)] transition-all hover:border-[var(--color-blue)]/40 hover:shadow-[var(--shadow-ambient)] sm:p-6">
           <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-[var(--color-muted)] sm:mb-3 sm:text-[11px]">
             {t("rating")}
           </p>
-          <div className="flex items-baseline gap-2">
-            <h3 className="font-display text-2xl font-bold leading-none text-[var(--color-ink)] sm:text-3xl">
-              4,9
-            </h3>
-            <Star className="h-4 w-4 fill-[#F5A623] text-[#F5A623]" />
-          </div>
-          <p className="mt-1.5 text-xs text-[var(--color-slate)] sm:mt-2">
-            {t("basedOnReviews", { count: "86" })}
-          </p>
+          {stats.rating != null ? (
+            <>
+              <div className="flex items-baseline gap-2">
+                <h3 className="font-display text-2xl font-bold leading-none text-[var(--color-ink)] sm:text-3xl">
+                  {stats.rating.toFixed(1)}
+                </h3>
+                <Star className="h-4 w-4 fill-[#F5A623] text-[#F5A623]" />
+              </div>
+              <p className="mt-1.5 text-xs text-[var(--color-slate)] sm:mt-2">
+                {t("basedOnReviews", { count: stats.reviewCount })}
+              </p>
+            </>
+          ) : (
+            <>
+              <h3 className="font-display text-2xl font-bold leading-none text-[var(--color-ink)] sm:text-3xl">
+                {t("newCleaner")}
+              </h3>
+              <p className="mt-1.5 text-xs text-[var(--color-slate)] sm:mt-2">
+                {t("noReviewsYet")}
+              </p>
+            </>
+          )}
         </div>
 
         <div className="group relative overflow-hidden rounded-2xl border border-[var(--color-line)] bg-white p-4 shadow-[var(--shadow-soft)] transition-all hover:border-[var(--color-blue)]/40 hover:shadow-[var(--shadow-ambient)] sm:p-6">
           <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-[var(--color-muted)] sm:mb-3 sm:text-[11px]">
-            {t("progress")}
+            {t("completedLabel")}
           </p>
           <h3 className="font-display text-2xl font-bold leading-none text-[var(--color-ink)] sm:text-3xl">
-            18/20
+            {stats.completedCount}
           </h3>
-          <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[var(--color-surface-2)] sm:mt-3">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: "90%" }}
-              transition={{ duration: 1 }}
-              className="h-full rounded-full bg-[var(--color-success)]"
-            />
-          </div>
+          <p className="mt-1.5 text-xs text-[var(--color-slate)] sm:mt-2">
+            {t("upcomingAccepted", { count: stats.acceptedUpcoming })}
+          </p>
         </div>
       </motion.section>
 
@@ -202,6 +234,13 @@ export function CleanerDashboard({
               </button>
             </div>
             <div className="space-y-3 sm:space-y-4">
+              {todayServices.length === 0 && (
+                <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[var(--color-line)] bg-[var(--color-surface)] px-6 py-10 text-center">
+                  <p className="text-sm text-[var(--color-slate)]">
+                    {t("noServicesToday")}
+                  </p>
+                </div>
+              )}
               {todayServices.map((srv, idx) => (
                 <div
                   key={srv.id}
@@ -254,50 +293,11 @@ export function CleanerDashboard({
             <h4 className="mb-4 font-display text-lg font-bold tracking-tight text-[var(--color-ink)] sm:text-xl">
               {t("inbox")}
             </h4>
-            <div className="flex flex-col gap-3">
-              {[
-                {
-                  name: "Lisa M.",
-                  msg: "Voorzichtig met de...",
-                  time: "10 min",
-                  unread: true,
-                },
-                {
-                  name: "Jeroen B.",
-                  msg: "Alles perfect gisteren, bedankt.",
-                  time: "Gisteren",
-                  unread: false,
-                },
-              ].map((msg, i) => (
-                <div
-                  key={i}
-                  className="group relative flex cursor-pointer gap-3 rounded-xl border border-transparent p-2 transition-all hover:bg-[var(--color-surface-2)] hover:border-[var(--color-line)]"
-                >
-                  {msg.unread && (
-                    <span className="absolute right-2 top-3 h-1.5 w-1.5 rounded-full bg-[var(--color-blue)]" />
-                  )}
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-surface-3)] text-xs font-bold text-[var(--color-ink)]">
-                    {msg.name.charAt(0)}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-center">
-                      <p
-                        className={`text-sm font-bold ${msg.unread ? "text-[var(--color-ink)]" : "text-[var(--color-slate)]"}`}
-                      >
-                        {msg.name}
-                      </p>
-                      <span className="text-[10px] font-medium text-[var(--color-muted)]">
-                        {msg.time}
-                      </span>
-                    </div>
-                    <p
-                      className={`mt-0.5 line-clamp-1 text-xs ${msg.unread ? "text-[var(--color-ink)] font-medium" : "text-[var(--color-muted)]"}`}
-                    >
-                      {msg.msg}
-                    </p>
-                  </div>
-                </div>
-              ))}
+            <div className="flex flex-col items-center justify-center py-8 text-center">
+              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-surface-2)]">
+                <MessageCircle className="h-6 w-6 text-[var(--color-muted)]" />
+              </div>
+              <p className="text-sm text-[var(--color-slate)]">{t("inboxEmpty")}</p>
             </div>
           </div>
         </div>
@@ -318,7 +318,7 @@ export function CleanerDashboard({
             onSelectService={setSelectedService}
           />
         )}
-        {view === "earnings" && <EarningsView />}
+        {view === "earnings" && <EarningsView aanvragen={aanvragen} stats={stats} />}
         {view === "settings" && <SettingsView profile={profile} />}
       </AnimatePresence>
 

@@ -89,11 +89,13 @@ export function ServiceModal({
                     <h4 className="font-display text-lg font-bold text-[var(--color-ink)]">
                       {service.client.name}
                     </h4>
-                    <p className="flex items-center gap-1 text-sm font-medium text-[var(--color-slate)]">
-                      <Star className="h-4 w-4 fill-[#F5A623] text-[#F5A623]" />
-                      {service.client.rating} ({service.client.reviews}{" "}
-                      reviews)
-                    </p>
+                    {service.client.reviews > 0 && (
+                      <p className="flex items-center gap-1 text-sm font-medium text-[var(--color-slate)]">
+                        <Star className="h-4 w-4 fill-[#F5A623] text-[#F5A623]" />
+                        {service.client.rating} ({service.client.reviews}{" "}
+                        reviews)
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="mt-4 flex gap-2">

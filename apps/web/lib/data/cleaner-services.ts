@@ -1,15 +1,13 @@
 /**
- * Cleaner services — data layer híbrido (mock ↔ real).
+ * Cleaner services — capa de datos de la agenda del cleaner.
  *
- * Mientras no hay `cleaner_profiles` (Bloque 2), el `cleaner_id` en `bookings`
- * sigue siendo el slug del mock ("sofia-r"). Esta capa hace dos cosas:
- *   1. Define el tipo canónico `CleanerService` que consumen los componentes
- *      del cleaner dashboard (calendar-view, earnings-view, service-modal).
- *   2. Provee `getMockServicesForCleaner()` (BETA fallback) y la firma de
- *      `getCleanerServicesFromDb()` para cuando tengamos cleaner real.
+ * Deriva del shape REAL de las aanvragen (bookings asignadas al cleaner que
+ * llegan en `dashboard/page.tsx`). Ya NO hay mock: un cleaner sin aanvragen
+ * tiene la agenda vacía (dashboard a 0, como un usuario real).
  *
- * Los componentes consumen `CleanerService` — no importan de `mock/*`. Cuando
- * el origen cambie de mock → Supabase, los componentes no se tocan.
+ * `CleanerService` es el tipo canónico que consumen calendar-view, overview y
+ * service-modal. El rating del cliente aún no existe en la plataforma → 0
+ * (los componentes lo ocultan cuando reviews === 0, nunca inventan estrellas).
  */
 
 export interface CleanerService {
@@ -23,54 +21,49 @@ export interface CleanerService {
   price: string;
 }
 
-/** Mock data preservado de la versión inline. BETA fallback. */
-export function getMockServicesForCleaner(): CleanerService[] {
-  const today = new Date();
-  const d2 = new Date(today);
-  d2.setDate(today.getDate() + 3);
-  const d3 = new Date(today);
-  d3.setDate(today.getDate() + 5);
+/** Aanvraag mínima necesaria para construir un `CleanerService`. */
+type AanvraagLike = {
+  id: string;
+  clientName: string;
+  scheduledDate: string | null;
+  scheduledTime: string | null;
+  hours: number | null;
+  amountCents: number | null;
+  status: string;
+  city: string | null;
+};
 
-  return [
-    {
-      id: "SRV-001",
-      date: today,
-      client: { name: "Anna K.", rating: 4.9, reviews: 14 },
-      type: "Dieptereiniging",
-      time: "14:00 - 18:00",
-      address: "De Pijp, Ferdinand Bolstraat 12",
-      notes: "Kat in huis — voorzichtig in de gang. Sleutels onder de mat.",
-      price: "€85,00",
-    },
-    {
-      id: "SRV-002",
-      date: today,
-      client: { name: "Jeroen B.", rating: 5.0, reviews: 3 },
-      type: "Onderhoud",
-      time: "18:30 - 20:30",
-      address: "Jordaan",
-      notes: "Voorzichtig met planten bij het water geven.",
-      price: "€45,00",
-    },
-    {
-      id: "SRV-003",
-      date: d2,
-      client: { name: "Bedrijf XYZ", rating: 4.8, reviews: 42 },
-      type: "Kantoor Schoonmaak",
-      time: "07:00 - 11:00",
-      address: "Zuidas Business Center",
-      notes: "Alarmcode 4321. Vergaderruimte eerst.",
-      price: "€120,00",
-    },
-    {
-      id: "SRV-004",
-      date: d3,
-      client: { name: "Lisa M.", rating: 4.5, reviews: 8 },
-      type: "Na-Verbouwing",
-      time: "09:00 - 15:00",
-      address: "Oud-West",
-      notes: "Veel verf op de vloer. Speciaal oplosmiddel in de badkamer.",
-      price: "€180,00",
-    },
-  ];
+/** Status de aanvragen que ocupan la agenda del cleaner (lo que debe hacer). */
+const AGENDA_STATUSES = new Set(["paid", "accepted", "in_progress", "completed"]);
+
+const SLOT_RANGE: Record<string, string> = {
+  morning: "08:00 - 12:00",
+  afternoon: "12:00 - 17:00",
+  evening: "17:00 - 20:00",
+};
+
+function formatEurCents(cents: number | null): string {
+  if (cents == null) return "—";
+  return new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR" }).format(cents / 100);
+}
+
+/**
+ * Mapea las aanvragen reales del cleaner a servicios de agenda. Filtra las que
+ * no ocupan agenda (pending/rejected/canceled/refunded). Sin aanvragen → [].
+ */
+export function aanvragenToServices(aanvragen: AanvraagLike[]): CleanerService[] {
+  return aanvragen
+    .filter((a) => AGENDA_STATUSES.has(a.status) && a.scheduledDate)
+    .map((a) => {
+      const date = new Date(`${a.scheduledDate}T00:00:00`);
+      return {
+        id: a.id,
+        date,
+        client: { name: a.clientName, rating: 0, reviews: 0 },
+        type: a.hours ? `Schoonmaak · ${a.hours} uur` : "Schoonmaak",
+        time: SLOT_RANGE[a.scheduledTime ?? ""] ?? "—",
+        address: a.city ?? "Amsterdam",
+        price: formatEurCents(a.amountCents),
+      };
+    });
 }

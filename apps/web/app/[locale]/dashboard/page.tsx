@@ -7,7 +7,9 @@ import { CleanerDashboard } from "@/components/domain/dashboard/cleaner/overview
 import {
   CustomerDashboard,
   type LatestBooking,
+  type CustomerStats,
 } from "@/components/domain/dashboard/customer/overview";
+import type { CleanerStats } from "@/components/domain/dashboard/cleaner/overview";
 import type { BookingListItem } from "@/components/domain/dashboard/customer/bookings-view";
 import type { CleanerAanvraag } from "@/components/domain/dashboard/cleaner/aanvragen-view";
 import { getCleanerProfileById } from "@/lib/data/cleaners";
@@ -17,11 +19,23 @@ import { getCleanerProfileById } from "@/lib/data/cleaners";
 const CANCELLABLE_STATUSES = new Set(["pending", "paid", "accepted"]);
 const SLOT_START_HOUR: Record<string, number> = { morning: 8, afternoon: 12, evening: 17 };
 
+/** Status que implican un cobro efectivo (cuentan para "gastado"/"ingresos"). */
+const PAID_STATUSES = new Set(["paid", "accepted", "in_progress", "completed", "reviewed"]);
+/** Status de servicio finalizado (cuentan para "voltooid"). */
+const COMPLETED_STATUSES = new Set(["completed", "reviewed"]);
+
 function isCancellable(status: string, date: string | null, slot: string | null): boolean {
   if (!CANCELLABLE_STATUSES.has(status) || !date) return false;
   const hour = SLOT_START_HOUR[slot ?? ""] ?? 8;
   const start = new Date(`${date}T${String(hour).padStart(2, "0")}:00:00`);
   return !Number.isNaN(start.getTime()) && start.getTime() - Date.now() > 24 * 60 * 60 * 1000;
+}
+
+/** Inicio (epoch ms) de la franja de una reserva, para comparar con "ahora". */
+function slotStart(date: string | null, slot: string | null): number {
+  if (!date) return NaN;
+  const hour = SLOT_START_HOUR[slot ?? ""] ?? 8;
+  return new Date(`${date}T${String(hour).padStart(2, "0")}:00:00`).getTime();
 }
 
 /**
@@ -45,6 +59,15 @@ export default async function DashboardPage({
   let latestBooking: LatestBooking | null = null;
   let bookings: BookingListItem[] = [];
   let aanvragen: CleanerAanvraag[] = [];
+  // Stats derivadas de datos reales — arrancan a CERO (usuario nuevo = dash vacío).
+  const customerStats: CustomerStats = { completedCount: 0, spentMonthCents: 0, spentYearCents: 0 };
+  const cleanerStats: CleanerStats = {
+    revenueMonthCents: 0,
+    acceptedUpcoming: 0,
+    completedCount: 0,
+    rating: null,
+    reviewCount: 0,
+  };
 
   try {
     const supabase = await createSupabaseServerClient();
@@ -124,6 +147,20 @@ export default async function DashboardPage({
           street: first.street,
         };
       }
+
+      // KPIs del cliente derivados de SUS reservas reales (todo 0 si es nuevo).
+      const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime();
+      const yearStart = new Date(new Date().getFullYear(), 0, 1).getTime();
+      for (const b of bookings) {
+        if (COMPLETED_STATUSES.has(b.status)) customerStats.completedCount += 1;
+        if (PAID_STATUSES.has(b.status) && b.totalCents) {
+          const ts = slotStart(b.scheduledDate, b.scheduledTime);
+          if (!Number.isNaN(ts)) {
+            if (ts >= yearStart) customerStats.spentYearCents += b.totalCents;
+            if (ts >= monthStart) customerStats.spentMonthCents += b.totalCents;
+          }
+        }
+      }
     }
 
     // Rama cleaner: aanvragen asignadas a SU slug. bookings no tiene policy
@@ -133,9 +170,17 @@ export default async function DashboardPage({
     if (profile.role === "cleaner") {
       const { data: ownCleanerProfile } = await supabase
         .from("cleaner_profiles")
-        .select("slug")
+        .select("slug, rating, reviews_count")
         .eq("profile_id", user.id)
         .maybeSingle();
+
+      // Rating real del perfil: un cleaner sin reviews aún → null ("Nieuw"),
+      // nunca un 4,9 inventado.
+      if (ownCleanerProfile) {
+        cleanerStats.reviewCount = ownCleanerProfile.reviews_count ?? 0;
+        cleanerStats.rating =
+          cleanerStats.reviewCount > 0 ? Number(ownCleanerProfile.rating) : null;
+      }
 
       const adminDb = createSupabaseAdminClient();
       if (ownCleanerProfile && adminDb) {
@@ -160,6 +205,23 @@ export default async function DashboardPage({
           status: r.status,
           city: r.city,
         }));
+
+        // KPIs del cleaner derivados de SUS aanvragen reales (0 si es nuevo).
+        const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime();
+        const nowMs = Date.now();
+        for (const a of aanvragen) {
+          if (COMPLETED_STATUSES.has(a.status)) cleanerStats.completedCount += 1;
+          if (PAID_STATUSES.has(a.status) && a.amountCents) {
+            const ts = slotStart(a.scheduledDate, a.scheduledTime);
+            if (!Number.isNaN(ts) && ts >= monthStart) {
+              cleanerStats.revenueMonthCents += a.amountCents;
+            }
+          }
+          if (a.status === "accepted") {
+            const ts = slotStart(a.scheduledDate, a.scheduledTime);
+            if (!Number.isNaN(ts) && ts >= nowMs) cleanerStats.acceptedUpcoming += 1;
+          }
+        }
       }
     }
   } catch (err) {
@@ -174,12 +236,13 @@ export default async function DashboardPage({
   return (
     <div className="w-full">
       {profile.role === "cleaner" ? (
-        <CleanerDashboard profile={profile} aanvragen={aanvragen} />
+        <CleanerDashboard profile={profile} aanvragen={aanvragen} stats={cleanerStats} />
       ) : (
         <CustomerDashboard
           profile={profile}
           latestBooking={latestBooking}
           bookings={bookings}
+          stats={customerStats}
         />
       )}
     </div>
