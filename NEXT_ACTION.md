@@ -87,6 +87,19 @@ de marca (icono Compass, mismo lenguaje visual que el error boundary) + catch-al
 Verificado en prod: status 404, contenido de marca, el genérico de Next eliminado del HTML visible.
 Commit `896987b`. (EN locale auditado: ya estaba completo, 646/646.)
 
+## ✅ 2026-06-13 — Dashboards realistas (empezar a 0)
+Ambos dashboards mostraban mock hardcoded (Maria S., €240, 4,9, 18/20, Anna K., chart €1.240,
+inbox falso) a CUALQUIER usuario. Ahora un usuario recién registrado ve su dash **a 0**, como
+cuenta real:
+- **Cliente**: KPIs (voltooid, gasto mes/jaar, próxima, professional), active-booking card y
+  payments derivados de SUS bookings reales; empty states cuando no hay datos.
+- **Cleaner**: KPIs (inkomsten, próxima dienst, voltooid) de SUS aanvragen; rating = **"Nieuw"**
+  si reviews_count=0 (nunca 4,9 inventado); serviceQueue de aanvragen reales; inbox/earnings vacíos;
+  saldo €0 con nota "Connect binnenkort".
+- `page.tsx` calcula CustomerStats/CleanerStats server-side (todo 0 para nuevos). i18n nl+en.
+- **Verificado e2e** con 2 usuarios nuevos reales (`scripts/qa-empty-dash-seed.mjs`): ambos dash a
+  0/—/empty, sin mock; usuarios limpiados. Commit `20cec3a`. Smoke prod 27/27.
+
 ## ▶️ SIGUIENTE (P2 restantes, ambas GATED)
 - #10 Reviews reales post-booking → requiere bookings *completadas* reales (hoy mock).
 - #11 Filtros servidor en `/schoonmakers` → solo aporta con catálogo real (`visible=true`, decisión de Antonio).
