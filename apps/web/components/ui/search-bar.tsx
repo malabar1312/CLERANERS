@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { MapPin, Calendar, Clock, Search, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
+import { trackSearch } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 const LOCATIONS = [
@@ -96,7 +97,10 @@ export function SearchBar({ compact = false }: { compact?: boolean }) {
       const iso = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
       params.set("date", iso);
     }
-    if (time && time !== "Flexibel") params.set("time", time);
+    const hasTime = Boolean(time && time !== "Flexibel");
+    if (hasTime) params.set("time", time);
+    // Funnel: el `compact` distingue la sticky (scroll) de la del hero.
+    trackSearch({ source: compact ? "sticky" : "hero", hood, hasDate: Boolean(date), hasTime });
     const qs = params.toString();
     router.push(`/schoonmakers${qs ? `?${qs}` : ""}`);
   };

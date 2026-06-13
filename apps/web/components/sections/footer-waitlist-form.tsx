@@ -1,10 +1,11 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { CheckCircle2, ArrowRight } from "lucide-react";
 import { submitWaitlist, type WaitlistResult } from "@/app/[locale]/_actions/waitlist";
 import { buttonStyles } from "@/components/ui/button-variants";
+import { trackWaitlistSignup } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 /**
@@ -26,6 +27,13 @@ export function FooterWaitlistForm() {
     !state.ok &&
     (state.error === "duplicate" || (state.error === "config_missing" && isDev));
   const success = state?.ok === true || softSuccess;
+
+  // Funnel: solo el alta REAL cuenta como conversión (no duplicados ni el
+  // soft-success de dev). El form se reemplaza por el aviso de éxito, así que
+  // no hay re-submit → el evento se dispara una sola vez.
+  useEffect(() => {
+    if (state?.ok === true) trackWaitlistSignup("footer");
+  }, [state]);
 
   const errorMsg = (() => {
     if (!state || state.ok) return null;

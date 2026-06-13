@@ -6,6 +6,7 @@ import { Footer } from "@/components/sections/footer";
 import { Container } from "@/components/layout/container";
 import { Link } from "@/i18n/navigation";
 import { buttonStyles } from "@/components/ui/button-variants";
+import { TrackBookingSuccess } from "@/components/analytics/track-view";
 import { getStripe } from "@/lib/stripe/server";
 import { getCleanerProfileById } from "@/lib/data/cleaners";
 import { formatEur } from "@/lib/booking/pricing";
@@ -30,6 +31,7 @@ async function loadSession(sessionId?: string) {
     return {
       ref: bookingReference(refSeed),
       amount: typeof s.amount_total === "number" ? formatEur(s.amount_total) : null,
+      amountCents: typeof s.amount_total === "number" ? s.amount_total : 0,
       cleanerName: cleaner?.name ?? "je schoonmaker",
       paid: s.payment_status === "paid" || s.status === "complete",
     };
@@ -58,6 +60,7 @@ export default async function BookingSuccessPage({
         <Container size="sm" className="flex flex-col items-center pt-[calc(var(--nav-h-sm)+4rem)] pb-[var(--space-section)] text-center">
           {data ? (
             <>
+              {data.paid && <TrackBookingSuccess totalCents={data.amountCents} />}
               <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-blue-soft)] text-[var(--color-blue)]">
                 <CheckCircle2 className="h-9 w-9" aria-hidden="true" />
               </span>
