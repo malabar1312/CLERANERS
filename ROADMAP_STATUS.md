@@ -41,8 +41,8 @@
 ### P2 — Mejoras de producto
 10. Reviews reales post-booking (gated: requiere bookings completadas).
 11. Filtros servidor en `/schoonmakers` cuando haya data real.
-12. SEO programático (páginas por barrio), sitemap, OG images.
-13. Analytics de funnel (eventos search→perfil→checkout).
+12. ✅ **HECHA** (2026-06-13, Sprint #10) — SEO programático (landing por barrio con title/desc/canonical/hreflang), sitemap, robots, OG images (bug de OG de la home corregido).
+13. ✅ **HECHA** (2026-06-13) — Analytics de funnel completo: `search` (hero+sticky) → `cleaner_view` → `booking_start` → `booking_pay` → `booking_success` (conversión final, antes no medida) + `waitlist_signup`. Vercel Analytics custom events (sin cookies, GDPR-ok). Verificado en vivo. `lib/analytics.ts`.
 
 ### P3 — Escalabilidad futura
 14. Admin panel real · KYC Stripe Identity · payouts semanales automáticos · Sentry/monitoring · rate limiting global · EN locale completo · tests e2e CI.

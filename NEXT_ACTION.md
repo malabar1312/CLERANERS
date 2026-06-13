@@ -71,6 +71,19 @@ La plataforma está MÁS construida de lo que decía CLAUDE.md. Verificado contr
 cliente busca → perfil → paga → webhook persiste + email → cleaner acepta/rechaza → cliente lo ve.
 Reusable: `node scripts/qa-e2e-smoke.mjs` para smoke de prod en cualquier momento.
 
+## ✅ 2026-06-13 — P2 #13 Analytics de funnel SHIPPED
+Funnel de conversión completo con Vercel Analytics custom events (sin cookies, GDPR-ok):
+`search` (hero+sticky, props: source/hood/has_date/has_time) → `cleaner_view` → `booking_start`
+→ `booking_pay` (click betalen) → **`booking_success`** (volvió de Stripe pagado — la conversión
+final, antes NO medida). + `waitlist_signup` (estaba definido pero sin cablear). Verificado en vivo
+(dev): el evento `search` se dispara con los props exactos. Dashboard: Vercel → Analytics → Events.
+Commit `ee43011`. Smoke prod 27/27 tras deploy.
+
+## ▶️ SIGUIENTE (P2 restantes, ambas GATED)
+- #10 Reviews reales post-booking → requiere bookings *completadas* reales (hoy mock).
+- #11 Filtros servidor en `/schoonmakers` → solo aporta con catálogo real (`visible=true`, decisión de Antonio).
+Ambas dependen de activar data real. Mientras tanto, P3: Sentry/monitoring, EN locale completo, o rate-limit global (Upstash).
+
 ## Después (en orden)
 - **e2e Playwright** del flujo completo (búsqueda → perfil → checkout test → webhook → dashboard). Team G.
 - ⚠️ `visible=false` SIEMPRE en pruebas: 1 fila visible en `cleaner_profiles` cambia el catálogo de mock a real.
