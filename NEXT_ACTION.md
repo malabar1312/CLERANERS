@@ -62,8 +62,14 @@ La plataforma está MÁS construida de lo que decía CLAUDE.md. Verificado contr
 - OG images revisadas: raíz (marca) + per-cleaner (nombre/rating/hood/precio) — completas.
 - Typecheck + lint verdes, deploy prod OK.
 
-## 🏁 Sprint "Real Data v1" — 10/10 tareas COMPLETADAS
-Falta solo el **e2e Playwright del loop completo** (Team G, transversal).
+## ✅ 2026-06-13 — Team G + cierre del sprint
+- **e2e smoke** (`scripts/qa-e2e-smoke.mjs`): caja negra del loop completo en prod — 27/27 verde. Cubre rutas públicas, SEO (sitemap/robots/metadata por barrio), OG images, gates de auth (dashboard/onboarding → login), webhook fail-closed (400 sin firma), negativos (404).
+- **Bug SEO corregido**: la OG image de la home (`/opengraph-image`) daba 404 — el matcher del middleware i18n se tragaba la ruta root sin extensión y la metía en `[locale]`. Excluida del matcher; ahora sirve `image/png`. El social unfurl de getcleaners.nl ya muestra preview. Commit `17e444f`.
+
+## 🏁 SPRINT "REAL DATA v1" — CERRADO (2026-06-13)
+**10/10 tareas + Team G verde.** El loop completo está vivo en prod (Stripe test mode):
+cliente busca → perfil → paga → webhook persiste + email → cleaner acepta/rechaza → cliente lo ve.
+Reusable: `node scripts/qa-e2e-smoke.mjs` para smoke de prod en cualquier momento.
 
 ## Después (en orden)
 - **e2e Playwright** del flujo completo (búsqueda → perfil → checkout test → webhook → dashboard). Team G.

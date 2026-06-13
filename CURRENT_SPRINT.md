@@ -18,7 +18,7 @@
 | 9 | ✅ **HECHA** (2026-06-12, en prod) — Security review del diff del sprint: rate-limit añadido a `createBookingCheckout` (5/5min, único action sin límite), escape HTML en template de email (client_name = input del cliente), bug email corregido (mandaba el nombre del CLIENTE como cleaner), policy `bookings_cleaner_select` añadida a schema.sql (pendiente re-run manual, no bloquea: el server usa admin client verificado). Extra UX: **sticky search** en landing (hero → carrusel) | E | — | Fixes aplicados y en prod |
 | 10 | ✅ **HECHA** (2026-06-13, en prod) — `sitemap.xml` con URLs de barrio + perfiles, `robots.txt` expandido (auth-gated paths), `generateMetadata` per-hood (title/desc/canonical/alternates NL+EN), OG images existentes revisadas (raíz + per-cleaner OK) | F | 1 | Indexable + compartible |
 
-**Transversal (Team G):** e2e Playwright del flujo búsqueda → perfil → checkout test → webhook → dashboard, corre al cerrar #8.
+**Transversal (Team G):** ✅ **HECHA** (2026-06-13) — `scripts/qa-e2e-smoke.mjs`: smoke e2e de caja negra del loop completo contra prod (rutas públicas, SEO/sitemap/robots/metadata por barrio, OG images, gates de auth, webhook fail-closed). **27/27 verde** en getcleaners.nl. Bug encontrado y corregido: la OG image de la home daba 404 (el matcher i18n se tragaba la ruta root sin extensión) → social unfurl sin preview. Fix en `middleware.ts`.
 
 ## Equipos
 
@@ -32,6 +32,9 @@
 
 ## Definición de done del sprint
 - [x] Las 10 mergeadas en `v2-nextjs`, typecheck+lint+build verdes
-- [ ] e2e del loop completo verde (Team G — pendiente)
+- [x] e2e del loop completo verde (Team G — `qa-e2e-smoke.mjs` 27/27 en prod)
 - [x] Deploy a prod + smoke test en getcleaners.nl
 - [x] ROADMAP_STATUS.md y NEXT_ACTION.md actualizados
+
+## 🏁 SPRINT "REAL DATA v1" — CERRADO (2026-06-13)
+10/10 tareas + transversal Team G verde. Loop completo vivo en prod (test mode).
