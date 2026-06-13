@@ -222,6 +222,9 @@ export type CleanerProfile = CleanerPreview & {
   languages: string[];
   since: number;
   responseMins: number;
+  /** Stripe Connect — solo perfiles reales; mock los deja undefined. */
+  stripeAccountId?: string | null;
+  stripeChargesEnabled?: boolean;
 };
 
 const cleanerExtra: Record<string, { bio: string; languages: string[]; since: number; responseMins: number }> = {

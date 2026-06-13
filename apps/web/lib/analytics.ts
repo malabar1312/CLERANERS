@@ -31,8 +31,8 @@ export function trackSearch(opts: {
   });
 }
 
-/** El usuario envió su email en la wachtlijst del hero. */
-export function trackWaitlistSignup(source: "hero" | "footer") {
+/** El usuario envió su email en la wachtlijst (hero/footer) o como lead de host. */
+export function trackWaitlistSignup(source: "hero" | "footer" | "airbnb-host") {
   track("waitlist_signup", { source });
 }
 

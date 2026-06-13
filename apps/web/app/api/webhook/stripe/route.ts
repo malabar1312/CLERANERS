@@ -85,8 +85,10 @@ export async function POST(req: NextRequest) {
         break;
       }
       case "account.updated": {
-        // TODO(fase-4): cuenta Connect del cleaner → actualizar
-        // `stripe_charges_enabled` cuando el onboarding se complete.
+        // Cuenta Connect del cleaner → reflejar si ya puede recibir fondos
+        // (capability `transfers` activa). Fuente de verdad del estado payout.
+        const acct = event.data.object;
+        await markConnectStatus(db, acct.id, acct.capabilities?.transfers === "active");
         break;
       }
       default:
@@ -221,6 +223,20 @@ async function persistPaidBooking(db: SupabaseClient | null, s: Stripe.Checkout.
     hours: row.hours,
     totalCents: row.total_cents,
   });
+}
+
+/** Refleja en `cleaner_profiles` si la cuenta Connect ya puede recibir fondos. */
+async function markConnectStatus(
+  db: SupabaseClient | null,
+  accountId: string,
+  canReceive: boolean,
+) {
+  if (!db || !accountId) return;
+  const { error } = await db
+    .from("cleaner_profiles")
+    .update({ stripe_charges_enabled: canReceive })
+    .eq("stripe_connect_account_id", accountId);
+  if (error) throw new Error(`connect status update: ${error.message}`);
 }
 
 /** Marca una reserva como reembolsada por su payment_intent. */

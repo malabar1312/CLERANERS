@@ -18,6 +18,7 @@ import { Card } from "@/components/ui/card";
 import { Container } from "@/components/layout/container";
 import { Link } from "@/i18n/navigation";
 import { buttonStyles } from "@/components/ui/button-variants";
+import { HostLeadForm } from "@/components/sections/host-lead-form";
 import { asArray } from "@/lib/utils";
 
 export async function generateMetadata({
@@ -69,10 +70,10 @@ export default async function VoorVerhuurdersPage({
                 {t("hero.lead")}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link href="/schoonmakers" className={buttonStyles({ variant: "accent", size: "lg" })}>
+                <a href="#aanvraag" className={buttonStyles({ variant: "accent", size: "lg" })}>
                   {t("hero.cta")}
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </Link>
+                </a>
                 <Link href="/prijzen" className={buttonStyles({ variant: "outline", size: "lg" })}>
                   {t("hero.ctaSecondary")}
                 </Link>
@@ -149,23 +150,36 @@ export default async function VoorVerhuurdersPage({
           </div>
         </Section>
 
-        {/* CTA band */}
-        <section className="bg-[var(--color-dark)] py-16">
-          <Container size="md" className="text-center">
-            <h2 className="headline text-balance text-[length:var(--text-headline)] text-[var(--color-dark-ink)]">
-              {t("cta.title")}
-            </h2>
-            <p className="mx-auto mt-4 max-w-lg text-pretty text-lg leading-relaxed text-[var(--color-dark-muted)]">
-              {t("cta.lead")}
-            </p>
-            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <Link href="/schoonmakers" className={buttonStyles({ variant: "on-dark", size: "lg" })}>
-                {t("cta.button")}
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
-            </div>
-          </Container>
-        </section>
+        {/* Lead capture — entry point del loop concierge (Airbnb hosts).
+            CTA real: deja email → seguimiento 1:1 (source="airbnb-host" en Supabase).
+            NO depende del catálogo ni de Stripe. */}
+        <Section
+          id="aanvraag"
+          variant="surface"
+          containerSize="sm"
+          kicker={t("lead.kicker")}
+          title={t("lead.title")}
+          lead={t("lead.lead")}
+          className="scroll-mt-24 border-t border-[var(--color-line)]"
+        >
+          <div className="mx-auto max-w-xl">
+            <HostLeadForm />
+            <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-[var(--color-muted)]">
+              <li className="inline-flex items-center gap-1.5">
+                <ShieldCheck className="h-4 w-4 text-[var(--color-blue)]" aria-hidden="true" />
+                {t("lead.trustVerified")}
+              </li>
+              <li className="inline-flex items-center gap-1.5">
+                <BadgeCheck className="h-4 w-4 text-[var(--color-blue)]" aria-hidden="true" />
+                {t("lead.trustInsured")}
+              </li>
+              <li className="inline-flex items-center gap-1.5">
+                <CalendarCheck className="h-4 w-4 text-[var(--color-blue)]" aria-hidden="true" />
+                {t("lead.trustPayment")}
+              </li>
+            </ul>
+          </div>
+        </Section>
       </main>
       <Footer />
     </>

@@ -14,6 +14,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { formatEur } from "@/lib/booking/pricing";
+import { ConnectPayouts } from "./connect-payouts";
 import type { CleanerAanvraag } from "./aanvragen-view";
 import type { CleanerStats } from "./overview";
 
@@ -174,24 +175,7 @@ export function EarningsView({
           )}
         </div>
 
-        <div className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[var(--color-line)] bg-[var(--color-ink)] p-6 text-white shadow-xl">
-          <div className="absolute -right-10 -bottom-10 h-32 w-32 rounded-full bg-white/10 blur-3xl" />
-          <div>
-            <p className="mb-2 text-sm font-medium uppercase tracking-wider text-[var(--color-muted-2)]">
-              {t("availableFunds")}
-            </p>
-            <h3 className="mb-4 font-display text-4xl font-bold text-white sm:text-5xl">
-              {formatEur(0)}
-            </h3>
-            <p className="text-xs text-[var(--color-muted-2)]">{t("payoutsSoon")}</p>
-          </div>
-          <button
-            disabled
-            className="mt-4 w-full cursor-not-allowed rounded-xl bg-white/90 py-3 text-sm font-bold text-[var(--color-ink)] opacity-60 shadow-lg"
-          >
-            {t("withdraw")}
-          </button>
-        </div>
+        <ConnectPayouts />
       </div>
     </motion.div>
   );

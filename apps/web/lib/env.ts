@@ -29,6 +29,8 @@ const serverSchema = z.object({
   STRIPE_SECRET_KEY: z.string().startsWith("sk_").optional(),
   STRIPE_RESTRICTED_KEY: z.string().startsWith("rk_").optional(),
   STRIPE_WEBHOOK_SECRET: z.string().startsWith("whsec_").optional(),
+  /** Kill-switch de Stripe Connect (destination charges). Default: activo. */
+  STRIPE_CONNECT_ENABLED: z.enum(["true", "false"]).optional(),
   RESEND_API_KEY: z.string().startsWith("re_").optional(),
   EMAIL_FROM: z.string().min(3).optional(),
   NODE_ENV: z.enum(["development", "production", "test"]).optional(),
@@ -55,6 +57,7 @@ function parse(): FullEnv {
     STRIPE_SECRET_KEY: clean(process.env.STRIPE_SECRET_KEY),
     STRIPE_RESTRICTED_KEY: clean(process.env.STRIPE_RESTRICTED_KEY),
     STRIPE_WEBHOOK_SECRET: clean(process.env.STRIPE_WEBHOOK_SECRET),
+    STRIPE_CONNECT_ENABLED: clean(process.env.STRIPE_CONNECT_ENABLED),
     RESEND_API_KEY: clean(process.env.RESEND_API_KEY),
     EMAIL_FROM: clean(process.env.EMAIL_FROM),
     NODE_ENV: process.env.NODE_ENV,

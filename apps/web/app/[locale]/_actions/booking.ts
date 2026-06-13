@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import { z } from "zod";
 import { headers } from "next/headers";
 import { getStripe } from "@/lib/stripe/server";
+import { cleanerCanReceive } from "@/lib/stripe/connect";
 import { getCleanerProfileById } from "@/lib/data/cleaners";
 import { computePrice, type PriceBreakdown } from "@/lib/booking/pricing";
 import { bookingReference } from "@/lib/booking/reference";
@@ -190,6 +191,22 @@ export async function createBookingCheckout(raw: unknown): Promise<BookingChecko
 
   await persistPendingBooking(bookingId, data, price, cleaner.id, clientUserId);
 
+  // Connect: si el cleaner tiene cuenta Express activa, el cargo es un
+  // destination charge → `subtotal` se transfiere al cleaner y la plataforma
+  // retiene `feeCents` (application_fee). Si no (cleaner sin onboarding o
+  // Connect off), cae a un cargo normal — nada se rompe, la comisión se
+  // concilia luego. La comisión NUNCA sale de la plataforma.
+  const useConnect = cleanerCanReceive({
+    stripeAccountId: cleaner.stripeAccountId,
+    stripeChargesEnabled: cleaner.stripeChargesEnabled,
+  });
+  const connectPaymentIntentData = useConnect && cleaner.stripeAccountId
+    ? {
+        application_fee_amount: price.feeCents,
+        transfer_data: { destination: cleaner.stripeAccountId },
+      }
+    : {};
+
   try {
     const stripe = getStripe();
     const session = await stripe.checkout.sessions.create(
@@ -221,9 +238,7 @@ export async function createBookingCheckout(raw: unknown): Promise<BookingChecko
             },
           },
         ],
-        // TODO(fase-4): transfer_data.destination = connected account del cleaner
-        // + application_fee_amount = 15% cuando esté onboarded en Connect.
-        payment_intent_data: { metadata: meta },
+        payment_intent_data: { metadata: meta, ...connectPaymentIntentData },
         metadata: meta,
         success_url: `${origin}/booking/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${origin}/schoonmakers/${cleaner.id}?canceled=1`,

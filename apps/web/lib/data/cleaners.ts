@@ -36,11 +36,13 @@ type Row = {
   since: number | null;
   online: boolean;
   verified: boolean;
+  stripe_connect_account_id: string | null;
+  stripe_charges_enabled: boolean;
 };
 
 const PREVIEW_COLS =
   "slug, name, hood, price_per_hour, specialties, image, tone, rating, reviews_count, verified, online";
-const PROFILE_COLS = `${PREVIEW_COLS}, bio, languages, response_mins, since`;
+const PROFILE_COLS = `${PREVIEW_COLS}, bio, languages, response_mins, since, stripe_connect_account_id, stripe_charges_enabled`;
 
 function rowToPreview(r: Row): CleanerPreview {
   return {
@@ -65,6 +67,8 @@ function rowToProfile(r: Row): CleanerProfile {
     languages: r.languages ?? ["Nederlands", "Engels"],
     since: r.since ?? new Date().getFullYear(),
     responseMins: r.response_mins,
+    stripeAccountId: r.stripe_connect_account_id,
+    stripeChargesEnabled: r.stripe_charges_enabled,
   };
 }
 

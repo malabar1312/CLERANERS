@@ -116,6 +116,21 @@
       "title": "Klaar om je turnover te stroomlijnen?",
       "lead": "Geen abonnement, geen minimum. Eén geverifieerde schoonmaker die jouw woning kent — betaling pas na de schoonmaak.",
       "button": "Vind je schoonmaker"
+    },
+    "lead": {
+      "kicker": "Plan je turnover",
+      "title": "Klaar voor je volgende check-in?",
+      "lead": "Laat je e-mailadres achter en krijg als eerste bericht zodra je jouw turnover via het platform kunt boeken — geverifieerde schoonmaker, betaling en escrow volledig via cleaners.",
+      "placeholder": "Je e-mailadres",
+      "submit": "Hou me op de hoogte",
+      "submitting": "Bezig…",
+      "success": "Gelukt! Je staat op de lijst. We laten het je weten zodra je veilig via het platform kunt boeken.",
+      "errorEmail": "Controleer je e-mailadres.",
+      "errorGeneric": "Er ging iets mis. Probeer het opnieuw.",
+      "note": "Boeken en betalen gaat altijd via cleaners — met verzekering, escrow en support. Geen losse afspraken buiten het platform.",
+      "trustVerified": "Geverifieerd (paspoort + VOG)",
+      "trustInsured": "Verzekerd tot €300.000",
+      "trustPayment": "Betaling & escrow via het platform"
     }
   },
   "auth": {
@@ -616,7 +631,18 @@
         "monthlyEvolution": "Maandelijkse Ontwikkeling",
         "availableFunds": "Beschikbaar Saldo",
         "nextPayout": "Volgende automatische uitbetaling op {date}.",
-        "withdraw": "Geld Opnemen"
+        "withdraw": "Geld Opnemen",
+        "connect": {
+          "title": "Uitbetalingen",
+          "loading": "Laden…",
+          "bodyNone": "Koppel je rekening via Stripe om automatisch betaald te worden na elke dienst. Eén keer instellen, veilig.",
+          "bodyPending": "Voltooi je Stripe-verificatie om uitbetalingen te ontvangen.",
+          "bodyActive": "Uitbetalingen actief. Je ontvangt je verdiensten automatisch via Stripe.",
+          "bodyDisabled": "Uitbetalingen via Stripe Connect — binnenkort beschikbaar.",
+          "ctaStart": "Activeer uitbetalingen",
+          "ctaResume": "Voltooi verificatie",
+          "error": "Er ging iets mis. Probeer het opnieuw."
+        }
       },
       "calendar": {
         "title": "Werkagenda",

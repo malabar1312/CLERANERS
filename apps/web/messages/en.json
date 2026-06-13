@@ -116,6 +116,21 @@
       "title": "Ready to streamline your turnover?",
       "lead": "No subscription, no minimum. One verified cleaner who knows your property — payment only after the clean.",
       "button": "Find your cleaner"
+    },
+    "lead": {
+      "kicker": "Plan your turnover",
+      "title": "Ready for your next check-in?",
+      "lead": "Leave your email and be the first to know when you can book your turnover on the platform — verified cleaner, payment and escrow fully via cleaners.",
+      "placeholder": "Your email address",
+      "submit": "Notify me",
+      "submitting": "Sending…",
+      "success": "Done! You're on the list. We'll let you know as soon as you can book securely via the platform.",
+      "errorEmail": "Please check your email address.",
+      "errorGeneric": "Something went wrong. Please try again.",
+      "note": "Booking and payment always go through cleaners — with insurance, escrow and support. No side deals outside the platform.",
+      "trustVerified": "Verified (passport + VOG)",
+      "trustInsured": "Insured up to €300,000",
+      "trustPayment": "Payment & escrow via the platform"
     }
   },
   "auth": {
@@ -616,7 +631,18 @@
         "monthlyEvolution": "Monthly Evolution",
         "availableFunds": "Available Balance",
         "nextPayout": "Next automatic payout on {date}.",
-        "withdraw": "Withdraw Funds"
+        "withdraw": "Withdraw Funds",
+        "connect": {
+          "title": "Payouts",
+          "loading": "Loading…",
+          "bodyNone": "Connect your account via Stripe to get paid automatically after every service. One-time setup, secure.",
+          "bodyPending": "Complete your Stripe verification to receive payouts.",
+          "bodyActive": "Payouts active. You receive your earnings automatically via Stripe.",
+          "bodyDisabled": "Payouts via Stripe Connect — available soon.",
+          "ctaStart": "Activate payouts",
+          "ctaResume": "Complete verification",
+          "error": "Something went wrong. Please try again."
+        }
       },
       "calendar": {
         "title": "Work Schedule",
