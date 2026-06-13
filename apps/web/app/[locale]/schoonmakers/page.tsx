@@ -8,17 +8,58 @@ import { Link } from "@/i18n/navigation";
 import { CleanersBrowser } from "@/components/sections/cleaners-browser";
 import { getCleaners } from "@/lib/data/cleaners";
 
+const BASE = "https://getcleaners.nl";
+
 // ISR: refleja cleaners reales añadidos a Supabase sin rebuild completo.
 export const revalidate = 60;
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ hood?: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const sp = await searchParams;
+  const hood = sp.hood?.trim();
+
+  if (hood) {
+    const cleaners = await getCleaners();
+    const match = cleaners.find(
+      (c) => c.hood.toLowerCase() === hood.toLowerCase(),
+    );
+    if (match) {
+      const canonical = `/schoonmakers?hood=${encodeURIComponent(match.hood)}`;
+      return {
+        title: `Schoonmakers in ${match.hood}`,
+        description:
+          locale === "en"
+            ? `Find verified cleaners in ${match.hood}, Amsterdam. Compare profiles, read reviews, and book securely via cleaners.`
+            : `Vind geverifieerde schoonmakers in ${match.hood}, Amsterdam. Vergelijk profielen, lees reviews en boek veilig via cleaners.`,
+        alternates: {
+          canonical: `${BASE}${canonical}`,
+          languages: { nl: `${BASE}${canonical}`, en: `${BASE}/en${canonical}` },
+        },
+      };
+    }
+  }
+
   const t = await getTranslations({ locale, namespace: "nav" });
-  return { title: t("schoonmakers") };
+  return {
+    title: t("schoonmakers"),
+    description:
+      locale === "en"
+        ? "Browse verified cleaners in Amsterdam. Compare profiles, specialties, and reviews. Book securely via cleaners."
+        : "Bekijk geverifieerde schoonmakers in Amsterdam. Vergelijk profielen, specialiteiten en reviews. Boek veilig via cleaners.",
+    alternates: {
+      canonical: `${BASE}/schoonmakers`,
+      languages: {
+        nl: `${BASE}/schoonmakers`,
+        en: `${BASE}/en/schoonmakers`,
+      },
+    },
+  };
 }
 
 export default async function SchoonmakersPage({

@@ -16,7 +16,7 @@
 | 7 | ✅ **HECHA** (2026-06-12, commit `cf85ee1`, en prod) — Wizard e2e verificado con usuario QA real. Fixes: crash "use server" con constantes (el wizard NUNCA había rendereado), alta con `visible=false` (catálogo sigue mock hasta decisión de Antonio), redirects a dashboard, checks con admin client. ⚠️ Pendiente Antonio: re-ejecutar `schema.sql` (añade policy `cleaner_profiles_own_select`) | B | — | Alta cleaner verificada e2e |
 | 8 | ✅ **HECHA** (2026-06-12, en prod) — `AanvragenView` (lista real por slug) + action `respondToBooking` (paid → accepted/rejected, ownership en 2 pasos, guard de carrera). E2E real: aceptar y rechazar verificados en UI + DB. Script: `scripts/qa-aanvragen-seed.mjs`. Pendiente hardening: policy SELECT de bookings para cleaners (sprint 9) | A+D | — | Loop booking completo en test |
 | 9 | ✅ **HECHA** (2026-06-12, en prod) — Security review del diff del sprint: rate-limit añadido a `createBookingCheckout` (5/5min, único action sin límite), escape HTML en template de email (client_name = input del cliente), bug email corregido (mandaba el nombre del CLIENTE como cleaner), policy `bookings_cleaner_select` añadida a schema.sql (pendiente re-run manual, no bloquea: el server usa admin client verificado). Extra UX: **sticky search** en landing (hero → carrusel) | E | — | Fixes aplicados y en prod |
-| 10 | **SEO base**: `sitemap.xml`, metadata por barrio (`/schoonmakers?hood=X` → title/desc), OG image | F | 1 | Indexable + compartible |
+| 10 | ✅ **HECHA** (2026-06-13, en prod) — `sitemap.xml` con URLs de barrio + perfiles, `robots.txt` expandido (auth-gated paths), `generateMetadata` per-hood (title/desc/canonical/alternates NL+EN), OG images existentes revisadas (raíz + per-cleaner OK) | F | 1 | Indexable + compartible |
 
 **Transversal (Team G):** e2e Playwright del flujo búsqueda → perfil → checkout test → webhook → dashboard, corre al cerrar #8.
 
@@ -31,7 +31,7 @@
 - **TEAM G · QA & Testing** — transversal. Entregable: suite e2e verde en CI.
 
 ## Definición de done del sprint
-- [ ] Las 10 mergeadas en `v2-nextjs`, typecheck+lint+build verdes
-- [ ] e2e del loop completo verde
-- [ ] Deploy a prod + smoke test en getcleaners.nl
-- [ ] ROADMAP_STATUS.md y NEXT_ACTION.md actualizados
+- [x] Las 10 mergeadas en `v2-nextjs`, typecheck+lint+build verdes
+- [ ] e2e del loop completo verde (Team G — pendiente)
+- [x] Deploy a prod + smoke test en getcleaners.nl
+- [x] ROADMAP_STATUS.md y NEXT_ACTION.md actualizados

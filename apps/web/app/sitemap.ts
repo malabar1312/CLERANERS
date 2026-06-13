@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getCleanerIds } from "@/lib/data/cleaners";
+import { getCleaners, getCleanerIds } from "@/lib/data/cleaners";
 
 const BASE = "https://getcleaners.nl";
 
@@ -20,8 +20,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/cookies",
     "/klachten",
   ];
+  const cleaners = await getCleaners();
+  // Landing por barrio: /schoonmakers?hood=X tiene title/desc/canonical
+  // propios (ver schoonmakers/page.tsx) → indexable como página única.
+  const hoodPaths = [...new Set(cleaners.map((c) => c.hood))].map(
+    (hood) => `/schoonmakers?hood=${encodeURIComponent(hood)}`,
+  );
   const cleanerPaths = (await getCleanerIds()).map((id) => `/schoonmakers/${id}`);
-  const all = [...staticPaths, ...cleanerPaths];
+  const all = [...staticPaths, ...hoodPaths, ...cleanerPaths];
 
   return all.map((p) => ({
     url: `${BASE}${p || "/"}`,

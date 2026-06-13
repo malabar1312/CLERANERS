@@ -55,15 +55,21 @@ La plataforma está MÁS construida de lo que decía CLAUDE.md. Verificado contr
 - Re-ejecutar `supabase/schema.sql` cuando quieras (idempotente) — añade `bookings_cleaner_select`. El dashboard cleaner funciona igual sin ella (lee con admin client tras verificar slug).
 - Verificar dominio getcleaners.nl en Resend (DNS) para emails a clientes reales.
 
-## ▶️ SIGUIENTE SPRINT (#10 — SEO, última del sprint)
-`sitemap.xml`, metadata por barrio (`/schoonmakers?hood=X` → title/desc únicos), OG image. Después: e2e Playwright del loop completo (transversal Team G) y cierre del sprint "Real Data v1".
+## ✅ 2026-06-13 — Sprint #10 SHIPPED (SEO base)
+- `sitemap.xml`: rutas estáticas + perfiles de cleaners + landing por barrio (`/schoonmakers?hood=X`), alternates NL+EN.
+- `robots.txt`: dashboard, onboarding, login, signup, auth bloqueados para crawlers (con prefijos /en).
+- `generateMetadata` per-hood en `/schoonmakers`: title "Schoonmakers in {Hood}", desc bilingüe, canonical + hreflang alternates.
+- OG images revisadas: raíz (marca) + per-cleaner (nombre/rating/hood/precio) — completas.
+- Typecheck + lint verdes, deploy prod OK.
+
+## 🏁 Sprint "Real Data v1" — 10/10 tareas COMPLETADAS
+Falta solo el **e2e Playwright del loop completo** (Team G, transversal).
 
 ## Después (en orden)
-- Sprint #7: e2e wizard cleaner — ⚠️ insertar SIEMPRE con `visible=false` en pruebas: 1 fila visible en `cleaner_profiles` cambia el catálogo público de getcleaners.nl de mock a real (auto-switch). Activar visible solo con decisión de Antonio.
-- Sprint #8: aanvragen del cleaner (aceptar/rechazar → estado booking).
-- Sprint #9: hardening + security-review del diff acumulado del sprint.
-- Sprint #10: SEO (sitemap, metadata por barrio, OG).
-- Confirmar `STRIPE_WEBHOOK_SECRET` en Vercel production (sigue sin verificar).
+- **e2e Playwright** del flujo completo (búsqueda → perfil → checkout test → webhook → dashboard). Team G.
+- ⚠️ `visible=false` SIEMPRE en pruebas: 1 fila visible en `cleaner_profiles` cambia el catálogo de mock a real.
+- Verificar dominio getcleaners.nl en Resend (emails a clientes reales).
+- Re-ejecutar `schema.sql` (policy `bookings_cleaner_select` — no bloquea, server usa admin client).
 
 ## Recordatorios duros
 - Idioma con Antonio: **español**. UI: **holandés**. Wordmark `cleaners` siempre `translate="no"`.
