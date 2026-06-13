@@ -79,6 +79,14 @@ final, antes NO medida). + `waitlist_signup` (estaba definido pero sin cablear).
 (dev): el evento `search` se dispara con los props exactos. Dashboard: Vercel → Analytics → Events.
 Commit `ee43011`. Smoke prod 27/27 tras deploy.
 
+## ✅ 2026-06-13 — Polish de producción: 404 de marca
+Prod servía el 404 genérico de Next (sin estilo) — rompía la estética quiet-luxury y lo
+ven usuarios reales (links a cleaners removidos, URLs viejas). Ahora `app/[locale]/not-found.tsx`
+de marca (icono Compass, mismo lenguaje visual que el error boundary) + catch-all
+`[...rest]/page.tsx` que dispara notFound() para URLs sin ruta. i18n nl+en (paridad 646 keys).
+Verificado en prod: status 404, contenido de marca, el genérico de Next eliminado del HTML visible.
+Commit `896987b`. (EN locale auditado: ya estaba completo, 646/646.)
+
 ## ▶️ SIGUIENTE (P2 restantes, ambas GATED)
 - #10 Reviews reales post-booking → requiere bookings *completadas* reales (hoy mock).
 - #11 Filtros servidor en `/schoonmakers` → solo aporta con catálogo real (`visible=true`, decisión de Antonio).
