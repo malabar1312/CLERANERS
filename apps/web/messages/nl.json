@@ -63,6 +63,13 @@
     "retry": "Opnieuw proberen",
     "home": "Terug naar home"
   },
+  "notFound": {
+    "eyebrow": "404",
+    "title": "Deze pagina bestaat niet",
+    "body": "De pagina die je zoekt is verplaatst of bestaat niet meer. Geen zorgen — onze schoonmakers staan voor je klaar.",
+    "home": "Terug naar home",
+    "browse": "Bekijk schoonmakers"
+  },
   "landlords": {
     "meta": {
       "title": "Voor verhuurders — turnover cleaning voor Airbnb en vakantieverhuur",

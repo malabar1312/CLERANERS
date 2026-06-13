@@ -63,6 +63,13 @@
     "retry": "Try again",
     "home": "Back to home"
   },
+  "notFound": {
+    "eyebrow": "404",
+    "title": "This page doesn't exist",
+    "body": "The page you're looking for moved or no longer exists. No worries — our cleaners are ready for you.",
+    "home": "Back to home",
+    "browse": "Browse cleaners"
+  },
   "landlords": {
     "meta": {
       "title": "For landlords — turnover cleaning for Airbnb and vacation rentals",
