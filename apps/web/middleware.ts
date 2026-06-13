@@ -25,9 +25,13 @@ export const config = {
    *  - `api/` and `trpc/` (server routes — handle their own auth)
    *  - `auth/` (Supabase callback/confirm routes — no locale negotiation)
    *  - `_next/` and `_vercel/` (Next/Vercel internals)
-   *  - Files with an extension (assets like /sitemap.xml, /robots.txt, /og-image.png).
+   *  - `opengraph-image` (root brand OG route — has NO file extension, so it
+   *    would otherwise be swallowed by the i18n matcher and routed into the
+   *    [locale] tree where it doesn't exist → 404. Excluding it lets the static
+   *    image be served directly, fixing the og:image of the home page.)
+   *  - Files with an extension (assets like /sitemap.xml, /robots.txt, /icon.svg).
    *    We DO still want middleware on the locale-prefixed asset paths but the
    *    static asset pipeline serves these directly without a middleware roundtrip.
    */
-  matcher: ["/((?!api|auth|trpc|_next|_vercel|.*\\..*).*)"],
+  matcher: ["/((?!api|auth|trpc|_next|_vercel|opengraph-image|.*\\..*).*)"],
 };
